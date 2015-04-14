@@ -202,7 +202,7 @@ class MD_Single_Property {
 	public function is_property_viewable_hook_crm($status){
 		$status = get_account_fields();
 		if( $status->result == 'success' && $status->success ){
-			if( array_search($current_status,(array)$status->fields->status) ){
+			if( array_search(md_get_property_status(),(array)$status->fields->status) ){
 				return true;
 			}
 		}

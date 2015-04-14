@@ -36,7 +36,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var origin_place = '<?php echo remove_nonaplha(get_single_property_data()->displayAddress());?>';
+	var origin_place = '<?php echo md_property_address();?>';
 	var propertyList =[
 		{
 			latLng:[<?php echo md_get_lat();?>, <?php echo md_get_lon();?>],
@@ -48,16 +48,16 @@
 								'</div>'+
 								'<div class="col-md-7 col-sm-12">' +
 									'<h3 style="margin:0;padding:0;color:#428bca;">' +
-										'<?php //echo (get_single_property_data()->displayAddress() != '') ? remove_nonaplha(get_single_property_data()->displayAddress()):remove_nonaplha(get_single_property_data()->tag_line);?>' +
+										'<?php echo md_property_address();?>' +
 									'</h3>' +
 									'<h3 style="margin:0;padding:0;color:#d9534f;">' +
-										'<?php //echo get_single_property_data()->displayPrice();?> - <?php //echo get_single_property_data()->displayTransaction();?>' +
+										'<?php echo md_property_price();?> - <?php echo md_property_transaction();?>' +
 									'</h3>' +
 									'<div>' +
-										'<span><?php //echo get_single_property_data()->displayFloorArea();?> Floor Area</span></br>' +
-										'<span><?php //echo get_single_property_data()->beds;?> Bedrooms</span></br>' +
-										'<span><?php //echo get_single_property_data()->baths;?> Bathrooms</span></br>' +
-										'<span><?php //echo get_single_property_data()->garage;?> Garages</span>' +
+										'<span><?php echo get_single_property_data()->displayAreaMeasurement('floor')->area_type;?> <?php echo get_single_property_data()->displayAreaMeasurement('floor')->measure;?></span></br>' +
+										'<span><?php echo md_property_beds();?> Bedrooms</span></br>' +
+										'<span><?php echo md_property_bathrooms();?> Bathrooms</span></br>' +
+										'<span><?php echo md_property_garage();?> Garages</span>' +
 									'</div>' +
 								'</div>'+
 							'</div>'+
@@ -65,10 +65,8 @@
 			'</div>',
 			options:{icon: "http://maps.google.com/mapfiles/marker_green.png"}
 		}
-		<?php //if( count(get_single_related_properties()) > 0 ){	?>
-		<?php $i=1;if( $i==0 ){	?>
-		,
-				<?php foreach(get_single_related_properties() as $list) { ?>
+		<?php if( count(get_single_related_properties()) > 0 ){	?>
+		,<?php foreach(get_single_related_properties() as $list) { ?>
 						{
 							latLng:[<?php echo $list->latitude;?>, <?php echo $list->longitude;?>],
 							data:'<div style="width: 100%; min-height: 120px;">' +

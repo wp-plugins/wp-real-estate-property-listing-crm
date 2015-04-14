@@ -40,7 +40,10 @@ function get_single_property_photos(){
 }
 function get_single_related_properties(){
 	$related = get_single_data();
-	return $related['related'];
+	if( isset($related['related']) ){
+		return $related['related'];
+	}
+	return array();
 }
 
 function display_single_related_properties($col_num = null){
