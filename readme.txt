@@ -12,6 +12,8 @@ An All-in-One Real Estate Plugin Solution for Brokerages and Agents Integrated w
 
 == Description ==
 
+[youtube http://www.youtube.com/watch?v=bKWE_kqmz10]
+
 Manage your real estate website with the Masterdigm Responsive Real Estate Property Plugin. It works with any theme! Its integration with its own proprietary Real Estate CRM Solution offers you, the brokerage firm and/or Agent the true ability to manage your properties, leads, emails, marketing campaigns, documents, contacts all in one central platform!  This WP plugin and its API connectivity to Masterdigm, enables you to have a world class website on two world class platform, Wordpress and Masterdigm.  The Masterdigm Real Estate Plugin offers the below features but not limited to following:
 
 RETS integration ability (Contact Us for Availability)
@@ -29,6 +31,10 @@ Property XML Sitemap
 
 The above is a partial feature list but with the CRM usage, over 100 plus features open up to you and your organization! Some include email and text messaging when leads are submitted via the property web-form.  Learn about our full featured platform http://www.masterdigm.com/features/  and pricing here:  http://www.masterdigm.com/pricing/ and try it out for 14 day free trial with 24/7 support.  Also ask us about our free Single Property Sites which are always free.
 
+For time being use this API as a test or demo, under Masterdigm CRM - API:
+API KEY: 7862D45197246EF03A8A565E
+API TOKEN: 1d70bd6232c96eb4533c332e
+Broker ID: 4
 =Features=
 
 Using Masterdigm API to get properties, need a key to use this pls see http://www.masterdigm.com/features/
@@ -74,7 +80,10 @@ This section describes how to install the plugin and get it working.
 5.1 In the Mail setting, add email address that you use in your domain server
 5.2 "Search property by default search criteria, Default status, when visitor search property, they will see this search criteria status" Choose. default status to be shown in the search result of properties.
 6. To be able to view the property / search results or location page, you need to update permalinks, go to Wordpress -> Settings -> Permalinks and choose any aside 'Default'
-
+7. For time being use this API as a test or demo, under Masterdigm CRM - API:
+API KEY: 7862D45197246EF03A8A565E
+API TOKEN: 1d70bd6232c96eb4533c332e
+Broker ID: 4
 
 == Frequently Asked Questions ==
 
