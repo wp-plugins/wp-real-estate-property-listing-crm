@@ -232,7 +232,7 @@ function wp_md_canonical($url) {
 		}
 	}
 	if( is_page('property' ) ){
-		$address = parse_query_callback();
+		$address = get_single_data();
 		if( $address ){
 			$url = $address['property']->displayUrl();
 		}

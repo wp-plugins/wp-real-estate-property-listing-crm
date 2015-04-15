@@ -15,10 +15,10 @@
  *
  * @wordpress-plugin
  * Plugin Name:       Masterdigm API
- * Plugin URI:        http://masterdigm.com/plugin-name-uri/
+ * Plugin URI:        https://wordpress.org/plugins/wp-real-estate-property-listing-crm/
  * Description:       This plugin use to fetch data from masterdigm crm, thru API fetch CRM property, or MLS property. Also this plugin save leads
  * Version:           1.0.0
- * Author:            Allan / Masterdigm
+ * Author:            Masterdigm
  * Author URI:        http://masterdigm.com/
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
@@ -31,6 +31,7 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+define('MASTERDIGM_API',true);
 /* Masterdigm */
 /**
  * load the config variables
