@@ -68,10 +68,10 @@ It is highly customizable there is a default template of the properties or can b
 
 = Common Shortcodes =
 
-*[crm_list_properties cityid="" communityid="" bathrooms="0" bedrooms="0" min_listprice="0" max_listprice="0" property_type="0" transaction="For Sale" limit="11" template="list/default/list-default.php" col="4" infinite="false" ] List properties with search criteria
-*[md_single_properties template="single/single-property-page.php" template_carousel="carousel/html-galleria.php" show_nearby_prop="true" nearby_prop_col="1" ] Display the full details of the property
-*[md_sc_search_property_form template="searchform/search-form.php" ] display search form
-*[md_search_property_result template="searchresult/search-result.php" col="4" infinite="true" ] display search result
+* [crm_list_properties cityid="" communityid="" bathrooms="0" bedrooms="0" min_listprice="0" max_listprice="0" property_type="0" transaction="For Sale" limit="11" template="list/default/list-default.php" col="4" infinite="false" ] List properties with search criteria
+* [md_single_properties template="single/single-property-page.php" template_carousel="carousel/html-galleria.php" show_nearby_prop="true" nearby_prop_col="1" ] Display the full details of the property
+* [md_sc_search_property_form template="searchform/search-form.php" ] display search form
+* [md_search_property_result template="searchresult/search-result.php" col="4" infinite="true" ] display search result
 
 == Installation ==
 
