@@ -32,8 +32,8 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 
 		public function __construct(){
 			add_action('admin_footer', array($this, 'md_get_shortcodes'));
-			add_action( 'wp_ajax_list_property_view', array($this,'list_property_view') );
--			add_action( 'wp_ajax_nopriv_list_property_view',array($this,'list_property_view') );
+			add_action('wp_ajax_list_property_view', array($this,'list_property_view') );
+-			add_action('wp_ajax_nopriv_list_property_view',array($this,'list_property_view') );
 			add_shortcode('crm_list_properties',array($this,'init_shortcode'));
 		}
 
@@ -235,6 +235,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		public function get_location(){
 			$json = array();
 			$location = \crm\AccountEntity::get_instance()->getCountryCoverageLookup();
+
 			if( isset($location->result) && $location->result == 'success' ){
 				//create a json
 				foreach($location->lookups as $items){
@@ -265,7 +266,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 			?>
 				<script type="text/javascript">
 					function crm_list_properties(editor){
-						var jquery_auto_location = <?php echo json_encode($this->get_location()); ?>;
+						var crm_jquery_auto_location = <?php echo json_encode($this->get_location()); ?>;
 						var search_status = [
 							<?php if( $this->get_fields_status() ){ ?>
 								<?php foreach($this->get_fields_status() as $key => $val ) { ?>
@@ -306,7 +307,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 										{
 											editor:editor,
 											jquery:jQuery,
-											autocomplete_location:jquery_auto_location,
+											autocomplete_location:crm_jquery_auto_location,
 											template:template,
 											search_type:search_type,
 											search_status:search_status,

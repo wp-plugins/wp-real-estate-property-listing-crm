@@ -1,7 +1,7 @@
 <?php
 interface Masterdigm_API_DAO{
 	public function connect($source);
-	public function get_property($property_id, $broker_id);
+	public function get_property($property_id, $broker_id = null);
 	public function get_properties($search_criteria_data);
 }
 class Masterdigm_CRM_DAO{
@@ -24,35 +24,11 @@ class Masterdigm_CRM_DAO{
 	public function get_client(){
 		return $client;
 	}
+	public function get_property($property_id, $broker_id = null){
+	}
 }
-class Masterdigm_CRM_Factory {
+class Masterdigm_API_Property implements Masterdigm_API_DAO{
+	public function connect(){
 
-}
-class Masterdigm_MLS{
-
-}
-
-class Masterdigm_API implements Masterdigm_API_DAO{
-	public $client;
-
-	public function __construct(){
-
-	}
-
-	public function connect($source){
-		$client = $source;
-		return $client;
-	}
-
-	public function get_property($property_id, $broker_id){
-
-	}
-
-	public function get_properties(){
-
-	}
-
-	public function get_client(){
-		return $this->client;
 	}
 }
