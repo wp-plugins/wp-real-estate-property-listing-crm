@@ -110,6 +110,13 @@ height: 300px;
 		var shortcode = '';
 		var loc_input = $( 'input[name^="loc_"]', context );
 
+		var city_id 	 = '';
+		var community_id = '';
+		var county_id = '';
+
+		var city_shortcode 		= ' cityid="0" ';
+		var county_shortcode = ' countyid="0" ';
+
 		var infinite_check = 'false';
 		if( $('#infinite',context).is(":checked") ){
 			infinite_check = 'true';
@@ -133,9 +140,17 @@ height: 300px;
 			if( v.type == 'community' ){
 				community_id += v.value +',';
 			}
+			if( v.type == 'county' ){
+				county_id += v.value +',';
+			}
 		});
-
+		city_shortcode 		= ' cityid="'+city_id.replace(/,+$/,'')+'" ';
+		community_shortcode = ' communityid="'+community_id.replace(/,+$/,'')+'" ';
+		county_shortcode = ' countyid="'+county_id.replace(/,+$/,'')+'" ';
 		shortcode = '[mls_list_properties'
+						+ city_shortcode
+						+ community_shortcode
+						+ county_shortcode
 						+ bathromms
 						+ bedrooms
 						+ min_listprice

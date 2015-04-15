@@ -70,13 +70,6 @@ class Properties{
 			$communityid = sanitize_text_field($_REQUEST['communityid']);
 		}
 
-		$countryid = '';
-		if( sanitize_text_field(isset($search_data['countryid'])) ){
-			$countryid = sanitize_text_field($search_data['countryid']);
-		}elseif( sanitize_text_field(isset($_REQUEST['countryid'])) ){
-			$countryid = sanitize_text_field($_REQUEST['countryid']);
-		}
-
 		$countyid = '';
 		if( sanitize_text_field(isset($search_data['countyid'])) ){
 			$countyid = sanitize_text_field($search_data['countyid']);
@@ -120,10 +113,25 @@ class Properties{
 		}
 
 		$q = $this->get_default_location();
-		if( sanitize_text_field(isset($search_data['location'])) && sanitize_text_field($search_data['location']) != '' ){
+		if(
+			sanitize_text_field(isset($search_data['location'])) && sanitize_text_field($search_data['location']) != ''
+		){
 			$q = sanitize_text_field($search_data['location']);
-		}elseif( sanitize_text_field(isset($_REQUEST['location'])) && sanitize_text_field($_REQUEST['location']) != '' ){
+		}elseif(
+			sanitize_text_field(isset($_REQUEST['location'])) && sanitize_text_field($_REQUEST['location']) != ''
+		){
 			$q = sanitize_text_field($_REQUEST['location']);
+		}
+
+		if(
+			$cityid != '' ||
+			$stateid != '' ||
+			$communityid != '' ||
+			$countyid != ''
+		){
+			$q = '';
+			$lat = '';
+			$lon = '';
 		}
 
 		$bathrooms = '';
@@ -210,7 +218,6 @@ class Properties{
 
 		$data = array(
 			'communityid'	=> $communityid,
-			'countryid'		=> $countryid,
 			'countyid'		=> $countyid,
 			'stateid'		=> $stateid,
 			'cityid'		=> $cityid,

@@ -88,15 +88,10 @@ class AccountEntity{
 	}
 
 	public function getFeedLocation(){
-		if( isMLS() ){
-			$location = array('state_id' => CRM_SEARCH_LOOKUP_STATE );
-		}
-		if( isCRM() ){
-			$account = $this->get_account_details();
-			if( $account ){
-				$location = array('country_id' => $account->country_id );
-				return $location;
-			}
+		$account = $this->get_account_details();
+		if( $account ){
+			$location = array('country_id' => $account->country_id );
+			return $location;
 		}
 		return false;
 	}
@@ -109,6 +104,7 @@ class AccountEntity{
 	public function getCoverageLookup($location = null){
 		$coverage_lookup_cache_keyword 	= \Property_Cache::get_instance()->getCacheCoverageLookupKeyword();
 		$cache_keyword 	  				= $coverage_lookup_cache_keyword->id;
+		\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$autocomplete_result = \DB_Store::get_instance()->get($cache_keyword);
 		}else{

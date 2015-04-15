@@ -17,6 +17,9 @@ Introduction
 Setting Up your Masterdigm Real Estate Wordpress Plugin (2nd Step)
 [youtube http://www.youtube.com/watch?v=uujQSC0Dvss]
 
+More about CRM / Adding property inside the CRM
+[youtube http://www.youtube.com/watch?v=Db6ep7rdgQM]
+
 Manage your real estate website with the Masterdigm Responsive Real Estate Property Plugin. It works with any theme! Its integration with its own proprietary Real Estate CRM Solution offers you, the brokerage firm and/or Agent the true ability to manage your properties, leads, emails, marketing campaigns, documents, contacts all in one central platform!  This WP plugin and its API connectivity to Masterdigm, enables you to have a world class website on two world class platform, Wordpress and Masterdigm.  The Masterdigm Real Estate Plugin offers the below features but not limited to following:
 
 RETS integration ability (Contact Us for Availability)
@@ -146,6 +149,8 @@ Absolutely, but you will need an individual api key per site.
 = How can I ask for more features and updates? =
 Simply contact us at support@masterdigm.com but also you can contact us within the CRM.
 
+= Need more details? ==
+check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Screenshots ==
 
@@ -155,8 +160,8 @@ Simply contact us at support@masterdigm.com but also you can contact us within t
 4. Search location with autocomplete dropdown
 
 == Upgrade Notice ==
-= 1.1 =
-* improve coding
+= 1.0.0 =
+* First version
 
 == Changelog ==
 

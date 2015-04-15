@@ -39,7 +39,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 
 		public function get_location(){
 			$json = array();
-			$location = \crm\AccountEntity::get_instance()->getCountryCoverageLookup();
+			$location = \mls\AccountEntity::get_instance()->get_coverage_lookup();
 			if( isset($location->result) && $location->result == 'success' ){
 				//create a json
 				foreach($location->lookups as $items){
@@ -109,6 +109,18 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			if( isset($atts['q']) ){
 				$location = $atts['q'];
 			}
+			$search_by_cityid = '';
+			if( isset($atts['cityid']) ){
+				$search_by_cityid = $atts['cityid'];
+			}
+			$search_by_communityid = '';
+			if( isset($atts['communityid']) ){
+				$search_by_communityid = $atts['communityid'];
+			}
+			$search_by_countyid = '';
+			if( isset($atts['countyid']) ){
+				$search_by_countyid = $atts['countyid'];
+			}
 			$bathrooms = '';
 			if( isset($atts['bathrooms']) ){
 				$bathrooms = $atts['bathrooms'];
@@ -164,6 +176,9 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 
 			$atts = shortcode_atts(	array(
 				'template' 		=> $att_template,
+				'communityid'	=> $search_by_communityid,
+				'countyid'		=> $search_by_countyid,
+				'cityid'		=> $search_by_cityid,
 				'q' 			=> $location,
 				'lat' 			=> $lat,
 				'lon' 			=> $lon,
@@ -180,6 +195,9 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'template'		=> $template
 			), $atts, 'mls_list_property' );
 
+			$search_data['communityid']		= $atts['communityid'];
+			$search_data['countyid']		= $atts['countyid'];
+			$search_data['cityid']			= $atts['cityid'];
 			$search_data['location']		= $location;
 			$search_data['bathrooms'] 		= $bathrooms;
 			$search_data['bedrooms'] 		= $bedrooms;
@@ -239,7 +257,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			?>
 				<script type="text/javascript">
 					function mls_list_properties(editor){
-						var jquery_auto_location = <?php echo json_encode($this->get_location()); ?>;
+						var mls_jquery_auto_location = <?php echo json_encode($this->get_location()); ?>;
 						var search_status = [
 							<?php if( $this->_status() ){ ?>
 								<?php foreach($this->_status() as $key => $val ) { ?>
@@ -280,7 +298,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 										{
 											editor:editor,
 											jquery:jQuery,
-											autocomplete_location:jquery_auto_location,
+											autocomplete_location:mls_jquery_auto_location,
 											template:template,
 											search_type:search_type,
 											search_status:search_status,
