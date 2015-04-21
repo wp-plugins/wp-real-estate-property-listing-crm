@@ -159,11 +159,8 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 3. Single property details.
 4. Search location with autocomplete dropdown
 
-== Upgrade Notice ==
-= 1.0.0 =
-* First version
-
 == Changelog ==
+
 = 1.1.1 =
 * Fix search form, when press enter after searching location 'For Sale  / Sale' should be the default
 * Updated print pdf to display company name only
