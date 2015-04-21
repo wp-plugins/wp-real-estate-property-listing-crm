@@ -60,7 +60,6 @@ class MD_Search_Utility {
 					}
 				}
 			}
-
 			$properties = \crm\MD_Searchby_Property::get_instance()->searchPropertyResult();
 			$source = 'crm';
 		}
