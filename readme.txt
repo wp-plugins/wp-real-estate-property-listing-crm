@@ -164,6 +164,12 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 * First version
 
 == Changelog ==
+= 1.1.1 =
+* Fix search form, when press enter after searching location 'For Sale  / Sale' should be the default
+* Updated print pdf to display company name only
+
+= 1.1.0 =
+* Added feature create page by location
 
 = 1.0.0 =
 * First official release!
