@@ -17,7 +17,7 @@
  * Plugin Name:       Masterdigm API
  * Plugin URI:        http://www.masterdigm.com/realestatewordpressplugin
  * Description:       Used by Professional Real Estate companies around the world, Masterdigm Real Estate WP plugin will help you build your real estate website.  To get started: 1) Click the "Activate" link to the left of this description, 2) Sign up for a Masterdigm API Key, 3) Go to your left menu:  Masterdigm >> Masterdigm and add your key, token and ID.  Go to this page to learn exactly how: <a href="http://www.masterdigm.com/realestatewordpressplugin" target="_blank">http://www.masterdigm.com/realestatewordpressplugin</a>
- * Version:           1.0.0
+ * Version:           1.1.2
  * Author:            Masterdigm
  * Author URI:        http://masterdigm.com/
  * License:           GPL-2.0+
@@ -99,3 +99,6 @@ require_once( plugin_dir_path( __FILE__ ) . 'init-admin-component.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'inc-functions.php' );
 // components
 require_once( plugin_dir_path( __FILE__ ) . 'init-component.php' );
+/*$account = \crm\AccountEntity::get_instance()->get_account_details();
+var_dump($account);
+exit();*/

@@ -1,6 +1,5 @@
 <?php
 namespace MD;
-
 class Property{
 
 	protected static $instance = null;
