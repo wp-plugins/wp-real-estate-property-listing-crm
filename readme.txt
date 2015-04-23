@@ -161,6 +161,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
+= 1.1.2 =
+* fix mls transaction type
+
 = 1.1.1 =
 * Fix search form, when press enter after searching location 'For Sale  / Sale' should be the default
 * Updated print pdf to display company name only
