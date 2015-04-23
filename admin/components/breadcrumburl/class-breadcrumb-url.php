@@ -201,9 +201,9 @@ class Breadcrumb_Url{
 	public function addNewFilter($data){
 		$update_option_prefix 		= 'breadcrumb-url-' . $data['select_page'];
 		$arr_update_breadcrumb_url 	= array(
-			'filter_name'=> $data['filter_name'],
-			'page_id'=> $data['select_page'],
-			'location_id'=> $data['filter_location_id'] ? $data['filter_location_id']:0,
+			'filter_name'			=> $data['filter_name'],
+			'page_id'				=> $data['select_page'],
+			'location_id'			=> $data['filter_location_id'] ? $data['filter_location_id']:0,
 			'filter_location_search'=> $data['filter_location_search']
 		);
 		update_option($update_option_prefix,$arr_update_breadcrumb_url);
@@ -216,9 +216,9 @@ class Breadcrumb_Url{
 	public function updateFilter($data){
 		$update_option_prefix 		= 'breadcrumb-url-' . $data['select_page'];
 		$arr_update_breadcrumb_url 	= array(
-			'filter_name'=> $data['filter_name'],
-			'page_id'=> $data['select_page'],
-			'location_id'=> $data['filter_location_id'] ? $data['filter_location_id']:0,
+			'filter_name'			=> $data['filter_name'],
+			'page_id'				=> $data['select_page'],
+			'location_id'			=> $data['filter_location_id'] ? $data['filter_location_id']:0,
 			'filter_location_search'=> $data['filter_location_search']
 		);
 		update_option($update_option_prefix,$arr_update_breadcrumb_url);
@@ -248,12 +248,12 @@ class Breadcrumb_Url{
 		$posts_array = get_posts($arg);
 
 		$choose_location_to_search = array(
-			'country' => 'Country',
-			'county' => 'County',
-			'state' => 'State',
-			'city' => 'City',
+			'country' 	=> 'Country',
+			'county' 	=> 'County',
+			'state' 	=> 'State',
+			'city' 		=> 'City',
 			'community' => 'Community',
-			'zip' => 'Zip'
+			'zip' 		=> 'Zip'
 		);
 		require_once( plugin_dir_path( __FILE__ ) . 'view/edit.php' );
 	}
