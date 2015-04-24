@@ -128,6 +128,7 @@
 
 					var btn = jQuery(this).find("button[type=submit]:focus" );
 
+					jQuery('#transaction').val('For Sale');
 					if( typeof btn.val() !== 'undefined' ){
 						if( btn.val() == 'For Sale' ){
 							jQuery('#transaction').val('For Sale');
@@ -139,7 +140,6 @@
 					if( address != '' ){
 						getGeoCode(address, jQuery(this));
 					}
-					//alert(jQuery('#transaction').val());
 					//codeAddress(address);
 					return true;
 				});

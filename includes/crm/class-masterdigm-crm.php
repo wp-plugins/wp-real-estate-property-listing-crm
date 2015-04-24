@@ -1,7 +1,8 @@
 <?php
 /*
  * Wrapper for the Masterdigm API - CRM
- *
+ * @note: will be depreciated
+ * @see /includes/crm/class-masterdigm-api-crm.php
  * */
 namespace Clients;
 
