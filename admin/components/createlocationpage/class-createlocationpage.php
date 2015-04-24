@@ -92,10 +92,9 @@ class Create_Location_Page{
 				wp_defer_comment_counting( true );
 
 				$page_location['total']	= count($locations);
-				$count = 1;
+				$count = 0;
 				foreach($locations as $key => $val){
-					$page_location['count'] = $count++;
-					$page_location['date_added'] 				= date("F j, Y, g:i a");
+					$page_location['date_added'] 	= date("F j, Y, g:i a");
 					list($title_location) = explode(',',$val->full);
 					$page_location[$val->id]['full'] 			= $title_location;
 					$page_location[$val->id]['location_type'] 	= $val->location_type;
@@ -111,7 +110,10 @@ class Create_Location_Page{
 					  'post_author'   => 1,
 					  'post_type'	  => 'page',
 					);
-					wp_insert_post( $post );
+					if( !get_page_by_title($page_location[$val->id]['full']) ){
+						$page_location['count']	= $count++;
+						wp_insert_post( $post );
+					}
 				}
 
 				wp_defer_term_counting( false );
@@ -125,7 +127,7 @@ class Create_Location_Page{
 				);
 				update_option($option_name, $option_value);
 
-				$msg = 'Done, added total page : '.$option_value['data']['total'];
+				$msg = 'Done, added total page : '.$option_value['data']['count'];
 				$status = true;
 			}
 		}

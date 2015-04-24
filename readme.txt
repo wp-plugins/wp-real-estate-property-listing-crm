@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.1
-Stable tag: 1.1.2
+Stable tag: 1.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,6 +160,12 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 1.2.2 =
+* Associate breadcrumb url to location base pages
+* Also will check breadcrumb url for filter url first, if not check if location is a page, if all else fail then will
+revert to default url structure which is 'location-type/{id}-location-name'
+* Fix location by pages, to by pass existing location page name
 
 = 1.1.2 =
 * fix mls transaction type
