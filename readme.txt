@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.1
-Stable tag: 1.2.2
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,10 +37,6 @@ Property XML Sitemap
 
 The above is a partial feature list but with the CRM usage, over 100 plus features open up to you and your organization! Some include email and text messaging when leads are submitted via the property web-form.  Learn about our full featured platform http://www.masterdigm.com/features/  and pricing here:  http://www.masterdigm.com/pricing/ and try it out for 14 day free trial with 24/7 support.  Also ask us about our free Single Property Sites which are always free.
 
-For time being use this API as a test or demo, under Masterdigm CRM - API:
-API KEY: 7862D45197246EF03A8A565E
-API TOKEN: 1d70bd6232c96eb4533c332e
-Broker ID: 4
 = Features =
 
 Using Masterdigm API to get properties, need a key to use this pls see http://www.masterdigm.com/features/
@@ -99,10 +95,7 @@ Setting Up your Masterdigm Real Estate Wordpress Plugin (2nd Step)
 5.1 In the Mail setting, add email address that you use in your domain server
 5.2 "Search property by default search criteria, Default status, when visitor search property, they will see this search criteria status" Choose. default status to be shown in the search result of properties.
 6. To be able to view the property / search results or location page, you need to update permalinks, go to Wordpress -> Settings -> Permalinks and choose any aside 'Default'
-7. For time being use this API as a test or demo, under Masterdigm CRM - API:
-API KEY: 7862D45197246EF03A8A565E
-API TOKEN: 1d70bd6232c96eb4533c332e
-Broker ID: 4
+
 
 == Frequently Asked Questions ==
 
@@ -160,6 +153,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 1.2.3 =
+* Associate url in list of child location, to a page of locations
 
 = 1.2.2 =
 * Associate breadcrumb url to location base pages

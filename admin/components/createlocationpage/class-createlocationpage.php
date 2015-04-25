@@ -126,7 +126,6 @@ class Create_Location_Page{
 					'date'=>$date
 				);
 				update_option($option_name, $option_value);
-
 				$msg = 'Done, added total page : '.$option_value['data']['count'];
 				$status = true;
 			}
