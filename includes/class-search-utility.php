@@ -47,6 +47,7 @@ class MD_Search_Utility {
 		// @TODO wrap this to hook
 		if( isMLS() ){
 			$search_data = $_POST;
+			var_dump($search_data);
 			$properties = \mls\MD_Searchby_Property::get_instance()->searchPropertyResult($search_data);
 			$source = 'mls';
 		}elseif( isCRM() ){
@@ -60,7 +61,6 @@ class MD_Search_Utility {
 					}
 				}
 			}
-
 			$properties = \crm\MD_Searchby_Property::get_instance()->searchPropertyResult();
 			$source = 'crm';
 		}

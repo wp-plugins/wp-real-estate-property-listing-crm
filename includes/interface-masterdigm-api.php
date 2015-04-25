@@ -1,34 +1,18 @@
 <?php
-interface Masterdigm_API_DAO{
-	public function connect($source);
+interface iMasterdigm_API{
 	public function get_property($property_id, $broker_id = null);
 	public function get_properties($search_criteria_data);
+	public function get_location();
 }
-class Masterdigm_CRM_DAO{
-	public $client;
-	public $key;
-	public $token;
-	public $endpoint;
-	public $version;
-
-	public function __construct(){
-		$this->key 		= MD_API_KEY;
-		$this->token 	= MD_API_TOKEN;
-		$this->endpoint = MD_API_ENDPOINT;
-		$this->version  = MD_API_VERSION;
-	}
-
-	public function connect(Masterdigm_API_Repository $connect){
-		$this->client = new \Masterdigm\MD_Client($this->key, $this->token, $this->endpoint, $this->version );
-	}
-	public function get_client(){
-		return $client;
-	}
-	public function get_property($property_id, $broker_id = null){
-	}
+class Masterdigm_CRM_Account{}
+class Masterdigm_CRM_Push{}
+/**
+ * Use any API
+ * */
+class Masterdigm_Location{
 }
-class Masterdigm_API_Property implements Masterdigm_API_DAO{
-	public function connect(){
-
-	}
-}
+/*$crm_api 		= new Masterdigm_CRM;
+$md_property	= new Masterdigm_Property($crm_api);
+var_dump($md_property->test_connection());
+var_dump($md_property->get_properties());
+exit();*/
