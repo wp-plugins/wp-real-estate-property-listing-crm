@@ -72,27 +72,60 @@ class Create_Location_Page{
 	 * list the data
 	 * */
 	public function displayIndex(){
-		$log = $this->parse_option_log();
+		$log 	 = $this->parse_option_log();
+		$raw_log = $this->get_option_log();
+
+		$notice = 'Create pages base on the market coverage you choose in CRM.<br>';
+		$notice .= 'You can set the status of the page default is Publish <br>';
+		$button = 'Create Page by Location';
+		$status = array(
+			'publish' => 'Publish',
+			'draft'   => 'Draft',
+		);
+		$option_name = '';
+		if( $log->total > 0 ){
+			$last_log = end($raw_log);
+			$option_name = $last_log->option_name;
+
+			$notice = 'It seems you have already create pages by location.<br>';
+			$notice .= 'you can set status of the pages, If you want to update the pages re-run it and it will auto detect those locations you add in the CRM<br>';
+			$notice .= 'You can also set status or delete it ( not the delete is force, it will not mark as trash ) it will remove those last pages you created ( check the date below "last activity" )<br>';
+			$button = 'Update Page';
+			$status = array(
+				'publish' => 'Publish',
+				'draft'   => 'Draft',
+				'trash'	  => 'Trash'
+			);
+		}
 		require_once( plugin_dir_path( __FILE__ ) . 'view/add.php' );
 	}
 
 	public function create_location_page_action_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
+		$current_user = wp_get_current_user();
+
 		$msg 	= '';
 		$status = false;
 
-		$page_location = array();
-		$account = \crm\AccountEntity::get_instance()->getCoverageLookup();
-		$shortcode_tag = \md_sc_crm_list_properties::get_instance()->get_shortcode_tag();
+		$page_location 	= array();
+		$account 		= \crm\AccountEntity::get_instance()->getCoverageLookup();
+		$shortcode_tag 	= \md_sc_crm_list_properties::get_instance()->get_shortcode_tag();
 
 		if( isset($account->result) == 'success' ){
 			$locations 	= $account->lookups;
 			if( count($locations) > 0 ){
-				wp_defer_term_counting( true );
-				wp_defer_comment_counting( true );
+
+				$post_status = 'publish';
+				if( isset($_POST['post_status']) ){
+					$post_status = sanitize_text_field($_POST['post_status']);
+				}
 
 				$page_location['total']	= count($locations);
 				$count = 0;
+
+				wp_defer_term_counting( true );
+				wp_defer_comment_counting( true );
+
 				foreach($locations as $key => $val){
 					$page_location['date_added'] 	= date("F j, Y, g:i a");
 					list($title_location) = explode(',',$val->full);
@@ -103,17 +136,33 @@ class Create_Location_Page{
 					$location = $page_location[$val->id]['location_type'].'id';
 					$id = $page_location[$val->id]['id'];
 					$page_location[$val->id]['shortcode'] 	= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="11" template="list/default/list-default.php" col="4" infinite="true"]';
-					$post = array(
+
+					$post_insert_arg = array(
 					  'post_title'    => $page_location[$val->id]['full'],
 					  'post_content'  => $page_location[$val->id]['shortcode'],
-					  'post_status'   => 'publish',
-					  'post_author'   => 1,
+					  'post_status'   => $post_status,
+					  'post_author'   => $current_user->ID,
 					  'post_type'	  => 'page',
 					);
-					if( !get_page_by_title($page_location[$val->id]['full']) ){
-						$page_location['count']	= $count++;
-						wp_insert_post( $post );
+					$post = get_page_by_title($page_location[$val->id]['full']);
+
+					$page_location['count']	= $count++;
+
+					if( $post && $post_status == 'trash' ){
+						wp_delete_post($post->ID, true);
+					}elseif( $post_status == 'draft' || $post_status == 'publish' ){
+
+						if( $post ){
+							$post_arg = array(
+								'ID' => $post->ID,
+								'post_status' => $post_status
+							);
+							wp_update_post( $post_arg );
+						}else{
+							wp_insert_post( $post_insert_arg );
+						}
 					}
+
 				}
 
 				wp_defer_term_counting( false );
@@ -126,7 +175,7 @@ class Create_Location_Page{
 					'date'=>$date
 				);
 				update_option($option_name, $option_value);
-				$msg = 'Done, added total page : '.$option_value['data']['count'];
+				$msg = 'Done, total '.$post_status.' page : '.$option_value['data']['count'];
 				$status = true;
 			}
 		}

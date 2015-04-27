@@ -1,17 +1,14 @@
 <div class="wrap">
 	<div class="content-help">
-		<h2>
-			<span style="color:red;font-weight:bold;">Notice: Please check if you execute this already, if you did,
-			check that you wont duplicate pages. See below the last time when you create page by locations</span>
-		</h2>
 	</div>
 	<h2>
-		Create Page by Location
+		Create Page by Location.
 	</h2>
+	<p style="font-size:15px;"><?php echo $notice;?></p>
 	<div id="create_page">
 		<div class="content-help">
 			<h3>Last Activity : </h3>
-			<ul>
+			<ul style="height: 150px;overflow-x: hidden;overflow-y: scroll;">
 				<?php if( isset($log->total) && $log->total > 0 ){ ?>
 						<?php foreach($log->data as $key => $val ){ ?>
 								<li>
@@ -24,7 +21,15 @@
 				<?php } ?>
 			</ul>
 		</div>
-		<h2><a href="#" class="add-new-h2 click-create-page-location">Click to Create Page by Location</a></h2>
+		<h2>
+			<select name="post_status" id="post_status">
+				<?php foreach($status as $key => $val ){ ?>
+						<option value="<?php echo $key;?>"><?php echo $val;?></option>
+				<?php } ?>
+			</select>
+			<a href="#" class="add-new-h2 click-create-page-location"><?php echo $button;?></a>
+		</h2>
+		<input type="hidden" name="option_name" id="option_name" value="<?php echo $option_name;?>">
 		<div class="indicator"></div>
 	</div>
 </div>

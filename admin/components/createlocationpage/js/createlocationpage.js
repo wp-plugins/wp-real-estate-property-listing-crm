@@ -9,12 +9,17 @@
 
 				click_button.on('click',function(e){
 					click_button.hide();
+					var post_status = $('#post_status').val();
+					var option_name = $('#option_name').val();
+
 					var data = [
 						{name: 'action', value: 'create_location_page_action'},
-						{name: 'security', value: MDAjax.security}
+						{name: 'security', value: MDAjax.security},
+						{name: 'post_status', value: post_status},
+						{name: 'option_name', value: option_name}
 					];
 
-					html_indicator.html('<h2>Warning! Do not interrupt, Creating page by location now, please wait...</h2><img src='+MDAjax.ajax_indicator+'>');
+					html_indicator.html('<h2>Warning! Do not interrupt, Updating / Creating page by location now, please wait...</h2><img src='+MDAjax.ajax_indicator+'>');
 
 					$.ajax({
 						type: "POST",
