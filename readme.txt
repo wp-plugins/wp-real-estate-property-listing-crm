@@ -153,6 +153,7 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
 = 1.4.3 =
 * Added helper notice when activating the plugin, hide other menu if no API key added, also check if api is valid
 
