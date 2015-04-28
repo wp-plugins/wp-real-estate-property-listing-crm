@@ -10,9 +10,17 @@ define('DO_NOT_CACHE',false);
 define('DEFAULT_FEED',get_option( 'property_data_feed' ));
 define('SEARCH_RESULT_FEED',get_option( 'property_data_feed' ));
 // move to setting UI
-define('MD_SYSTEM_MAIL',$settings['mail']['server']);
+if( isset($settings['mail']['server']) ){
+	define('MD_SYSTEM_MAIL',$settings['mail']['server']);
+}else{
+	define('MD_SYSTEM_MAIL','');
+}
 // move to setting UI
-define('MD_DEFAULT_GRID_COL',$settings['template']['colgrid']);
+if(isset($settings['template']['colgrid'])){
+	define('MD_DEFAULT_GRID_COL',$settings['template']['colgrid']);
+}else{
+	define('MD_DEFAULT_GRID_COL',4);
+}
 define('MD_SHOW_PROPERTY_IMG',1);
 define('PLUGIN_FOLDER_NAME',$plugin_foldername[0]);
 define('PLUGIN_PUBLIC_DIR', WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME . '/public/');
