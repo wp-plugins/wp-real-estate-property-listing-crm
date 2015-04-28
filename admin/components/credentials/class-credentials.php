@@ -61,14 +61,16 @@ class API_Credentials{
 			'',
 			21
 		);
-		add_submenu_page(
-			$plugin_name,
-			'Settings',
-			'Settings',
-			'manage_options',
-			'md-api-plugin-settings',
-			array( $this, 'settings_controller' )
-		);
+		if( \Masterdigm_API::get_instance()->has_crm_api_key() ){
+			add_submenu_page(
+				$plugin_name,
+				'Settings',
+				'Settings',
+				'manage_options',
+				'md-api-plugin-settings',
+				array( $this, 'settings_controller' )
+			);
+		}
 	}
 
 	public function settings_controller(){
@@ -88,7 +90,7 @@ class API_Credentials{
 
 				if(
 					$post['property_data_feed'] == 'crm'
-					&& ( $post['api_key'] == '' || $post['api_token'] == '')
+					&& ( trim($post['api_key']) == '' || trim($post['api_token']) == '')
 				){
 					$has_error = true;
 					$error[] = 'Please provide property CRM api token / key';
@@ -104,26 +106,15 @@ class API_Credentials{
 
 				if(
 					$post['property_data_feed'] == '0'
-					&& ( $post['mls_api_key'] == '' || $post['mls_api_token'] == '')
 				){
 					$has_error = true;
-					$error[] = 'You have provided MLS api and token key, but you need to choose data feed dropdown to MLS';
-				}
-
-				if(
-					$post['property_data_feed'] == '0'
-					&& ( $post['api_key'] == '' || $post['api_token'] == '')
-				){
-					$has_error = true;
-					$error[] = 'You have provided CRM api and token key, but you need to choose data feed dropdown to CRM';
+					$error[] = 'You must have a CRM API key';
 				}
 
 				if(
 					$post['property_data_feed'] == '0' &&
 					$post['api_key'] == '' &&
-					$post['api_token'] == '' &&
-					$post['mls_api_key'] == '' &&
-					$post['mls_api_token'] == ''
+					$post['api_token'] == ''
 				){
 					$has_error = true;
 					$error[] = 'Please provide API credentials';
@@ -144,10 +135,19 @@ class API_Credentials{
 					$this->setError($error);
 					$this->display_index();
 				}else{
-					$this->post_update_api($post);
-					// reset cache
-					\DB_Store::get_instance()->reset_db_store();
-					\Masterdigm_Admin_Util::get_instance()->redirect_to($this->slug);
+					\Clients\Masterdigm_CRM::instance()->setCredentials($post['api_key'],$post['api_token']);
+					$test_api = \Clients\Masterdigm_CRM::instance()->connect()->testConnection();
+					if( $test_api->result == 'fail' ){
+						$has_error = true;
+						$error[] = $test_api->message;
+						$this->setError($error);
+						$this->display_index();
+					}else{
+						$this->post_update_api($post);
+						// reset cache
+						\DB_Store::get_instance()->reset_db_store();
+						\Masterdigm_Admin_Util::get_instance()->redirect_to($this->slug);
+					}
 				}
 			break;
 			default:
@@ -160,6 +160,10 @@ class API_Credentials{
 	 * display the main index view
 	 * */
 	public function display_index() {
+		$notice = plugin_dir_path( __FILE__ ) . 'view/notice-welcome.php';
+		if( !\Masterdigm_API::get_instance()->has_crm_api_key() ){
+			$notice = plugin_dir_path( __FILE__ ) . 'view/notice.php';
+		}
 		require_once( plugin_dir_path( __FILE__ ) . 'view/index.php' );
 	}
 
