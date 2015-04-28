@@ -82,6 +82,7 @@ class API_Credentials{
 		if( isset($_REQUEST['action']) ){
 			$request = sanitize_text_field($_REQUEST['action']);
 		}
+
 		switch($request){
 			case 'update_api':
 				$error 		= array();
@@ -144,6 +145,14 @@ class API_Credentials{
 						$this->display_index();
 					}else{
 						$this->post_update_api($post);
+
+						if( isset($post['setting']) ){
+							$prefix = \Settings_API::get_instance()->get_option_prefix();
+							update_option($prefix,$post['setting']);
+							update_option('md_finish_install',1);
+							delete_option('md_not_finish_install');
+						}
+
 						// reset cache
 						\DB_Store::get_instance()->reset_db_store();
 						\Masterdigm_Admin_Util::get_instance()->redirect_to($this->slug);
@@ -160,9 +169,16 @@ class API_Credentials{
 	 * display the main index view
 	 * */
 	public function display_index() {
-		$notice = plugin_dir_path( __FILE__ ) . 'view/notice-welcome.php';
-		if( !\Masterdigm_API::get_instance()->has_crm_api_key() ){
+		$setting 			= \Settings_API::get_instance()->getSettingsGeneralByKey('search_criteria','status');
+		$has_api 			= \Masterdigm_API::get_instance()->has_crm_api_key();
+		$notice 			= plugin_dir_path( __FILE__ ) . 'view/notice-welcome.php';
+
+		if( !$has_api ){
 			$notice = plugin_dir_path( __FILE__ ) . 'view/notice.php';
+		}
+
+		if( get_option('md_not_finish_install') ){
+			$property_status = \Settings_API::get_instance()->_show_fields_status();
 		}
 		require_once( plugin_dir_path( __FILE__ ) . 'view/index.php' );
 	}
@@ -173,7 +189,7 @@ class API_Credentials{
 		update_option( 'api_key', $post['api_key'] );
 		update_option( 'api_token', $post['api_token'] );
 		update_option( 'broker_id', $post['broker_id'] );
-		update_option( 'user_id', $post['user_id'] );
 		update_option( 'property_data_feed', $post['property_data_feed'] );
+		update_option( 'md_not_finish_install', 1 );
 	}
 }

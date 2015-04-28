@@ -99,7 +99,7 @@ class Masterdigm_API {
 	public function __construct() {
 
 		$this->plugin_name = 'masterdigm-api';
-		$this->version = '1.0.0';
+		$this->version = '1.5.3';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -243,7 +243,7 @@ class Masterdigm_API {
 	}
 
 	public function has_crm_api_key(){
-		if( get_option('api_key') && get_option('api_token') ){
+		if( get_option('api_key') && get_option('api_token') && get_option('md_finish_install') ){
 			return true;
 		}
 		return false;
