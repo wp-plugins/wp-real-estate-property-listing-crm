@@ -52,7 +52,7 @@ class Masterdigm_CRM{
 	 * @param string $token
 	 * @param string $endpoint
 	 */
-	public function setCredentials( $key , $token , $endpoint , $version = 'v2')
+	public function setCredentials( $key , $token , $endpoint = MD_API_ENDPOINT , $version = MD_API_VERSION)
 	{
 		$this->key 		= $key;
 		$this->token 	= $token;

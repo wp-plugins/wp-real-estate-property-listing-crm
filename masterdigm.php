@@ -46,6 +46,13 @@ function activate_plugin_name() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-masterdigm-api-activator.php';
 	Masterdigm_API_Activator::activate();
 }
+function md_admin_notice(){
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-masterdigm-api-activator.php';
+	if( !\Masterdigm_API::get_instance()->has_crm_api_key() ){
+		Masterdigm_API_Activator::md_admin_notice();
+	}
+}
+add_action('admin_notices', 'md_admin_notice');
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-plugin-name-deactivator.php
@@ -93,7 +100,9 @@ function has_crm_key(){
 require_once( plugin_dir_path( __FILE__ ) . 'include-core-class.php' );
 // Admin / Dashboard
 require_once( plugin_dir_path( __FILE__ ) . 'init-admin-component.php' );
+if( \Masterdigm_API::get_instance()->has_crm_api_key() ){
 // function for easy access
 require_once( plugin_dir_path( __FILE__ ) . 'inc-functions.php' );
 // components
 require_once( plugin_dir_path( __FILE__ ) . 'init-component.php' );
+}

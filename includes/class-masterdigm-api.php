@@ -242,4 +242,10 @@ class Masterdigm_API {
 		return $this->version;
 	}
 
+	public function has_crm_api_key(){
+		if( get_option('api_key') && get_option('api_token') ){
+			return true;
+		}
+		return false;
+	}
 }

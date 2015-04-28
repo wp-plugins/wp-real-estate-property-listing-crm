@@ -1,5 +1,6 @@
 <div class="wrap">
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
+
 	<?php if(\API_Credentials::get_instance()->getError()){ ?>
 		<div class="error">
 			<ul>
@@ -9,8 +10,10 @@
 			</ul>
 		</div>
 	<?php } ?>
+
+	<?php require_once($notice); ?>
+
 	<form name="md_api" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
-        <input type="submit" name="Submit" class="button-primary" value="<?php _e('Update', 'update_api' ) ?>" />
         <input type="hidden" name="action" value="update_api">
 		<h4>Please Choose which default data to feed</h4>
 		<select name="property_data_feed">
