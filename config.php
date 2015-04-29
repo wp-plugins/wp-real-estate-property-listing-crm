@@ -21,6 +21,7 @@ if(isset($settings['template']['colgrid'])){
 }else{
 	define('MD_DEFAULT_GRID_COL',4);
 }
+define('MD_PLUGIN_PAGE','http://www.masterdigm.com/realestatewordpressplugin');
 define('MD_SHOW_PROPERTY_IMG',1);
 define('PLUGIN_FOLDER_NAME',$plugin_foldername[0]);
 define('PLUGIN_PUBLIC_DIR', WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME . '/public/');
