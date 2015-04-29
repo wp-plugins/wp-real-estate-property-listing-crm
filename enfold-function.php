@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 $theme = wp_get_theme();
-if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' ){
+if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' && \Masterdigm_API::get_instance()->has_crm_api_key() ){
 	//add_action('do_not_show_this_breadcrumb','__return_true');
 	add_action('parse_query', 'parse_query_callback');
 	function parse_query_callback(){
