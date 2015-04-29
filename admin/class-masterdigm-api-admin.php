@@ -97,7 +97,15 @@ class Masterdigm_API_Admin {
 		 */
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery-ui-autocomplete' );
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/list-property-admin.js', array( 'jquery','jquery-ui-autocomplete' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-localize-script-admin', plugin_dir_url( __FILE__ ) . 'js/list-property-admin.js', array( 'jquery','jquery-ui-autocomplete' ), $this->version, true );
+		wp_localize_script( $this->plugin_name . '-localize-script-admin',
+			'MDAjax',
+			array(
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'security' => wp_create_nonce( 'md-ajax-request' ),
+				'ajax_indicator' => PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif'
+			)
+		);
 	}
 
 }
