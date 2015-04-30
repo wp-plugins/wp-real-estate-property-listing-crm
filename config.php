@@ -10,9 +10,18 @@ define('DO_NOT_CACHE',false);
 define('DEFAULT_FEED',get_option( 'property_data_feed' ));
 define('SEARCH_RESULT_FEED',get_option( 'property_data_feed' ));
 // move to setting UI
-define('MD_SYSTEM_MAIL',$settings['mail']['server']);
+if( isset($settings['mail']['server']) ){
+	define('MD_SYSTEM_MAIL',$settings['mail']['server']);
+}else{
+	define('MD_SYSTEM_MAIL','');
+}
 // move to setting UI
-define('MD_DEFAULT_GRID_COL',$settings['template']['colgrid']);
+if(isset($settings['template']['colgrid'])){
+	define('MD_DEFAULT_GRID_COL',$settings['template']['colgrid']);
+}else{
+	define('MD_DEFAULT_GRID_COL',4);
+}
+define('MD_PLUGIN_PAGE','http://www.masterdigm.com/realestatewordpressplugin');
 define('MD_SHOW_PROPERTY_IMG',1);
 define('PLUGIN_FOLDER_NAME',$plugin_foldername[0]);
 define('PLUGIN_PUBLIC_DIR', WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME . '/public/');
@@ -32,10 +41,10 @@ define('GLOBAL_TEMPLATE',WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME . '/public/globa
 define('MD_DATA_FEED', get_option( 'property_data_feed' ));
 define('CRM_SEARCH_LOOKUP_STATE',6);
 // for mls data feed
-define('MLS_API_KEY', get_option('mls_api_key'));
-define('MLS_API_TOKEN', get_option('mls_api_token'));
-define('MLS_API_ENDPOINT','http://www.masterdigmserver1.com/api/');
-define('MLS_API_VERSION','v2');
+define('MLS_API_KEY', '');
+define('MLS_API_TOKEN', '');
+define('MLS_API_ENDPOINT','');
+define('MLS_API_VERSION','');
 // crm data feed
 define('MD_API_KEY', get_option( 'api_key' ));
 define('MD_API_TOKEN', get_option( 'api_token' ));

@@ -33,8 +33,13 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		public function __construct(){
 			add_action('admin_footer', array($this, 'md_get_shortcodes'));
 			add_action('wp_ajax_list_property_view', array($this,'list_property_view') );
--			add_action('wp_ajax_nopriv_list_property_view',array($this,'list_property_view') );
-			add_shortcode('crm_list_properties',array($this,'init_shortcode'));
+			add_action('wp_ajax_nopriv_list_property_view',array($this,'list_property_view') );
+			$shortcode_tag = $this->get_shortcode_tag();
+			add_shortcode($shortcode_tag,array($this,'init_shortcode'));
+		}
+
+		public function get_shortcode_tag(){
+			return 'crm_list_properties';
 		}
 
 		public function init_shortcode($atts){
