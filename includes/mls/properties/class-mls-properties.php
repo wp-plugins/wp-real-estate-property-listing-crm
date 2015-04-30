@@ -191,29 +191,24 @@ class Properties{
 		}
 
 		$transaction = '';
-		if(
-			sanitize_text_field(isset($search_data['transaction'])) &&
-			sanitize_text_field($search_data['transaction']) != '' &&
-			sanitize_text_field($search_data['transaction']) != 'all'
-		){
-			$ex_string = explode(' ',$search_data['transaction']);
-			if( isset($ex_string[1]) ){
+		// we get the second_verb to omit 'for'
+		list($first_verb, $second_verb) = explode(' ',urldecode($search_data['transaction']));
+		if( isset($second_verb) ){
+			$transaction = strtolower($second_verb);
+		}else{
+			if(
+				sanitize_text_field(isset($_REQUEST['transaction'])) &&
+				sanitize_text_field($_REQUEST['transaction']) != '' &&
+				sanitize_text_field($_REQUEST['transaction']) != 'all'
+			){
+				$ex_string = explode(' ',$_REQUEST['transaction']);
 				$transaction = $ex_string[1];
-			}else{
-				$transaction = $search_data['transaction'];
+			}elseif(
+				sanitize_text_field($search_data['transaction']) == 'all' ||
+				sanitize_text_field($_REQUEST['transaction']) == 'all'
+			){
+				$transaction = 'sale';
 			}
-		}elseif(
-			sanitize_text_field(isset($_REQUEST['transaction'])) &&
-			sanitize_text_field($_REQUEST['transaction']) != '' &&
-			sanitize_text_field($_REQUEST['transaction']) != 'all'
-		){
-			$ex_string = explode(' ',$_REQUEST['transaction']);
-			$transaction = $ex_string[1];
-		}elseif(
-			sanitize_text_field($search_data['transaction']) == 'all' ||
-			sanitize_text_field($_REQUEST['transaction']) == 'all'
-		){
-			$transaction = 'Sale';
 		}
 
 		$data = array(
@@ -234,7 +229,7 @@ class Properties{
 			'limit'			=> $limit,
 			'page'			=> $paged
 		);
-		//var_dump($data);
+
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
@@ -245,7 +240,6 @@ class Properties{
 		}else{
 			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
 			$properties = $md_client->getProperties( $data );
-
 			if( isset($properties->result) == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -277,6 +271,9 @@ class Properties{
 				$properties_msg = '';
 				if( isset($properties->messsage) ){
 					$properties_msg = $properties->messsage;
+				}
+				if( isset($properties['messsage']) ){
+					$properties_msg = $properties['messsage'];
 				}
 				$properties_request = '';
 				if( isset($properties->request) ){

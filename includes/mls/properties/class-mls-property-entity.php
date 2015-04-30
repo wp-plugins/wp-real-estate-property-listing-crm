@@ -286,7 +286,7 @@ class Property_Entity{
 	}
 
 	public function getID(){
-		return $this->ListingKey;
+		return $this->Matrix_Unique_ID;
 	}
 
 	public function getLattitude(){

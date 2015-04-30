@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -17,7 +16,7 @@
  * Plugin Name:       Masterdigm API
  * Plugin URI:        http://www.masterdigm.com/realestatewordpressplugin
  * Description:       Used by Professional Real Estate companies around the world, Masterdigm Real Estate WP plugin will help you build your real estate website.  To get started: 1) Click the "Activate" link to the left of this description, 2) Sign up for a Masterdigm API Key, 3) Go to your left menu:  Masterdigm >> Masterdigm and add your key, token and ID.  Go to this page to learn exactly how: <a href="http://www.masterdigm.com/realestatewordpressplugin" target="_blank">http://www.masterdigm.com/realestatewordpressplugin</a>
- * Version:           1.0.0
+ * Version:           2.1.7
  * Author:            Masterdigm
  * Author URI:        http://masterdigm.com/
  * License:           GPL-2.0+
@@ -47,6 +46,13 @@ function activate_plugin_name() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-masterdigm-api-activator.php';
 	Masterdigm_API_Activator::activate();
 }
+function md_admin_notice(){
+	require_once plugin_dir_path( __FILE__ ) . 'includes/class-masterdigm-api-activator.php';
+	if( !\Masterdigm_API::get_instance()->has_crm_api_key() ){
+		Masterdigm_API_Activator::md_admin_notice();
+	}
+}
+add_action('admin_notices', 'md_admin_notice');
 /**
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-plugin-name-deactivator.php
@@ -90,12 +96,13 @@ function has_crm_key(){
 	}
 	return false;
 }
-
 // include core classes
 require_once( plugin_dir_path( __FILE__ ) . 'include-core-class.php' );
 // Admin / Dashboard
 require_once( plugin_dir_path( __FILE__ ) . 'init-admin-component.php' );
+if( \Masterdigm_API::get_instance()->has_crm_api_key() ){
 // function for easy access
 require_once( plugin_dir_path( __FILE__ ) . 'inc-functions.php' );
 // components
 require_once( plugin_dir_path( __FILE__ ) . 'init-component.php' );
+}

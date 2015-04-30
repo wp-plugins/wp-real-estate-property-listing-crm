@@ -32,7 +32,16 @@ class Masterdigm_API_Activator {
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-		\Property_Page::get_instance()->create_property_page();
+		//\Property_Page::get_instance()->create_property_page();
 	}
 
+	public static function md_admin_notice() {
+		?>
+		<div class="update-nag notice is-dismissible">
+			<p>Thank you for installing Masterdigm API, to use and obtain a KEY, please go to <a href="<?php echo admin_url('admin.php?page=masterdigm-api');?>">Plugin Dashboard page</a></p>
+			<p>Or go directly to our <a href="<?php echo MD_PLUGIN_PAGE;?>" target="_blank">Masterdigm Sign-Up Page</a></p>
+			<button class="notice-dismiss" type="button"><span class="screen-reader-text">Dismiss this notice.</span></button>
+		</div>
+		<?php
+	}
 }
