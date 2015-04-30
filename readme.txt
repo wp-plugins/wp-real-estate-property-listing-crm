@@ -3,8 +3,8 @@ Contributors: masterdigm, allancasilum
 Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
-Tested up to: 4.1
-Stable tag: 4.3
+Tested up to: 4.2
+Stable tag: 2.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,10 +37,6 @@ Property XML Sitemap
 
 The above is a partial feature list but with the CRM usage, over 100 plus features open up to you and your organization! Some include email and text messaging when leads are submitted via the property web-form.  Learn about our full featured platform http://www.masterdigm.com/features/  and pricing here:  http://www.masterdigm.com/pricing/ and try it out for 14 day free trial with 24/7 support.  Also ask us about our free Single Property Sites which are always free.
 
-For time being use this API as a test or demo, under Masterdigm CRM - API:
-API KEY: 7862D45197246EF03A8A565E
-API TOKEN: 1d70bd6232c96eb4533c332e
-Broker ID: 4
 = Features =
 
 Using Masterdigm API to get properties, need a key to use this pls see http://www.masterdigm.com/features/
@@ -99,10 +95,7 @@ Setting Up your Masterdigm Real Estate Wordpress Plugin (2nd Step)
 5.1 In the Mail setting, add email address that you use in your domain server
 5.2 "Search property by default search criteria, Default status, when visitor search property, they will see this search criteria status" Choose. default status to be shown in the search result of properties.
 6. To be able to view the property / search results or location page, you need to update permalinks, go to Wordpress -> Settings -> Permalinks and choose any aside 'Default'
-7. For time being use this API as a test or demo, under Masterdigm CRM - API:
-API KEY: 7862D45197246EF03A8A565E
-API TOKEN: 1d70bd6232c96eb4533c332e
-Broker ID: 4
+
 
 == Frequently Asked Questions ==
 
@@ -159,11 +152,60 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 3. Single property details.
 4. Search location with autocomplete dropdown
 
-== Upgrade Notice ==
-= 1.0.0 =
-* First version
-
 == Changelog ==
 
-= 1.0 =
+= 2.0.6 =
+* update jquery ui css in shortcode external html
+
+= 2.0.5 =
+* Added shortcode list communities by city, search location by city
+* After activation of plugin, auto create standard page these are: property, search properties, city, community and state
+* After activation of plugin, suggest user to create pages by location
+* Associate the shortcode list communities by city when creating location by page filter by cities
+
+= 1.5.5 =
+* fix masonry overlap
+* update api credentials page
+
+= 1.5.4 =
+* change url to plugin page
+
+= 1.5.3 =
+* update plugin welcome page, added dropdown to choose property status.
+
+= 1.4.3 =
+* Added helper notice when activating the plugin, hide other menu if no API key added, also check if api is valid
+
+= 1.3.3 =
+* Add feature on 'Create by page location' to add status ( publish / draft / trash )
+
+= 1.2.3 =
+* Associate url in list of child location, to a page of locations
+
+= 1.2.2 =
+* Associate breadcrumb url to location base pages
+* Also will check breadcrumb url for filter url first, if not check if location is a page, if all else fail then will
+revert to default url structure which is 'location-type/{id}-location-name'
+* Fix location by pages, to by pass existing location page name
+
+= 1.1.2 =
+* fix mls transaction type
+
+= 1.1.1 =
+* Fix search form, when press enter after searching location 'For Sale  / Sale' should be the default
+* Updated print pdf to display company name only
+
+= 1.1.0 =
+* Added feature create page by location
+
+= 1.0.0 =
 * First official release!
+
+== Upgrade Notice ==
+
+= 1.1.1 =
+* Fix search form, when press enter after searching location 'For Sale  / Sale' should be the default
+* Updated print pdf to display company name only
+
+= 1.1.0 =
+* Added feature create page by location

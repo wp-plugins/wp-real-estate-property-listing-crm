@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo plugins_url('masterdigm/admin/css/jquery-ui.css'); ?>" />
+<link rel="stylesheet" href="<?php echo plugins_url(PLUGIN_FOLDER_NAME . 'admin/css/jquery-ui.css'); ?>" />
 <style>
 .ui-autocomplete-loading {
 background: white url("<?php echo plugins_url('masterdigm/admin/css/images/ajax-loader.gif');?>") right center no-repeat;

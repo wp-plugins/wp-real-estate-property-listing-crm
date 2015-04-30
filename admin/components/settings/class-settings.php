@@ -66,6 +66,7 @@ class Settings_API {
 		if( isset($_REQUEST['action']) ){
 			$request = sanitize_text_field($_REQUEST['action']);
 		}
+
 		$obj_admin_util = new Masterdigm_Admin_Util;
 		$obj = $this->get_instance();
 		switch($request){
@@ -110,7 +111,8 @@ class Settings_API {
 	public function post_update_api($prefix, $post){
 		update_option($prefix,$post['setting']);
 	}
-	private function _show_fields_status(){
+
+	public function _show_fields_status(){
 		$status = array();
 		$fields = \crm\AccountEntity::get_instance()->get_fields();
 
