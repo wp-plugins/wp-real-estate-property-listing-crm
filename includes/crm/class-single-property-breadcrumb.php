@@ -221,7 +221,7 @@ class MD_Breadcrumb {
 
 		if( is_null($show_location) ){
 			$show_location = array(
-				'country'	=>	true,
+				'country'	=>	false,
 				'state'		=>	true,
 				'county'	=>	true,
 				'city'		=>	true,
@@ -231,21 +231,40 @@ class MD_Breadcrumb {
 		}
 
 		$bread_crumb = $this->getBreadCrumb($property_data['property'], $show_location);
-
 		$build_bread_crumb = array();
 		foreach($bread_crumb as $key=>$val){
 			$url = '';
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
-				$url_swap = \Breadcrumb_Url::get_instance()->getUrlFilter($bread_crumb->$key->name);
-				if( $url_swap ){
-					$url = $url_swap;
+
+				if($this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key)){
+					$url = $this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key);
+				}elseif( $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key) ){
+					$url = $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key);
 				}else{
 					$url = $bread_crumb->$key->url;
 				}
+
 				$build_bread_crumb[] = '<a href="'.$url.'">'.$bread_crumb->$key->name.'</a>';
 			}
 		}
 		return $build_bread_crumb;
+	}
+
+	private function _check_breadcrumb_url($location_name, $object, $key){
+		return \Breadcrumb_Url::get_instance()->getUrlFilter($location_name);
+	}
+
+	private function _check_wp_page($location_name, $object, $key){
+		$community_city = '';
+		if( $key == 'community' ){
+			$community_city = $object->community->name.' '.$object->city->name;
+		}
+		if( get_page_by_title($object->$key->name) ){
+			return esc_url( get_permalink( get_page_by_title( $object->$key->name ) ) );
+		}elseif( get_page_by_title($community_city) ){
+			return esc_url( get_permalink( get_page_by_title( $community_city ) ) );
+		}
+		return false;
 	}
 
 }
