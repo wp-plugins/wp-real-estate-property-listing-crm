@@ -98,14 +98,6 @@ class API_Credentials{
 				}
 
 				if(
-					$post['property_data_feed'] == 'mls'
-					&& ( $post['mls_api_key'] == '' || $post['mls_api_token'] == '')
-				){
-					$has_error = true;
-					$error[] = 'Please provide property MLS api token / key';
-				}
-
-				if(
 					$post['property_data_feed'] == '0'
 				){
 					$has_error = true;
@@ -124,9 +116,7 @@ class API_Credentials{
 				if(
 					$post['property_data_feed'] == '0' &&
 					($post['api_key'] != '' ||
-					$post['api_token'] != '' ||
-					$post['mls_api_key'] != '' ||
-					$post['mls_api_token'] != '')
+					$post['api_token'] != '')
 				){
 					$has_error = true;
 					$error[] = 'Please choose data to feed';
@@ -151,6 +141,8 @@ class API_Credentials{
 							update_option($prefix,$post['setting']);
 							update_option('md_finish_install',1);
 							delete_option('md_not_finish_install');
+							// create standard pages here
+							\Property_Page::get_instance()->create_property_page();
 						}
 
 						// reset cache
@@ -184,8 +176,6 @@ class API_Credentials{
 	}
 
 	public function post_update_api($post){
-		update_option( 'mls_api_key', $post['mls_api_key'] );
-		update_option( 'mls_api_token', $post['mls_api_token'] );
 		update_option( 'api_key', $post['api_key'] );
 		update_option( 'api_token', $post['api_token'] );
 		update_option( 'broker_id', $post['broker_id'] );

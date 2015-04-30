@@ -41,10 +41,10 @@ define('GLOBAL_TEMPLATE',WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME . '/public/globa
 define('MD_DATA_FEED', get_option( 'property_data_feed' ));
 define('CRM_SEARCH_LOOKUP_STATE',6);
 // for mls data feed
-define('MLS_API_KEY', get_option('mls_api_key'));
-define('MLS_API_TOKEN', get_option('mls_api_token'));
-define('MLS_API_ENDPOINT','http://www.masterdigmserver1.com/api/');
-define('MLS_API_VERSION','v2');
+define('MLS_API_KEY', '');
+define('MLS_API_TOKEN', '');
+define('MLS_API_ENDPOINT','');
+define('MLS_API_VERSION','');
 // crm data feed
 define('MD_API_KEY', get_option( 'api_key' ));
 define('MD_API_TOKEN', get_option( 'api_token' ));

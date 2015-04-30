@@ -110,6 +110,7 @@ class Create_Location_Page{
 		$page_location 	= array();
 		$account 		= \crm\AccountEntity::get_instance()->getCoverageLookup();
 		$shortcode_tag 	= \md_sc_crm_list_properties::get_instance()->get_shortcode_tag();
+		$shortcode_list_community 	= \md_sc_crm_get_locations::get_instance()->get_shortcode_tag();
 
 		if( isset($account->result) == 'success' ){
 			$locations 	= $account->lookups;
@@ -127,6 +128,7 @@ class Create_Location_Page{
 				wp_defer_comment_counting( true );
 
 				foreach($locations as $key => $val){
+					$content_shortcode = '';
 					$page_location['date_added'] 	= date("F j, Y, g:i a");
 					list($title_location) = explode(',',$val->full);
 					$page_location[$val->id]['full'] 			= $title_location;
@@ -135,7 +137,13 @@ class Create_Location_Page{
 
 					$location = $page_location[$val->id]['location_type'].'id';
 					$id = $page_location[$val->id]['id'];
-					$page_location[$val->id]['shortcode'] 	= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="11" template="list/default/list-default.php" col="4" infinite="true"]';
+
+					if( $val->location_type == 'city' ){
+						$content_shortcode 	= '['.$shortcode_list_community.' cityid="'.$id.'"]'.'<br>';
+					}
+					$content_shortcode .= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="11" template="list/default/list-default.php" col="4" infinite="true"]';
+
+					$page_location[$val->id]['shortcode'] = $content_shortcode;
 
 					$post_insert_arg = array(
 					  'post_title'    => $page_location[$val->id]['full'],
