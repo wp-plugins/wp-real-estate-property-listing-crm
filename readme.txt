@@ -154,6 +154,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
+= 2.0.7 =
+* fix jquery ui path
+
 = 2.0.6 =
 * update jquery ui css in shortcode external html
 
