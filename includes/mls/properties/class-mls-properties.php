@@ -229,7 +229,7 @@ class Properties{
 			'limit'			=> $limit,
 			'page'			=> $paged
 		);
-		//var_dump($data);
+
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
@@ -240,7 +240,6 @@ class Properties{
 		}else{
 			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
 			$properties = $md_client->getProperties( $data );
-
 			if( isset($properties->result) == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -272,6 +271,9 @@ class Properties{
 				$properties_msg = '';
 				if( isset($properties->messsage) ){
 					$properties_msg = $properties->messsage;
+				}
+				if( isset($properties['messsage']) ){
+					$properties_msg = $properties['messsage'];
 				}
 				$properties_request = '';
 				if( isset($properties->request) ){

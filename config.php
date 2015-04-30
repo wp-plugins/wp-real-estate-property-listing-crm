@@ -43,8 +43,8 @@ define('CRM_SEARCH_LOOKUP_STATE',6);
 // for mls data feed
 define('MLS_API_KEY', '');
 define('MLS_API_TOKEN', '');
-define('MLS_API_ENDPOINT','');
-define('MLS_API_VERSION','');
+define('MLS_API_ENDPOINT','http://www.masterdigmserver1.com/api/');
+define('MLS_API_VERSION','v2');
 // crm data feed
 define('MD_API_KEY', get_option( 'api_key' ));
 define('MD_API_TOKEN', get_option( 'api_token' ));
