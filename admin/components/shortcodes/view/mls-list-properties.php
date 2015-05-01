@@ -46,8 +46,8 @@ height: 300px;
 			<p>
 				Transaction
 				<select name="transaction" id="transaction">
-					<option value="Sale">Sale</option>
-					<option value="Rent">Rent</option>
+					<option value="For Sale">For Sale</option>
+					<option value="For Rent">For Rent</option>
 				</select>
 			</p>
 			<p>How many property to display <input name="limit" value="11"></p>

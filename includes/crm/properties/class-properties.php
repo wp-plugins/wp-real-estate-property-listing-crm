@@ -483,6 +483,7 @@ class Properties{
 			$communities	= $md->getCommunitiesByCityId($city_id);
 			\DB_Store::get_instance()->put($cache_keyword, $communities);
 		}
+
 		return	$communities;
 	}
 

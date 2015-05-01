@@ -43,8 +43,9 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 		}
 
 		public function init_shortcode($atts){
+			$data			= array();
 			$data_locations = array();
-			$locations = null;
+			$locations 		= null;
 
 			$search_by_cityid = '';
 			if( isset($atts['cityid']) ){
@@ -55,8 +56,9 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 				'cityid' => $search_by_cityid,
 			), $atts, 'crm_get_locations' );
 
-			$data['city_id'] = array($search_by_cityid);
+			$data['city_id'] = $search_by_cityid;
 			$locations = \crm\Properties::get_instance()->getCommunitiesByCityId($data);
+
 			if( $locations && isset($locations->result) == 'success' ){
 				foreach($locations->communities as $key => $val){
 					$community_name = str_replace( "\r\n", "\n", $val->community_name );
