@@ -8,8 +8,7 @@ Template Name: List - Box Style
 	if( !is_front_page() && $show_sort ){
 		\Action_Buttons::display_sort_button(array('class'=>'list-default'));
 	}
-?>
-<?php
+
 	$single_property = false;
 	$single_property_id = 0;
 	if( get_single_property_data() ){

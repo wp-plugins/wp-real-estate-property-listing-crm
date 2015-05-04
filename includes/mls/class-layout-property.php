@@ -40,4 +40,5 @@ class Layout_Property{
 		$properties = \mls\Properties::get_instance()->get_property_by_id($data_properties['id']);
 		return $properties;
 	}
+
 }
