@@ -156,6 +156,14 @@ width:100% !important;
     text-transform: uppercase;
     top: 1px;
 }
+.property-item .thumbnail a > img {
+	height: 150px;
+	min-height: 150px;
+}
+.property-item .thumbnail .caption {
+	height: 180px;
+    min-height: 180px;
+}
 ul.dropdown-menu{
 	list-style:none outside none !important;
 }

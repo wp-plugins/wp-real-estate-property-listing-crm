@@ -305,10 +305,11 @@ class Properties{
 			'photos'	=>array(),
 			'result'	=>'fail'
 		);
+
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			return \DB_Store::get_instance()->get($cache_keyword);
+			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$md_client 		= \Clients\Masterdigm_MLS::instance()->connect();
 			$property 		= $md_client->getPropertyByMatrixID( $matrix_unique_id );
@@ -317,10 +318,12 @@ class Properties{
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
 				$propertyEntity->bind( $property->property );
-				$photos	  		= $md_client->getPhotosByMatrixID( $matrix_unique_id );
-				if( isset($photos->photos) ){
-					$photos = $photos->photos;
+
+				$photos	  		= array();
+				if( isset($property->photos) ){
+					$photos = $property->photos;
 				}
+
 				$data = array(
 					'properties'=>$propertyEntity,
 					'photos'	=>$photos,
@@ -328,12 +331,12 @@ class Properties{
 					'source'=>'mls'
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $data);
-				return $data;
 			}else{
 				return false;
 			}
 		}
-		return false;
+
+		return $data;
 	}
 
 	public function getRelatedProperties($matrix_unique_id){
