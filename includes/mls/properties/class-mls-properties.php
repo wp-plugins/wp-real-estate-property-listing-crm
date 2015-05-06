@@ -191,29 +191,24 @@ class Properties{
 		}
 
 		$transaction = '';
-		if(
-			sanitize_text_field(isset($search_data['transaction'])) &&
-			sanitize_text_field($search_data['transaction']) != '' &&
-			sanitize_text_field($search_data['transaction']) != 'all'
-		){
-			$ex_string = explode(' ',$search_data['transaction']);
-			if( isset($ex_string[1]) ){
+		// we get the second_verb to omit 'for'
+		list($first_verb, $second_verb) = explode(' ',urldecode($search_data['transaction']));
+		if( isset($second_verb) ){
+			$transaction = strtolower($second_verb);
+		}else{
+			if(
+				sanitize_text_field(isset($_REQUEST['transaction'])) &&
+				sanitize_text_field($_REQUEST['transaction']) != '' &&
+				sanitize_text_field($_REQUEST['transaction']) != 'all'
+			){
+				$ex_string = explode(' ',$_REQUEST['transaction']);
 				$transaction = $ex_string[1];
-			}else{
-				$transaction = $search_data['transaction'];
+			}elseif(
+				sanitize_text_field($search_data['transaction']) == 'all' ||
+				sanitize_text_field($_REQUEST['transaction']) == 'all'
+			){
+				$transaction = 'sale';
 			}
-		}elseif(
-			sanitize_text_field(isset($_REQUEST['transaction'])) &&
-			sanitize_text_field($_REQUEST['transaction']) != '' &&
-			sanitize_text_field($_REQUEST['transaction']) != 'all'
-		){
-			$ex_string = explode(' ',$_REQUEST['transaction']);
-			$transaction = $ex_string[1];
-		}elseif(
-			sanitize_text_field($search_data['transaction']) == 'all' ||
-			sanitize_text_field($_REQUEST['transaction']) == 'all'
-		){
-			$transaction = 'Sale';
 		}
 
 		$data = array(
@@ -234,12 +229,12 @@ class Properties{
 			'limit'			=> $limit,
 			'page'			=> $paged
 		);
-		//var_dump($data);
+
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-		//\DB_Store::get_instance()->del($cache_keyword);
+
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
@@ -278,6 +273,9 @@ class Properties{
 				if( isset($properties->messsage) ){
 					$properties_msg = $properties->messsage;
 				}
+				if( isset($properties['messsage']) ){
+					$properties_msg = $properties['messsage'];
+				}
 				$properties_request = '';
 				if( isset($properties->request) ){
 					$properties_request = $properties->request;
@@ -307,10 +305,11 @@ class Properties{
 			'photos'	=>array(),
 			'result'	=>'fail'
 		);
+
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			return \DB_Store::get_instance()->get($cache_keyword);
+			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$md_client 		= \Clients\Masterdigm_MLS::instance()->connect();
 			$property 		= $md_client->getPropertyByMatrixID( $matrix_unique_id );
@@ -319,10 +318,12 @@ class Properties{
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
 				$propertyEntity->bind( $property->property );
-				$photos	  		= $md_client->getPhotosByMatrixID( $matrix_unique_id );
-				if( isset($photos->photos) ){
-					$photos = $photos->photos;
+
+				$photos	  		= array();
+				if( isset($property->photos) ){
+					$photos = $property->photos;
 				}
+
 				$data = array(
 					'properties'=>$propertyEntity,
 					'photos'	=>$photos,
@@ -330,12 +331,12 @@ class Properties{
 					'source'=>'mls'
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $data);
-				return $data;
 			}else{
 				return false;
 			}
 		}
-		return false;
+
+		return $data;
 	}
 
 	public function getRelatedProperties($matrix_unique_id){
