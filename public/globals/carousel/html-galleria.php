@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
 	Galleria.configure({
 		lightbox: true,
 		responsive:true,
-		imageCrop: true,
+		imageCrop: false,
 		preload:2,
 		dummy: '<?php echo PLUGIN_ASSET_URL . 'house.png';?>',
 	});
