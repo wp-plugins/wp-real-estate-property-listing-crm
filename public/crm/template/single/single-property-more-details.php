@@ -6,7 +6,7 @@
 			<li>Type : <?php echo get_single_property_data()->displayPropertyType();?></li>
 			<li>Location : <?php echo get_single_property_data()->address;?></li>
 			<li>Community : <?php echo get_single_property_data()->community;?></li>
-			<li>Lot Area: <?php echo get_single_property_data()->displayAreaMeasurement('lot')->measure . ' ' . get_single_property_data()->displayAreaMeasurement('lot')->area_type;?></li>
+			<li><?php do_action( 'single_before_lot_area' ); ?>Lot Area: <?php echo get_single_property_data()->displayAreaMeasurement('lot')->measure . ' ' . get_single_property_data()->displayAreaMeasurement('lot')->area_type;?></li>
 		</ul>
 	</div>
 	<div class="col-md-6">
