@@ -1,4 +1,6 @@
 <?php
+//refactored
+require_once( plugin_dir_path( __FILE__ ) . 'class-masterdigm-api-crm.php' );
 // crm
 require_once( plugin_dir_path( __FILE__ ) . 'class-masterdigm-crm.php' );
 //account

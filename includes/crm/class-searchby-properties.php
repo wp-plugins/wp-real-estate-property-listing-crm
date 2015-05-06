@@ -58,6 +58,13 @@ class MD_Searchby_Property {
 		return self::$instance;
 	}
 
+	public function url_page($location_name){
+		if( get_page_by_title($location_name) ){
+			return esc_url( get_permalink( get_page_by_title( $location_name ) ) );
+		}
+		return false;
+	}
+
 	public function displayCountryProperty($display_states = 1){
 		$data 					= array();
 		$data['country_id']		= get_query_var('countryid');
@@ -102,10 +109,13 @@ class MD_Searchby_Property {
 			foreach($data['child_list']->states as $key => $val){
 				$url = str_replace( "\r\n", "\n", $val->city );
 				$url = str_replace( " ", "-", strtolower($val->city) );
+				$city_name 	= str_replace( "\r\n", "\n", $val->city );
 
 				$url_swap = \Breadcrumb_Url::get_instance()->getUrlFilter($val->city);
 				if( $url_swap ){
 					$url = $url_swap;
+				}elseif( $this->url_page($city_name) ){
+					$url = $this->url_page($city_name);
 				}else{
 					$url = $data['permalink'] . $val->id . '-' . $url;
 				}
@@ -138,12 +148,19 @@ class MD_Searchby_Property {
 		}
 		if( $result ) {
 			foreach($data['child_list']->communities as $key => $val){
+				$community_name = str_replace( "\r\n", "\n", $val->community_name );
+				$city_name 		= str_replace( "\r\n", "\n", $val->city_name );
+				$full_community_name_city = $community_name .' '. $city_name;
+
 				$url = str_replace( "\r\n", "\n", $val->community_name );
 				$url = str_replace( " ", "-", strtolower($val->community_name) );
 
 				$url_swap = \Breadcrumb_Url::get_instance()->getUrlFilter($val->community_name);
+
 				if( $url_swap ){
 					$url = $url_swap;
+				}elseif( $this->url_page($full_community_name_city) ){
+					$url = $this->url_page($full_community_name_city);
 				}else{
 					$url = $data['permalink'] . $val->community_id . '-' . $url;
 				}
