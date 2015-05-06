@@ -69,12 +69,14 @@ class Property_Entity{
 		switch( $type ){
 			default:
 			case 'long':
-				return $this->StreetNumber.' '.$street_name.' '.$this->City.', '.$state.' '.$this->PostalCode;
+				$address = $this->StreetNumber.' '.$street_name.' '.$this->City.', '.$state.' '.$this->PostalCode;
 			break;
 			case 'short':
-				return $this->StreetNumber.' '.$street_name.' '.$this->City;
+				$address = $this->StreetNumber.' '.$street_name.' '.$this->City;
 			break;
 		}
+
+		return \helpers\Text::remove_non_alphanumeric($address);
 
 	}
 
@@ -217,11 +219,11 @@ class Property_Entity{
 	}
 
 	public function displayBathrooms(){
-		return $this->BathsTotal;
+		return $this->Baths;
 	}
 
 	public function displaySqFt(){
-		return number_format($this->LotSquareFootage);
+		return number_format($this->LotSizeSqFt);
 	}
 
 	public function displayAreaMeasurement($type){

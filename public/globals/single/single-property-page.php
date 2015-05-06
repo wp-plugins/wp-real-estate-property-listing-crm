@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php do_action( 'single_before_area_measurement' ); ?>
 							<?php echo ucwords(get_single_property_data()->displayAreaMeasurement('floor')->area_type);?>
 						</span>
-						<p><?php echo get_single_property_data()->displayAreaMeasurement('floor')->measure;?></p>
+						<p><?php echo md_property_area();?></p>
 					</li>
 				<?php } ?>
 				<li class="yr-built">

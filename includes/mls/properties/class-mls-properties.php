@@ -290,7 +290,6 @@ class Properties{
 				);
 			}
 		}
-
 		return $get_properties;
 	}
 
@@ -335,7 +334,6 @@ class Properties{
 				return false;
 			}
 		}
-
 		return $data;
 	}
 
