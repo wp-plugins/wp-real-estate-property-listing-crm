@@ -44,7 +44,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php } ?>
 				<?php if(!has_filter('list_display_area')){ ?>
 					<li class="area-measurement">
-						<span><?php echo get_single_property_data()->displayAreaMeasurement('floor')->area_type;?></span>
+						<span>
+							<?php do_action( 'single_before_area_measurement' ); ?>
+							<?php echo ucwords(get_single_property_data()->displayAreaMeasurement('floor')->area_type);?>
+						</span>
 						<p><?php echo get_single_property_data()->displayAreaMeasurement('floor')->measure;?></p>
 					</li>
 				<?php } ?>

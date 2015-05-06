@@ -73,8 +73,8 @@ class PDF_MD{
 	public function build_property_details(){
 		$details = '<table>';
 		$details .= '<tr><td>Price : '.md_property_price().'</td><td>Bath : '.md_property_bathrooms().'</td></tr>';
-		$details .= '<tr><td>Bed : '.md_property_beds().'</td><td>Area : '.md_property_area().md_property_area_unit().'</td></tr>';
-		$details .= '<tr><td>Yr Built : '.md_property_yr_built().'</td><td>MLS# : '.md_get_mls().'</td></tr>';
+		$details .= '<tr><td>Bed : '.md_property_beds().'</td><td>'.apply_filters('before_pdf_area','~').md_property_area_unit().' : '.md_property_area().'</td></tr>';
+		$details .= '<tr><td>Yr Built : '.md_property_yr_built().'</td><td>'._label('mls').' : '.md_get_mls().'</td></tr>';
 		$details .= '<tr><td colspan="2"></td></tr>';
 		$details .= '<tr><td colspan="2">'.md_get_description().'</td></tr>';
 		$details .= '</table>';

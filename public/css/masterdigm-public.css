@@ -159,6 +159,7 @@ width:100% !important;
 .property-item .thumbnail a > img {
 	height: 150px;
 	min-height: 150px;
+	width:100%;
 }
 .property-item .thumbnail .caption {
 	height: 180px;
