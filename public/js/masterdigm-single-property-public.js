@@ -8,7 +8,7 @@
 					map:{
 						options:{
 							center:[lat,lng],
-							zoom: 4,
+							zoom: 14,
 							mapTypeId: google.maps.MapTypeId.ROADMAP,
 							mapTypeControl: true,
 							mapTypeControlOptions: {

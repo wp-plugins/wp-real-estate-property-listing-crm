@@ -120,8 +120,9 @@ class Masterdigm_API_Public {
 		wp_enqueue_script( $this->plugin_name . '-infinite-scroll', plugin_dir_url( __FILE__ ) . 'js/infinite_scroll.js', array( 'jquery' ), $this->version, true );
 		// localize
 		$settings = get_option('plugin-settings');
+
 		$masonry = 0;
-		if( ( isset($settings['js']) && isset($settings['js']['masonry']) )|| $settings ){
+		if( ( isset($settings['js']) && isset($settings['js']['masonry']) ) ){
 			$masonry = 1;
 		}
 		wp_localize_script( $this->plugin_name . '-localize-script-public',
