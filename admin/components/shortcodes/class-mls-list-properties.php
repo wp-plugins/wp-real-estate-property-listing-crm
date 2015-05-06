@@ -225,6 +225,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				$template = apply_filters('shortcode_list_property_mls', $path);
 			}
 
+			$show_sort = true;
 			$args_button_action = array(
 				'show' => 1,
 				'favorite'	=> array(

@@ -73,8 +73,8 @@ class PDF_MD{
 	public function build_property_details(){
 		$details = '<table>';
 		$details .= '<tr><td>Price : '.md_property_price().'</td><td>Bath : '.md_property_bathrooms().'</td></tr>';
-		$details .= '<tr><td>Bed : '.md_property_beds().'</td><td>Area : '.md_property_area().md_property_area_unit().'</td></tr>';
-		$details .= '<tr><td>Yr Built : '.md_property_yr_built().'</td><td>MLS# : '.md_get_mls().'</td></tr>';
+		$details .= '<tr><td>Bed : '.md_property_beds().'</td><td>'.apply_filters('before_pdf_area','~').md_property_area_unit().' : '.md_property_area().'</td></tr>';
+		$details .= '<tr><td>Yr Built : '.md_property_yr_built().'</td><td>'._label('mls').' : '.md_get_mls().'</td></tr>';
 		$details .= '<tr><td colspan="2"></td></tr>';
 		$details .= '<tr><td colspan="2">'.md_get_description().'</td></tr>';
 		$details .= '</table>';
@@ -95,12 +95,12 @@ class PDF_MD{
 			\MD\Property::get_instance()->set_loop($data['property']);
 		}
 		if( $property_id && have_properties() ){
-			$name 		= get_account_data('company').'-'.get_account_data('manager_first_name').' '.get_account_data('manager_last_name')."\n";
+			$name 		= get_account_data('company');
 			$address 	= "Address: ".get_account_data('street_address').', '.get_account_data('state').', '.get_account_data('country')."\n";
 			$contact 	= "Phone: ".get_account_data('work_phone')."\n"."Email : ".get_account_data('manager_email')."\n";
 			$website 	= get_account_data('website')."\n\n";
 
-			$header_details = $name . $address . $contact . $website;
+			$header_details = $address . $contact . $website;
 			// hook filter
 			if( has_filter('print_pdf_header') ){
 				$header_details = apply_filters('print_pdf_header', $header_details_string);
@@ -119,7 +119,7 @@ class PDF_MD{
 			$pdf->SetKeywords('TCPDF, PDF, masterdigm');
 			// set default header data
 
-			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, get_option('blogname'),$header_details);
+			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $name,$header_details);
 
 			// set header and footer fonts
 			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));

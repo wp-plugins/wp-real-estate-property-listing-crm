@@ -15,7 +15,10 @@
 			<li>Price : <?php echo get_single_property_data()->displayPrice();?></li>
 			<li>Bedroom : <?php echo get_single_property_data()->beds;?></li>
 			<li>Bathroom : <?php echo get_single_property_data()->baths;?></li>
-			<li>Floor Area : <?php echo get_single_property_data()->displayAreaMeasurement('floor')->measure. ' ' . get_single_property_data()->displayAreaMeasurement('lot')->area_type;?></li>
+			<li>
+				<?php do_action( 'single_before_floor_area' ); ?>
+				Floor Area : <?php echo get_single_property_data()->displayAreaMeasurement('floor')->measure. ' ' . get_single_property_data()->displayAreaMeasurement('lot')->area_type;?>
+			</li>
 			<li>Year Built : <?php echo get_single_property_data()->year_built;?></li>
 		</ul>
 	</div>

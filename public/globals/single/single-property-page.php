@@ -5,7 +5,6 @@ Template Name: Single - Details of property
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-//var_dump(get_single_data());
 ?>
 <?php if( get_single_data() && is_property_viewable(md_get_property_status()) ){ ?>
 <?php if( function_exists('crm_masterdigm_breadcrumb' ) ){ crm_masterdigm_breadcrumb();} ?>
@@ -45,7 +44,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<?php } ?>
 				<?php if(!has_filter('list_display_area')){ ?>
 					<li class="area-measurement">
-						<span><?php echo get_single_property_data()->displayAreaMeasurement('floor')->area_type;?></span>
+						<span>
+							<?php do_action( 'single_before_area_measurement' ); ?>
+							<?php echo ucwords(get_single_property_data()->displayAreaMeasurement('floor')->area_type);?>
+						</span>
 						<p><?php echo get_single_property_data()->displayAreaMeasurement('floor')->measure;?></p>
 					</li>
 				<?php } ?>
@@ -68,13 +70,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 							if( has_filter('template_carousel_'.get_single_property_source()) ){
 								apply_filters('template_carousel_'.get_single_property_source(), $atts);
 							}else{
+								//display default - crm
 								md_global_carousel_template($atts);
 							}
 						?>
 					</div>
-					<?php do_action( 'before_more_details_'.get_single_property_source() ); ?>
-					<?php do_action('template_more_details_'.get_single_property_source(), $atts); ?>
-					<?php do_action( 'after_more_details_'.get_single_property_source()); ?>
+					<?php
+						do_action('before_more_details_'.get_single_property_source());
+						do_action('template_more_details_'.get_single_property_source(), $atts);
+						do_action('after_more_details_'.get_single_property_source());
+					?>
 				</div>
 				<div class="col-md-3 col-sm-12">
 					<div class="right-sidebar">
@@ -83,15 +88,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 								do_action( 'before_right_sidebar_content' );
 							}
 						?>
+
 						<div class="panel panel-default">
 						  <div class="panel-body">
 						   <?php \Action_Buttons::get_instance()->display($args_button_action); ?>
 						  </div>
 						</div>
+
 						<?php
 							\md_sc_single_properties::get_instance()->display_inquire_form($att_inquire_msg);
 						?>
+
 						<?php \MD_Property_Content::get_instance()->displayTagContent(get_single_property_data()); ?>
+
 						<?php
 							if( has_action('after_right_sidebar_content') ){
 								do_action( 'after_right_sidebar_content' );
