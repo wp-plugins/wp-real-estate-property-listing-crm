@@ -35,6 +35,14 @@ class CRM_Account{
 		return self::$instance;
 	}
 
+	public function get_broker_id(){
+		$broker_id = MD_BROKER_ID;
+		if( !$broker_id ){
+			$broker_id = $this->get_account_data('accountid');
+		}
+		return $broker_id;
+	}
+
 	/**
 	 * get the account details of the current CRM key
 	 * @return array | object | getAccountDetails()
@@ -162,5 +170,43 @@ class CRM_Account{
 			\DB_Store::get_instance()->put($cache_keyword, $market_coverage);
 		}
 		return $market_coverage;
+	}
+
+	public function push_crm_data( $array_data ){
+		extract($array_data);
+
+		$userid 	= 0;
+
+		$account_id = $this->get_broker_id();
+		$this->crm->set_account_Id( $account_id );
+
+		$get_userid = $this->get_account_data('userid');
+		if( $get_userid ){
+			$userid = $get_userid;
+		}
+
+		$response   = $this->crm->save_lead(
+			array(
+				'first_name'         => sanitize_text_field(isset($yourname)) ? sanitize_text_field($yourname):'',
+				'last_name'          => sanitize_text_field(isset($yourlastname)) ? sanitize_text_field($yourlastname):'',
+				'middle_name'        => sanitize_text_field(isset($yourmidname)) ? sanitize_text_field($yourmidname):'',
+				'lead_source'        => sanitize_text_field(isset($lead_source)) ? sanitize_text_field($lead_source):'',
+				'phone_home'         => sanitize_text_field(isset($phone_home)) ? sanitize_text_field($phone_home):'',
+				'phone_mobile'       => sanitize_text_field(isset($phone_mobile)) ? sanitize_text_field($phone_mobile):'',
+				'phone_work'         => sanitize_text_field(isset($phone_work)) ? sanitize_text_field($phone_work):'',
+				'phone_fax'          => sanitize_text_field(isset($phone_fax)) ? sanitize_text_field($phone_fax):'',
+				'email1'             => sanitize_text_field(isset($email1)) ? sanitize_text_field($email1):'',
+				'address_street'     => sanitize_text_field(isset($address_street)) ? sanitize_text_field($address_street):'',
+				'address_city'       => sanitize_text_field(isset($address_city)) ? sanitize_text_field($address_city):'',
+				'address_state'      => sanitize_text_field(isset($address_state)) ? sanitize_text_field($address_state):'',
+				'address_postalcode' => sanitize_text_field(isset($address_postalcode)) ? sanitize_text_field($address_postalcode):'',
+				'address_country'    => sanitize_text_field(isset($address_country)) ? sanitize_text_field($address_country):'',
+				'company'            => sanitize_text_field(isset($company)) ? sanitize_text_field($company):'',
+				'assigned_to'		 => sanitize_text_field(isset($userid)) ? sanitize_text_field($userid):'',
+				'note'				 => sanitize_text_field(isset($note)) ? sanitize_text_field($note):''
+			)
+		);
+
+		return $response;
 	}
 }

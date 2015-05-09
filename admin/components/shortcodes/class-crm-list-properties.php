@@ -173,7 +173,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 			$search_data['orderby'] 		= $orderby;
 			$search_data['order_direction'] = $order_direction;
 
-			$properties = \crm\Properties::get_instance()->get_properties($search_data);
+			$properties = \CRM_Property::get_instance()->get_properties($search_data);
 
 			\MD\Property::get_instance()->set_properties($properties,'crm');
 
@@ -214,7 +214,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		}
 
 		private function get_fields_status(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			if( isset($fields->fields->status) ){
 				return $fields->fields->status;
 			}
@@ -222,7 +222,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		}
 
 		private function get_fields_type(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			if( isset($fields->fields->types) ){
 				return $fields->fields->types;
 			}
@@ -239,7 +239,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 
 		public function get_location(){
 			$json = array();
-			$location = \crm\AccountEntity::get_instance()->getCountryCoverageLookup();
+			$location = \CRM_Account::get_instance()->get_country_coverage_lookup();
 
 			if( isset($location->result) && $location->result == 'success' ){
 				//create a json

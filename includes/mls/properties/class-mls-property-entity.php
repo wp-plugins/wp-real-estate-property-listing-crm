@@ -158,7 +158,7 @@ class Property_Entity{
 	 */
 	public function displayPrice()
 	{
-		$currency = \crm\AccountEntity::get_instance()->get_account_data('currency');
+		$currency = \CRM_Account::get_instance()->get_account_data('currency');
 		$get_currency = ($currency) ? $currency:'$';
 		if( $this->ListPrice == 0 ){
 			return 'Call for pricing';
@@ -230,7 +230,7 @@ class Property_Entity{
 		$area = '';
 		$measure_area = 0;
 		$array_measure = array();
-		$unit_area = \crm\AccountEntity::get_instance()->get_account_data('unit_area');
+		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
 		switch($type){
 			case 'floor':
 				$array_measure = array(
@@ -252,7 +252,7 @@ class Property_Entity{
 
 	public function displayAreaUnit( $type = 'account' ){
 		$unit = '';
-		$unit_area = \crm\AccountEntity::get_instance()->get_account_data('unit_area');
+		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
 		switch($type){
 			case 'floor':
 				$unit = $this->floor_area_unit;

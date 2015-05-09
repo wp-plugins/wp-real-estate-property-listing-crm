@@ -99,7 +99,7 @@ class Masterdigm_API {
 	public function __construct() {
 
 		$this->plugin_name = 'masterdigm-api';
-		$this->version = '2.6.2';
+		$this->version = '2.8.2';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -244,7 +244,7 @@ class Masterdigm_API {
 
 	public function has_crm_api_key(){
 		if( !get_option('md_finish_install') && \Settings_API::get_instance()->getSettingsGeneralByKey('search_criteria','status') ){
-			$test_api = \Clients\Masterdigm_CRM::instance()->connect()->testConnection();
+			$test_api = \Masterdigm_CRM::get_instance()->test_connection();
 			if( $test_api->result == 'success' ){
 				update_option('md_finish_install',1);
 			}

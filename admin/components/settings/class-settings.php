@@ -114,7 +114,7 @@ class Settings_API {
 
 	public function _show_fields_status(){
 		$status = array();
-		$fields = \crm\AccountEntity::get_instance()->get_fields();
+		$fields = \CRM_Account::get_instance()->get_fields();
 
 		if( $fields->fields->status ){
 			foreach($fields->fields->status as $key=>$val){

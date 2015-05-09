@@ -126,8 +126,8 @@ class API_Credentials{
 					$this->setError($error);
 					$this->display_index();
 				}else{
-					\Clients\Masterdigm_CRM::instance()->setCredentials($post['api_key'],$post['api_token']);
-					$test_api = \Clients\Masterdigm_CRM::instance()->connect()->testConnection();
+					\Masterdigm_CRM::get_instance()->setCredentials($post['api_key'],$post['api_token']);
+					$test_api = \Masterdigm_CRM::get_instance()->test_connection();
 					if( $test_api->result == 'fail' ){
 						$has_error = true;
 						$error[] = $test_api->message;

@@ -50,7 +50,7 @@ class Properties{
 
 	private function get_default_location(){
 		$zip 		= 0;
-		$account 	= \crm\AccountEntity::get_instance()->get_account_details();
+		$account 	= \CRM_Account::get_instance()->get_account_details();
 		if( isset($account->zipcode) ){
 			$zip = $account->zipcode;
 		}
@@ -234,13 +234,13 @@ class Properties{
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
 			$properties = $md_client->getProperties( $data );
-
+			//var_dump($properties);
 			if( isset($properties->result) == 'success' )
 			{
 				foreach( $properties->properties as $property ){

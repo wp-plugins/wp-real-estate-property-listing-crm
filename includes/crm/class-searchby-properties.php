@@ -69,7 +69,7 @@ class MD_Searchby_Property {
 		$data 					= array();
 		$data['country_id']		= get_query_var('countryid');
 		$_REQUEST['countryid'] 	= $data['country_id'];
-		$data['property_result']= \crm\Properties::get_instance()->get_properties();
+		$data['property_result']= \CRM_Property::get_instance()->get_properties();
 		if( $display_states ){
 			$child = $this->displayCountryStateChildren($_REQUEST['countryid']);
 			$data = array_merge($data,$child);
@@ -79,7 +79,7 @@ class MD_Searchby_Property {
 
 	public function displayCountryStateChildren($country_id){
 		$child = array();
-		$child['child_list']		= \crm\Properties::get_instance()->getStatesByCountryId($country_id);
+		$child['child_list']		= \CRM_Property::get_instance()->getStatesByCountryId($country_id);
 		$child['child_key']			= 'states';
 		$child['child_label']		= 'State';
 		$child['permalink'] 		= \Property_Url::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->state_pagename);
@@ -100,8 +100,8 @@ class MD_Searchby_Property {
 		$data 					= array();
 		$data['stateid']		= $state_id;
 		$_REQUEST['stateid'] 	= $data['stateid'];
-		$data['property_result']= \crm\Properties::get_instance()->get_properties();
-		$data['child_list']		= \crm\Properties::get_instance()->getCitiesByStateid($data['stateid']);
+		$data['property_result']= \CRM_Property::get_instance()->get_properties();
+		$data['child_list']		= \CRM_Locations::get_instance()->get_cities_by_stateId($data['stateid']);
 		$data['child_key']		= 'city';
 		$data['child_label']	= 'City';
 		$data['permalink'] 		= \Property_Url::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
@@ -135,8 +135,8 @@ class MD_Searchby_Property {
 		$array_id				= array();
 		$array_id['city_id']	= $city_id;
 		$search_data['cityid']	= $city_id;
-		$data['property_result']= \crm\Properties::get_instance()->get_properties($search_data);
-		$data['child_list']		= \crm\Properties::get_instance()->getCommunitiesByCityId($array_id);
+		$data['property_result']= \CRM_Property::get_instance()->get_properties($search_data);
+		$data['child_list']		= \CRM_Locations::get_instance()->get_communities_by_cityId($array_id);
 		$data['child_key']		= 'community';
 		$data['child_label']	= 'Community';
 		$data['permalink'] 		= \Property_Url::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->community_pagename);
@@ -178,7 +178,7 @@ class MD_Searchby_Property {
 		$data 					= array();
 		$data['zip']		= $location_id;
 		$search_data['zip'] = $data['zip'];
-		$data['property_result']= \crm\Properties::get_instance()->get_properties($search_data);
+		$data['property_result']= \CRM_Property::get_instance()->get_properties($search_data);
 		$data['child_list']		= array();
 		$data['child_key']		= '';
 		$data['child_label']	= '';
@@ -191,7 +191,7 @@ class MD_Searchby_Property {
 		$data 					= array();
 		$data['countyid']		= $location_id;
 		$search_data['countyid'] = $data['countyid'];
-		$data['property_result']= \crm\Properties::get_instance()->get_properties($search_data);
+		$data['property_result']= \CRM_Property::get_instance()->get_properties($search_data);
 		$data['child_list']		= array();
 		$data['child_key']		= '';
 		$data['child_label']	= '';
@@ -204,7 +204,7 @@ class MD_Searchby_Property {
 		$data 					= array();
 		$data['communityid']	= $location_id;
 		$search_data['communityid'] = $data['communityid'];
-		$data['property_result']= \crm\Properties::get_instance()->get_properties($search_data);
+		$data['property_result']= \CRM_Property::get_instance()->get_properties($search_data);
 		$data['child_list']		= array();
 		$data['child_key']		= '';
 		$data['child_label']	= '';
@@ -261,8 +261,13 @@ class MD_Searchby_Property {
 		$search_data['orderby'] 		= isset($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']):'';
 		$search_data['order_direction']	= isset($_REQUEST['order_direction']) ? sanitize_text_field($_REQUEST['order_direction']):'';
 		$search_data['limit']			= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):'11';
+		//$search_data['page']			= isset($_REQUEST['page']) ? sanitize_text_field($_REQUEST['page']):'1';
 
-		$property_data = \crm\Properties::get_instance()->get_properties($search_data);
+		do_action('before_get_properties_crm', $search_data);
+
+		$property_data = \CRM_Property::get_instance()->get_properties($search_data);
+
+		do_action('after_get_properties_crm', $search_data);
 
 		if( $property_data->total > 0 ){
 			return $property_data;

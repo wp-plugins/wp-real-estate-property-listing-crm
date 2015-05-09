@@ -13,7 +13,7 @@ define('SEARCH_RESULT_FEED',get_option( 'property_data_feed' ));
 if( isset($settings['mail']['server']) ){
 	define('MD_SYSTEM_MAIL',$settings['mail']['server']);
 }else{
-	define('MD_SYSTEM_MAIL','');
+	define('MD_SYSTEM_MAIL',get_option('admin_email'));
 }
 // move to setting UI
 if(isset($settings['template']['colgrid'])){

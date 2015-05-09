@@ -28,16 +28,16 @@ function get_search_form_price_range(){
 	return $arr_price_range;
 }
 function get_account_details(){
-	return \crm\AccountEntity::get_instance()->get_account_details();
+	return \CRM_Account::get_instance()->get_account_details();
 }
 function get_account_fields(){
-	return \crm\AccountEntity::get_instance()->get_fields();
+	return \CRM_Account::get_instance()->get_fields();
 }
 function get_account_currency(){
-	return \crm\AccountEntity::get_instance()->get_account_data('currency');
+	return \CRM_Account::get_instance()->get_account_data('currency');
 }
 function get_account_data($data_name){
-	return \crm\AccountEntity::get_instance()->get_account_data($data_name);
+	return \CRM_Account::get_instance()->get_account_data($data_name);
 }
 // plugin settings
 function option_plugin_settings($settings = null){
@@ -55,10 +55,10 @@ function default_search_status(){
 	return option_plugin_settings('search_criteria')['status'] ? option_plugin_settings('search_criteria')['status']:0;
 }
 function get_states_by_country(){
-	return \crm\AccountEntity::get_instance()->getStatesByCountryId();
+	return \CRM_Account::get_instance()->getStatesByCountryId();
 }
 function get_coverage_area(){
-	return \crm\AccountEntity::get_instance()->getCoverageArea();
+	return \CRM_Account::get_instance()->getCoverageArea();
 }
 function bootstrap_grid_col($col = null){
 	if( !is_null($col) ){
@@ -146,7 +146,3 @@ add_action( 'loop_start',
 	}
 );
 add_filter( 'wp_title', 'md_page_title', 10, 2 );
-/*add_action('wp_headers','reset_cache_func',10,1);
-function reset_cache_func($url){
-	echo get_query_var('reset-cache');
-}*/

@@ -1,6 +1,7 @@
 <?php
 namespace crm;
 /**
+ * @todo : to be remove
  * Handle logic for fetching properties
  * */
 class AccountEntity{

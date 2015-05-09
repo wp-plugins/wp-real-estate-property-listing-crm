@@ -99,6 +99,7 @@
 							loader_html.hide();
 						}
 						else {
+							//alert(paged);
 							paged = paged + 1;
 							var $moreBlocks = $( data );
 							var $data 		= $moreBlocks.filter(".property-item");

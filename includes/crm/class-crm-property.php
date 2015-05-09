@@ -55,8 +55,7 @@ class CRM_Property{
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$photos = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
-			$gemtkCRM 	= \Clients\Masterdigm_CRM::instance()->connect();
-			$photos 	= $gemtkCRM->getPhotosByPropertyId($property_id);
+			$photos 	= $this->crm->get_photos_by_propertyId($property_id);
 			\DB_Store::get_instance()->put($cache_keyword, $photos);
 		}
 		return $photos;
@@ -237,6 +236,7 @@ class CRM_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
+		//var_dump($search_criteria_data);
 		$search_md5 	  = md5(json_encode($search_criteria_data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . $search_md5;
@@ -269,7 +269,7 @@ class CRM_Property{
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
-			$properties = $this->crm->get_properties($search_data);
+			$properties = $this->crm->get_properties($search_criteria_data);
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;
@@ -311,9 +311,14 @@ class CRM_Property{
 	 * */
 	public function get_featured($user_id = null, $array_location_id = array()){
 
+		if( is_null($user_id) ){
+			$user_id = \CRM_Account::get_instance()->get_account_data('userid');
+			$user = \CRM_Account::get_instance()->get_account_details();
+		}
+
 		$property_keyword 	= \Property_Cache::get_instance()->getCacheFeaturedKeyword();
 		$cache_keyword 		= $property_keyword->id;
-
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
@@ -345,5 +350,70 @@ class CRM_Property{
 			}
 		}
 		return $get_properties;
+	}
+
+	/**
+	 * single or property details
+	 * */
+	public function get_property($id, $broker_id = null){
+
+		if( is_null($broker_id) ){
+			$broker_id = \CRM_Account::get_instance()->get_broker_id();
+		}
+
+		$photos 		= array();
+		$propertyEntity = array();
+
+		$data = (object)array(
+			'id'			=>	0,
+			'brokerid'		=>	0,
+			'photos'		=>	array(),
+			'properties'	=>	array(),
+			'agent'			=>	array(),
+			'source'		=>	'crm'
+		);
+
+		$result 				= false;
+		$single_cache_keyword 	= \Property_Cache::get_instance()->getCacheSinglePropertyKeyword();
+		$cache_keyword 	  		= $single_cache_keyword->id . $id;
+		//\DB_Store::get_instance()->del($cache_keyword);
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$data = \DB_Store::get_instance()->get($cache_keyword);
+			return $data;
+		}else{
+			$property = $this->crm->get_property( $id, $broker_id );
+
+			if( isset($property) && is_array($property) && $property['result'] == 'fail' ){
+				$result = false;
+			}elseif( isset($property) && ($property->result == 'success' || $property->count > 0) ){
+				$result = true;
+			}
+
+			if( $result ){
+				$propertyEntity = new \crm\Property_Entity;
+				$propertyEntity->bind( $property->property );
+
+				$agentEntity = array();
+				if( $property->agent_details ){
+					$agentEntity 	= \crm\Agent_Entity::get_instance()->bind( $property->agent_details );
+				}
+
+				$photos = $property->photos;
+
+				$data = (object)array(
+					'id'			=>	$id,
+					'brokerid'		=>	$broker_id,
+					'photos'		=>	$photos,
+					'properties'	=>	$propertyEntity,
+					'agent'			=>	$agentEntity,
+					'source'		=>	'crm'
+				);
+
+				\DB_Store::get_instance()->put($cache_keyword,$data);
+				return $data;
+			}else{
+				return false;
+			}
+		}
 	}
 }

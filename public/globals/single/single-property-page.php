@@ -117,7 +117,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					if( has_filter('template_map_'.get_single_property_source()) ){
 						apply_filters('template_map_'.get_single_property_source(), $atts);
 					}else{
-						require GLOBAL_TEMPLATE . 'single/partials/map/map.php';
+						display_map_single($atts);
 					}
 				?>
 				<?php do_action( 'after_map_load' ); ?>
@@ -129,7 +129,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					if( has_filter('template_walkscore_'.get_single_property_source()) ){
 						apply_filters('template_walkscore_'.get_single_property_source(), $atts);
 					}else{
-						require GLOBAL_TEMPLATE . 'single/partials/walkscore/walkscore.php';
+						display_walkscore_single($atts);
 					}
 				?>
 			</div>
@@ -140,7 +140,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					if( has_filter('template_photos_'.get_single_property_source()) ){
 						apply_filters('template_photos_'.get_single_property_source(), $atts);
 					}else{
-						require GLOBAL_TEMPLATE . 'single/partials/photos/photos.php';
+						display_photos_single($atts);
 					}
 				?>
 			</div>

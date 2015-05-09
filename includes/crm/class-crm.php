@@ -1,5 +1,6 @@
 <?php
 /**
+ * @remove this
  * masterdigm crm api
  * use to connect and use CRM API methods
  * @see /includes/api/masterdigm/crm/class-crm-client.php
@@ -53,6 +54,7 @@ class CRM implements iMasterdigm_API{
 	 * @return	array object
 	 * */
 	public function get_property($property_id, $broker_id = null){
+		return $this->get_client()->getPropertyById($property_id, $broker_id);
 	}
 
 	/**

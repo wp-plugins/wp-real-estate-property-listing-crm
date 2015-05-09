@@ -57,7 +57,7 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 			), $atts, 'crm_get_locations' );
 
 			$data['city_id'] = $search_by_cityid;
-			$locations = \crm\Properties::get_instance()->getCommunitiesByCityId($data);
+			$locations = \CRM_Locations::get_instance()->get_communities_by_cityId($data);
 
 			if( $locations && isset($locations->result) == 'success' ){
 				foreach($locations->communities as $key => $val){
@@ -109,7 +109,7 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 
 		public function get_location(){
 			$json = array();
-			$location = \crm\AccountEntity::get_instance()->getCountryCoverageLookup();
+			$location = \CRM_Account::get_instance()->get_coverage_lookup();
 
 			if( isset($location->result) && $location->result == 'success' ){
 				//create a json

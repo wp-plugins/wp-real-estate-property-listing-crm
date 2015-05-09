@@ -28,6 +28,25 @@
 	 * for any particular page. Though other scripts in WordPress core, other plugins, and other themes may
 	 * be doing this, we should try to minimize doing that in our own work.
 	 */
+
+	function get_geo_code(address){
+		var searchAddress = address;
+		var geocoder = new google.maps.Geocoder();
+
+		geocoder.geocode(
+			{address: searchAddress},
+			function(result,status) {
+				if (status == google.maps.GeocoderStatus.OK ){
+					var lat = result[0].geometry.location.lat();
+					var lng = result[0].geometry.location.lng();
+
+					jQuery('#lat_front').val(lat);
+					jQuery('#lon_front').val(lng);
+				}
+			}
+		);
+	}
+
 	/**
 	module for search property change max and min price, depends on transaction
 	**/
@@ -92,6 +111,8 @@
 
 	}();
 
+
+
 	/**
 	 * Get the lat and long of the location before submitting
 	 * */
@@ -100,23 +121,19 @@
 		var getGeoCode = function(address, form){
 			var searchAddress = address;
 			var geocoder = new google.maps.Geocoder();
-			//console.log(searchAddress);
+
 			geocoder.geocode(
 				{address: searchAddress},
 				function(result,status) {
-					//console.log(result);
+
 					if (status == google.maps.GeocoderStatus.OK ){
 						var lat = result[0].geometry.location.lat();
 						var lng = result[0].geometry.location.lng();
 
 						jQuery('#lat_front').val(lat);
 						jQuery('#lon_front').val(lng);
-
-						form[0].submit(); //submit the form here
-					}else{
-						alert( " Location not found or not within our service coverage ");
-						return false;
 					}
+					form[0].submit(); //submit the form here
 				}
 			);
 		}
@@ -135,10 +152,6 @@
 						}else if( btn.val() == 'For Rent' ){
 							jQuery('#transaction').val('For Rent');
 						}
-					}
-
-					if( address != '' ){
-						getGeoCode(address, jQuery(this));
 					}
 					//codeAddress(address);
 					return true;
@@ -200,15 +213,20 @@
 						}
 					);
 					jQuery('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
+							var address = datum.value;
 							var location_id = map[datum.value].id;
 							var location_type = map[datum.value].type;
-
+							console.log(address);
 							if( location_type == 'community' ){
 								jQuery('#communityid').val(location_id);
 							} else if( location_type == 'city' ){
 								jQuery('#cityid').val(location_id);
 							} else if( location_type == 'county' ){
 								jQuery('#countyid').val(location_id);
+							}
+
+							if( address != '' ){
+								get_geo_code(address);
 							}
 							return false;
 					});
