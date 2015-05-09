@@ -33,8 +33,13 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		public function __construct(){
 			add_action('admin_footer', array($this, 'md_get_shortcodes'));
 			add_action('wp_ajax_list_property_view', array($this,'list_property_view') );
--			add_action('wp_ajax_nopriv_list_property_view',array($this,'list_property_view') );
-			add_shortcode('crm_list_properties',array($this,'init_shortcode'));
+			add_action('wp_ajax_nopriv_list_property_view',array($this,'list_property_view') );
+			$shortcode_tag = $this->get_shortcode_tag();
+			add_shortcode($shortcode_tag,array($this,'init_shortcode'));
+		}
+
+		public function get_shortcode_tag(){
+			return 'crm_list_properties';
 		}
 
 		public function init_shortcode($atts){
@@ -168,7 +173,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 			$search_data['orderby'] 		= $orderby;
 			$search_data['order_direction'] = $order_direction;
 
-			$properties = \crm\Properties::get_instance()->get_properties($search_data);
+			$properties = \CRM_Property::get_instance()->get_properties($search_data);
 
 			\MD\Property::get_instance()->set_properties($properties,'crm');
 
@@ -209,7 +214,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		}
 
 		private function get_fields_status(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			if( isset($fields->fields->status) ){
 				return $fields->fields->status;
 			}
@@ -217,7 +222,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		}
 
 		private function get_fields_type(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			if( isset($fields->fields->types) ){
 				return $fields->fields->types;
 			}
@@ -234,7 +239,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 
 		public function get_location(){
 			$json = array();
-			$location = \crm\AccountEntity::get_instance()->getCountryCoverageLookup();
+			$location = \CRM_Account::get_instance()->get_country_coverage_lookup();
 
 			if( isset($location->result) && $location->result == 'success' ){
 				//create a json

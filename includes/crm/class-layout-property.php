@@ -80,7 +80,7 @@ class Layout_Property{
 			$search_data['orderby'] 		= '';
 			$search_data['order_direction']	= '';
 
-			$properties = \crm\Properties::get_instance()->get_properties($search_data);
+			$properties = \CRM_Property::get_instance()->get_properties($search_data);
 
 			$total_properties = $properties->total;
 			if( $total_properties >= 10 ){
@@ -88,7 +88,7 @@ class Layout_Property{
 				$search_data['limit'] = $total_properties;
 			}
 
-			$next_prev = \crm\Properties::get_instance()->get_properties($search_data);
+			$next_prev = \CRM_Property::get_instance()->get_properties($search_data);
 
 			if( isset($next_prev->data) ){
 				foreach($next_prev->data as $key => $val){
@@ -169,7 +169,7 @@ class Layout_Property{
 	}
 
 	public function saved_properties($data_properties){
-		$properties =  \crm\Properties::get_instance()->get_property($data_properties['id'],'');
+		$properties =  \CRM_Property::get_instance()->get_property($data_properties['id'],'');
 		return $properties;
 	}
 

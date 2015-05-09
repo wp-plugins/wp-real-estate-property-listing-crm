@@ -40,7 +40,7 @@ if ( !class_exists( 'md_sc_search_form' ) )
 		}
 
 		private function _get_account_fields(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			return $fields;
 		}
 
@@ -90,7 +90,7 @@ if ( !class_exists( 'md_sc_search_form' ) )
 				$fields_type = $fields->fields->types;
 			}
 
-			$currency = \crm\AccountEntity::get_instance()->get_account_data('currency');
+			$currency = \CRM_Account::get_instance()->get_account_data('currency');
 			$array_search_criteria = array();
 
 			$location = '';
