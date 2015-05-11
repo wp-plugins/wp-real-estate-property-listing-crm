@@ -75,6 +75,13 @@ class CRM_Property{
 			$communityid = sanitize_text_field($_REQUEST['communityid']);
 		}
 
+		$subdivisionid = '';
+		if( sanitize_text_field(isset($search_data['subdivisionid'])) ){
+			$subdivisionid = sanitize_text_field($search_data['subdivisionid']);
+		}elseif( sanitize_text_field(isset($_REQUEST['communityid'])) ){
+			$subdivisionid = sanitize_text_field($_REQUEST['subdivisionid']);
+		}
+
 		$countryid = '';
 		if( sanitize_text_field(isset($search_data['countryid'])) ){
 			$countryid = sanitize_text_field($search_data['countryid']);
@@ -215,6 +222,7 @@ class CRM_Property{
 		}
 
 		$search_criteria_data = array(
+			'subdivisionid'		=> $subdivisionid,
 			'communityid'		=> $communityid,
 			'countryid'			=> $countryid,
 			'countyid'			=> $countyid,
