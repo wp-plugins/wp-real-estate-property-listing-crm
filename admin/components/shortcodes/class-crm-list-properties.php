@@ -60,6 +60,10 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 			if( isset($atts['communityid']) ){
 				$search_by_communityid = $atts['communityid'];
 			}
+			$search_by_subdivisionid = '';
+			if( isset($atts['subdivisionid']) ){
+				$search_by_subdivisionid = $atts['subdivisionid'];
+			}
 			$search_by_countryid = '';
 			if( isset($atts['countryid']) ){
 				$search_by_countryid = $atts['countryid'];
@@ -135,6 +139,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 
 			$atts = shortcode_atts(	array(
 				'template' 			=> $att_template,
+				'subdivisionid'		=> $search_by_subdivisionid,
 				'communityid'		=> $search_by_communityid,
 				'countryid'			=> $search_by_countryid,
 				'countyid'			=> $search_by_countyid,
@@ -156,6 +161,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 				'template'			=> $template
 			), $atts, 'crm_list_property' );
 
+			$search_data['subdivisionid']	= $atts['subdivisionid'];
 			$search_data['communityid']		= $atts['communityid'];
 			$search_data['countryid']		= $atts['countryid'];
 			$search_data['countyid']		= $atts['countyid'];

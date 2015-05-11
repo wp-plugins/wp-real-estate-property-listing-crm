@@ -75,6 +75,13 @@ class CRM_Property{
 			$communityid = sanitize_text_field($_REQUEST['communityid']);
 		}
 
+		$subdivisionid = '';
+		if( sanitize_text_field(isset($search_data['subdivisionid'])) ){
+			$subdivisionid = sanitize_text_field($search_data['subdivisionid']);
+		}elseif( sanitize_text_field(isset($_REQUEST['communityid'])) ){
+			$subdivisionid = sanitize_text_field($_REQUEST['subdivisionid']);
+		}
+
 		$countryid = '';
 		if( sanitize_text_field(isset($search_data['countryid'])) ){
 			$countryid = sanitize_text_field($search_data['countryid']);
@@ -215,6 +222,7 @@ class CRM_Property{
 		}
 
 		$search_criteria_data = array(
+			'subdivisionid'		=> $subdivisionid,
 			'communityid'		=> $communityid,
 			'countryid'			=> $countryid,
 			'countyid'			=> $countyid,
@@ -236,7 +244,7 @@ class CRM_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-		//var_dump($search_criteria_data);
+		var_dump($search_criteria_data);
 		$search_md5 	  = md5(json_encode($search_criteria_data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . $search_md5;
@@ -265,7 +273,7 @@ class CRM_Property{
 			'search_keyword'	=>	array(),
 			'source'			=>	'crm'
 		);
-		//\DB_Store::get_instance()->del($cache_keyword);
+		\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
