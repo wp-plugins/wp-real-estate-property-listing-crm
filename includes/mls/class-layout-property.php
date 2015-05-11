@@ -7,6 +7,7 @@ class Layout_Property{
 	protected static $instance = null;
 
 	public function __construct(){
+
 		add_action('hook_favorites_property_mls',array($this,'saved_properties'),10,1);
 	}
 
@@ -40,4 +41,6 @@ class Layout_Property{
 		$properties = \mls\Properties::get_instance()->get_property_by_id($data_properties['id']);
 		return $properties;
 	}
+
+
 }

@@ -107,7 +107,7 @@ function single_property_breadcrumb_trail($trail, $args){
 	$source 		= get_single_property_source();
 	$display 		= false;
 
-	if( $wp_query->post->post_name == 'property' && $source == DEFAULT_FEED ){
+	if( $wp_query->post->post_name == 'property' ){
 		$display = true;
 	}elseif(
 		$wp_query->post->post_name == 'country' ||
@@ -191,12 +191,16 @@ function meta_tag_og() {
 	if( is_page('property') ){
 		$property = get_single_property_data();
 		if($property){
+			$photo = '';
+
 			$current_site = get_option( 'blogname' );
 			$current_site_desc = get_option( 'blogdescription' );
 			$photo = get_single_property_photos();
 
 			if( get_single_property_source() == 'crm' ){
-				$photo = $property->getPhotoUrl($photo)[0];
+				if( isset($property->getPhotoUrl($photo)[0]) ){
+					$photo = $property->getPhotoUrl($photo)[0];
+				}
 			}elseif(get_single_property_source() == 'mls' ){
 				$photo = $property->PrimaryPhotoUrl;
 			}

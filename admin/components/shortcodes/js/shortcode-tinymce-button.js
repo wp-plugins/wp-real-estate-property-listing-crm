@@ -3,22 +3,23 @@
           init : function(editor, url) {
 					var list_menu = [
 						{
-							text:'CRM Property',
+							text:'CRM',
 							menu:[
 								crm_list_properties(editor),
 								crm_featured_properties(editor),
 								crm_single_property(editor),
+								crm_get_locations(editor),
 							]
 						},
 						{
-							text:'MLS Property',
+							text:'MLS',
 							menu:[
 								mls_list_properties(editor),
 								mls_single_property(editor),
 							]
 						},
 						{
-							text:'Masterdigm Property Utility',
+							text:'Utility',
 							menu:[
 								md_list_properties_by(editor),
 								md_search_form(editor),

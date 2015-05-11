@@ -57,6 +57,7 @@ class MD_Single_Property_Breadcrumb {
 	}
 
 	public function createPageForBreadcrumbTrail($property_data, $show_location = null){
+		// @TODO : convert to hook
 		if( isset($property_data['source'] ) ){
 			switch($property_data['source']){
 				case 'crm':

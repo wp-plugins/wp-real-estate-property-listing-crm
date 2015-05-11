@@ -8,6 +8,8 @@ if( has_crm_key() == 1){
 	//crm
 	require_once plugin_dir_path( __FILE__ ) . '/class-crm-list-properties.php';
 	add_action( 'plugins_loaded', array( 'md_sc_crm_list_properties', 'get_instance' ) );
+	require_once plugin_dir_path( __FILE__ ) . '/class-crm-get-locations.php';
+	add_action( 'plugins_loaded', array( 'md_sc_crm_get_locations', 'get_instance' ) );
 	require_once plugin_dir_path( __FILE__ ) . '/class-crm-featured-properties.php';
 	add_action( 'plugins_loaded', array( 'md_sc_crm_featured_properties', 'get_instance' ) );
 	require_once plugin_dir_path( __FILE__ ) . '/class-crm-list-property-by.php';
