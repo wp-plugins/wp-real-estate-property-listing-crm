@@ -32,6 +32,7 @@ function get_single_property_data(){
 }
 function get_single_property_photos(){
 	$property = get_single_data();
+
 	if( $property && isset($property['photos']) ){
 		return $property['photos'];
 	}
@@ -190,12 +191,13 @@ function meta_tag_og() {
 	if( is_page('property') ){
 		$property = get_single_property_data();
 		if($property){
+			$photo = '';
+
 			$current_site = get_option( 'blogname' );
 			$current_site_desc = get_option( 'blogdescription' );
 			$photo = get_single_property_photos();
 
 			if( get_single_property_source() == 'crm' ){
-				$photo = '';
 				if( isset($property->getPhotoUrl($photo)[0]) ){
 					$photo = $property->getPhotoUrl($photo)[0];
 				}

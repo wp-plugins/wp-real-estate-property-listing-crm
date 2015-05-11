@@ -148,7 +148,6 @@ class MD_Single_Property {
 		if( isset($property_id) && isset($broker_id) ){
 			// check the crm first
 			$crm = \CRM_Property::get_instance()->get_property($property_id, $broker_id );
-
 			if( $crm ){
 				$data['property'] 	= $crm->properties;
 				$data['photos'] 	= $crm->photos;
