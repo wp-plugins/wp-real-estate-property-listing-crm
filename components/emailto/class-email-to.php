@@ -117,7 +117,7 @@ class Email_To{
 			$array_data['lead_source'] 	= $source;
 			$array_data['email1'] 		= $friendsemail;
 			$array_data['note'] 		= $source.' '.$message;
-			\crm\Properties::get_instance()->push_crm_data($array_data);
+			\CRM_Account::get_instance()->push_crm_data($array_data);
 
 			// send email here
 			$msg = "<p class='text-success'>Successfully Send Email to Friend. Thank You.</p>";

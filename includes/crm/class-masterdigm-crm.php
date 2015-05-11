@@ -1,7 +1,8 @@
 <?php
-/*
+/*@remove
  * Wrapper for the Masterdigm API - CRM
- *
+ * @note: will be depreciated
+ * @see /includes/crm/class-masterdigm-api-crm.php
  * */
 namespace Clients;
 
@@ -51,7 +52,7 @@ class Masterdigm_CRM{
 	 * @param string $token
 	 * @param string $endpoint
 	 */
-	public function setCredentials( $key , $token , $endpoint , $version = 'v2')
+	public function setCredentials( $key , $token , $endpoint = MD_API_ENDPOINT , $version = MD_API_VERSION)
 	{
 		$this->key 		= $key;
 		$this->token 	= $token;
