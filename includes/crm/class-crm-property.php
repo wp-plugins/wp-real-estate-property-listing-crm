@@ -78,7 +78,7 @@ class CRM_Property{
 		$subdivisionid = '';
 		if( sanitize_text_field(isset($search_data['subdivisionid'])) ){
 			$subdivisionid = sanitize_text_field($search_data['subdivisionid']);
-		}elseif( sanitize_text_field(isset($_REQUEST['communityid'])) ){
+		}elseif( sanitize_text_field(isset($_REQUEST['subdivisionid'])) ){
 			$subdivisionid = sanitize_text_field($_REQUEST['subdivisionid']);
 		}
 
