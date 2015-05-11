@@ -154,6 +154,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
+= 2.8.5 =
+* update plugin image share pinterest
+
 = 2.8.4 =
 * update plugin image meta open graph
 
