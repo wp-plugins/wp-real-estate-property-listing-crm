@@ -72,11 +72,14 @@
 				  }
 				});
 				var _ajax_container_result = jQuery(_ajax_result_selector);
+
 				// Post data to ajax.php
 				//var $container = _ajax_container_result;
 				var $container = $('.' + MDAjax.masonry_container);
+
 				// initialize
 				if( MDAjax.masonry == 1 ){
+					//var masonry = $container.data('masonry');
 					//console.log(_ajax_container_result);
 					//var $containerElems = $container.hide();
 					//_ajax_container_result.imagesLoaded().progress(function(){
@@ -96,12 +99,19 @@
 							loader_html.hide();
 						}
 						else {
+							//alert(paged);
 							paged = paged + 1;
 							var $moreBlocks = $( data );
 							var $data 		= $moreBlocks.filter(".property-item");
 							if( MDAjax.masonry == 1 ){
-								_ajax_container_result.append($data).imagesLoaded(function(){
+								/*_ajax_container_result.append($data).imagesLoaded(function(){
 									$container.masonry('appended',$data,true);
+								});*/
+								$data.hide();
+								$container.append( $data );
+								$data.imagesLoaded(function(){
+									$data.show();
+									$container.masonry( 'appended', $data );
 								});
 							}else{
 								_ajax_container_result.append($moreBlocks);

@@ -117,7 +117,7 @@ class Shortcode_Tinymce{
         ?>
 			<script type="text/javascript">
 				var menu_button_label 	= '<?php echo $this->get_parent_menu_label(); ?>';
-				var has_mls_key 		= '<?php echo has_mls_key() ? 1:0;?>';
+				var has_mls_key 		= '<?php echo has_crm_key() ? 1:0;?>';
 				var has_crm_key 		= '<?php echo has_crm_key() ? 1:0;?>';
 			</script>
         <?php

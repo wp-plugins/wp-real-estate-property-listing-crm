@@ -8,8 +8,7 @@ Template Name: List - Box Style
 	if( !is_front_page() && $show_sort ){
 		\Action_Buttons::display_sort_button(array('class'=>'list-default'));
 	}
-?>
-<?php
+
 	$single_property = false;
 	$single_property_id = 0;
 	if( get_single_property_data() ){
@@ -36,7 +35,7 @@ Template Name: List - Box Style
 						</h3>
 						<div class="property-amenities">
 							<?php if(!has_filter('list_display_area')){ ?>
-								<span><strong><?php echo md_property_area();?>&nbsp;</strong><?php echo md_property_area_unit();?></span>
+								<span><strong><?php echo md_property_area();?>&nbsp;</strong><?php do_action( 'list_before_area' ); ?><?php echo md_property_area_unit();?></span>
 							<?php } ?>
 							<?php if(!has_filter('list_display_bed')){ ?>
 								<span><strong><?php echo md_property_beds();?>&nbsp;</strong><?php echo _label('beds');?></span>

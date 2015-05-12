@@ -99,7 +99,10 @@ if ( !class_exists( 'md_sc_single_properties' ) )
 					$data['related']['total'] = count($data['related']);
 					$template 		= CRM_DEFAULT_SINGLE;
 					$template_path 	= CRM_VIEW;
-					$photo 			= $data['property']->getPhotoUrl($data['photos'])[0];
+					$photo = '';
+					if( isset($data['property']->getPhotoUrl($data['photos'])[0]) ){
+						$photo 			= $data['property']->getPhotoUrl($data['photos'])[0];
+					}
 				}elseif( $data['source'] == 'mls' ){
 					$template 		= MLS_DEFAULT_SINGLE;
 					$template_path 	= MLS_VIEW;

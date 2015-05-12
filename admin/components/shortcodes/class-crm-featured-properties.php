@@ -61,8 +61,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 				),
 				$atts, 'crm_featured_properties'
 			);
-
-			$properties = \crm\Properties::get_instance()->getFeaturedProperties();
+			$properties = \CRM_Property::get_instance()->get_featured();
 
 			\MD\Property::get_instance()->set_properties($properties,'crm');
 
@@ -115,7 +114,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 							text: 'Featured Properties',
 							onclick: function() {
 								editor.windowManager.open( {
-									title: 'Display CRM properties by search criteria',
+									title: 'Display Featured CRM properties',
 									width:980,
 									height:350,
 									body: [
