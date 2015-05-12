@@ -69,10 +69,10 @@ class Signup_Form{
 
 	public function signup_action_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
-
-		$source = get_bloginfo('url').', '. get_bloginfo('name') . ', Register Form';
-		$msg 	= '';
-		$status = false;
+		$user_id 	= false;
+		$source 	= get_bloginfo('url').', '. get_bloginfo('name') . ', Register Form';
+		$msg 		= '';
+		$status 	= false;
 		$propertyid = 0;
 
 		$firstname 		= sanitize_text_field(isset($_POST['firstname'])) ? sanitize_text_field($_POST['firstname']):'';
@@ -112,6 +112,9 @@ class Signup_Form{
 					// create user
 					$password 	= wp_generate_password(12, false);
 					$user_id 	= $this->register_user($emailaddress, $password, $emailaddress, array('nickname'=>$firstname));
+					update_user_meta($user_id,'phone_num',$phone);
+					update_user_meta($user_id,'first_name',$firstname);
+					update_user_meta($user_id,'last_name',$lastname);
 					wp_new_user_notification($user_id, $password);
 					$this->user_signon($emailaddress, $password);
 				}
@@ -124,7 +127,12 @@ class Signup_Form{
 			$array_data['email1'] 		= $emailaddress;
 			$array_data['phone_home'] 	= $phone;
 			$array_data['lead_source'] 	= $source;
-			\crm\Properties::get_instance()->push_crm_data($array_data);
+
+			if( !isset($array_data['note']) ){
+				$array_data['note'] = $source;
+			}
+
+			\CRM_Account::get_instance()->push_crm_data($array_data);
 
 			if( $propertyid != 0 ){
 				$save_property = array(

@@ -49,13 +49,15 @@ class Property_Page{
 	 * @return object | resource
 	 * */
 	public function create_property_page(){
+		$current_user 	= wp_get_current_user();
+		$get_user_id 	= $current_user->ID;
 		if( !get_page_by_title('Property') ){
 			$shortcode = '[md_single_properties template="single/single-property-page.php" template_carousel="carousel/html-galleria.php" show_nearby_prop="true" nearby_prop_col="4" ]';
 			$post = array(
 			  'post_title'    => 'Property',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => 1,
+			  'post_author'   => $get_user_id,
 			  'post_type'	  => 'page',
 			);
 			wp_insert_post( $post );
@@ -66,7 +68,7 @@ class Property_Page{
 			  'post_title'    => 'State',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => 1,
+			  'post_author'   => $get_user_id,
 			  'post_type'	  => 'page',
 			);
 			wp_insert_post( $post );
@@ -77,7 +79,7 @@ class Property_Page{
 			  'post_title'    => 'County',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => 1,
+			  'post_author'   => $get_user_id,
 			  'post_type'	  => 'page',
 			);
 			wp_insert_post( $post );
@@ -88,7 +90,7 @@ class Property_Page{
 			  'post_title'    => 'City',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => 1,
+			  'post_author'   => $get_user_id,
 			  'post_type'	  => 'page',
 			);
 			wp_insert_post( $post );
@@ -99,7 +101,7 @@ class Property_Page{
 			  'post_title'    => 'community',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => 1,
+			  'post_author'   => $get_user_id,
 			  'post_type'	  => 'page',
 			);
 			wp_insert_post( $post );
@@ -110,7 +112,7 @@ class Property_Page{
 			  'post_title'    => 'Search Properties',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => 1,
+			  'post_author'   => $get_user_id,
 			  'post_type'	  => 'page',
 			);
 			wp_insert_post( $post );

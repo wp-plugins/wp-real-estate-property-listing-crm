@@ -36,6 +36,7 @@ class Next_Prev{
 	public function display(){
 		$template 		= \MD_Template::get_instance()->load_template('next_prev.php');
 		$next_prev_data = array();
+
 		if( DEFAULT_FEED == 'crm' ){
 			$next_prev_data = \crm\Layout_Property::get_instance()->next_prev();
 		}
