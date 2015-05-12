@@ -216,13 +216,15 @@
 							var address = datum.value;
 							var location_id = map[datum.value].id;
 							var location_type = map[datum.value].type;
-							console.log(address);
+							//console.log(location_type);
 							if( location_type == 'community' ){
 								jQuery('#communityid').val(location_id);
 							} else if( location_type == 'city' ){
 								jQuery('#cityid').val(location_id);
 							} else if( location_type == 'county' ){
 								jQuery('#countyid').val(location_id);
+							} else if( location_type == 'subdivision' ){
+								jQuery('#subdivisionid').val(location_id);
 							}
 
 							if( address != '' ){

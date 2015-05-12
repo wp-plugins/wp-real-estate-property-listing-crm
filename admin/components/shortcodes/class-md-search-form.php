@@ -129,6 +129,10 @@ if ( !class_exists( 'md_sc_search_form' ) )
 			if( isset($_GET['communityid']) ){
 				$communityid	= sanitize_text_field($_GET['communityid']);
 			}
+			$subdivisionid = '';
+			if( isset($_GET['subdivisionid']) ){
+				$subdivisionid	= sanitize_text_field($_GET['subdivisionid']);
+			}
 			$countyid = '';
 			if( isset($_GET['countyid']) ){
 				$countyid	= sanitize_text_field($_GET['countyid']);
