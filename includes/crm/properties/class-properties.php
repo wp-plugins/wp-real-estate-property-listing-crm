@@ -1,6 +1,7 @@
 <?php
 namespace crm;
 /**
+ * to be remove
  * Handle logic for fetching properties
  * */
 class Properties{
@@ -40,7 +41,7 @@ class Properties{
 
 	public function check_status($search_status = 0){
 		$status = array();
-		$fields = \crm\AccountEntity::get_instance()->get_fields();
+		$fields = \CRM_Account::get_instance()->get_fields();
 		if( $fields->fields->status ){
 			foreach($fields->fields->status as $key=>$val){
 				$status[$key] = $val;
@@ -339,7 +340,7 @@ class Properties{
 		$account_id = $this->get_broker_id();
 		$gemtkCRM 	= \Clients\Masterdigm_CRM::instance()->connect();
 		$gemtkCRM->setAccountId( $account_id );
-		$get_userid = \crm\AccountEntity::get_instance()->get_account_details();
+		$get_userid = \CRM_Account::get_instance()->get_account_details();
 		if( $get_userid && isset($get_userid->userid) ){
 			$userid = $get_userid->userid;
 		}
@@ -483,6 +484,7 @@ class Properties{
 			$communities	= $md->getCommunitiesByCityId($city_id);
 			\DB_Store::get_instance()->put($cache_keyword, $communities);
 		}
+
 		return	$communities;
 	}
 

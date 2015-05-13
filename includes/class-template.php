@@ -145,4 +145,16 @@ class MD_Template{
 		}
 		return $label;
 	}
+
+	public function single_map($atts){
+		require GLOBAL_TEMPLATE . 'single/partials/map/map.php';
+	}
+
+	public function single_walkscore($atts){
+		require GLOBAL_TEMPLATE . 'single/partials/walkscore/walkscore.php';
+	}
+
+	public function single_photos($atts){
+		require GLOBAL_TEMPLATE . 'single/partials/photos/photos.php';
+	}
 }
