@@ -159,7 +159,6 @@ class Create_Location_Page{
 					if( $post && $post_status == 'trash' ){
 						wp_delete_post($post->ID, true);
 					}elseif( $post_status == 'draft' || $post_status == 'publish' ){
-
 						if( $post ){
 							$post_arg = array(
 								'ID' => $post->ID,
