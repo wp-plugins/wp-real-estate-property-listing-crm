@@ -248,8 +248,8 @@ class MD_Property_Content{
 		$property_id 	= basename($parse_property[0]);
 		$data 			= array();
 		// check the crm first
-		$broker_id	= \crm\Properties::get_instance()->get_broker_id();
-		$crm		= \crm\Properties::get_instance()->get_property($property_id, $broker_id );
+		$broker_id	= \CRM_Account::get_instance()->get_broker_id();
+		$crm		= \CRM_Property::get_instance()->get_property($property_id, $broker_id );
 		if( $crm ){
 			$data = array_merge( (array)$crm, array( 'source' => 'crm' ) );
 			$properties = $data['properties'];

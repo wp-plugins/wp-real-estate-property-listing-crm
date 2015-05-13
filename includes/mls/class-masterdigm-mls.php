@@ -1,5 +1,5 @@
 <?php
-/*
+/* to be remove
  * Wrapper for the Masterdigm API - MLS
  *
  * */
@@ -19,8 +19,8 @@ class Masterdigm_MLS{
 	public function __construct( )
 	{
 		/** default credentials ******/
-		$this->mls_key 		= MLS_API_KEY;
-		$this->mls_token 	= MLS_API_TOKEN;
+		$this->mls_key 		= MD_API_KEY;
+		$this->mls_token 	= MD_API_TOKEN;
 		$this->mls_endpoint = MLS_API_ENDPOINT;
 		$this->mls_version  = MLS_API_VERSION;
 	}
