@@ -190,7 +190,7 @@ class CRM_Property{
 		if(sanitize_text_field(isset($search_data['transaction']))){
 			$transaction = sanitize_text_field($search_data['transaction']);
 		}elseif(sanitize_text_field(isset($_REQUEST['transaction']))){
-			$transaction = sanitize_text_field($_REQUEST['transaction']);
+			$transaction = sanitize_text_field(urldecode($_REQUEST['transaction']));
 		}
 
 		$orderby = '';

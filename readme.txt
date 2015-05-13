@@ -154,6 +154,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
+= 3.0.7 =
+* fix bug in search transaction
+
 = 3.0.6 =
 * fix bug in search form, location id's
 

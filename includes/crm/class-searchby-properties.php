@@ -252,7 +252,7 @@ class MD_Searchby_Property {
 		$search_data['location'] 		= isset($_REQUEST['location']) ? sanitize_text_field($_REQUEST['location']):'';;
 		$search_data['bathrooms'] 		= isset($_REQUEST['bathrooms']) ? sanitize_text_field($_REQUEST['bathrooms']):'';
 		$search_data['bedrooms'] 		= isset($_REQUEST['bedrooms']) ? sanitize_text_field($_REQUEST['bedrooms']):'';
-		$search_data['transaction'] 	= isset($_REQUEST['transaction']) ? sanitize_text_field($_REQUEST['transaction']):'';
+		$search_data['transaction'] 	= isset($_REQUEST['transaction']) ? sanitize_text_field(urldecode($_REQUEST['transaction'])):'';
 		$search_data['communityid'] 	= isset($_REQUEST['communityid']) ? sanitize_text_field($_REQUEST['communityid']):'';
 		$search_data['property_type'] 	= isset($_REQUEST['property_type']) ? sanitize_text_field($_REQUEST['property_type']):'';
 		$search_data['property_status'] = isset($_REQUEST['property_status']) ? sanitize_text_field($_REQUEST['property_status']):'';
