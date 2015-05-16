@@ -142,6 +142,26 @@ if ( !class_exists( 'md_sc_search_form' ) )
 				$lon = sanitize_text_field($_GET['lon']);
 			}
 
+			$button_for_sale = 'For Sale';
+			if( has_filter('search_form_button_for_sale') ){
+				$button_for_sale = apply_filters('search_form_button_for_sale', $button_for_sale);
+			}
+
+			$button_for_rent = 'For Rent';
+			if( has_filter('search_form_button_for_rent') ){
+				$button_for_rent = apply_filters('search_form_button_for_rent', $button_for_rent);
+			}
+
+			$show_button_for_sale = true;
+			if( has_filter('show_button_for_sale') ){
+				$show_button_for_sale = apply_filters('show_button_for_sale', $show_button_for_sale);
+			}
+
+			$show_button_for_rent = true;
+			if( has_filter('show_button_for_rent') ){
+				$show_button_for_rent = apply_filters('show_button_for_rent', $show_button_for_rent);
+			}
+
 			ob_start();
 			require $template;
 			$output = ob_get_clean();

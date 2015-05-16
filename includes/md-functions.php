@@ -107,6 +107,8 @@ function validateDate($date){
 }
 function md_page_title($title, $id = null){
 	global $wp_query, $get_single_property_source;
+	$label = 'Homes for Sale And Rent in ';
+	$label = apply_filters('home_for_sale_rent_hook', $label);
 	if(
 		!is_admin()
 	){
@@ -148,7 +150,7 @@ function md_page_title($title, $id = null){
 			}
 
 			if( isset($location) && trim($location) != '' ){
-				$title	= 'Homes for Sale And Rent in '.$location;
+				$title	= $label . $location;
 			}
 		}
 	}

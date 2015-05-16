@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.1.7
+Stable tag: 3.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,11 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.2.8 =
+* fix featured properties shortcode, choose how many items to display
+* added hooks on the "Homes for sale and rent in .. " title
+* added hooks on the search form, buttons label and show or not
 
 = 3.1.7 =
 * update the breadcrumb to use MLS or both CRM and MLS api

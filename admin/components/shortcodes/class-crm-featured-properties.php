@@ -36,7 +36,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'List');
+			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'Featured');
 		}
 
 		public function init_shortcode($atts){
@@ -70,6 +70,8 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 				if( $properties ){
 					$items = $properties->total;
 				}
+			}else{
+				$items = $atts['items'];
 			}
 
 			if( trim($atts['template']) != '' ){
