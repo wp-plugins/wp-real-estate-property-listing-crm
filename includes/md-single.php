@@ -87,6 +87,7 @@ function crm_masterdigm_breadcrumb(){
 		$trail 	= array();
 		$args 	= array();
 		$trail 	= single_property_breadcrumb_trail($trail, $args);
+
 		if( count($trail) > 0 ){
 			echo '<ol class="breadcrumb">';
 				foreach($trail as $key => $val){
@@ -107,7 +108,7 @@ function single_property_breadcrumb_trail($trail, $args){
 	$source 		= get_single_property_source();
 	$display 		= false;
 
-	if( $wp_query->post->post_name == 'property' && $source == DEFAULT_FEED ){
+	if( $wp_query->post->post_name == 'property' ){
 		$display = true;
 	}elseif(
 		$wp_query->post->post_name == 'country' ||
@@ -122,28 +123,12 @@ function single_property_breadcrumb_trail($trail, $args){
 	}
 
 	if( $display &&  ($property && isset($property['source'])) ){
-		switch($property['source']){
-			case 'crm':
-				$show_location = array(
-					'country'	=>	false,
-					'state'		=>	true,
-					'county'	=>	true,
-					'city'		=>	true,
-					'community'	=>	true,
-					'zip'		=>	false,
-				);
-			break;
-			case 'mls':
-				$show_location = array(
-					'country'	=>	false,
-					'state'		=>	true,
-					'county'	=>	true,
-					'city'		=>	true,
-					'community'	=>	true,
-					'zip'		=>	false,
-				);
-			break;
+
+		$show_location = array();
+		if( isset($property['source']) ){
+			$show_location = apply_filters('breadcrumb_show_locations_' . $property['source'], $show_location);
 		}
+
 		$args['show_location'] 	= $show_location;
 		$bread_crumb = \MD_Single_Property_Breadcrumb::get_instance()->masterdigm_breadcrumb_trail($property, $args);
 
@@ -191,12 +176,16 @@ function meta_tag_og() {
 	if( is_page('property') ){
 		$property = get_single_property_data();
 		if($property){
+			$photo = '';
+
 			$current_site = get_option( 'blogname' );
 			$current_site_desc = get_option( 'blogdescription' );
 			$photo = get_single_property_photos();
 
 			if( get_single_property_source() == 'crm' ){
-				$photo = $property->getPhotoUrl($photo)[0];
+				if( isset($property->getPhotoUrl($photo)[0]) ){
+					$photo = $property->getPhotoUrl($photo)[0];
+				}
 			}elseif(get_single_property_source() == 'mls' ){
 				$photo = $property->PrimaryPhotoUrl;
 			}

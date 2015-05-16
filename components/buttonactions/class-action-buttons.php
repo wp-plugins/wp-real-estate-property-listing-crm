@@ -311,6 +311,18 @@ class Action_Buttons {
 			$address = '';
 		}
 
+		$photo = '';
+		$photo = get_single_property_photos();
+		$property = get_single_property_data();
+		if( get_single_property_source() == 'crm' ){
+			if( isset($property->getPhotoUrl($photo)[0]) ){
+				$photo = $property->getPhotoUrl($photo)[0];
+			}
+		}elseif(get_single_property_source() == 'mls' ){
+			$photo = $property->PrimaryPhotoUrl;
+		}
+		$media = $photo;
+
 		if( $show == 1 ){
 			require 'view/share-button.php';
 		}

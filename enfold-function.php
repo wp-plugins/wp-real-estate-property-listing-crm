@@ -3,11 +3,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 $theme = wp_get_theme();
-if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' ){
+if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' && \Masterdigm_API::get_instance()->has_crm_api_key() ){
 	//add_action('do_not_show_this_breadcrumb','__return_true');
 	add_action('parse_query', 'parse_query_callback');
 	function parse_query_callback(){
-		return get_single_data();
+		if( function_exists('get_single_data') ){
+			return get_single_data();
+		}
+		return false;
 	}
 	add_filter('avia_breadcrumbs_trail', 'single_property_breadcrumb_trail', 10, 2);
 	add_filter('avf_title_args', 'enfold_title_property',20, 2 );
@@ -24,12 +27,16 @@ if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' ){
 			}
 		}
 
+		$label = 'Homes for Sale And Rent in ';
+		$label = apply_filters('home_for_sale_rent_hook', $label);
+
 		if( is_page() && $wp_query->post->post_name == 'search-properties' ){
+
 			if( sanitize_text_field(isset($_REQUEST['location'])) ){
 				$location = sanitize_text_field($_REQUEST['location']);
 				if( isset($location) && trim($location) != '' ){
 					$location 			= '<span style="font-style:italic">'.$location.'</span>';
-					$args['title'] 		= 'Homes for Sale And Rent in ' . $location;
+					$args['title'] 		= $label . $location;
 					$args['link'] 		= '';
 					$args['heading'] 	= 'h1';
 				}
@@ -59,8 +66,8 @@ if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' ){
 				$location = ucwords($location);
 			}
 			if( isset($location) && trim($location) != '' ){
-				$args['location']	= 'Homes for Sale And Rent in '.$location;
-				$args['title'] 		= 'Homes for Sale And Rent in <span style="font-style:italic">'.$location.'</span>';
+				$args['location']	= $label . $location;
+				$args['title'] 		= $label . ' <span style="font-style:italic">'.$location.'</span>';
 				$args['link'] 		= '';
 				$args['heading'] 	= 'h1';
 			}

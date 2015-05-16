@@ -41,10 +41,14 @@ if ( !class_exists( 'md_sc_list_properties_by' ) )
 		}
 
 		public function init_shortcode($atts){
-			//var_dump($atts);
 			global $wp_query;
 
-			$source = DEFAULT_FEED;
+			$accepted_source = array('mls','crm');
+
+			$default_source = DEFAULT_FEED;
+			$atts['source'] 			= '';
+			$atts['parent_location_id'] = 0;
+			$atts['search_by'] 			= '';
 
 			if(
 				is_page('country') ||
@@ -56,28 +60,45 @@ if ( !class_exists( 'md_sc_list_properties_by' ) )
 			){
 				$query_var   	= get_query_var('url');
 				$parse_property = explode( '-', $query_var);
-				if( is_int((int)$parse_property[0]) && (int)$parse_property[0] != 0 ){
-					$atts['source'] 			= 'crm';
-					$atts['parent_location_id'] = (int)$parse_property[0];
-					$atts['search_by'] 			= $wp_query->query_vars['pagename'];
-					$source						= $atts['source'];
+
+				//add hook
+				if( isset($parse_property[0]) && in_array($parse_property[0],$accepted_source) && count($parse_property) >= 3 ){
+					$data_url = apply_filters('md_list_property_by_' . $parse_property[0], $parse_property, $wp_query, $atts);
+				}elseif(isset($parse_property[0]) && in_array($parse_property[0],$accepted_source) && count($parse_property) == 2 ){
+					$data_url = apply_filters('md_list_property_by_' . $parse_property[0], $parse_property, $wp_query, $atts);
+					$data_url = array(
+						'source' 				=> $data_url['source'],
+						'parent_location_id' 	=> (int)$data_url['parent_location_id'],
+						'search_by' 			=> 'postal_code',
+					);
 				}else{
-					$atts['source'] = 'mls';
-					$source			= $atts['source'];
+					$data_url = array(
+						'source' => '',
+						'parent_location_id' => '',
+						'search_by' => '',
+					);
+					$atts = array(
+						'source' => '',
+						'parent_location_id' => '',
+						'search_by' => '',
+					);
 				}
+				$atts['source'] 			= $data_url['source'];
+				$atts['parent_location_id'] = (int)$data_url['parent_location_id'];
+				$atts['search_by'] 			= $data_url['search_by'];
+				$default_source				= $data_url['source'];
 			}else{
-				$location = \Breadcrumb_Url::get_instance()->getPageLocationId( get_the_ID() );
-				$atts['parent_location_id'] = $location->location_id;
-				$atts['filter_name'] = $location->filter_name;
+				$location 						= \Breadcrumb_Url::get_instance()->getPageLocationId( get_the_ID() );
+				$atts['parent_location_id'] 	= $location->location_id;
+				$atts['filter_name'] 			= $location->filter_name;
 				$atts['filter_location_search'] = $location->filter_location_search;
-				$atts['search_by'] = $location->filter_location_search;
+				$atts['search_by'] 				= $location->filter_location_search;
 			}
 
+			$atts['parse_property'] = $parse_property;
+
 			ob_start();
-			if($source == 'crm'){
-				\md_sc_crm_list_properties_by::get_instance()->init_shortcode($atts);
-			}elseif($source == 'mls'){
-			}
+			$output = apply_filters('breadcrumb_list_property_' . $atts['source'], $atts);
 			$output = ob_get_clean();
 			return $output;
 		}
