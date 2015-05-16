@@ -88,8 +88,16 @@ Template Name: Search Form Minimal - Default UI
 		<input type="hidden" name="cityid" value="<?php echo $cityid ? $cityid:'';?>" id="cityid">
 		<input type="hidden" name="countyid" value="<?php echo $countyid ? $countyid:'';?>" id="countyid">
 		<input type="hidden" name="subdivisionid" value="<?php echo $subdivisionid ? $subdivisionid:'';?>" id="subdivisionid">
-		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Sale">For Sale</button>
-		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Rent">For Rent</button>
+		<?php if( $show_button_for_sale ){ ?>
+		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Sale">
+			<?php echo $button_for_sale;?>
+		</button>
+		<?php } ?>
+		<?php if( $show_button_for_rent ){ ?>
+		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Rent">
+			<?php echo $button_for_rent;?>
+		</button>
+		<?php } ?>
 	</form>
 </div>
 <script>
