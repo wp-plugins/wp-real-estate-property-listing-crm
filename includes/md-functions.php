@@ -28,16 +28,16 @@ function get_search_form_price_range(){
 	return $arr_price_range;
 }
 function get_account_details(){
-	return \crm\AccountEntity::get_instance()->get_account_details();
+	return \CRM_Account::get_instance()->get_account_details();
 }
 function get_account_fields(){
-	return \crm\AccountEntity::get_instance()->get_fields();
+	return \CRM_Account::get_instance()->get_fields();
 }
 function get_account_currency(){
-	return \crm\AccountEntity::get_instance()->get_account_data('currency');
+	return \CRM_Account::get_instance()->get_account_data('currency');
 }
 function get_account_data($data_name){
-	return \crm\AccountEntity::get_instance()->get_account_data($data_name);
+	return \CRM_Account::get_instance()->get_account_data($data_name);
 }
 // plugin settings
 function option_plugin_settings($settings = null){
@@ -55,10 +55,10 @@ function default_search_status(){
 	return option_plugin_settings('search_criteria')['status'] ? option_plugin_settings('search_criteria')['status']:0;
 }
 function get_states_by_country(){
-	return \crm\AccountEntity::get_instance()->getStatesByCountryId();
+	return \CRM_Account::get_instance()->getStatesByCountryId();
 }
 function get_coverage_area(){
-	return \crm\AccountEntity::get_instance()->getCoverageArea();
+	return \CRM_Account::get_instance()->getCoverageArea();
 }
 function bootstrap_grid_col($col = null){
 	if( !is_null($col) ){
@@ -105,7 +105,58 @@ function validateDate($date){
     $d = DateTime::createFromFormat('Y-m-d', $date);
     return $d && $d->format('Y-m-d') == $date;
 }
-/*add_action('wp_headers','reset_cache_func',10,1);
-function reset_cache_func($url){
-	echo get_query_var('reset-cache');
-}*/
+function md_page_title($title, $id = null){
+	global $wp_query, $get_single_property_source;
+	if(
+		!is_admin()
+	){
+		if(
+			in_the_loop() &&
+			is_page('country') ||
+			is_page('county') ||
+			is_page('state') ||
+			is_page('city') ||
+			is_page('community') ||
+			is_page('zip')
+		){
+			$location 		= '';
+			$query_var   	= get_query_var('url');
+			$parse_property = explode( '-', $query_var);
+
+			if( $parse_property[0] == 'mls' ){
+				$prefix = '';
+
+				if( count($parse_property) == 2 ){
+					$prefix = 'Postal ';
+					unset($parse_property[0]);
+				}elseif( count($parse_property) >= 3 ){
+					unset($parse_property[0]);
+					unset($parse_property[1]);
+				}
+
+				foreach($parse_property as $val){
+					$location .= $val.' ';
+				}
+				$location = $prefix . ucwords($location);
+			}elseif( $parse_property[0] == 'crm' ){
+				unset($parse_property[0]);
+				unset($parse_property[1]);
+				foreach($parse_property as $val){
+					$location .= $val.' ';
+				}
+				$location = ucwords($location);
+			}
+
+			if( isset($location) && trim($location) != '' ){
+				$title	= 'Homes for Sale And Rent in '.$location;
+			}
+		}
+	}
+	return $title;
+}
+add_action( 'loop_start',
+	function(){
+		add_filter( 'the_title', 'md_page_title', 10, 2 );
+	}
+);
+add_filter( 'wp_title', 'md_page_title', 10, 2 );

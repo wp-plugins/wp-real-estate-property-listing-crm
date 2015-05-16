@@ -88,9 +88,10 @@ Template Name: Search Form - Default UI
 		<input type="hidden" name="transaction" value="" id="transaction">
 		<input type="hidden" name="lat" value="<?php echo $lat ? $lat:'';?>" id="lat_front">
 		<input type="hidden" name="lon" value="<?php echo $lon ? $lon:'';?>" id="lon_front">
-		<input type="hidden" name="communityid" value="<?php echo $communityid ? $communityid:0;?>" id="communityid">
-		<input type="hidden" name="cityid" value="<?php echo $cityid ? $cityid:0;?>" id="cityid">
-		<input type="hidden" name="countyid" value="<?php echo $countyid ? $countyid:0;?>" id="countyid">
+		<input type="hidden" name="communityid" value="<?php echo $communityid ? $communityid:'';?>" id="communityid">
+		<input type="hidden" name="cityid" value="<?php echo $cityid ? $cityid:'';?>" id="cityid">
+		<input type="hidden" name="countyid" value="<?php echo $countyid ? $countyid:'';?>" id="countyid">
+		<input type="hidden" name="subdivisionid" value="<?php echo $subdivisionid ? $subdivisionid:'';?>" id="subdivisionid">
 		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Sale">For Sale</button>
 		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Rent">For Rent</button>
 	</form>

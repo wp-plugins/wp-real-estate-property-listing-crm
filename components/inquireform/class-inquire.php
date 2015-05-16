@@ -56,6 +56,19 @@ class Inquire {
 		$show = 0;
 		$msg = '';
 
+		$yourname 		= '';
+		$yourlastname 	= '';
+		$email1 		= '';
+		$phone_mobile 	= '';
+
+		if( is_user_logged_in() ){
+			$current_user = wp_get_current_user();
+			$yourname = $current_user->user_firstname;
+			$yourlastname = $current_user->user_lastname;
+			$email1 = $current_user->user_email;
+			$phone_mobile = get_user_meta($current_user->ID,'phone_num',true);
+		}
+
 		if( isset($att['show']) && $att['show'] == 1 ){
 			$show = 1;
 		}
@@ -118,7 +131,7 @@ class Inquire {
 			wp_mail($to, $subject, $message, $headers );
 
 			$_POST['lead_source'] = $source;
-			\crm\Properties::get_instance()->push_crm_data($_POST);
+			\CRM_Account::get_instance()->push_crm_data($_POST);
 		}
 
 		echo json_encode(array('msg'=>$msg,'status'=>$status));

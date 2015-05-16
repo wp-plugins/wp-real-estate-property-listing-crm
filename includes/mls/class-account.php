@@ -51,7 +51,7 @@ class AccountEntity{
 			$location = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
-			$location 	= $md_client->getCoverageLookup( 'crmls' );
+			$location 	= $md_client->getCoverageLookup( null );
 			\DB_Store::get_instance()->put($cache_keyword, $location);
 		}
 		return $location;
@@ -86,6 +86,26 @@ class AccountEntity{
 		}
 
 		return $json_location;
+	}
+
+	public function get_coverage_lookup_key($string, $array_key = 'keyword'){
+		$result = array();
+		$string = strtolower($string);
+		$location = $this->get_coverage_lookup();
+		if( $location->result == 'success' && isset($location->result) ){
+			foreach($location->lookups as $key => $val){
+				$find = strtolower($val->$array_key);
+				if( $find == $string ){
+					$result = array(
+						'keyword'	=>	$val->keyword,
+						'full'		=>	$val->full,
+						'id'		=>	$val->id,
+						'type'		=>	$val->location_type,
+					);
+				}
+			}
+		}
+		return $result;
 	}
 
 }

@@ -85,7 +85,7 @@ class MD_Breadcrumb {
 				$state = array(
 					'id'	=>	$obj_property->stateid,
 					'name'	=>	$obj_property->state,
-					'url'	=> 	$url . $obj_property->stateid . '-' . $uri
+					'url'	=> 	$url . 'crm-' . $obj_property->stateid . '-' . $uri
 				);
 			}
 			return $state;
@@ -107,7 +107,7 @@ class MD_Breadcrumb {
 				$county = array(
 					'id'	=>	$obj_property->countyid,
 					'name'	=>	$obj_property->county,
-					'url'	=>	$url . $obj_property->countyid . '-' . $uri
+					'url'	=>	$url . 'crm-' . $obj_property->countyid . '-' . $uri
 				);
 			}
 			return $county;
@@ -129,7 +129,7 @@ class MD_Breadcrumb {
 				$city = array(
 					'id'	=>	$obj_property->cityid,
 					'name'	=>	$obj_property->city,
-					'url'	=>	$url . $obj_property->cityid . '-' . $uri
+					'url'	=>	$url . 'crm-' . $obj_property->cityid . '-' . $uri
 				);
 			}
 			return $city;
@@ -164,14 +164,13 @@ class MD_Breadcrumb {
 				'id'	=>	0,
 				'name'	=>	''
 			);
-
 			if( $obj_property->communityid != '' || !is_null($obj_property->community) ){
 				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->community_pagename);
 				$uri  = str_replace(' ','-',strtolower($obj_property->community));
 				$zip = array(
 					'id'	=>	$obj_property->communityid,
 					'name'	=>	$obj_property->community,
-					'url'	=>	$url . $obj_property->communityid . '-' . $uri
+					'url'	=>	$url . 'crm-' . $obj_property->communityid . '-' . $uri
 				);
 			}
 			return $zip;
@@ -221,7 +220,7 @@ class MD_Breadcrumb {
 
 		if( is_null($show_location) ){
 			$show_location = array(
-				'country'	=>	true,
+				'country'	=>	false,
 				'state'		=>	true,
 				'county'	=>	true,
 				'city'		=>	true,
@@ -231,21 +230,40 @@ class MD_Breadcrumb {
 		}
 
 		$bread_crumb = $this->getBreadCrumb($property_data['property'], $show_location);
-
 		$build_bread_crumb = array();
 		foreach($bread_crumb as $key=>$val){
 			$url = '';
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
-				$url_swap = \Breadcrumb_Url::get_instance()->getUrlFilter($bread_crumb->$key->name);
-				if( $url_swap ){
-					$url = $url_swap;
+
+				if($this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key)){
+					$url = $this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key);
+				}elseif( $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key) ){
+					$url = $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key);
 				}else{
 					$url = $bread_crumb->$key->url;
 				}
+
 				$build_bread_crumb[] = '<a href="'.$url.'">'.$bread_crumb->$key->name.'</a>';
 			}
 		}
 		return $build_bread_crumb;
+	}
+
+	private function _check_breadcrumb_url($location_name, $object, $key){
+		return \Breadcrumb_Url::get_instance()->getUrlFilter($location_name);
+	}
+
+	private function _check_wp_page($location_name, $object, $key){
+		$community_city = '';
+		if( $key == 'community' ){
+			$community_city = $object->community->name.' '.$object->city->name;
+		}
+		if( get_page_by_title($object->$key->name) ){
+			return esc_url( get_permalink( get_page_by_title( $object->$key->name ) ) );
+		}elseif( get_page_by_title($community_city) ){
+			return esc_url( get_permalink( get_page_by_title( $community_city ) ) );
+		}
+		return false;
 	}
 
 }

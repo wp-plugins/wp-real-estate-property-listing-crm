@@ -2,14 +2,15 @@
 /*
 Template Name: List - Box Style
 */
+
 ?>
-<?php if( have_properties() ){ ?>
+<?php if( have_properties() ){ //if have_properties() start ?>
+<?php $index_items = 1; ?>
 <?php
 	if( !is_front_page() && $show_sort ){
 		\Action_Buttons::display_sort_button(array('class'=>'list-default'));
 	}
-?>
-<?php
+
 	$single_property = false;
 	$single_property_id = 0;
 	if( get_single_property_data() ){
@@ -19,7 +20,7 @@ Template Name: List - Box Style
 ?>
 <div class="row" id="search-result-container">
 	<div class="search-result item-container">
-		<?php foreach(have_properties() as $property ){ ?>
+		<?php foreach(have_properties() as $property ){ //loop start have_properties() ?>
 			<?php set_loop($property); ?>
 			<?php if( $single_property_id != md_property_id() ) { // do not display same id ?>
 			  <div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
@@ -36,7 +37,7 @@ Template Name: List - Box Style
 						</h3>
 						<div class="property-amenities">
 							<?php if(!has_filter('list_display_area')){ ?>
-								<span><strong><?php echo md_property_area();?>&nbsp;</strong><?php echo md_property_area_unit();?></span>
+								<span><strong><?php echo md_property_area();?>&nbsp;</strong><?php do_action( 'list_before_area' ); ?><?php echo md_property_area_unit();?></span>
 							<?php } ?>
 							<?php if(!has_filter('list_display_bed')){ ?>
 								<span><strong><?php echo md_property_beds();?>&nbsp;</strong><?php echo _label('beds');?></span>
@@ -78,7 +79,7 @@ Template Name: List - Box Style
 				</div>
 			  </div>
 		  <?php } // do not display same id ?>
-		<?php } ?>
+		<?php }//loop end have_properties() ?>
 	</div>
 </div>
 <?php if( have_properties() > 0 && $atts['infinite'] ){ ?>
@@ -98,6 +99,7 @@ Template Name: List - Box Style
 	if( !isset($search_data) ){
 		$search_data = null;
 	}
+
 	\MD_Search_Utility::get_instance()->js_var_search_data($properties, $atts, $search_data, $options);
 ?>
 <?php }else{ ?>
@@ -108,4 +110,4 @@ Template Name: List - Box Style
 	?>
 		<h3>No Properties Found</h3>
 	<?php } ?>
-<?php } ?>
+<?php }//if have_properties() end ?>

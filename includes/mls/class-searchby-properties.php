@@ -238,7 +238,7 @@ class MD_Searchby_Property {
 		$search_data['order_direction']	= isset($_REQUEST['order_direction']) ? sanitize_text_field($_REQUEST['order_direction']):'';
 		$search_data['limit']			= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):'11';
 
-		$property_data = \mls\Properties::get_instance()->get_properties($search_data);
+		$property_data = \MLS_Property::get_instance()->get_properties($search_data);
 
 		if( $property_data->total > 0 ){
 			return $property_data;

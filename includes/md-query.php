@@ -2,6 +2,10 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+function gmap_geocode($address){
+	$latlon = \helpers\GMap::getLocation($address);
+	return $latlon;
+}
 function get_ret_properties(){
 	return \MD\Property::get_instance()->getObject();
 }
@@ -85,7 +89,7 @@ function md_property_area(){
 	return \MD\Property::get_instance()->getArea();
 }
 function md_property_area_unit($default = 'account'){
-	return \MD\Property::get_instance()->getAreaUnit($default);
+	return ucwords(\MD\Property::get_instance()->getAreaUnit($default));
 }
 function md_property_title(){
 	return \MD\Property::get_instance()->getPropertyTitle();
@@ -110,6 +114,22 @@ function md_get_lat(){
 }
 function md_get_lon(){
 	return \MD\Property::get_instance()->getLon();
+}
+function md_get_lat_gmap($address){
+	if( md_get_lat() == 0 || md_get_lat() == '' ){
+		$coordinate_gmap = gmap_geocode($address);
+		return $coordinate_gmap['lat'];
+	}else{
+		return md_get_lat();
+	}
+}
+function md_get_lng_gmap($address){
+	if( md_get_lon() == 0 || md_get_lon() == '' ){
+		$coordinate_gmap = gmap_geocode($address);
+		return $coordinate_gmap['lng'];
+	}else{
+		return md_get_lon();
+	}
 }
 // $properties->photo
 // $properties->id
