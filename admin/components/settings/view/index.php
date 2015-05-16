@@ -58,7 +58,7 @@
 						<option value="<?php echo $key;?>" <?php echo ( $obj->getSettingsGeneralByKey('search_criteria','status') == $key ) ? 'selected':'';?>><?php echo $val;?></option>
 				<?php } ?>
 			</select>
-			<p>Default status, when visitor search property, they will see this search criteria status</p>
+			<p>Display property address or tag-line</p>
 			<select name="setting[property][name]">
 				<?php foreach($show_default_property_name as $key => $val){ ?>
 						<option value="<?php echo $key;?>" <?php echo ( \Settings_API::get_instance()->getSettingsGeneralByKey('property','name') == $key ) ? 'selected':'';?>><?php echo $val;?></option>

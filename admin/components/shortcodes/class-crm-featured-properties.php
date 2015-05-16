@@ -36,7 +36,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'List');
+			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'Featured');
 		}
 
 		public function init_shortcode($atts){
@@ -61,8 +61,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 				),
 				$atts, 'crm_featured_properties'
 			);
-
-			$properties = \crm\Properties::get_instance()->getFeaturedProperties();
+			$properties = \CRM_Property::get_instance()->get_featured();
 
 			\MD\Property::get_instance()->set_properties($properties,'crm');
 
@@ -71,6 +70,8 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 				if( $properties ){
 					$items = $properties->total;
 				}
+			}else{
+				$items = $atts['items'];
 			}
 
 			if( trim($atts['template']) != '' ){
@@ -87,7 +88,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 			}
 
 			ob_start();
-
+			$show_sort = false;
 			require $template;
 			$output = ob_get_clean();
 			return $output;
@@ -115,7 +116,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 							text: 'Featured Properties',
 							onclick: function() {
 								editor.windowManager.open( {
-									title: 'Display CRM properties by search criteria',
+									title: 'Display Featured CRM properties',
 									width:980,
 									height:350,
 									body: [

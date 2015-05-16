@@ -436,4 +436,13 @@ class Text {
 
 		return $array;
 	}
+
+	public static function print_r_array($array, $exit = false){
+		echo '<pre>';
+		print_r($array);
+		echo '</pre>';
+		if( $exit ){
+			exit();
+		}
+	}
 } // End text

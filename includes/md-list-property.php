@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 function set_page_list($items, $index){
+
 	if( $items >= $index ){
 		return true;
 	}
