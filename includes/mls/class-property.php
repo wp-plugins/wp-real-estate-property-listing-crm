@@ -177,11 +177,13 @@ class MLS_Property{
 			$page = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ):$paged;
 		}
 
-		$transaction = '';
-		// we get the second_verb to omit 'for'
-		list($first_verb, $second_verb) = explode(' ',urldecode($search_data['transaction']));
-		if( isset($second_verb) ){
-			$transaction = strtolower($second_verb);
+		$transaction = 'For Sale';
+		if( isset($search_data['transaction']) ){
+			$transaction = $search_data['transaction'];
+		}
+		$ex_string = explode(' ',urldecode($transaction));
+		if( count($ex_string) == 2 && isset($ex_string[1]) ){
+			$transaction = strtolower($ex_string[1]);
 		}else{
 			if(
 				sanitize_text_field(isset($_REQUEST['transaction'])) &&
@@ -189,12 +191,13 @@ class MLS_Property{
 				sanitize_text_field($_REQUEST['transaction']) != 'all'
 			){
 				$ex_string = explode(' ',$_REQUEST['transaction']);
-				$transaction = $ex_string[1];
-			}elseif(
-				sanitize_text_field($search_data['transaction']) == 'all' ||
-				sanitize_text_field($_REQUEST['transaction']) == 'all'
-			){
-				$transaction = 'sale';
+				if( count($ex_string) == 2 && isset($ex_string[1]) ){
+					$transaction = $ex_string[1];
+				}else{
+					$transaction = sanitize_text_field($_REQUEST['transaction']);
+				}
+			}else{
+				$transaction = 'For Sale';
 			}
 		}
 
@@ -216,7 +219,7 @@ class MLS_Property{
 			'limit'			=> $limit,
 			'page'			=> $paged
 		);
-
+		//var_dump($data);
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
@@ -287,7 +290,7 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
-		\DB_Store::get_instance()->del($cache_keyword);
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
@@ -306,6 +309,7 @@ class MLS_Property{
 					'properties'=>$propertyEntity,
 					'photos'	=>$photos,
 					'result'	=> 'success',
+					'community'	=> $property->community,
 					'source'=>'mls'
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $data);

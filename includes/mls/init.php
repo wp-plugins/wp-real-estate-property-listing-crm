@@ -2,6 +2,8 @@
 // mls
 require_once( plugin_dir_path( __FILE__ ) . 'class-mls.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'class-property.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'class-hook.php' );
+add_action( 'plugins_loaded', array( '\MLS_Hook', 'get_instance' ) );
 //refactor
 require_once( plugin_dir_path( __FILE__ ) . 'class-masterdigm-mls.php' );
 //account
@@ -18,4 +20,4 @@ add_action( 'plugins_loaded', array( '\mls\Template_Property', 'get_instance' ) 
 require_once( plugin_dir_path( __FILE__ ) . 'class-searchby-properties.php' );
 add_action( 'plugins_loaded', array( '\mls\MD_Searchby_Property', 'get_instance' ) );
 // breadcrumb
-//require_once( plugin_dir_path( __FILE__ ) . 'class-single-property-breadcrumb.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'class-single-property-breadcrumb.php' );

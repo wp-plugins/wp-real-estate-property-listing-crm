@@ -86,7 +86,7 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 			}
 
 			ob_start();
-
+			$show_sort = false;
 			require $template;
 			$output = ob_get_clean();
 			return $output;

@@ -160,9 +160,11 @@ class MD_Single_Property {
 				if( $mls ){
 					$data['property'] = $mls['properties'];
 					$data['photos']   = $mls['photos'];
+					$data['community']   = $mls['community'];
 					$data['source']   = 'mls';
 				}
 			}
+
 		}
 		return $data;
 	}

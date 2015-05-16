@@ -88,4 +88,24 @@ class AccountEntity{
 		return $json_location;
 	}
 
+	public function get_coverage_lookup_key($string, $array_key = 'keyword'){
+		$result = array();
+		$string = strtolower($string);
+		$location = $this->get_coverage_lookup();
+		if( $location->result == 'success' && isset($location->result) ){
+			foreach($location->lookups as $key => $val){
+				$find = strtolower($val->$array_key);
+				if( $find == $string ){
+					$result = array(
+						'keyword'	=>	$val->keyword,
+						'full'		=>	$val->full,
+						'id'		=>	$val->id,
+						'type'		=>	$val->location_type,
+					);
+				}
+			}
+		}
+		return $result;
+	}
+
 }

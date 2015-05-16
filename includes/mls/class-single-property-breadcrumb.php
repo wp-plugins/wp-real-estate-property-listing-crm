@@ -1,5 +1,5 @@
 <?php
-namespace crm;
+namespace mls;
 /**
  * Plugin Name.
  * Class to set Property Breadcrumb and its associate page
@@ -85,7 +85,7 @@ class MD_Breadcrumb {
 				$state = array(
 					'id'	=>	$obj_property->stateid,
 					'name'	=>	$obj_property->state,
-					'url'	=> 	$url . 'crm-' . $obj_property->stateid . '-' . $uri
+					'url'	=> 	$url . $obj_property->stateid . '-' . $uri
 				);
 			}
 			return $state;
@@ -107,7 +107,7 @@ class MD_Breadcrumb {
 				$county = array(
 					'id'	=>	$obj_property->countyid,
 					'name'	=>	$obj_property->county,
-					'url'	=>	$url . 'crm-' . $obj_property->countyid . '-' . $uri
+					'url'	=>	$url . $obj_property->countyid . '-' . $uri
 				);
 			}
 			return $county;
@@ -117,21 +117,23 @@ class MD_Breadcrumb {
 
 	public function cityDetail($obj_property, $show = true){
 		if( $show ){
+			$cityid 	= '';
+			$city_name 	= '';
+			$uri 		= '';
+			$source				= $obj_property['source'];
+
+			$url 		= \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
+			$city_name 	= $obj_property['property']->StreetCity;
+			$uri  		= str_replace(' ','-',strtolower($city_name));
+			$ret_city 	= \mls\AccountEntity::get_instance()->get_coverage_lookup_key($city_name);
+			$cityid 	= $ret_city['id'];
+
 			$city = array(
-				'id'	=>	0,
-				'name'	=>	'',
-				'url'	=>	''
+				'id'	=>	$cityid,
+				'name'	=>	$city_name,
+				'url'	=>	$url . 'mls-' . $cityid . '-' . $uri
 			);
 
-			if( $obj_property->cityid != '' || !is_null($obj_property->cityid) ){
-				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
-				$uri  = str_replace(' ','-',strtolower($obj_property->city));
-				$city = array(
-					'id'	=>	$obj_property->cityid,
-					'name'	=>	$obj_property->city,
-					'url'	=>	$url . 'crm-' . $obj_property->cityid . '-' . $uri
-				);
-			}
 			return $city;
 		}
 		return false;
@@ -139,20 +141,15 @@ class MD_Breadcrumb {
 
 	public function zipDetail($obj_property, $show = true){
 		if( $show ){
+			$postal_code = '';
+
+			$postal_code = $obj_property['property']->PostalCode;
+
 			$zip = array(
-				'id'	=>	0,
-				'name'	=>	''
+				'id'	=>	$postal_code,
+				'name'	=>	$postal_code
 			);
 
-			if( $obj_property->zip != '' || !is_null($obj_property->zip) ){
-				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->zip_pagename);
-				$uri  = str_replace(' ','-',strtolower($obj_property->zip));
-				$zip = array(
-					'id'	=>	$obj_property->zip,
-					'name'	=>	$obj_property->zip,
-					'url'	=>	$url . $obj_property->zip
-				);
-			}
 			return $zip;
 		}
 		return false;
@@ -160,41 +157,34 @@ class MD_Breadcrumb {
 
 	public function communityDetail($obj_property, $show = true){
 		if( $show ){
+			$communityid 		= '';
+			$community_name 	= '';
+			$uri 				= '';
+			$source				= $obj_property['source'];
+
+			$url = \Property_URL::get_instance()->get_permalink_property(
+				\MD_Searchby_Property::get_instance()->community_pagename
+			);
+
+			if( isset($obj_property['community']) && count($obj_property['community']) >= 1 ){
+				$communityid 	= $obj_property['community']->community_id;
+				$community_name = $obj_property['community']->community;
+				$uri 			= str_replace(' ','-',strtolower($community_name));
+				$community_url 	= $url . $source . '-' . $communityid . '-' . $uri;
+			}else{
+				$postal_code 	= $this->zipDetail($obj_property);
+				$communityid 	= $postal_code['id'];
+				$community_name = $communityid;
+				$community_url 	= $url . $source . '-' . $communityid;
+			}
+
 			$community = array(
-				'id'	=>	0,
-				'name'	=>	''
-			);
-			if( $obj_property->communityid != '' || !is_null($obj_property->community) ){
-				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->community_pagename);
-				$uri  = str_replace(' ','-',strtolower($obj_property->community));
-				$zip = array(
-					'id'	=>	$obj_property->communityid,
-					'name'	=>	$obj_property->community,
-					'url'	=>	$url . 'crm-' . $obj_property->communityid . '-' . $uri
-				);
-			}
-			return $zip;
-		}
-		return false;
-	}
-
-	public function addressDetail($obj_property, $show = true){
-		if( $show ){
-			$address = array(
-				'id'	=>	0,
-				'name'	=>	'',
-				'url'	=>	''
+				'id'	=>	$communityid,
+				'name'	=>	$community_name,
+				'url'	=>	$community_url
 			);
 
-			if( $obj_property->address != '' || !is_null($obj_property->address) ){
-				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->address_pagename);
-				$address = array(
-					'id'	=>	0,
-					'name'	=>	$obj_property->address,
-					'url'	=>	$url . urlencode($obj_property->address)
-				);
-			}
-			return $address;
+			return $community;
 		}
 		return false;
 	}
@@ -221,15 +211,16 @@ class MD_Breadcrumb {
 		if( is_null($show_location) ){
 			$show_location = array(
 				'country'	=>	false,
-				'state'		=>	true,
-				'county'	=>	true,
+				'state'		=>	false,
+				'county'	=>	false,
 				'city'		=>	true,
 				'community'	=>	true,
-				'zip'		=>	true,
+				'zip'		=>	false,
 			);
 		}
 
-		$bread_crumb = $this->getBreadCrumb($property_data['property'], $show_location);
+		$bread_crumb = $this->getBreadCrumb($property_data, $show_location);
+
 		$build_bread_crumb = array();
 		foreach($bread_crumb as $key=>$val){
 			$url = '';

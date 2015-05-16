@@ -57,17 +57,11 @@ class MD_Single_Property_Breadcrumb {
 	}
 
 	public function createPageForBreadcrumbTrail($property_data, $show_location = null){
-		// @TODO : convert to hook
+		$breadcrumb = array();
 		if( isset($property_data['source'] ) ){
-			switch($property_data['source']){
-				case 'crm':
-					return \crm\MD_Breadcrumb::get_instance()->createPageForBreadcrumbTrail($property_data, $show_location);
-				break;
-				case 'mls':
-					//return \mls\MD_Breadcrumb::get_instance()->createPageForBreadcrumbTrail($property_data, $show_location);
-				break;
-			}
+			$breadcrumb = apply_filters('breadcrumb_' . $property_data['source'], $property_data, $show_location);
 		}
+		return $breadcrumb;
 	}
 
 	public function setSessionBreadCrumb($source = '', $breadcrumb){

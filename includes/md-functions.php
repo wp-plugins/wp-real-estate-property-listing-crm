@@ -119,20 +119,34 @@ function md_page_title($title, $id = null){
 			is_page('community') ||
 			is_page('zip')
 		){
-			if( DEFAULT_FEED == 'mls' || get_single_property_source() == 'mls' ){
-				$location = str_replace('-',' ',get_query_var('url'));
-				$location = ucwords($location);
-			}elseif( DEFAULT_FEED == 'crm' || get_single_property_source() == 'crm' ){
-				$location 		= '';
-				$query_var   	= get_query_var('url');
-				$parse_property = explode( '-', $query_var);
+			$location 		= '';
+			$query_var   	= get_query_var('url');
+			$parse_property = explode( '-', $query_var);
 
+			if( $parse_property[0] == 'mls' ){
+				$prefix = '';
+
+				if( count($parse_property) == 2 ){
+					$prefix = 'Postal ';
+					unset($parse_property[0]);
+				}elseif( count($parse_property) >= 3 ){
+					unset($parse_property[0]);
+					unset($parse_property[1]);
+				}
+
+				foreach($parse_property as $val){
+					$location .= $val.' ';
+				}
+				$location = $prefix . ucwords($location);
+			}elseif( $parse_property[0] == 'crm' ){
 				unset($parse_property[0]);
+				unset($parse_property[1]);
 				foreach($parse_property as $val){
 					$location .= $val.' ';
 				}
 				$location = ucwords($location);
 			}
+
 			if( isset($location) && trim($location) != '' ){
 				$title	= 'Homes for Sale And Rent in '.$location;
 			}

@@ -107,8 +107,8 @@ class MD_Searchby_Property {
 		$data['permalink'] 		= \Property_Url::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
 		if(isset($data['child_list']) && $data['child_list']->result =='success') {
 			foreach($data['child_list']->states as $key => $val){
-				$url = str_replace( "\r\n", "\n", $val->city );
-				$url = str_replace( " ", "-", strtolower($val->city) );
+				$url 		= str_replace( "\r\n", "\n", $val->city );
+				$url 		= str_replace( " ", "-", strtolower($val->city) );
 				$city_name 	= str_replace( "\r\n", "\n", $val->city );
 
 				$url_swap = \Breadcrumb_Url::get_instance()->getUrlFilter($val->city);
@@ -117,7 +117,7 @@ class MD_Searchby_Property {
 				}elseif( $this->url_page($city_name) ){
 					$url = $this->url_page($city_name);
 				}else{
-					$url = $data['permalink'] . $val->id . '-' . $url;
+					$url = $data['permalink'] . 'crm-' . $val->id . '-' . $url;
 				}
 
 				$data['child_data'][] = array(
@@ -135,6 +135,7 @@ class MD_Searchby_Property {
 		$array_id				= array();
 		$array_id['city_id']	= $city_id;
 		$search_data['cityid']	= $city_id;
+
 		$data['property_result']= \CRM_Property::get_instance()->get_properties($search_data);
 		$data['child_list']		= \CRM_Locations::get_instance()->get_communities_by_cityId($array_id);
 		$data['child_key']		= 'community';
@@ -162,7 +163,7 @@ class MD_Searchby_Property {
 				}elseif( $this->url_page($full_community_name_city) ){
 					$url = $this->url_page($full_community_name_city);
 				}else{
-					$url = $data['permalink'] . $val->community_id . '-' . $url;
+					$url = $data['permalink'] . 'crm-' . $val->community_id . '-' . $url;
 				}
 
 				$data['child_data'][] = array(

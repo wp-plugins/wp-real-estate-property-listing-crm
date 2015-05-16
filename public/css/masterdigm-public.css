@@ -157,13 +157,13 @@ width:100% !important;
     top: 1px;
 }
 .property-item .thumbnail a > img {
-	height: 150px;
+	/*height: 150px;
 	min-height: 150px;
-	width:100%;
+	width:100%;*/
 }
 .property-item .thumbnail .caption {
-	height: 180px;
-    min-height: 180px;
+	/*height: 180px;
+    min-height: 180px;*/
 }
 ul.dropdown-menu{
 	list-style:none outside none !important;

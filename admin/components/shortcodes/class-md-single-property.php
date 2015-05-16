@@ -76,6 +76,7 @@ if ( !class_exists( 'md_sc_single_properties' ) )
 			);
 
 			$data 			= \MD_Single_Property::get_instance()->getPropertyData();
+
 			$have_property 	= false;
 
 			if( DEFAULT_FEED == 'crm' ){

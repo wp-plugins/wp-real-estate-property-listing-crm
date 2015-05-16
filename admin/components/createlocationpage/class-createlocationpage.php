@@ -108,8 +108,10 @@ class Create_Location_Page{
 		$status = false;
 
 		$page_location 	= array();
-		$account 		= \CRM_Account::get_instance()->get_coverage_lookup();
-		$shortcode_tag 	= \md_sc_crm_list_properties::get_instance()->get_shortcode_tag();
+		//hook, get the default
+		//$account = do_action('get_locations_' . DEFAULT_FEED);
+		$account 					= \CRM_Account::get_instance()->get_coverage_lookup();
+		$shortcode_tag 				= \md_sc_crm_list_properties::get_instance()->get_shortcode_tag();
 		$shortcode_list_community 	= \md_sc_crm_get_locations::get_instance()->get_shortcode_tag();
 
 		if( isset($account->result) == 'success' ){

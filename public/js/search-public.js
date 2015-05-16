@@ -218,9 +218,9 @@
 							var location_type = map[datum.value].type;
 							//console.log(location_type);
 
-							jQuery('#communityid').val(0);
-							jQuery('#cityid').val(0);
-							jQuery('#subdivisionid').val(0);
+							jQuery('#communityid').val('');
+							jQuery('#cityid').val('');
+							jQuery('#subdivisionid').val('');
 
 							if( location_type == 'community' ){
 								jQuery('#communityid').val(location_id);

@@ -87,6 +87,7 @@ function crm_masterdigm_breadcrumb(){
 		$trail 	= array();
 		$args 	= array();
 		$trail 	= single_property_breadcrumb_trail($trail, $args);
+
 		if( count($trail) > 0 ){
 			echo '<ol class="breadcrumb">';
 				foreach($trail as $key => $val){
@@ -122,28 +123,12 @@ function single_property_breadcrumb_trail($trail, $args){
 	}
 
 	if( $display &&  ($property && isset($property['source'])) ){
-		switch($property['source']){
-			case 'crm':
-				$show_location = array(
-					'country'	=>	false,
-					'state'		=>	true,
-					'county'	=>	true,
-					'city'		=>	true,
-					'community'	=>	true,
-					'zip'		=>	false,
-				);
-			break;
-			case 'mls':
-				$show_location = array(
-					'country'	=>	false,
-					'state'		=>	true,
-					'county'	=>	true,
-					'city'		=>	true,
-					'community'	=>	true,
-					'zip'		=>	false,
-				);
-			break;
+
+		$show_location = array();
+		if( isset($property['source']) ){
+			$show_location = apply_filters('breadcrumb_show_locations_' . $property['source'], $show_location);
 		}
+
 		$args['show_location'] 	= $show_location;
 		$bread_crumb = \MD_Single_Property_Breadcrumb::get_instance()->masterdigm_breadcrumb_trail($property, $args);
 
