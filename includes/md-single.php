@@ -154,7 +154,7 @@ function single_property_breadcrumb_trail($trail, $args){
 			is_page('community') ||
 			is_page('zip')
 		){
-			$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb(DEFAULT_FEED);
+			$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb($source);
 			unset($trail);
 			$trail 	 = array();
 			$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
@@ -165,11 +165,13 @@ function single_property_breadcrumb_trail($trail, $args){
 			}
 		}
 	}else{
-		$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb(DEFAULT_FEED);
+		$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb($source);
+
 		unset($trail);
 		$trail 	 = array();
 		$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
 	}
+
 	return $trail;
 }
 function meta_tag_og() {

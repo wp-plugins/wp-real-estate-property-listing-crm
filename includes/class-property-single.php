@@ -166,6 +166,7 @@ class MD_Single_Property {
 			}
 
 		}
+
 		return $data;
 	}
 

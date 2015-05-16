@@ -117,6 +117,7 @@ class MD_Breadcrumb {
 
 	public function cityDetail($obj_property, $show = true){
 		if( $show ){
+
 			$cityid 	= '';
 			$city_name 	= '';
 			$uri 		= '';
@@ -222,6 +223,7 @@ class MD_Breadcrumb {
 		$bread_crumb = $this->getBreadCrumb($property_data, $show_location);
 
 		$build_bread_crumb = array();
+
 		foreach($bread_crumb as $key=>$val){
 			$url = '';
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
@@ -233,10 +235,10 @@ class MD_Breadcrumb {
 				}else{
 					$url = $bread_crumb->$key->url;
 				}
-
 				$build_bread_crumb[] = '<a href="'.$url.'">'.$bread_crumb->$key->name.'</a>';
 			}
 		}
+
 		return $build_bread_crumb;
 	}
 
@@ -245,15 +247,11 @@ class MD_Breadcrumb {
 	}
 
 	private function _check_wp_page($location_name, $object, $key){
-		$community_city = '';
-		if( $key == 'community' ){
-			$community_city = $object->community->name.' '.$object->city->name;
-		}
+
 		if( get_page_by_title($object->$key->name) ){
 			return esc_url( get_permalink( get_page_by_title( $object->$key->name ) ) );
-		}elseif( get_page_by_title($community_city) ){
-			return esc_url( get_permalink( get_page_by_title( $community_city ) ) );
 		}
+
 		return false;
 	}
 

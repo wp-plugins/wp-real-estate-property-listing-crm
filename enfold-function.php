@@ -51,10 +51,10 @@ if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' && \Mas
 			$wp_query->post->post_name == 'community' ||
 			$wp_query->post->post_name == 'zip'
 		){
-			if( DEFAULT_FEED == 'mls' || get_single_property_source() == 'mls' ){
+			if( get_single_property_source() == 'mls' ){
 				$location = str_replace('-',' ',get_query_var('url'));
 				$location = ucwords($location);
-			}elseif( DEFAULT_FEED == 'crm' || get_single_property_source() == 'crm' ){
+			}elseif( get_single_property_source() == 'crm' ){
 				$location 		= '';
 				$query_var   	= get_query_var('url');
 				$parse_property = explode( '-', $query_var);

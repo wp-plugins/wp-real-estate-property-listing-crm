@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <?php if( get_single_data() && is_property_viewable(md_get_property_status()) ){ ?>
-<?php if( function_exists('crm_masterdigm_breadcrumb' ) ){ crm_masterdigm_breadcrumb();} ?>
+<?php if( function_exists('crm_masterdigm_breadcrumb' ) ){ /*crm_masterdigm_breadcrumb();*/ } ?>
 <?php next_prev(); ?>
 <div class="single-property-container <?php echo md_property_id();?> crm-single-property" id="<?php echo 'property-id-'.md_property_id();?>">
 	<div role="tabpanel">
