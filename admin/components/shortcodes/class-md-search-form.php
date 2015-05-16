@@ -40,7 +40,7 @@ if ( !class_exists( 'md_sc_search_form' ) )
 		}
 
 		private function _get_account_fields(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			return $fields;
 		}
 
@@ -90,7 +90,7 @@ if ( !class_exists( 'md_sc_search_form' ) )
 				$fields_type = $fields->fields->types;
 			}
 
-			$currency = \crm\AccountEntity::get_instance()->get_account_data('currency');
+			$currency = \CRM_Account::get_instance()->get_account_data('currency');
 			$array_search_criteria = array();
 
 			$location = '';
@@ -129,6 +129,10 @@ if ( !class_exists( 'md_sc_search_form' ) )
 			if( isset($_GET['communityid']) ){
 				$communityid	= sanitize_text_field($_GET['communityid']);
 			}
+			$subdivisionid = '';
+			if( isset($_GET['subdivisionid']) ){
+				$subdivisionid	= sanitize_text_field($_GET['subdivisionid']);
+			}
 			$countyid = '';
 			if( isset($_GET['countyid']) ){
 				$countyid	= sanitize_text_field($_GET['countyid']);
@@ -136,6 +140,26 @@ if ( !class_exists( 'md_sc_search_form' ) )
 			$lon = '';
 			if( isset($_GET['lon']) ){
 				$lon = sanitize_text_field($_GET['lon']);
+			}
+
+			$button_for_sale = 'For Sale';
+			if( has_filter('search_form_button_for_sale') ){
+				$button_for_sale = apply_filters('search_form_button_for_sale', $button_for_sale);
+			}
+
+			$button_for_rent = 'For Rent';
+			if( has_filter('search_form_button_for_rent') ){
+				$button_for_rent = apply_filters('search_form_button_for_rent', $button_for_rent);
+			}
+
+			$show_button_for_sale = true;
+			if( has_filter('show_button_for_sale') ){
+				$show_button_for_sale = apply_filters('show_button_for_sale', $show_button_for_sale);
+			}
+
+			$show_button_for_rent = true;
+			if( has_filter('show_button_for_rent') ){
+				$show_button_for_rent = apply_filters('show_button_for_rent', $show_button_for_rent);
 			}
 
 			ob_start();

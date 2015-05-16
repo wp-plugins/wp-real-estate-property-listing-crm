@@ -64,7 +64,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 		}
 
 		private function get_fields_status(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			if( isset($fields->fields->status) ){
 				return $fields->fields->status;
 			}
@@ -72,7 +72,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 		}
 
 		private function get_fields_type(){
-			$fields = \crm\AccountEntity::get_instance()->get_fields();
+			$fields = \CRM_Account::get_instance()->get_fields();
 			if( isset($fields->fields->types) ){
 				return $fields->fields->types;
 			}
@@ -208,7 +208,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			$search_data['transaction'] 	= $transaction;
 			$search_data['limit'] 			= $limit;
 
-			$properties = \mls\Properties::get_instance()->get_properties($search_data);
+			$properties = \MLS_Property::get_instance()->get_properties($search_data);
 
 			\MD\Property::get_instance()->set_properties($properties,'mls');
 
@@ -225,6 +225,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				$template = apply_filters('shortcode_list_property_mls', $path);
 			}
 
+			$show_sort = true;
 			$args_button_action = array(
 				'show' => 1,
 				'favorite'	=> array(

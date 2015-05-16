@@ -33,7 +33,7 @@ function property_list(){
 	$data = array(
 		'transaction' => 'all'
 	);
-	$get_total_properties = \crm\Properties::get_instance()->get_properties($data);
+	$get_total_properties = \CRM_Property::get_instance()->get_properties($data);
 	$xml_db_store_prefix = 'product_sitemap_xml';
 	$xml_db_store		 = \DB_Store::get_instance()->get($xml_db_store_prefix);
 	if( $xml_db_store ){
@@ -43,7 +43,7 @@ function property_list(){
 			'limit'		  => $get_total_properties->total,
 			'transaction' => 'all'
 		);
-		$xml_properties 	 = \crm\Properties::get_instance()->get_properties($data_all);
+		$xml_properties 	 = \CRM_Property::get_instance()->get_properties($data_all);
 
 	}
 
