@@ -1,6 +1,7 @@
 <?php
 namespace crm;
 /**
+ * @todo : to be remove
  * Handle logic for fetching properties
  * */
 class AccountEntity{
@@ -104,7 +105,7 @@ class AccountEntity{
 	public function getCoverageLookup($location = null){
 		$coverage_lookup_cache_keyword 	= \Property_Cache::get_instance()->getCacheCoverageLookupKeyword();
 		$cache_keyword 	  				= $coverage_lookup_cache_keyword->id;
-		\DB_Store::get_instance()->del($cache_keyword);
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$autocomplete_result = \DB_Store::get_instance()->get($cache_keyword);
 		}else{

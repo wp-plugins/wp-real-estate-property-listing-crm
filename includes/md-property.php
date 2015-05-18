@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function md_display_nearby_property($atts){
 	if( have_properties() ){
 		$property = have_properties();
-
+		\helpers\Text::print_r_array($property);
 		$search_data['countyid'] 		= 0;
 		$search_data['stateid'] 		= 0;
 		$search_data['countryid'] 		= 0;
@@ -37,9 +37,9 @@ function md_display_nearby_property($atts){
 			$search_data = apply_filters('nearby_search_data',$search_data);
 		}
 
-		$properties = \crm\Properties::get_instance()->get_properties($search_data);
-		//var_dump($properties);
-		//var_dump($atts);
+		//$properties = apply_filters('property_nearby_property_' . md_get_source(), $properties);
+
+		$properties = \CRM_Property::get_instance()->get_properties($search_data);
 		$total_properties = $properties->total;
 
 		$atts['infinite'] = false;

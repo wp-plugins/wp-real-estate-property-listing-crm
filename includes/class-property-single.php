@@ -61,11 +61,12 @@ class MD_Single_Property {
 
 	public function chage_wp_title($title, $sep){
 		$data 	= \MD_Single_Property::get_instance()->getPropertyData();
-
+		$add_string = '';
 		if( $data && isset($data['property']) ){
+			$add_string = apply_filters('wp_title_' . $data['source'], $data);
 			$title 	= $data['property']->displayAddress();
 		}
-		return $title;
+		return $title . $add_string;
 	}
 
 	/**
@@ -143,11 +144,11 @@ class MD_Single_Property {
 	public function getSinglePropertyData($property_id, $broker_id = null){
 		$data = array();
 		if( is_null($broker_id) ){
-			$broker_id	= \crm\Properties::get_instance()->get_broker_id();
+			$broker_id	= \CRM_Account::get_instance()->get_broker_id();
 		}
 		if( isset($property_id) && isset($broker_id) ){
 			// check the crm first
-			$crm = \crm\Properties::get_instance()->get_property($property_id, $broker_id );
+			$crm = \CRM_Property::get_instance()->get_property($property_id, $broker_id );
 			if( $crm ){
 				$data['property'] 	= $crm->properties;
 				$data['photos'] 	= $crm->photos;
@@ -156,14 +157,17 @@ class MD_Single_Property {
 				$data['source']   	= 'crm';
 			}else{
 				// then its mls
-				$mls = \mls\Properties::get_instance()->get_property_by_id($property_id);
+				$mls = \MLS_Property::get_instance()->get_property($property_id);
 				if( $mls ){
 					$data['property'] = $mls['properties'];
 					$data['photos']   = $mls['photos'];
+					$data['community']   = $mls['community'];
 					$data['source']   = 'mls';
 				}
 			}
+
 		}
+
 		return $data;
 	}
 
