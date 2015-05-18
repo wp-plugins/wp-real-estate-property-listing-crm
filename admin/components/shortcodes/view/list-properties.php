@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="<?php echo plugins_url('masterdigm/admin/css/jquery-ui.css'); ?>" />
+<link rel="stylesheet" href="<?php echo plugins_url(PLUGIN_FOLDER_NAME . '/admin/css/jquery-ui.css'); ?>" />
 <style>
 .ui-autocomplete-loading {
-background: white url("<?php echo plugins_url('masterdigm/admin/css/images/ajax-loader.gif');?>") right center no-repeat;
+background: white url("<?php echo plugins_url(PLUGIN_FOLDER_NAME . '/admin/css/images/ajax-loader.gif');?>") right center no-repeat;
 }
 .ui-autocomplete {
 max-height: 150px;
@@ -87,7 +87,7 @@ height: 300px;
 
 		var data_select = sel_loc.item.value;
 
-		$( "#log", context ).prepend( '<div class="loc-item-'+sel_loc.item.id+'" >'+data_select+' - <a href="#" class="remove-item" onClick="remove_item('+sel_loc.item.id+');" data-id="'+sel_loc.item.id+'">Remove</a></div>' );
+		$( "#log", context ).prepend( '<div class="loc-item-'+sel_loc.item.id+'" >'+ data_select + ' [' + sel_loc.item.type + '] - <a href="#" class="remove-item" onClick="remove_item('+sel_loc.item.id+');" data-id="'+sel_loc.item.id+'">Remove</a></div>' );
 		$( "#log", context ).scrollTop( 0 );
 	}
 
@@ -113,9 +113,11 @@ height: 300px;
 
 		var city_id 	 = '';
 		var community_id = '';
+		var subdivision_id = '';
 
 		var city_shortcode 		= ' cityid="0" ';
 		var community_shortcode = ' communityid="0" ';
+		var subdivision_shortcode = ' subdivisionid="0" ';
 
 		var infinite_check = 'false';
 		if( $('#infinite',context).is(":checked") ){
@@ -140,13 +142,18 @@ height: 300px;
 			if( v.type == 'community' ){
 				community_id += v.value +',';
 			}
+			if( v.type == 'subdivision' ){
+				subdivision_id += v.value +',';
+			}
 		});
 
 		city_shortcode 		= ' cityid="'+city_id.replace(/,+$/,'')+'" ';
 		community_shortcode = ' communityid="'+community_id.replace(/,+$/,'')+'" ';
+		subdivision_shortcode = ' subdivisionid="'+subdivision_id.replace(/,+$/,'')+'" ';
 		shortcode = '[crm_list_properties'
 						+ city_shortcode
 						+ community_shortcode
+						+ subdivision_shortcode
 						+ bathromms
 						+ bedrooms
 						+ min_listprice

@@ -39,7 +39,7 @@
 	var origin_place = '<?php echo md_property_address();?>';
 	var propertyList =[
 		{
-			latLng:[<?php echo md_get_lat();?>, <?php echo md_get_lon();?>],
+			latLng:[<?php echo md_get_lat_gmap(md_property_address());?>, <?php echo md_get_lng_gmap(md_property_address());?>],
 			data:'<div style="width: 100%; min-height: 120px;">' +
 						'<div style="width: 100%; overflow: hidden;">' +
 							'<div class="row">' +

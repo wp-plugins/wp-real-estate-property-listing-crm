@@ -44,49 +44,41 @@ class MD_Search_Utility {
 
 	public function pagination_scroll_action_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
-		// @TODO wrap this to hook
-		if( isMLS() ){
-			$search_data = $_POST;
-			$properties = \mls\MD_Searchby_Property::get_instance()->searchPropertyResult($search_data);
-			$source = 'mls';
-		}elseif( isCRM() ){
-			foreach($_POST as $key => $val){
-				$array_val = explode('=', $val);
-				if( $array_val[0] == 'location' ){
-					$_REQUEST['location'] = sanitize_text_field($array_val[1]);
-				}else{
-					if( isset($array_val[1]) ){
-						$_REQUEST[$array_val[0]] = sanitize_text_field($array_val[1]);
-					}
-				}
+		//get source via url
+		$api_result = array(
+			'search_data' 	=> '',
+			'properties' 	=> array(),
+			'source' 		=> ''
+		);
+
+		if( isset($_REQUEST['source']) ){
+			$source = sanitize_text_field($_REQUEST['source']);
+			$request = $_POST;
+			$api_result = apply_filters('search_utility_by_' . $source, $request);
+
+			\MD\Property::get_instance()->set_properties($api_result['properties'], $api_result['source']);
+
+			$att_template = CRM_DEFAULT_SEARCH_RESULT_SCROLL;
+			// hook filter, incase we want to just use hook
+			if( has_filter('shortcode_search_result_scroll_crm') ){
+				$att_template = apply_filters('shortcode_search_result_scroll_crm', $path);
 			}
 
-			$properties = \crm\MD_Searchby_Property::get_instance()->searchPropertyResult();
-			$source = 'crm';
-		}
-		// @TODO wrap this to hook end
+			// check if its from template
+			if( file_exists(get_stylesheet_directory() .'/'. $att_template) ){
+				$template = get_stylesheet_directory() .'/'. $att_template;
+			}elseif( file_exists($att_template) ){
+				//check in plugin
+				$template = $att_template;
+			}
 
-		\MD\Property::get_instance()->set_properties($properties,$source);
-		$att_template = CRM_DEFAULT_SEARCH_RESULT_SCROLL;
-		// hook filter, incase we want to just use hook
-		if( has_filter('shortcode_search_result_scroll_crm') ){
-			$att_template = apply_filters('shortcode_search_result_scroll_crm', $path);
+			if( isset($_POST['col']) && is_numeric($_POST['col']) ){
+				$col = ceil(12 / $_POST['col'] );
+			}else{
+				$col = MD_DEFAULT_GRID_COL;
+			}
+			require $template;
 		}
-
-		// check if its from template
-		if( file_exists(get_stylesheet_directory() .'/'. $att_template) ){
-			$template = get_stylesheet_directory() .'/'. $att_template;
-		}elseif( file_exists($att_template) ){
-			//check in plugin
-			$template = $att_template;
-		}
-
-		if( isset($_POST['col']) && is_numeric($_POST['col']) ){
-			$col = ceil(12 / $_POST['col'] );
-		}else{
-			$col = MD_DEFAULT_GRID_COL;
-		}
-		require $template;
 		die();
 	}
 
@@ -95,6 +87,7 @@ class MD_Search_Utility {
 			$request = array();
 			$url 	= parse_url($_SERVER['QUERY_STRING']);
 			$query 	= explode('&',$url['path']);
+
 			foreach($query as $key => $val){
 				$array_val = explode('=', $val);
 				if( $array_val[0] == 'location' ){
@@ -107,6 +100,7 @@ class MD_Search_Utility {
 			}
 			return $request;
 		}
+
 		return $request;
 	}
 
@@ -116,12 +110,17 @@ class MD_Search_Utility {
 		if( is_null($request) ){
 			$request = $this->set_request_property();
 		}
+
 		$infinite = 0;
 		if( isset($att_short_code['infinite']) && $att_short_code['infinite'] ) {
 			$infinite = 1;
 		}
+		if( isset($att_short_code['source']) && $att_short_code['source'] ) {
+			$request['source'] = $att_short_code['source'];
+		}
 		$selector 			= $other_option['selector'];
 		$infinite_result 	= $other_option['ajax_display'];
+
 		if( count($arr_properties_data) > 0 || $arr_properties_data->total > 0 ){
 			?>
 				<script>
