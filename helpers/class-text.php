@@ -437,6 +437,36 @@ class Text {
 		return $array;
 	}
 
+	public static function array_key_exists_wildcard ( $array, $search, $return = '' ) {
+		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
+		$result = preg_grep( '/^' . $search . '$/i', array_keys( $array ) );
+		if ( $return == 'key-value' )
+			return array_intersect_key( $array, array_flip( $result ) );
+		return $result;
+	}
+
+	public static function array_value_exists_wildcard ( $array, $search, $return = '' ) {
+		$search = str_replace( '\*', '.*?', preg_quote( $search, '/' ) );
+		$result = preg_grep( '/^' . $search . '$/i', array_values( $array ) );
+		if ( $return == 'key-value' )
+			return array_intersect( $array, $result );
+		return $result;
+	}
+
+	public static function get_array_by_key($array, $key, $search){
+		$result = array();
+		if( count($array) > 0 ){
+			$idx = 0;
+			foreach($array as $array_key => $array_val){
+				if( $array_val[$key] == $search ){
+					$result = $array[$idx];
+				}
+				$idx++;
+			}
+		}
+		return $result;
+	}
+
 	public static function print_r_array($array, $exit = false){
 		echo '<pre>';
 		print_r($array);

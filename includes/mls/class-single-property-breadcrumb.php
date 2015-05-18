@@ -121,7 +121,7 @@ class MD_Breadcrumb {
 			$cityid 	= '';
 			$city_name 	= '';
 			$uri 		= '';
-			$source				= $obj_property['source'];
+			$source		= $obj_property['source'];
 
 			$url 		= \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
 			$city_name 	= $obj_property['property']->StreetCity;

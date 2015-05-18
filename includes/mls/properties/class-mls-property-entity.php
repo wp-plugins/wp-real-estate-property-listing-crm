@@ -222,6 +222,18 @@ class Property_Entity{
 		return $this->Baths;
 	}
 
+	public function getBathroom(){
+		return $this->displayBathrooms();
+	}
+
+	public function getBed(){
+		return $this->displayBed();
+	}
+
+	public function getMLS(){
+		return $this->displayMLS();
+	}
+
 	public function displaySqFt(){
 		return number_format($this->LotSizeSqFt);
 	}
@@ -276,7 +288,7 @@ class Property_Entity{
 	}
 
 	public function displayPropertyStatus(){
-		return $this->Status;
+		return $this->PropertyStatus;
 	}
 
 	public function displayPropertyType(){

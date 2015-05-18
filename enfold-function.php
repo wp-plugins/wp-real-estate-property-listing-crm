@@ -78,18 +78,21 @@ if( $theme->template == 'enfold' || $theme->parent->template == 'enfold' && \Mas
 	function md_title(){
 		$title = '';
 		$address = parse_query_callback();
-
+		$add_string = '';
 		if( $address ){
+			$add_string = apply_filters('wp_title_' . $address['source'], $address);
 			$title = $address['property']->displayAddress();
 		}
-		return $title;
+		return $title . $add_string;
 	}
 	function md_wp_title($title, $sep){
 		$address = parse_query_callback();
+		$add_string = '';
 		if( $address ){
+			$add_string = apply_filters('wp_title_' . $address['source'], $address);
 			$title = $address['property']->displayAddress();
 		}
-		return $title;
+		return $title . $add_string;
 	}
 	add_action( 'wp_head', 'my_styles_method',100);
 	function my_styles_method(){

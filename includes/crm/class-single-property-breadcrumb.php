@@ -214,6 +214,7 @@ class MD_Breadcrumb {
 	}
 
 	public function createPageForBreadcrumbTrail($property_data = null, $show_location = null){
+
 		if( is_null($property_data) ){
 			$property_data = \MD_Single_Property::get_instance()->getPropertyData();
 		}
@@ -231,6 +232,7 @@ class MD_Breadcrumb {
 
 		$bread_crumb = $this->getBreadCrumb($property_data['property'], $show_location);
 		$build_bread_crumb = array();
+
 		foreach($bread_crumb as $key=>$val){
 			$url = '';
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){

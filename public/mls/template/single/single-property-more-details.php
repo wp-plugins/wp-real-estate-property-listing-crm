@@ -83,3 +83,11 @@
 		</div>
 	</div>
 </div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="single-property-related md-container">
+			<h3>Nearby Properties</h3>
+			<?php md_display_nearby_property($atts); ?>
+		</div>
+	</div>
+</div>

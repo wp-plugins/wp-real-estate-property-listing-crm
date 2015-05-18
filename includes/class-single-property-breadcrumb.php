@@ -58,21 +58,21 @@ class MD_Single_Property_Breadcrumb {
 
 	public function createPageForBreadcrumbTrail($property_data, $show_location = null){
 		$breadcrumb = array();
-		if( isset($property_data['source'] ) ){
+		if( isset($property_data['source']) ){
 			$breadcrumb = apply_filters('breadcrumb_' . $property_data['source'], $property_data, $show_location);
 		}
 		return $breadcrumb;
 	}
 
-	public function setSessionBreadCrumb($source = '', $breadcrumb){
+	public function setSessionBreadCrumb($source, $breadcrumb){
 		if( session_id() && isset($source) ) {
-			if( isset($_SESSION[$source . 'breadcrumb']) ) {
+			if( !isset($_SESSION[$source . 'breadcrumb']) ) {
 				$_SESSION[$source . 'breadcrumb'] = $breadcrumb;
 			}
 		}
 	}
 
-	public function getSessionBreadCrumb($source = ''){
+	public function getSessionBreadCrumb($source){
 		if( session_id() && isset($source) ) {
 			if( isset($_SESSION[$source . 'breadcrumb']) ) {
 				return $_SESSION[$source . 'breadcrumb'];

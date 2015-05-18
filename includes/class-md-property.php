@@ -199,4 +199,8 @@ class Property{
 	public function getLon(){
 		return $this->loop->getLongitude();
 	}
+
+	public function get_city_name(){
+		return $this->loop->get_city_name();
+	}
 }

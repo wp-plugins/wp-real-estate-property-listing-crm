@@ -61,11 +61,12 @@ class MD_Single_Property {
 
 	public function chage_wp_title($title, $sep){
 		$data 	= \MD_Single_Property::get_instance()->getPropertyData();
-
+		$add_string = '';
 		if( $data && isset($data['property']) ){
+			$add_string = apply_filters('wp_title_' . $data['source'], $data);
 			$title 	= $data['property']->displayAddress();
 		}
-		return $title;
+		return $title . $add_string;
 	}
 
 	/**

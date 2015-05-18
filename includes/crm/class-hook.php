@@ -12,6 +12,7 @@ class CRM_Hook{
 		add_action('breadcrumb_list_property_crm',array($this,'breadcrumb_list_property_crm'),10,2);
 		add_action('md_list_property_by_crm',array($this,'md_list_property_by_crm'),10,3);
 		add_action('search_utility_by_crm',array($this,'search_utility_by_crm'),10,1);
+		add_action('wp_title_crm',array($this,'wp_title_crm'),10,1);
 	}
 
 	/**
@@ -118,5 +119,9 @@ class CRM_Hook{
 			'properties' 	=> $properties,
 			'source'		=> 'crm'
 		);
+	}
+
+	public function wp_title_crm($data){
+		return '';
 	}
 }

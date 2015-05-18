@@ -10,6 +10,7 @@ class MLS_Hook{
 		add_action('breadcrumb_list_property_mls',array($this,'breadcrumb_list_property_mls'),10,1);
 		add_action('md_list_property_by_mls',array($this,'md_list_property_by_mls'),10,3);
 		add_action('search_utility_by_mls',array($this,'search_utility_by_mls'),10,1);
+		add_filter('wp_title_mls',array($this,'wp_title_mls'),11,1);
 	}
 
 	/**
@@ -166,4 +167,11 @@ class MLS_Hook{
 		);
 	}
 
+	public function wp_title_mls($data){
+		if( $data ){
+			return '';
+		}else{
+			return ' MLS#'.$data['property']->getMLS().' ';
+		}
+	}
 }

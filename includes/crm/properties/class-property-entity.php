@@ -335,6 +335,18 @@ class Property_Entity{
 		return $this->beds;
 	}
 
+	public function getBathroom(){
+		return $this->displayBathrooms();
+	}
+
+	public function getMLS(){
+		return $this->displayMLS();
+	}
+
+	public function getBed(){
+		return $this->displayBeds();
+	}
+
 	public function displayGarage(){
 		return $this->garage;
 	}
@@ -368,6 +380,10 @@ class Property_Entity{
 
 	public function getLongitude(){
 		return $this->longitude;
+	}
+
+	public function get_city_name(){
+		return $this->StreetCity;
 	}
 
 	public function debug(){
