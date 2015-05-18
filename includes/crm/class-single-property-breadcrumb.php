@@ -255,13 +255,16 @@ class MD_Breadcrumb {
 
 	private function _check_wp_page($location_name, $object, $key){
 		$community_city = '';
+		$page = '';
+
 		if( $key == 'community' ){
-			$community_city = $object->community->name.' '.$object->city->name;
+			$page = $object->community->name.' '.$object->city->name;
+		}else{
+			$page = $object->$key->name;
 		}
-		if( get_page_by_title($object->$key->name) ){
-			return esc_url( get_permalink( get_page_by_title( $object->$key->name ) ) );
-		}elseif( get_page_by_title($community_city) ){
-			return esc_url( get_permalink( get_page_by_title( $community_city ) ) );
+
+		if( get_page_by_title($page) ){
+			return esc_url( get_permalink( get_page_by_title( $page ) ) );
 		}
 		return false;
 	}

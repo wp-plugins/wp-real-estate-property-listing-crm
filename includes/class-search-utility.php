@@ -51,8 +51,8 @@ class MD_Search_Utility {
 			'source' 		=> ''
 		);
 
-		if( isset($_POST['source']) ){
-			$source = sanitize_text_field($_POST['source']);
+		if( isset($_REQUEST['source']) ){
+			$source = sanitize_text_field($_REQUEST['source']);
 			$request = $_POST;
 			$api_result = apply_filters('search_utility_by_' . $source, $request);
 

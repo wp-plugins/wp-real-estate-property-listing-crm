@@ -84,7 +84,7 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 			if( has_filter('shortcode_search_result_'.$source) ){
 				$template = apply_filters('shortcode_search_result_'.$source, $path);
 			}
-
+			$atts['source'] = $source;
 			$show_sort = true;
 			ob_start();
 			require $template;
