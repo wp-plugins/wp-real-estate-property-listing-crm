@@ -209,7 +209,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			$search_data['limit'] 			= $limit;
 
 			$properties = \MLS_Property::get_instance()->get_properties($search_data);
-
+			//\helpers\Text::print_r_array($properties);
 			\MD\Property::get_instance()->set_properties($properties,'mls');
 
 			if( trim($atts['template']) != '' ){

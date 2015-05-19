@@ -224,7 +224,7 @@ class Masterdigm_CRM_Property{
 			'page'				=> $paged
 		);
 		$search_md5 	  = md5(json_encode($search_criteria_data));
-		//var_dump($search_criteria_data);
+		var_dump($search_criteria_data);
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . $search_md5;
 
