@@ -1,9 +1,10 @@
 <?php
 namespace mls;
 /**
+ * @deprecated use Class Layout_Property / class-layout-property.php
  * Use as to handle templating for various views on each template
  * */
-class _View_Property{
+class View_Property{
 	protected static $instance = null;
 
 	public function __construct(){

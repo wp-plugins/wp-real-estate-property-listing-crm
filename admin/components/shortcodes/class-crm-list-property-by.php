@@ -57,6 +57,12 @@ if ( !class_exists( 'md_sc_crm_list_properties_by' ) )
 		}
 
 		public function init_shortcode($atts){
+
+			$parse_property = array();
+			if( isset($atts['parse_property']) ){
+				$parse_property = $atts['parse_property'];
+			}
+
 			$list_template 	= $this->get_list_default_template($atts);
 			$template 		= $this->get_default_property_by_template($atts);
 
@@ -99,6 +105,7 @@ if ( !class_exists( 'md_sc_crm_list_properties_by' ) )
 				'source' 				=> 'crm',
 				'show_child' 			=> $atts['show_child'],
 				'search_by' 			=> $search_by,
+				'parse_property'		=> $parse_property
 			), $atts, 'crm_list_property_by' );
 
 			$_properties = \crm\MD_Searchby_Property::get_instance()->displayPropertyBy(
@@ -119,6 +126,18 @@ if ( !class_exists( 'md_sc_crm_list_properties_by' ) )
 				'data'			=>	isset($_properties['child_data']) ? $_properties['child_data']:array(),
 			);
 			$show_sort = true;
+			$search_data = array();
+
+			if( isset($atts['search_by']) ) {
+				$search_by = $atts['search_by'] . 'id';
+				$id = 0;
+				if( isset($atts['parse_property']) && $atts['parse_property'][0] == 'crm' ){
+					$id = $atts['parse_property'][1];
+				}
+				$search_data = array(
+					$search_by => $id
+				);
+			}
 
 			require $template;
 		}

@@ -65,11 +65,11 @@ if ( !class_exists( 'md_sc_crm_single_box_properties' ) )
 			);
 
 			$property_id = explode(',' , $atts['property_id']);
-			$broker_id 	 = \crm\Properties::get_instance()->get_broker_id();
+			$broker_id 	 = \CRM_Account::get_instance()->get_broker_id();
 			if( count($property_id) > 0 ){
 				foreach($property_id as $key=>$val){
 					if( trim($val) != '' ){
-						$property_data[] = \crm\Properties::get_instance()->get_property($val,$broker_id);
+						$property_data[] = \CRM_Property::get_instance()->get_property($val, $broker_id);
 					}
 				}
 			}

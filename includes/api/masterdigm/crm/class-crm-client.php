@@ -149,6 +149,7 @@ class MD_Client{
     {
         $data['user_id'] = $user_id;
         $data['zips']    = $zips;
+
         return $this->sendRequest( 'properties/getFeatured/'  , $data );
     }
 
@@ -200,6 +201,7 @@ class MD_Client{
 		}
 
         $uri    =   $this->endPoint.$this->version.'/'.$request;
+        //echo $uri;
         $ch     =   curl_init( $uri );
         $data	=	http_build_query( $data );
         $etoken =   hash_hmac( 'sha256' , $data , $this->token ) ;

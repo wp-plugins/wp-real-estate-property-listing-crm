@@ -164,7 +164,7 @@ class Property_Entity{
 	 */
 	public function displayPrice()
 	{
-		$currency = \crm\AccountEntity::get_instance()->get_account_data('currency');
+		$currency = \CRM_Account::get_instance()->get_account_data('currency');
 		$get_currency = ($currency) ? $currency:'$';
 		if( $this->price == 0 ){
 			return 'Call for pricing';
@@ -193,7 +193,7 @@ class Property_Entity{
 	}
 
 	public function displayPropertyType(){
-		$type = \crm\AccountEntity::get_instance()->get_fields();
+		$type = \CRM_Account::get_instance()->get_fields();
 		if( $type->result == 'success' || $type->success ){
 			$property_type = json_decode(json_encode($type->fields->types), true);
 			if( isset($property_type[$this->property_type]) ){
@@ -204,7 +204,7 @@ class Property_Entity{
 	}
 
 	public function displayPropertyStatus(){
-		$status = \crm\AccountEntity::get_instance()->get_fields();
+		$status = \CRM_Account::get_instance()->get_fields();
 		if( $status->result == 'success' || $status->success ){
 			$property_status = json_decode(json_encode($status->fields->status), true);
 			if( isset($property_status[$this->property_status]) ){
@@ -222,7 +222,7 @@ class Property_Entity{
 		$area = '';
 		$measure_area = 0;
 		$array_measure = array();
-		$unit_area = \crm\AccountEntity::get_instance()->get_account_data('unit_area');
+		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
 		switch($type){
 			case 'floor':
 				$array_measure = array(
@@ -248,7 +248,7 @@ class Property_Entity{
 
 	public function displayAreaUnit( $type = 'floor' ){
 		$unit = '';
-		$unit_area = \crm\AccountEntity::get_instance()->get_account_data('unit_area');
+		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
 		switch($type){
 			case 'floor':
 				$unit = $this->floor_area_unit;
@@ -335,6 +335,18 @@ class Property_Entity{
 		return $this->beds;
 	}
 
+	public function getBathroom(){
+		return $this->displayBathrooms();
+	}
+
+	public function getMLS(){
+		return $this->displayMLS();
+	}
+
+	public function getBed(){
+		return $this->displayBeds();
+	}
+
 	public function displayGarage(){
 		return $this->garage;
 	}
@@ -368,6 +380,10 @@ class Property_Entity{
 
 	public function getLongitude(){
 		return $this->longitude;
+	}
+
+	public function get_city_name(){
+		return $this->StreetCity;
 	}
 
 	public function debug(){

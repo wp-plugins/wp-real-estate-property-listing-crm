@@ -87,6 +87,7 @@ function crm_masterdigm_breadcrumb(){
 		$trail 	= array();
 		$args 	= array();
 		$trail 	= single_property_breadcrumb_trail($trail, $args);
+
 		if( count($trail) > 0 ){
 			echo '<ol class="breadcrumb">';
 				foreach($trail as $key => $val){
@@ -99,15 +100,17 @@ function crm_masterdigm_breadcrumb(){
 	}
 }
 function single_property_breadcrumb_trail($trail, $args){
-	global $wp_query;
+	global $wp_query, $post;
 
 	$home_label 	= 'Homes for Sale';
 	$property 		= get_single_data();
 	$bread_crumb 	= array();
-	$source 		= get_single_property_source();
-	$display 		= false;
+	$source 		= '';
 
-	if( $wp_query->post->post_name == 'property' && $source == DEFAULT_FEED ){
+	$display = false;
+
+	if( $wp_query->post->post_name == 'property' && $property ){
+		$source  = get_single_property_source();
 		$display = true;
 	}elseif(
 		$wp_query->post->post_name == 'country' ||
@@ -115,40 +118,31 @@ function single_property_breadcrumb_trail($trail, $args){
 		$wp_query->post->post_name == 'state' ||
 		$wp_query->post->post_name == 'city' ||
 		$wp_query->post->post_name == 'community' ||
-		$wp_query->post->post_name == 'zip' &&
-		get_single_property_source() == DEFAULT_FEED
+		$wp_query->post->post_name == 'zip'
 	){
+		if( $source == '' ){
+			$url_source = get_query_var('url');
+			$parse_source = explode('-',$url_source);
+			if( isset($parse_source[0]) ){
+				$source = $parse_source[0];
+			}
+		}
 		$display = true;
 	}
 
-	if( $display &&  ($property && isset($property['source'])) ){
-		switch($property['source']){
-			case 'crm':
-				$show_location = array(
-					'country'	=>	false,
-					'state'		=>	true,
-					'county'	=>	true,
-					'city'		=>	true,
-					'community'	=>	true,
-					'zip'		=>	false,
-				);
-			break;
-			case 'mls':
-				$show_location = array(
-					'country'	=>	false,
-					'state'		=>	true,
-					'county'	=>	true,
-					'city'		=>	true,
-					'community'	=>	true,
-					'zip'		=>	false,
-				);
-			break;
+	if( $display && (isset($source)) ){
+
+		$show_location = array();
+		if( isset($property['source']) ){
+			$show_location = apply_filters('breadcrumb_show_locations_' . $property['source'], $show_location);
 		}
+
 		$args['show_location'] 	= $show_location;
 		$bread_crumb = \MD_Single_Property_Breadcrumb::get_instance()->masterdigm_breadcrumb_trail($property, $args);
 
 		if( is_page('property') && $property ){
 			unset($trail);
+
 			\MD_Single_Property_Breadcrumb::get_instance()->deleteSessionBreadCrumb($source);
 			\MD_Single_Property_Breadcrumb::get_instance()->setSessionBreadCrumb($source, $bread_crumb);
 
@@ -161,7 +155,7 @@ function single_property_breadcrumb_trail($trail, $args){
 				}
 			}
 		}
-
+		$current_page = '';
 		if( is_page('country') ||
 			is_page('county') ||
 			is_page('state') ||
@@ -169,10 +163,49 @@ function single_property_breadcrumb_trail($trail, $args){
 			is_page('community') ||
 			is_page('zip')
 		){
-			$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb(DEFAULT_FEED);
+			$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb($source);
+
+			$get_current_page = '';
+			if( isset($post->post_name) ){
+				$get_current_page = $post->post_name;
+			}
+
+			$current_page = $wp_query->query_vars['name'];
+			if( count($breadcrumb) >= 3 ){
+				if( is_page('state') ){
+					if( isset($breadcrumb[1]) ){
+						unset($breadcrumb[1]);
+					}
+					if( isset($breadcrumb[2]) ){
+						unset($breadcrumb[2]);
+					}
+				}
+				if( is_page('community') || is_page('county') ){
+					if( isset($breadcrumb[1]) ){
+						unset($breadcrumb[1]);
+					}
+				}
+				if( is_page('city') ){
+					if( isset($breadcrumb[2]) ){
+						unset($breadcrumb[2]);
+					}
+				}
+			}else{
+				if( is_page('community') || is_page('county') ){
+					if( isset($breadcrumb[0]) ){
+						unset($breadcrumb[0]);
+					}
+				}
+				if( is_page('city') ){
+					if( isset($breadcrumb[1]) ){
+						unset($breadcrumb[1]);
+					}
+				}
+			}
 			unset($trail);
 			$trail 	 = array();
 			$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
+
 			if( $breadcrumb ){
 				foreach($breadcrumb as $val) {
 					$trail[] = $val;
@@ -180,23 +213,29 @@ function single_property_breadcrumb_trail($trail, $args){
 			}
 		}
 	}else{
-		$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb(DEFAULT_FEED);
+		$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb($source);
+
 		unset($trail);
 		$trail 	 = array();
 		$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
 	}
+
 	return $trail;
 }
 function meta_tag_og() {
 	if( is_page('property') ){
 		$property = get_single_property_data();
 		if($property){
+			$photo = '';
+
 			$current_site = get_option( 'blogname' );
 			$current_site_desc = get_option( 'blogdescription' );
 			$photo = get_single_property_photos();
 
 			if( get_single_property_source() == 'crm' ){
-				$photo = $property->getPhotoUrl($photo)[0];
+				if( isset($property->getPhotoUrl($photo)[0]) ){
+					$photo = $property->getPhotoUrl($photo)[0];
+				}
 			}elseif(get_single_property_source() == 'mls' ){
 				$photo = $property->PrimaryPhotoUrl;
 			}
@@ -218,7 +257,7 @@ function md_meta(){
 	if( is_page('property') ){
 		$property = get_single_property_data();
 		if($property){
-			$meta_desc = $property->displayAddress() . ' is a '.$property->displayPropertyType().' and is currently '.$property->displayPropertyStatus().' Listing. Located in '.$property->city.', has '.$property->baths.' full baths half with '.$property->beds.' bedrooms with with MLS Number: '.$property->mlsid.'';
+			$meta_desc = $property->displayAddress() . ' is a '.$property->displayPropertyType().' and is currently '.$property->displayPropertyStatus().' Listing. Located in '.$property->get_city_name().', has '.$property->getBathroom().' full / half baths with '.$property->getBed().' bedrooms with with MLS Number: '.$property->getMLS().'';
 		}
 	}
 	echo '<meta name="description" content="'.$meta_desc.'">';
@@ -240,6 +279,3 @@ function wp_md_canonical($url) {
 	}
 }
 add_action('wp_head', 'wp_md_canonical',3,1);
-//activate only for customize purposes on per source
-//add_filter('template_carousel_crm',	array('\crm\Layout_Property','get_carousel_template_crm'),10,1);
-//add_filter('template_more_details_crm',	array('\crm\Layout_Property','get_template_more_details_crm'),10,1);
