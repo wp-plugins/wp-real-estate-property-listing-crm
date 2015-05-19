@@ -12,6 +12,7 @@ class MLS_Hook{
 		add_action('search_utility_by_mls',array($this,'search_utility_by_mls'),10,1);
 		add_filter('wp_title_mls',array($this,'wp_title_mls'),11,1);
 		add_filter('property_nearby_property_mls',array($this,'property_nearby_property_mls'),10,1);
+		add_filter('is_property_viewable_hook_mls',array($this,'is_property_viewable_hook_mls'),10,1);
 	}
 
 	/**
@@ -204,5 +205,9 @@ class MLS_Hook{
 
 		$properties = \MLS_Property::get_instance()->get_properties($search_data);
 		return $properties;
+	}
+
+	public function is_property_viewable_hook_mls($status){
+		return true;
 	}
 }

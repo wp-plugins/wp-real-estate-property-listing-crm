@@ -291,7 +291,7 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
-		//\DB_Store::get_instance()->del($cache_keyword);
+		\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
