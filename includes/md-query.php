@@ -31,15 +31,7 @@ function have_photos(){
 	return false;
 }
 function is_property_viewable($current_status){
-	return apply_filters('is_property_viewable_'.md_get_source(), $current_status);
-	/*echo md_get_source();
-	$status = get_account_fields();
-	if( $status->result == 'success' && $status->success ){
-		if( array_search($current_status,(array)$status->fields->status) ){
-			return true;
-		}
-	}
-	return false;*/
+	return apply_filters('is_property_viewable_hook_'.md_get_source(), $current_status);
 }
 function set_loop($property_loop){
 	\MD\Property::get_instance()->set_loop($property_loop);

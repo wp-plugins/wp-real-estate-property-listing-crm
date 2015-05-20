@@ -46,9 +46,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<li class="area-measurement">
 						<span>
 							<?php do_action( 'single_before_area_measurement' ); ?>
-							<?php echo ucwords(get_single_property_data()->displayAreaMeasurement('floor')->area_type);?>
+							<?php
+								if( has_action('single_area_measurement_unit_'.md_get_source()) ){
+									do_action('single_area_measurement_unit_'.md_get_source());
+								}else{
+									echo ucwords(get_single_property_data()->displayAreaMeasurement('floor')->area_type);
+								}
+							?>
 						</span>
-						<p><?php echo md_property_area();?></p>
+						<p>
+							<?php
+								if( has_action('single_area_measurement_'.md_get_source()) ){
+									do_action('single_area_measurement_'.md_get_source());
+								}else{
+									echo get_single_property_data()->displayAreaMeasurement('floor')->measure;
+								}
+							?>
+						</p>
 					</li>
 				<?php } ?>
 				<li class="yr-built">

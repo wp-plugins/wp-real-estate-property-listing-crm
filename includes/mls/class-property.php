@@ -242,15 +242,16 @@ class MLS_Property{
 				$total = 0;
 				$obj_data_properties = array();
 				if( isset($data_properties) && $data_properties ){
-					$total 					= count($data_properties);
+					$total 					= $properties->total;
 					$obj_data_properties 	= $data_properties;
 				}
 
 				$get_properties = (object)array(
-					'total'			=>$total,
-					'data'			=>$obj_data_properties,
-					'search_keyword'=>$data,
-					'source'		=>'mls'
+					'total'				=>	$total,
+					'data'				=>	$obj_data_properties,
+					'search_keyword'	=>	$data,
+					'source'			=>	'mls',
+					'mls_type'			=>	$properties->mls
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
 			}else{
@@ -290,11 +291,12 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
-		//\DB_Store::get_instance()->del($cache_keyword);
+		\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
+
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
