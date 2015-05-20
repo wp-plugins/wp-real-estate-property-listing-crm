@@ -241,7 +241,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 					'show' => 1
 				),
 			);
-
+			$atts['source'] = 'mls';
 			ob_start();
 			require $template;
 			$output = ob_get_clean();
