@@ -43,6 +43,7 @@ class Email_To{
 		get_currentuserinfo();
 
 		$source = get_bloginfo('url').', '. get_bloginfo('name') . ', Send to friend Form';
+
 		$msg 	= '';
 		$status = false;
 		$yourname = '';

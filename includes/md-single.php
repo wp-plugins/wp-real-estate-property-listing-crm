@@ -170,7 +170,8 @@ function single_property_breadcrumb_trail($trail, $args){
 				$get_current_page = $post->post_name;
 			}
 
-			/*$current_page = $wp_query->query_vars['name'];
+			$current_page = $wp_query->query_vars['name'];
+
 			if( count($breadcrumb) >= 3 ){
 				if( is_page('state') ){
 					if( isset($breadcrumb[1]) ){
@@ -181,19 +182,19 @@ function single_property_breadcrumb_trail($trail, $args){
 					}
 				}
 				if( is_page('community') || is_page('county') ){
-					if( isset($breadcrumb[1]) ){
-						unset($breadcrumb[1]);
-					}
-				}
-				if( is_page('city') ){
 					if( isset($breadcrumb[2]) ){
 						unset($breadcrumb[2]);
 					}
 				}
+				if( is_page('city') ){
+					if( isset($breadcrumb[2]) ){
+						//unset($breadcrumb[2]);
+					}
+				}
 			}else{
 				if( is_page('community') || is_page('county') ){
-					if( isset($breadcrumb[0]) ){
-						unset($breadcrumb[0]);
+					if( isset($breadcrumb[1]) ){
+						//unset($breadcrumb[1]);
 					}
 				}
 				if( is_page('city') ){
@@ -201,7 +202,7 @@ function single_property_breadcrumb_trail($trail, $args){
 						unset($breadcrumb[1]);
 					}
 				}
-			}*/
+			}
 			unset($trail);
 			$trail 	 = array();
 			$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
