@@ -229,8 +229,8 @@ class MLS_Property{
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-
-			if( isset($properties->result) == 'success' )
+			\helpers\Text::print_r_array($properties);
+			if( $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
 
@@ -255,16 +255,15 @@ class MLS_Property{
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
 			}else{
+				$msg = '';
+				if( $properties->result == 'fail' ){
+					$msg = $properties->error_message;
+				}else{
+					$msg = $properties['messsage'];
+				}
 				$properties_count = 0;
 				if( isset($properties->count) ){
 					$properties_count = $properties->count;
-				}
-				$properties_msg = '';
-				if( isset($properties->messsage) ){
-					$properties_msg = $properties->messsage;
-				}
-				if( isset($properties['messsage']) ){
-					$properties_msg = $properties['messsage'];
 				}
 				$properties_request = '';
 				if( isset($properties->request) ){
@@ -273,7 +272,7 @@ class MLS_Property{
 				$get_properties = (object)array(
 					'total'			=>$properties_count,
 					'result'		=>$properties_count,
-					'messsage'		=>$properties_msg,
+					'messsage'		=>$msg,
 					'request'		=>$properties_request,
 					'search_keyword'=>array(),
 					'source'		=>'mls'
