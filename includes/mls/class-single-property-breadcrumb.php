@@ -127,7 +127,9 @@ class MD_Breadcrumb {
 			$city_name 	= $obj_property['property']->StreetCity;
 			$uri  		= str_replace(' ','-',strtolower($city_name));
 			$ret_city 	= \mls\AccountEntity::get_instance()->get_coverage_lookup_key($city_name);
-			$cityid 	= $ret_city['id'];
+			if( isset($ret_city['id']) ){
+				$cityid 	= $ret_city['id'];
+			}
 
 			$city = array(
 				'id'	=>	$cityid,
@@ -167,7 +169,7 @@ class MD_Breadcrumb {
 				\MD_Searchby_Property::get_instance()->community_pagename
 			);
 
-			if( isset($obj_property['community']) && count($obj_property['community']) >= 1 ){
+			if( isset($obj_property['community']) && $obj_property['community'] != '' && count($obj_property['community']) >= 1 ){
 				$communityid 	= $obj_property['community']->community_id;
 				$community_name = $obj_property['community']->community;
 				$uri 			= str_replace(' ','-',strtolower($community_name));

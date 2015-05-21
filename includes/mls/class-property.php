@@ -229,7 +229,7 @@ class MLS_Property{
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-			\helpers\Text::print_r_array($properties);
+
 			if( $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -290,12 +290,12 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
-		\DB_Store::get_instance()->del($cache_keyword);
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-
+			//\helpers\Text::print_r_array($property);
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -306,11 +306,15 @@ class MLS_Property{
 					$photos = $property->photos;
 				}
 
+				$community = '';
+				if( isset($property->community) ){
+					$community = $property->community;
+				}
 				$data = array(
 					'properties'=>$propertyEntity,
 					'photos'	=>$photos,
 					'result'	=> 'success',
-					'community'	=> $property->community,
+					'community'	=> $community,
 					'source'=>'mls'
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $data);

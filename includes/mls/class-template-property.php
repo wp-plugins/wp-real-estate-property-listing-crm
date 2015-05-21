@@ -145,8 +145,9 @@ class Template_Property{
 					$next_url = $next_prev_array[$next_key];
 				}
 			}else{
-				$next_key = $next_prev_keys[0];
-				if( isset($next_key) ){
+				$next_key = '';
+				if( isset($next_prev_keys[0]) ){
+					$next_key = $next_prev_keys[0];
 					$next_url = $next_prev_array[$next_key];
 				}
 			}
@@ -156,7 +157,10 @@ class Template_Property{
 			if( $get_current_key > 0 ){
 				$get_prev_key = ($get_current_key - 1);
 			}
-			$prev_key = $next_prev_keys[$get_prev_key];
+			$prev_key = '';
+			if( isset($next_prev_keys[$get_prev_key]) ){
+				$prev_key = $next_prev_keys[$get_prev_key];
+			}
 			if( isset($prev_key) && $get_current_key > 0 ){
 				$prev_url = $next_prev_array[$prev_key];
 			}else{

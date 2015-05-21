@@ -33,8 +33,13 @@ function get_single_property_data(){
 function get_single_property_photos(){
 	$property = get_single_data();
 
-	if( $property && isset($property['photos']) ){
-		return $property['photos'];
+	// hook filter, incase we want to just use hook
+	if( has_filter('photos_data') ){
+		$photos_data = apply_filters('photos_data', $property);
+	}else{
+		if( $property && isset($property['photos']) ){
+			return $property['photos'];
+		}
 	}
 	return false;
 }
