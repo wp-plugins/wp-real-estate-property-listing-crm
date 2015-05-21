@@ -11,6 +11,8 @@ class MLS_Hook{
 		add_action('md_list_property_by_mls',array($this,'md_list_property_by_mls'),10,3);
 		add_action('search_utility_by_mls',array($this,'search_utility_by_mls'),10,1);
 		add_filter('wp_title_mls',array($this,'wp_title_mls'),11,1);
+		add_filter('property_nearby_property_mls',array($this,'property_nearby_property_mls'),10,1);
+		add_filter('is_property_viewable_hook_mls',array($this,'is_property_viewable_hook_mls'),10,1);
 	}
 
 	/**
@@ -169,9 +171,43 @@ class MLS_Hook{
 
 	public function wp_title_mls($data){
 		if( $data ){
-			return '';
-		}else{
 			return ' MLS#'.$data['property']->getMLS().' ';
+		}else{
+			return '';
 		}
+	}
+
+	public function property_nearby_property_mls($array_properties){
+		$search_data	= array();
+		$communityid 	= '';
+		$location 		= '';
+		if( $array_properties['community'] && isset($array_properties['community']->community_id) ){
+			$communityid = $array_properties['community']->community_id;
+		}else{
+			$location = $array_properties['property']->PostalCode;
+		}
+
+		$search_data['countyid'] 		= '';
+		$search_data['stateid'] 		= '';
+		$search_data['countyid'] 		= '';
+		$search_data['countryid'] 		= '';
+		$search_data['communityid'] 	= $communityid;
+		$search_data['cityid'] 			= '';
+		$search_data['location'] 		= $location;
+		$search_data['bathrooms'] 		= '';
+		$search_data['bedrooms'] 		= '';
+		$search_data['transaction'] 	= '';
+		$search_data['property_type'] 	= '';
+		$search_data['property_status'] = '';
+		$search_data['min_listprice'] 	= '';
+		$search_data['max_listprice'] 	= '';
+		$search_data['limit']			= '11';
+
+		$properties = \MLS_Property::get_instance()->get_properties($search_data);
+		return $properties;
+	}
+
+	public function is_property_viewable_hook_mls($status){
+		return true;
 	}
 }
