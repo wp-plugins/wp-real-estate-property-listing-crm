@@ -158,6 +158,7 @@ class CRM_Hook{
 		$search_data['limit']			= 11;
 
 		$properties = \CRM_Property::get_instance()->get_properties($search_data);
+
 		return $properties;
 	}
 

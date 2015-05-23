@@ -295,7 +295,7 @@ class MLS_Property{
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-			//\helpers\Text::print_r_array($property);
+			//\helpers\Text::print_r_array($property,1);
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;

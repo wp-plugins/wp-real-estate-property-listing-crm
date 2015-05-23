@@ -180,7 +180,7 @@ class MD_Single_Property {
 
 		$property_url 	= $this->getCurrentPropertyPage();
 		$data 			= array();
-		$property_url = strtolower($property_url);
+		$property_url 	= strtolower($property_url);
 		if( isset($wp_query->queried_object) ){
 			if( $wp_query->queried_object->post_name == $property_url && is_page($property_url) ){
 				$url 					= get_query_var('url');
