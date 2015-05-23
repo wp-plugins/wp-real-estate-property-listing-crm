@@ -37,9 +37,11 @@ class Next_Prev{
 		$template 		= \MD_Template::get_instance()->load_template('next_prev.php');
 		$next_prev_data = array();
 
-		if( DEFAULT_FEED == 'crm' ){
-			$next_prev_data = \crm\Layout_Property::get_instance()->next_prev();
-		}
+		$next_prev_data = apply_filters('next_prev_' . get_single_property_source(), $next_prev_data);
+
+		//if( DEFAULT_FEED == 'crm' ){
+			//$next_prev_data = \crm\Layout_Property::get_instance()->next_prev();
+		//}
 
 		if( $template && $next_prev_data ){
 			if( has_filter('next_prev_template') ){

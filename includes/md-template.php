@@ -27,3 +27,6 @@ function display_walkscore_single($atts){
 function display_photos_single($atts){
 	\MD_Template::get_instance()->single_photos($atts);
 }
+function display_agent_details($property_data, $atts = array()){
+	\MD_Template::get_instance()->display_agent_box($property_data, $atts);
+}

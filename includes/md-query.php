@@ -9,7 +9,6 @@ function gmap_geocode($address){
 function get_ret_properties(){
 	return \MD\Property::get_instance()->getObject();
 }
-//put this in model property
 function have_properties(){
 	$properties = get_ret_properties();
 	if( isset($properties->data) ){
@@ -31,15 +30,7 @@ function have_photos(){
 	return false;
 }
 function is_property_viewable($current_status){
-	return apply_filters('is_property_viewable_'.md_get_source(), $current_status);
-	/*echo md_get_source();
-	$status = get_account_fields();
-	if( $status->result == 'success' && $status->success ){
-		if( array_search($current_status,(array)$status->fields->status) ){
-			return true;
-		}
-	}
-	return false;*/
+	return apply_filters('is_property_viewable_hook_'.md_get_source(), $current_status);
 }
 function set_loop($property_loop){
 	\MD\Property::get_instance()->set_loop($property_loop);
@@ -47,8 +38,8 @@ function set_loop($property_loop){
 function md_property_id(){
 	return \MD\Property::get_instance()->getID();
 }
-function md_property_address(){
-	return \MD\Property::get_instance()->getAddress();
+function md_property_address($type = 'long'){
+	return \MD\Property::get_instance()->getAddress($type);
 }
 function md_property_url(){
 	return \MD\Property::get_instance()->getURL();
@@ -64,6 +55,27 @@ function md_property_yr_built(){
 }
 function md_property_price(){
 	return \MD\Property::get_instance()->getPrice();
+}
+function md_property_raw_price(){
+	return \MD\Property::get_instance()->getRawPrice();
+}
+function md_property_format_price(){
+	$account  = \CRM_Account::get_instance()->get_account_data();
+	$get_currency = ($account->currency) ? $account->currency:'$';
+	return $get_currency.number_format( $this->price );
+}
+function md_property_html_price(){
+	$price = '';
+	$account  = \CRM_Account::get_instance()->get_account_data();
+	$get_currency = ($account->currency) ? $account->currency:'$';
+	if( md_property_raw_price() == 0 ){
+		$price = 'Call for pricing ';
+		$price .= '<span>'.$account->work_phone.'</span>';
+	}else{
+		$price = $get_currency.number_format( md_property_raw_price() );
+		$price .= '<span>&nbsp;</span>';
+	}
+	return $price;
 }
 function md_property_img($property_id = null){
 	if( \MD\Property::get_instance()->getPhoto() ){
@@ -131,8 +143,6 @@ function md_get_lng_gmap($address){
 		return md_get_lon();
 	}
 }
-// $properties->photo
-// $properties->id
 function crm_md_get_featured_img($property_id){
 	$properties_photos = have_photos();
 	if( $properties_photos ){

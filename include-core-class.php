@@ -59,3 +59,4 @@ require_once( plugin_dir_path( __FILE__ ) . 'includes/class-md-property.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/class-template.php' );
 //next prev
 require_once( plugin_dir_path( __FILE__ ) . 'includes/class-next-prev.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agent.php' );

@@ -167,6 +167,10 @@ class Property_Entity{
 		}
 	}
 
+	public function get_price(){
+		return $this->ListPrice;
+	}
+
 	/**
 	 * @param string $type
 	 * return string
@@ -234,8 +238,20 @@ class Property_Entity{
 		return $this->displayMLS();
 	}
 
+	public function get_floor_area(){
+		return number_format($this->FloorArea);
+	}
+
+	public function get_lot_area(){
+		return isset($this->LotSizeSqFt) ? number_format($this->LotSizeSqFt) : number_format($this->LotArea);
+	}
+
 	public function displaySqFt(){
-		return number_format($this->LotSizeSqFt);
+		if( $this->FloorArea == 0 ){
+			return number_format($this->LotSizeSqFt);
+		}else{
+			return number_format($this->FloorArea);
+		}
 	}
 
 	public function displayAreaMeasurement($type){
@@ -249,6 +265,9 @@ class Property_Entity{
 					'area_type'=>$unit_area,
 					'measure'=>number_format($this->FloorArea)
 				);
+				if( $this->FloorArea == 0 ){
+					$array_measure['measure'] = number_format($this->LotArea);
+				}
 			break;
 			case 'lot':
 				$array_measure = array(
@@ -259,12 +278,14 @@ class Property_Entity{
 			default:
 			break;
 		}
+
 		return (object)$array_measure;
 	}
 
 	public function displayAreaUnit( $type = 'account' ){
 		$unit = '';
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
+
 		switch($type){
 			case 'floor':
 				$unit = $this->floor_area_unit;

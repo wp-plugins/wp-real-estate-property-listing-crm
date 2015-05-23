@@ -157,4 +157,11 @@ class MD_Template{
 	public function single_photos($atts){
 		require GLOBAL_TEMPLATE . 'single/partials/photos/photos.php';
 	}
+
+	public function display_agent_box($property_data, $atts = array()){
+		$template = GLOBAL_TEMPLATE . 'agent/html-agent.php';
+		$agent = new MD_Agent;
+		$agent->set_agent_data();
+		require $template;
+	}
 }
