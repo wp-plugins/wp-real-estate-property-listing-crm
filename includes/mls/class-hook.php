@@ -11,7 +11,7 @@ class MLS_Hook{
 		add_action('md_list_property_by_mls',array($this,'md_list_property_by_mls'),10,3);
 		add_action('search_utility_by_mls',array($this,'search_utility_by_mls'),10,1);
 		add_filter('wp_title_mls',array($this,'wp_title_mls'),11,1);
-		add_filter('property_nearby_property_mls',array($this,'property_nearby_property_mls'),10,1);
+		add_filter('property_nearby_property_mls',array($this,'property_nearby_property_mls'),10,2);
 		add_filter('is_property_viewable_hook_mls',array($this,'is_property_viewable_hook_mls'),10,1);
 	}
 
@@ -177,7 +177,7 @@ class MLS_Hook{
 		}
 	}
 
-	public function property_nearby_property_mls($array_properties){
+	public function property_nearby_property_mls($array_properties, $array_option_search){
 		$search_data	= array();
 		$communityid 	= '';
 		$location 		= '';
@@ -185,6 +185,11 @@ class MLS_Hook{
 			$communityid = $array_properties['community']->community_id;
 		}else{
 			$location = $array_properties['property']->PostalCode;
+		}
+
+		$limit = 6;
+		if( isset($array_option_search['limit']) ){
+			$limit = $array_option_search['limit'];
 		}
 
 		$search_data['countyid'] 		= '';
@@ -201,7 +206,7 @@ class MLS_Hook{
 		$search_data['property_status'] = '';
 		$search_data['min_listprice'] 	= '';
 		$search_data['max_listprice'] 	= '';
-		$search_data['limit']			= '11';
+		$search_data['limit']			= $limit;
 
 		$properties = \MLS_Property::get_instance()->get_properties($search_data);
 		return $properties;

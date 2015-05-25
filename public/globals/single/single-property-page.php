@@ -36,16 +36,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php echo md_property_html_price();?>
 				</li>
 				<?php if(!has_filter('list_display_baths')){ ?>
-					<li class="baths">
-						<?php echo md_property_bathrooms();?>
-						<span><?php echo _label('baths');?></span>
-					</li>
+					<?php if( md_property_bathrooms() > 0 || md_property_bathrooms() != '' ){ ?>
+						<li class="baths">
+							<?php echo md_property_bathrooms();?>
+							<span><?php echo _label('baths');?></span>
+						</li>
+					<?php } ?>
 				<?php } ?>
 				<?php if(!has_filter('list_display_bed')){ ?>
+					<?php if( md_property_beds() > 0 || md_property_beds() != '' ){ ?>
 					<li class="beds">
 						<?php echo md_property_beds();?>
 						<span><?php echo _label('beds');?></span>
 					</li>
+					<?php } ?>
 				<?php } ?>
 				<?php if(!has_filter('list_display_area')){ ?>
 					<li class="area-measurement">
@@ -53,7 +57,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							if( has_action('single_area_measurement_'.md_get_source()) ){
 								do_action('single_area_measurement_'.md_get_source());
 							}else{
-								echo get_single_property_data()->displayAreaMeasurement('floor')->measure;
+								echo get_single_property_data()->displayAreaMeasurement('')->measure;
 							}
 						?>
 						<span>
@@ -62,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 								if( has_action('single_area_measurement_unit_'.md_get_source()) ){
 									do_action('single_area_measurement_unit_'.md_get_source());
 								}else{
-									echo ucwords(get_single_property_data()->displayAreaMeasurement('floor')->area_type);
+									echo ucwords(get_single_property_data()->displayAreaMeasurement('')->area_type);
 								}
 							?>
 						</span>
@@ -82,23 +86,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<div class="row" id="md-proppage-left">
 				<div class="col-md-9 col-sm-12">
-					<div class="single-property-carousel md-container">
-						<?php
-							if( has_filter('template_carousel_'.get_single_property_source()) ){
-								apply_filters('template_carousel_'.get_single_property_source(), $atts);
-							}else{
-								//display default - crm
-								md_global_carousel_template($atts);
-							}
-						?>
-					</div>
-					<div class="listing-info">
-						<h2><span>Listing Information</span></h2>
-						<?php
-							do_action('before_more_details_'.get_single_property_source());
-							do_action('template_more_details_'.get_single_property_source(), $atts);
-							do_action('after_more_details_'.get_single_property_source());
-						?>
+					<div class="left-content">
+						<?php  display_property_details_left_content($atts); ?>
 					</div>
 					<div class="mini-map">
                     	<h2><span>Map on <?php echo md_property_address('short');?></span></h2>
@@ -108,61 +97,60 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<div class="col-md-3 col-sm-12">
 					<div class="right-sidebar" id="md-proppage-right">
 						<?php
-							if( has_action('before_right_sidebar_content') ){
-								do_action( 'before_right_sidebar_content' );
-							}
-						?>
-
-						<div class="panel panel-default">
-						  <div class="panel-body">
-							<?php \Action_Buttons::get_instance()->display($args_button_action); ?>
-						  </div>
-						</div>
-
-						<?php display_agent_details(get_single_data(), $atts); ?>
-
-						<?php
-							\md_sc_single_properties::get_instance()->display_inquire_form($att_inquire_msg);
-						?>
-
-						<div class="similar-homes">
-							<h2><span>Similar Homes</span></h2>
-							<?php md_display_nearby_property($atts); ?>
-						</div>
-
-						<?php \MD_Property_Content::get_instance()->displayTagContent(get_single_property_data()); ?>
-
-						<?php
-							if( has_action('after_right_sidebar_content') ){
-								do_action( 'after_right_sidebar_content' );
-							}
+							$additional_atts = array(
+								'args_button_action' => $args_button_action,
+								'att_inquire_msg' => $att_inquire_msg
+							);
+							display_property_details_right_content($atts, $additional_atts);
 						?>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="map-directions">
-			<div class="single-property-map md-container">
-				<?php do_action( 'before_map_load' ); ?>
-				<?php
-					if( has_filter('template_map_'.get_single_property_source()) ){
-						apply_filters('template_map_'.get_single_property_source(), $atts);
-					}else{
-						display_map_single($atts);
-					}
-				?>
-				<?php do_action( 'after_map_load' ); ?>
+			<div class="col-md-9 col-sm-12" id="md-proppage-left">
+				<div class="single-property-map md-container">
+					<?php do_action( 'before_map_load' ); ?>
+					<?php
+						if( has_filter('template_map_'.get_single_property_source()) ){
+							apply_filters('template_map_'.get_single_property_source(), $atts);
+						}else{
+							display_map_single($atts);
+						}
+					?>
+					<?php do_action( 'after_map_load' ); ?>
+				</div>
+				<?php  display_property_details_left_content($atts); ?>
+			</div>
+			<div class="col-md-3 col-sm-12">
+				<div class="right-sidebar" id="md-proppage-right">
+						<?php
+							$additional_atts = array(
+								'args_button_action' => $args_button_action,
+								'att_inquire_msg' => $att_inquire_msg
+							);
+							display_property_details_right_content($atts, $additional_atts);
+						?>
+				</div>
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="walkscore">
-			<div class="single-property-walkscore">
-				<?php
-					if( has_filter('template_walkscore_'.get_single_property_source()) ){
-						apply_filters('template_walkscore_'.get_single_property_source(), $atts);
-					}else{
-						display_walkscore_single($atts);
-					}
-				?>
+			<div class="col-md-9 col-sm-12" id="md-proppage-left">
+				<div class="single-property-walkscore">
+					<?php
+						if( has_filter('template_walkscore_'.get_single_property_source()) ){
+							apply_filters('template_walkscore_'.get_single_property_source(), $atts);
+						}else{
+							display_walkscore_single($atts);
+						}
+					?>
+				</div>
+				<?php  display_property_details_left_content($atts); ?>
+			</div>
+			<div class="col-md-3 col-sm-12">
+				<div class="right-sidebar" id="md-proppage-right">
+					<?php display_property_details_right_content($atts, $additional_atts); ?>
+				</div>
 			</div>
 		</div>
 		<div role="tabpanel" class="tab-pane" id="photos">

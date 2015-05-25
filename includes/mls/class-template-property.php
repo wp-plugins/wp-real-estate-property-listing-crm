@@ -62,7 +62,7 @@ class Template_Property{
 				if( has_filter('mls_more_details_single') ){
 					$template = apply_filters('mls_more_details_single',$path, $atts);
 				}
-				require_once $template;
+				require $template;
 			}
 		}
 	}

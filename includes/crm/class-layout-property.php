@@ -54,7 +54,7 @@ class Layout_Property{
 			if( has_filter('crm_more_details_single') ){
 				$template = apply_filters('crm_more_details_single',$path, $atts);
 			}
-			require_once $template;
+			require $template;
 		}
 	}
 
@@ -182,7 +182,7 @@ class Layout_Property{
 				if( has_filter('crm_more_details_single') ){
 					$template = apply_filters('crm_more_details_single',$path, $atts);
 				}
-				require_once $template;
+				require $template;
 			}
 		}
 	}

@@ -219,11 +219,19 @@ class Property_Entity{
 	}
 
 	public function displayBed(){
-		return $this->Bedrooms;
+		if( $this->Bedrooms == 0 ){
+			return $this->BedsTotal;
+		}else{
+			return $this->Bedrooms;
+		}
 	}
 
 	public function displayBathrooms(){
-		return $this->Baths;
+		if( $this->Baths == 0 ){
+			return $this->BathsTotal;
+		}else{
+			return $this->Baths;
+		}
 	}
 
 	public function getBathroom(){
@@ -265,9 +273,6 @@ class Property_Entity{
 					'area_type'=>$unit_area,
 					'measure'=>number_format($this->FloorArea)
 				);
-				if( $this->FloorArea == 0 ){
-					$array_measure['measure'] = number_format($this->LotArea);
-				}
 			break;
 			case 'lot':
 				$array_measure = array(
@@ -276,6 +281,17 @@ class Property_Entity{
 				);
 			break;
 			default:
+				if( $this->FloorArea == 0 || !isset($this->FloorArea) ){
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->LotArea)
+					);
+				}else{
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->FloorArea)
+					);
+				}
 			break;
 		}
 

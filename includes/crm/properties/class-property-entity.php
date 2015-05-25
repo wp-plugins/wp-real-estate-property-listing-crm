@@ -239,6 +239,17 @@ class Property_Entity{
 				);
 			break;
 			default:
+				if( $this->floor_area == 0 ){
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->lot_area)
+					);
+				}else{
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->floor_area)
+					);
+				}
 			break;
 		}
 		return (object)$array_measure;

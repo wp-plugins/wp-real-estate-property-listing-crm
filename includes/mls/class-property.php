@@ -279,6 +279,7 @@ class MLS_Property{
 				);
 			}
 		}
+
 		return $get_properties;
 	}
 

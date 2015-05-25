@@ -19,14 +19,16 @@ function md_display_nearby_property($atts){
 		if( has_filter('nearby_search_data') ){
 			$search_data = apply_filters('nearby_search_data',$search_data);
 		}
-		$properties = apply_filters('property_nearby_property_' . get_single_property_source(), get_single_data());
+
+		$properties = apply_filters('property_nearby_property_' . get_single_property_source(), get_single_data(), array('limit'=>6));
+		$properties->search_keyword['limit'] = 11;
 		$more_similar_homes_link = \Property_URL::get_instance()->get_search_page_default() .'?' . http_build_query($properties->search_keyword) . "\n";
 		$total_properties = $properties->total;
 
 		$atts['infinite'] = false;
-		if( $total_properties >= 10  ){
+		/*if( $total_properties >= 10  ){
 			$atts['infinite'] = true;
-		}
+		}*/
 
 		\MD\Property::get_instance()->set_properties($properties, get_single_property_source());
 
@@ -37,11 +39,11 @@ function md_display_nearby_property($atts){
 		}
 
 		$atts['col'] 	= $atts['short_code_nearby_col'];
-		$col 			= $atts['nearby_prop_col'];
+		$col 			= 12;
 
 		if( isset($atts['show_nearby_prop']) && $atts['show_nearby_prop'] == true ){
 			$show_sort = false;
-			require_once $template;
+			require $template;
 		}
 	}
 }
