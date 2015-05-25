@@ -13,6 +13,9 @@ class CRM_Hook{
 		add_action('md_list_property_by_crm',array($this,'md_list_property_by_crm'),10,3);
 		add_action('search_utility_by_crm',array($this,'search_utility_by_crm'),10,1);
 		add_action('wp_title_crm',array($this,'wp_title_crm'),10,1);
+		add_action('property_nearby_property_crm',array($this,'property_nearby_property_crm'),10,2);
+		add_action('next_prev_crm',array($this,'next_prev_crm'),10,1);
+		add_filter('is_property_viewable_hook_crm',array($this,'is_property_viewable_hook_crm'),10,1);
 	}
 
 	/**
@@ -123,5 +126,58 @@ class CRM_Hook{
 
 	public function wp_title_crm($data){
 		return '';
+	}
+
+	public function property_nearby_property_crm($array_properties, $array_option_search){
+		$communityid = '';
+		$cityid = '';
+		if( $array_properties['property'] && isset($array_properties['property']->communityid) == 0 ){
+			$communityid = $array_properties['property']->communityid;
+			$city = '';
+		}elseif( $array_properties['property'] && isset($array_properties['property']->cityid) ){
+			$cityid = $array_properties['property']->cityid;
+			$communityid = '';
+		}
+
+		$limit = 5;
+		if( isset($array_option_search['limit']) ){
+			$limit = $array_option_search['limit'];
+		}
+
+		$search_data	= array();
+		$search_data['countyid'] 		= 0;
+		$search_data['stateid'] 		= 0;
+		$search_data['countryid'] 		= 0;
+		$search_data['cityid'] 			= $cityid;
+		$search_data['zip'] 			= '';
+		$search_data['communityid'] 	= $communityid;
+		$search_data['bathrooms'] 		= '';
+		$search_data['bedrooms'] 		= '';
+		$search_data['transaction'] 	= $array_properties['property']->transaction_type;
+		$search_data['property_type'] 	= $array_properties['property']->property_type;
+		$search_data['property_status'] = $array_properties['property']->property_status;
+		$search_data['min_listprice'] 	= 0;
+		$search_data['max_listprice'] 	= 0;
+		$search_data['orderby'] 		= '';
+		$search_data['order_direction']	= '';
+		$search_data['limit']			= $limit;
+
+		$properties = \CRM_Property::get_instance()->get_properties($search_data);
+
+		return $properties;
+	}
+
+	public function next_prev_crm(){
+		return \crm\Layout_Property::get_instance()->next_prev();
+	}
+
+	public function is_property_viewable_hook_crm($status){
+		$status = get_account_fields();
+		if( $status->result == 'success' && $status->success ){
+			if( array_search(md_get_property_status(),(array)$status->fields->status) ){
+				return true;
+			}
+		}
+		return false;
 	}
 }

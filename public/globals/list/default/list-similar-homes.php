@@ -13,7 +13,7 @@ Template Name: List - Box Style
 	$single_property_id = 0;
 	if( get_single_property_data() ){
 		$single_property = true;
-		$single_property_id = get_single_property_data()->id;
+		$single_property_id = get_single_property_data()->getID();
 	}
 ?>
 <div class="row" id="search-result-container">
@@ -100,6 +100,7 @@ Template Name: List - Box Style
 
 	\MD_Search_Utility::get_instance()->js_var_search_data($properties, $atts, $search_data, $options);
 ?>
+<a href="<?php echo $more_similar_homes_link; ?>">More Similar Homes</a>
 <?php }else{ ?>
 	<?php
 		if(has_action('list_no_property_found')){

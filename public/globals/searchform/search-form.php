@@ -46,15 +46,21 @@ Template Name: Search Form - Default UI
 									<option value="<?php echo $val;?>" <?php echo ($max_listprice == $val) ? "selected":""; ?>><?php echo $currency.number_format($val);?></option>
 							<?php } ?>
 					<?php } ?>
-					<option value="100000000">
-						<?php
-							if( has_action('max_price_val_plus') ){
-								do_action('max_price_val_plus');
-							}else{
-								echo $currency.'100,000,000+';
-							}
-						?>
-					</option>
+
+					<?php
+						if( has_filter('max_price_val_plus') ){
+							$max_price_val_plus = '';
+							$max_price_val_plus = apply_filters('max_price_val_plus',$max_price_val_plus);
+							echo '<option value="'.$max_price_val_plus.'">';
+								echo $currency.number_format($max_price_val_plus).'+';
+							echo '</option>';
+						}else{
+							echo '<option value="100000000">';
+							echo $currency.'100,000,000+';
+							echo '</option>';
+						}
+					?>
+
 				</select>
 			</div>
 			<div class="col-md-4 col-xs-12">

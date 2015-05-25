@@ -4,7 +4,7 @@ Template Name: Carousel - Single, Galleria Script
 */
 ?>
 <style>
-#galleria{height:450px;}
+#galleria{height:412px;}
 /*#galleria .galleria-image-nav-left, body .galleria-image-nav-right {
     background-image: url("<?php echo PLUGIN_PUBLIC_URL;?>galleria/themes/classic/arrows.png") !important;
 }*/
@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
 	Galleria.configure({
 		lightbox: true,
 		responsive:true,
-		imageCrop: false,
+		imageCrop: true,
 		preload:2,
 		dummy: '<?php echo PLUGIN_ASSET_URL . 'house.png';?>',
 	});

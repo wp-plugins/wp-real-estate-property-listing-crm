@@ -7,10 +7,10 @@ Template Name: Search Form Minimal - Default UI
 	<h3 class="search-heading"><i class="fa fa-search"></i><?php echo _label('search-title');?></h3><div class="as-form-wrap">
 	<form class="form-inline search_property" method="GET" id="advanced_search" name="search_property" action="<?php echo \Property_URL::get_instance()->get_search_page_default();?>"  role="form">
 		<div class="row">
-			<div class="col-xs-12 col-md-2">
+			<div class="col-xs-12 col-md-3 col-nopad-3">
 				<input type="text" id="location" name="location" placeholder="Enter Location here" class="form-control typeahead" value="<?php echo $location ? $location:'';?>">
 			</div>
-			<div class="col-md-2 col-xs-12">
+			<div class="col-md-2 col-xs-12 col-nopad-3">
 				<select id="min_listprice" name="min_listprice" class="form-control">
 					<option value="0">
 						<?php
@@ -28,7 +28,7 @@ Template Name: Search Form Minimal - Default UI
 					<?php } ?>
 				</select>
 			</div>
-			<div class="col-md-2 col-xs-12">
+			<div class="col-md-2 col-xs-12 col-nopad-3">
 				<select id="max_listprice" name="max_listprice" class="form-control">
 					<option value="0">
 						<?php
@@ -55,29 +55,41 @@ Template Name: Search Form Minimal - Default UI
 					</option>
 				</select>
 			</div>
-			<div class="col-md-2 col-xs-12">
+			<div class="col-md-1 col-xs-12 col-nopad-3">
 				<select name="property_type" id="property_type" class="form-control">
-					<option value="0">Type - All</option>
+					<option value="0">Type</option>
 					<?php foreach($fields_type as $key=>$val){ ?>
 							<option value="<?php echo $key;?>" <?php echo ($property_type == $key) ? "selected":""; ?>><?php echo $val;?></option>
 					<?php } ?>
 				</select>
 			</div>
-			<div class="col-md-2 col-xs-12">
+			<div class="col-md-1 col-xs-12 col-nopad-3">
 				<select id="bedrooms" name="bedrooms" class="form-control">
-					<option value="0">Bedroom, Any</option>
+					<option value="0">Bed, Any</option>
 					<?php foreach (range(1, 5) as $number){ ?>
 						<option value="<?php echo $number;?>" <?php echo ($bedrooms == $number) ? "selected":"";?>><?php echo $number;?></option>
 					<?php } ?>
 				</select>
 			</div>
-			<div class="col-md-2 col-xs-12">
+			<div class="col-md-1 col-xs-12 col-nopad-3">
 				<select id="bathrooms" name="bathrooms" class="form-control">
-					<option value="0">Bathroom, Any</option>
+					<option value="0">Bath, Any</option>
 					<?php foreach (range(1, 5) as $number){ ?>
 						<option value="<?php echo $number;?>" <?php echo ($bathrooms == $number) ? "selected":"";?>><?php echo $number;?></option>
 					<?php } ?>
 				</select>
+			</div>
+			<div class="col-md-2 col-xs-12 col-nopad-3">
+				<?php if( $show_button_for_sale ){ ?>
+				<button type="submit" class="btn btn-default wp-site-color-theme" value="For Sale">
+					<?php echo $button_for_sale;?>
+				</button>
+				<?php } ?>
+				<?php if( $show_button_for_rent ){ ?>
+				<button type="submit" class="btn btn-default wp-site-color-theme" value="For Rent">
+					<?php echo $button_for_rent;?>
+				</button>
+				<?php } ?>
 			</div>
 		</div>
 		<p></p>
@@ -88,16 +100,6 @@ Template Name: Search Form Minimal - Default UI
 		<input type="hidden" name="cityid" value="<?php echo $cityid ? $cityid:'';?>" id="cityid">
 		<input type="hidden" name="countyid" value="<?php echo $countyid ? $countyid:'';?>" id="countyid">
 		<input type="hidden" name="subdivisionid" value="<?php echo $subdivisionid ? $subdivisionid:'';?>" id="subdivisionid">
-		<?php if( $show_button_for_sale ){ ?>
-		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Sale">
-			<?php echo $button_for_sale;?>
-		</button>
-		<?php } ?>
-		<?php if( $show_button_for_rent ){ ?>
-		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Rent">
-			<?php echo $button_for_rent;?>
-		</button>
-		<?php } ?>
 	</form>
 </div>
 <script>
