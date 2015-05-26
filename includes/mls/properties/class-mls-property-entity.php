@@ -321,7 +321,7 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->MLnumber ? $this->MLnumber:'&nbsp;';
+		return $this->MLSNumber ? $this->MLSNumber:'&nbsp;';
 	}
 
 	public function displayPropertyStatus(){
@@ -357,6 +357,10 @@ class Property_Entity{
 	}
 
 	public function get_property_id(){
+		return $this->Propertyid;
+	}
+
+	public function get_listing_id(){
 		return $this->Propertyid;
 	}
 

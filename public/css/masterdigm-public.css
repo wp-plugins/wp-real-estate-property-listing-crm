@@ -215,6 +215,7 @@ ul.child_list > li {
 #md-proppage h2 span {
 	display: inline-block;
   	position: relative;
+  	width: 100%;
 }
 #md-proppage h2 span:after {
   	content: "";

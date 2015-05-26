@@ -123,17 +123,18 @@ class Template_Property{
 
 			if( isset($next_prev->data) ){
 				foreach($next_prev->data as $key => $val){
-					$next_prev_array[$val->id] = $val->displayUrl();
+					$next_prev_array[$val->getID()] = $val->displayUrl();
 				}
 			}
 
 			$current_property 	= get_single_data();
-			$current_id			= $current_property['property']->ListingId;
+			$current_id			= $current_property['property']->getID();
 			$get_current_key	= array_search($current_id,array_keys($next_prev_array));
 			$next_url = '#';
 			$prev_url = '#';
 
 			$next_prev_keys = array_keys($next_prev_array);
+
 			$get_next_key = 0;
 			if( $next_prev_keys > $total_properties ){
 				$get_next_key	= ($get_current_key + 1);

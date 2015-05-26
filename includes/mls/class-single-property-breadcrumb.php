@@ -225,7 +225,7 @@ class MD_Breadcrumb {
 		$bread_crumb = $this->getBreadCrumb($property_data, $show_location);
 
 		$build_bread_crumb = array();
-
+		//\helpers\Text::print_r_array($bread_crumb);
 		foreach($bread_crumb as $key=>$val){
 			$url = '';
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
@@ -248,12 +248,23 @@ class MD_Breadcrumb {
 		return \Breadcrumb_Url::get_instance()->getUrlFilter($location_name);
 	}
 
+	private function _check_in_location($location_name, $key = 'keyword'){
+		return \mls\AccountEntity::get_instance()->get_coverage_lookup_key($location_name, $key = 'keyword');
+	}
+
 	private function _check_wp_page($location_name, $object, $key){
+		$wp_page = get_page_by_title($location_name);
 
-		if( get_page_by_title($object->$key->name) ){
-			return esc_url( get_permalink( get_page_by_title( $object->$key->name ) ) );
+		if( $wp_page ){
+			return esc_url( get_permalink( get_page_by_title( $location_name ) ) );
+		}else{
+			//check in _check_in_location
+			$location = $this->_check_in_location($location_name);
+			if( $location && isset($location['full']) ){
+				$wp_page = get_page_by_title($location['full']);
+				return esc_url( get_permalink( get_page_by_title( $location['full'] ) ) );
+			}
 		}
-
 		return false;
 	}
 

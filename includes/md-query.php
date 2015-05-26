@@ -62,7 +62,7 @@ function md_property_raw_price(){
 function md_property_format_price(){
 	$account  = \CRM_Account::get_instance()->get_account_data();
 	$get_currency = ($account->currency) ? $account->currency:'$';
-	return $get_currency.number_format( $this->price );
+	return $get_currency.number_format( md_property_raw_price() );
 }
 function md_property_html_price(){
 	$price = '';

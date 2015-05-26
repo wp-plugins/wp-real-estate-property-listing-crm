@@ -47,7 +47,15 @@ Template Name: List - Box Style
 									<span><strong><?php echo md_property_garage();?>&nbsp;</strong><?php echo _label('garage');?></span>
 								<?php } ?>
 							</div>
-							<h2 class="price center-block wp-site-color-theme"><?php echo md_property_html_price();?></h2>
+							<h2 class="price center-block wp-site-color-theme">
+								<?php
+									if( md_property_raw_price() == 0 ){
+										echo md_property_html_price();
+									}else{
+										echo md_property_format_price();
+									}
+								?>
+							</h2>
 						</div>
 						<div class="panel-footer">
 							<?php

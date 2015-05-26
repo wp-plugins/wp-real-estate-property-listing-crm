@@ -64,12 +64,31 @@ class Layout_Property{
 
 			$property = have_properties();
 
+			$cityid = 0;
+			$communityid = 0;
+			$subdivisionid = 0;
+
+			if( $property->cityid != '' && $property->cityid != 0 ){
+				$cityid = $property->cityid;
+			}
+
+			if( $property->communityid != '' && $property->communityid != 0 ){
+				$communityid = $property->communityid;
+			}
+
+			if( $property->subdivisionid != '' && $property->subdivisionid != 0 ){
+				$subdivisionid = $property->subdivisionid;
+				$cityid = 0;
+				$communityid = 0;
+			}
+
 			$search_data['countyid'] 		= 0;
 			$search_data['stateid'] 		= 0;
 			$search_data['countryid'] 		= 0;
-			$search_data['cityid'] 			= 0;
+			$search_data['cityid'] 			= $cityid;
 			$search_data['zip'] 			= '';
-			$search_data['communityid'] 	= $property->communityid;
+			$search_data['communityid'] 	= $communityid;
+			$search_data['subdivisionid'] 	= $subdivisionid;
 			$search_data['bathrooms'] 		= '';
 			$search_data['bedrooms'] 		= '';
 			$search_data['transaction'] 	= $property->transaction_type;

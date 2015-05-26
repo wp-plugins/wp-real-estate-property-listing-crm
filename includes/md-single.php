@@ -113,6 +113,7 @@ function single_property_breadcrumb_trail($trail, $args){
 	$source 		= '';
 
 	$display = false;
+	$page_breadcrumb = get_post_meta($post->ID,'page_breadcrumb',true);
 
 	if( $wp_query->post->post_name == 'property' && $property ){
 		$source  = get_single_property_source();
@@ -123,7 +124,8 @@ function single_property_breadcrumb_trail($trail, $args){
 		$wp_query->post->post_name == 'state' ||
 		$wp_query->post->post_name == 'city' ||
 		$wp_query->post->post_name == 'community' ||
-		$wp_query->post->post_name == 'zip'
+		$wp_query->post->post_name == 'zip' ||
+		$page_breadcrumb == 1
 	){
 		if( $source == '' ){
 			$url_source = get_query_var('url');
@@ -160,6 +162,7 @@ function single_property_breadcrumb_trail($trail, $args){
 				}
 			}
 		}
+
 		$current_page = '';
 		if( is_page('country') ||
 			is_page('county') ||
