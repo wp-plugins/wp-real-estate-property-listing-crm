@@ -50,9 +50,14 @@ class MD_Search_Utility {
 			'properties' 	=> array(),
 			'source' 		=> ''
 		);
-
+		$source_api = '';
 		if( isset($_REQUEST['source']) ){
-			$source = sanitize_text_field($_REQUEST['source']);
+			$source_api = $_REQUEST['source'];
+		}else{
+			$source_api = DEFAULT_FEED;
+		}
+		if( $source_api ){
+			$source = sanitize_text_field($source_api);
 			$request = $_POST;
 			$api_result = apply_filters('search_utility_by_' . $source, $request);
 
