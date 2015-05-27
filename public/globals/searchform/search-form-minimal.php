@@ -55,6 +55,7 @@ Template Name: Search Form Minimal - Default UI
 					</option>
 				</select>
 			</div>
+			<?php if( !has_filter('show_button_property_type_'.DEFAULT_FEED) ){ ?>
 			<div class="col-md-1 col-xs-12 col-nopad-3">
 				<select name="property_type" id="property_type" class="form-control">
 					<option value="0">Type</option>
@@ -63,6 +64,7 @@ Template Name: Search Form Minimal - Default UI
 					<?php } ?>
 				</select>
 			</div>
+			<?php } ?>
 			<div class="col-md-1 col-xs-12 col-nopad-3">
 				<select id="bedrooms" name="bedrooms" class="form-control">
 					<option value="0">Bed, Any</option>

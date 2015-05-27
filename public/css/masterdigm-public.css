@@ -447,6 +447,7 @@ ul.child_list > li {
 #md-proppage-left ul.left-details li span.list {
 	display: inline-block;
 	width: 25%;
+	vertical-align: top;
 }
 #md-proppage-left ul.left-details li span.cont {
 	display: inline-block;

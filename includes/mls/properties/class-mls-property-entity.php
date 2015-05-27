@@ -321,7 +321,7 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->MLSNumber ? $this->MLSNumber:'&nbsp;';
+		return $this->MLSID ? $this->MLSID:$this->ListingId;
 	}
 
 	public function displayPropertyStatus(){
@@ -505,7 +505,7 @@ class Property_Entity{
 	}
 
 	public function display_mls_number(){
-		return $this->MLSNumber;
+		return $this->MLSID;
 	}
 
 	public function display_pool(){

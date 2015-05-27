@@ -172,7 +172,7 @@ class MLS_Hook{
 
 	public function wp_title_mls($data){
 		if( $data ){
-			return ' MLS#'.$data['property']->getMLS().' ';
+			return ' MLS# '.$data['property']->getMLS().' ';
 		}else{
 			return '';
 		}

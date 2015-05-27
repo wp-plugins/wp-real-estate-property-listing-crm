@@ -63,6 +63,7 @@ Template Name: Search Form - Default UI
 
 				</select>
 			</div>
+			<?php if( !has_filter('show_button_property_type_'.DEFAULT_FEED) ){ ?>
 			<div class="col-md-4 col-xs-12">
 				<select name="property_type" id="property_type" class="form-control">
 					<option value="0">Type - All</option>
@@ -71,6 +72,7 @@ Template Name: Search Form - Default UI
 					<?php } ?>
 				</select>
 			</div>
+			<?php } ?>
 		</div>
 		<div class="row md-container">
 			<div class="col-md-4 col-xs-12">
