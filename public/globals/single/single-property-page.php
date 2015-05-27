@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <?php if( get_single_data() && is_property_viewable(md_get_property_status()) ){ ?>
 <?php if( function_exists('crm_masterdigm_breadcrumb' ) ){ crm_masterdigm_breadcrumb(); } ?>
-
 <div class="single-property-container <?php echo md_property_id();?> crm-single-property <?php echo 'property-id-'.md_property_id();?>" id="md-proppage">
 	<div role="tabpanel">
 	  <!-- Nav tabs -->
@@ -91,7 +90,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</div>
 					<div class="mini-map">
                     	<h2><span>Map on <?php echo md_property_address('short');?></span></h2>
-                        <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDl4uAeYgeUvi2R9K1RCjH3_6Ib-uOZNLw&q=<?php echo md_property_address();?>" width="100%" height="400" frameborder="0" style="border:0"></iframe>
+                       <div class="quick_map_view" style="height:450px;"></div>
                     </div>
 				</div>
 				<div class="col-md-3 col-sm-12">
@@ -182,8 +181,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 </div>
 <script type="text/javascript">
-	var mainLat = '<?php echo md_get_lat();?>';
-	var mainLng = '<?php echo md_get_lon();?>';
+	var mainLat = '<?php echo get_single_property_data()->getLattitude();?>';
+	var mainLng = '<?php echo get_single_property_data()->getLongitude();?>';
+	var mainAddress = '<?php echo get_single_property_data()->displayAddress('long');?>';
 </script>
 <?php
 	}else{

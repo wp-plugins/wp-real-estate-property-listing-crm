@@ -4,7 +4,7 @@ Template Name: Carousel - Single, Galleria Script
 */
 ?>
 <style>
-#galleria{height:412px;}
+#galleria{height:550px;}
 /*#galleria .galleria-image-nav-left, body .galleria-image-nav-right {
     background-image: url("<?php echo PLUGIN_PUBLIC_URL;?>galleria/themes/classic/arrows.png") !important;
 }*/

@@ -27,7 +27,7 @@
 	<div class="col-md-12">
 		<div class="single-property-desc md-container">
 			<div class="details-txt">
-                <h2><span>Details on <?php echo md_property_address('short');?></span></h2>
+                <h2><span>Details on <?php echo get_single_property_data()->displayAddress('short');?></span></h2>
 				<p><?php echo wp_strip_all_tags(get_single_property_data()->displayDescription());?></p>
 			</div>
 		</div>
