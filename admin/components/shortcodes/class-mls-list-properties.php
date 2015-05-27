@@ -98,7 +98,9 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'Sale' => 'Sale',
 			);
 		}
-
+		public function get_shortcode_tag(){
+			return 'mls_list_properties';
+		}
 		public function init_shortcode($atts){
 			$search_data = array();
 			$template = '';
@@ -209,7 +211,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			$search_data['limit'] 			= $limit;
 
 			$properties = \MLS_Property::get_instance()->get_properties($search_data);
-
+			//\helpers\Text::print_r_array($properties);
 			\MD\Property::get_instance()->set_properties($properties,'mls');
 
 			if( trim($atts['template']) != '' ){
@@ -241,7 +243,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 					'show' => 1
 				),
 			);
-
+			$atts['source'] = 'mls';
 			ob_start();
 			require $template;
 			$output = ob_get_clean();

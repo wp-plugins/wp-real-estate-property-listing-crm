@@ -29,10 +29,13 @@ class GMap {
         $resp = json_decode($resp_json, true);
 
         if($resp['status']='OK'){
-            return $resp['results'][0]['geometry']['location'];
+			if( isset($resp['results'][0]['geometry']['location']) ){
+				return $resp['results'][0]['geometry']['location'];
+			}
         }else{
             return false;
         }
+        return false;
     }
     private static function curl_file_get_contents($URL){
         $c = curl_init();

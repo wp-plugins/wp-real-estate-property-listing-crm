@@ -1,11 +1,9 @@
 <?php
 /*
-Template Name: Featured - Box Style
+Template Name: List - Box Style
 */
-
 ?>
 <?php if( have_properties() ){ //if have_properties() start ?>
-<?php $index_items = 1; ?>
 <?php
 	if( !is_front_page() && $show_sort ){
 		\Action_Buttons::display_sort_button(array('class'=>'list-default'));
@@ -15,13 +13,12 @@ Template Name: Featured - Box Style
 	$single_property_id = 0;
 	if( get_single_property_data() ){
 		$single_property = true;
-		$single_property_id = get_single_property_data()->id;
+		$single_property_id = get_single_property_data()->getID();
 	}
 ?>
 <div class="row" id="search-result-container">
 	<div class="search-result item-container">
 		<?php foreach(have_properties() as $property ){ //loop start have_properties() ?>
-			<?php if(set_page_list($items,$index_items) ){ //set_page_list start ?>
 				<?php set_loop($property); ?>
 				<?php if( $single_property_id != md_property_id() ) { // do not display same id ?>
 				  <div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
@@ -37,16 +34,16 @@ Template Name: Featured - Box Style
 								</a>
 							</h3>
 							<div class="property-amenities">
-								<?php if(!has_filter('list_display_area')){ ?>
+								<?php if(!has_filter('list_display_area_'.md_get_source())){ ?>
 									<span><strong><?php echo md_property_area();?>&nbsp;</strong><?php do_action( 'list_before_area' ); ?><?php echo md_property_area_unit();?></span>
 								<?php } ?>
-								<?php if(!has_filter('list_display_bed')){ ?>
+								<?php if(!has_filter('list_display_bed_'.md_get_source())){ ?>
 									<span><strong><?php echo md_property_beds();?>&nbsp;</strong><?php echo _label('beds');?></span>
 								<?php } ?>
-								<?php if(!has_filter('list_display_baths')){ ?>
+								<?php if(!has_filter('list_display_baths_'.md_get_source())){ ?>
 									<span><strong><?php echo md_property_bathrooms();?>&nbsp;</strong><?php echo _label('baths');?></span>
 								<?php } ?>
-								<?php if(!has_filter('list_display_garage')){ ?>
+								<?php if(!has_filter('list_display_garage_'.md_get_source())){ ?>
 									<span><strong><?php echo md_property_garage();?>&nbsp;</strong><?php echo _label('garage');?></span>
 								<?php } ?>
 							</div>
@@ -88,8 +85,6 @@ Template Name: Featured - Box Style
 					</div>
 				  </div>
 			  <?php } // do not display same id ?>
-			<?php }//set_page_list end ?>
-			<?php $index_items++; ?>
 		<?php }//loop end have_properties() ?>
 	</div>
 </div>
@@ -113,6 +108,7 @@ Template Name: Featured - Box Style
 
 	\MD_Search_Utility::get_instance()->js_var_search_data($properties, $atts, $search_data, $options);
 ?>
+<a href="<?php echo $more_similar_homes_link; ?>">More Similar Homes</a>
 <?php }else{ ?>
 	<?php
 		if(has_action('list_no_property_found')){
