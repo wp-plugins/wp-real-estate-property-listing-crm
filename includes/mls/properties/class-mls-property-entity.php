@@ -167,6 +167,10 @@ class Property_Entity{
 		}
 	}
 
+	public function get_price(){
+		return $this->ListPrice;
+	}
+
 	/**
 	 * @param string $type
 	 * return string
@@ -215,11 +219,19 @@ class Property_Entity{
 	}
 
 	public function displayBed(){
-		return $this->Bedrooms;
+		if( $this->Bedrooms == 0 ){
+			return $this->BedsTotal;
+		}else{
+			return $this->Bedrooms;
+		}
 	}
 
 	public function displayBathrooms(){
-		return $this->Baths;
+		if( $this->Baths == 0 ){
+			return $this->BathsTotal;
+		}else{
+			return $this->Baths;
+		}
 	}
 
 	public function getBathroom(){
@@ -234,8 +246,20 @@ class Property_Entity{
 		return $this->displayMLS();
 	}
 
+	public function get_floor_area(){
+		return number_format($this->FloorArea);
+	}
+
+	public function get_lot_area(){
+		return isset($this->LotSizeSqFt) ? number_format($this->LotSizeSqFt) : number_format($this->LotArea);
+	}
+
 	public function displaySqFt(){
-		return number_format($this->LotSizeSqFt);
+		if( $this->FloorArea == 0 ){
+			return number_format($this->LotSizeSqFt);
+		}else{
+			return number_format($this->FloorArea);
+		}
 	}
 
 	public function displayAreaMeasurement($type){
@@ -257,14 +281,27 @@ class Property_Entity{
 				);
 			break;
 			default:
+				if( $this->FloorArea == 0 || !isset($this->FloorArea) ){
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->LotArea)
+					);
+				}else{
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->FloorArea)
+					);
+				}
 			break;
 		}
+
 		return (object)$array_measure;
 	}
 
 	public function displayAreaUnit( $type = 'account' ){
 		$unit = '';
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
+
 		switch($type){
 			case 'floor':
 				$unit = $this->floor_area_unit;
@@ -284,7 +321,7 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->MLnumber ? $this->MLnumber:'&nbsp;';
+		return $this->MLSNumber ? $this->MLSNumber:'&nbsp;';
 	}
 
 	public function displayPropertyStatus(){
@@ -320,6 +357,10 @@ class Property_Entity{
 	}
 
 	public function get_property_id(){
+		return $this->Propertyid;
+	}
+
+	public function get_listing_id(){
 		return $this->Propertyid;
 	}
 

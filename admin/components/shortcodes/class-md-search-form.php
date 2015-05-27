@@ -57,6 +57,10 @@ if ( !class_exists( 'md_sc_search_form' ) )
 			}
 		}
 
+		public function shortcode_tag(){
+			return '[md_sc_search_property_form template="searchform/search-form-minimal.php"]';
+		}
+
 		public function init_shortcode($atts){
 			$template = '';
 			if( isset($atts['template']) ){

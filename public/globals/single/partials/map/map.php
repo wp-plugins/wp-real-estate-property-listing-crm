@@ -36,10 +36,25 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var origin_place = '<?php echo md_property_address();?>';
+	var origin_place = '<?php echo remove_nonaplha(get_single_property_data()->displayAddress());?>';
 	var propertyList =[
 		{
-			latLng:[<?php echo md_get_lat_gmap(md_property_address());?>, <?php echo md_get_lng_gmap(md_property_address());?>],
+			latLng:[
+				<?php
+					if( get_single_property_data()->getLattitude() != '' || get_single_property_data()->getLattitude() != 0 ){
+						echo get_single_property_data()->getLattitude();
+					}else{
+						echo md_get_lat_gmap(get_single_property_data()->displayAddress());
+					}
+				?>,
+				<?php
+					if( get_single_property_data()->getLongitude() != '' || get_single_property_data()->getLongitude() != 0 ){
+						echo get_single_property_data()->getLongitude();
+					}else{
+						echo md_get_lat_gmap(get_single_property_data()->displayAddress());
+					}
+				?>
+			],
 			data:'<div style="width: 100%; min-height: 120px;">' +
 						'<div style="width: 100%; overflow: hidden;">' +
 							'<div class="row">' +
@@ -48,16 +63,16 @@
 								'</div>'+
 								'<div class="col-md-7 col-sm-12">' +
 									'<h3 style="margin:0;padding:0;color:#428bca;">' +
-										'<?php echo md_property_address();?>' +
+										'<?php echo get_single_property_data()->displayAddress();?>' +
 									'</h3>' +
 									'<h3 style="margin:0;padding:0;color:#d9534f;">' +
-										'<?php echo md_property_price();?> - <?php echo md_property_transaction();?>' +
+										'<?php echo get_single_property_data()->displayPrice();?> - <?php echo get_single_property_data()->displayTransaction();?>' +
 									'</h3>' +
 									'<div>' +
 										'<span><?php echo get_single_property_data()->displayAreaMeasurement('floor')->area_type;?> <?php echo get_single_property_data()->displayAreaMeasurement('floor')->measure;?></span></br>' +
-										'<span><?php echo md_property_beds();?> Bedrooms</span></br>' +
-										'<span><?php echo md_property_bathrooms();?> Bathrooms</span></br>' +
-										'<span><?php echo md_property_garage();?> Garages</span>' +
+										'<span><?php echo get_single_property_data()->displayBed();?> Bedrooms</span></br>' +
+										'<span><?php echo get_single_property_data()->displayBathrooms();?> Bathrooms</span></br>' +
+										'<span><?php echo get_single_property_data()->displayGarage();?> Garages</span>' +
 									'</div>' +
 								'</div>'+
 							'</div>'+
