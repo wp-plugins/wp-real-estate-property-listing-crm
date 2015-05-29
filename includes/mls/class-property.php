@@ -50,6 +50,13 @@ class MLS_Property{
 	 * */
 	public function get_properties($search_data = null){
 
+		$listing_office_id = '';
+		if( sanitize_text_field(isset($search_data['listing_office_id'])) ){
+			$listing_office_id = sanitize_text_field($search_data['listing_office_id']);
+		}elseif( sanitize_text_field(isset($_REQUEST['listing_office_id'])) ){
+			$listing_office_id = sanitize_text_field($_REQUEST['listing_office_id']);
+		}
+
 		$communityid = '';
 		if( sanitize_text_field(isset($search_data['communityid'])) ){
 			$communityid = sanitize_text_field($search_data['communityid']);
@@ -202,6 +209,7 @@ class MLS_Property{
 		}
 
 		$data = array(
+			'listing_office_id'	=> $listing_office_id,
 			'communityid'	=> $communityid,
 			'countyid'		=> $countyid,
 			'stateid'		=> $stateid,

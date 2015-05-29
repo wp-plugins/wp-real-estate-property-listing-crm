@@ -54,6 +54,7 @@ height: 300px;
 			<p>Show Infinite Scroll? this will show the scrolling ajax instead of tix "how many display" <input type="checkbox" name="infinite" id="infinite"></p>
 			<p>Choose template to display <select id="template" name="template"></select></p>
 			<p>Set property per columns ( should be divided by 12 ) <input name="col" value="4"></p>
+			<p>Include Office List? <input type="checkbox" name="listing_office_id" id="listing_office_id" value="<?php echo \CRM_Account::get_instance()->get_account_data('listing_office_id');?>"></p>
 		</div>
 	</div>
 	<p></p>
@@ -117,10 +118,16 @@ height: 300px;
 		var city_shortcode 		= ' cityid="0" ';
 		var county_shortcode = ' countyid="0" ';
 
+		var listing_office_id_shortcode = ' listing_office_id="0" ';
+		if( $('#listing_office_id',context).is(":checked") ){
+			listing_office_id_shortcode = ' listing_office_id="'+$('#listing_office_id',context).val()+'" '
+		}
+
 		var infinite_check = 'false';
 		if( $('#infinite',context).is(":checked") ){
 			infinite_check = 'true';
 		}
+
 		var bathromms 		= ' bathrooms="' + $('input[name="bath"]',context).val() + '" ';
 		var bedrooms 		= ' bedrooms="' + $('input[name="bed"]',context).val() + '" ';
 		var min_listprice 	= ' min_listprice="' + $('input[name="min_price"]',context).val() + '" ';
@@ -160,6 +167,7 @@ height: 300px;
 						+ limit
 						+ template_path
 						+ col_grid
+						+ listing_office_id_shortcode
 						+ infinite
 					+ ']';
 		editor.selection.setContent(shortcode);

@@ -107,6 +107,10 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			if( isset($atts['template']) ){
 				$att_template = $atts['template'];
 			}
+			$listing_office_id = '';
+			if( isset($atts['listing_office_id']) ){
+				$listing_office_id = $atts['listing_office_id'];
+			}
 			$location = '';
 			if( isset($atts['q']) ){
 				$location = $atts['q'];
@@ -178,6 +182,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 
 			$atts = shortcode_atts(	array(
 				'template' 		=> $att_template,
+				'listing_office_id'	=> $listing_office_id,
 				'communityid'	=> $search_by_communityid,
 				'countyid'		=> $search_by_countyid,
 				'cityid'		=> $search_by_cityid,
@@ -197,6 +202,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'template'		=> $template
 			), $atts, 'mls_list_property' );
 
+			$search_data['listing_office_id']		= $atts['listing_office_id'];
 			$search_data['communityid']		= $atts['communityid'];
 			$search_data['countyid']		= $atts['countyid'];
 			$search_data['cityid']			= $atts['cityid'];
