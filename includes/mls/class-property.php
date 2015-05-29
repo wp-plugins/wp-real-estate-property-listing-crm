@@ -50,6 +50,13 @@ class MLS_Property{
 	 * */
 	public function get_properties($search_data = null){
 
+		$listing_office_id = '';
+		if( sanitize_text_field(isset($search_data['listing_office_id'])) ){
+			$listing_office_id = sanitize_text_field($search_data['listing_office_id']);
+		}elseif( sanitize_text_field(isset($_REQUEST['listing_office_id'])) ){
+			$listing_office_id = sanitize_text_field($_REQUEST['listing_office_id']);
+		}
+
 		$communityid = '';
 		if( sanitize_text_field(isset($search_data['communityid'])) ){
 			$communityid = sanitize_text_field($search_data['communityid']);
@@ -157,10 +164,10 @@ class MLS_Property{
 		}
 
 		$property_type = '0';
-		if( sanitize_text_field(isset($search_data['type'])) ){
-			$property_type = sanitize_text_field($search_data['type']);
-		}elseif( sanitize_text_field(isset($_REQUEST['type'])) ){
-			$property_type = sanitize_text_field($_REQUEST['type']);
+		if( sanitize_text_field(isset($search_data['property_type'])) ){
+			$property_type = sanitize_text_field($search_data['property_type']);
+		}elseif( sanitize_text_field(isset($_REQUEST['property_type'])) ){
+			$property_type = sanitize_text_field($_REQUEST['property_type']);
 		}
 
 		$limit = '11';
@@ -202,6 +209,7 @@ class MLS_Property{
 		}
 
 		$data = array(
+			'listing_office_id'	=> $listing_office_id,
 			'communityid'	=> $communityid,
 			'countyid'		=> $countyid,
 			'stateid'		=> $stateid,
@@ -219,18 +227,17 @@ class MLS_Property{
 			'limit'			=> $limit,
 			'page'			=> $paged
 		);
-		//var_dump($data);
+		//\helpers\Text::print_r_array($data);
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-
-			if( isset($properties->result) == 'success' )
+			//\helpers\Text::print_r_array($properties);
+			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
 
@@ -242,28 +249,30 @@ class MLS_Property{
 				$total = 0;
 				$obj_data_properties = array();
 				if( isset($data_properties) && $data_properties ){
-					$total 					= count($data_properties);
+					$total 					= $properties->total;
 					$obj_data_properties 	= $data_properties;
 				}
 
 				$get_properties = (object)array(
-					'total'			=>$total,
-					'data'			=>$obj_data_properties,
-					'search_keyword'=>$data,
-					'source'		=>'mls'
+					'total'				=>	$total,
+					'data'				=>	$obj_data_properties,
+					'search_keyword'	=>	$data,
+					'source'			=>	'mls',
+					'mls_type'			=>	$properties->mls
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
 			}else{
+				$msg = '';
+				if( $properties['result'] == 'fail' ){
+					if( isset($properties['error_message']) ){
+						$msg = $properties['error_message'];
+					}elseif(isset($properties['messsage'])){
+						$msg = $properties['messsage'];
+					}
+				}
 				$properties_count = 0;
 				if( isset($properties->count) ){
 					$properties_count = $properties->count;
-				}
-				$properties_msg = '';
-				if( isset($properties->messsage) ){
-					$properties_msg = $properties->messsage;
-				}
-				if( isset($properties['messsage']) ){
-					$properties_msg = $properties['messsage'];
 				}
 				$properties_request = '';
 				if( isset($properties->request) ){
@@ -272,7 +281,7 @@ class MLS_Property{
 				$get_properties = (object)array(
 					'total'			=>$properties_count,
 					'result'		=>$properties_count,
-					'messsage'		=>$properties_msg,
+					'messsage'		=>$msg,
 					'request'		=>$properties_request,
 					'search_keyword'=>array(),
 					'source'		=>'mls'
@@ -295,6 +304,7 @@ class MLS_Property{
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
+			//\helpers\Text::print_r_array($property);
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -305,11 +315,15 @@ class MLS_Property{
 					$photos = $property->photos;
 				}
 
+				$community = '';
+				if( isset($property->community) ){
+					$community = $property->community;
+				}
 				$data = array(
 					'properties'=>$propertyEntity,
 					'photos'	=>$photos,
 					'result'	=> 'success',
-					'community'	=> $property->community,
+					'community'	=> $community,
 					'source'=>'mls'
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $data);

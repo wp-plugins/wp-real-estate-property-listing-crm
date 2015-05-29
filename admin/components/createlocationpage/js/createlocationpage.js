@@ -11,9 +11,10 @@
 					click_button.hide();
 					var post_status = $('#post_status').val();
 					var option_name = $('#option_name').val();
+					var default_feed = $('#default_feed').val();
 
 					var data = [
-						{name: 'action', value: 'create_location_page_action'},
+						{name: 'action', value: 'create_location_page_action_' + default_feed},
 						{name: 'security', value: MDAjax.security},
 						{name: 'post_status', value: post_status},
 						{name: 'option_name', value: option_name}
