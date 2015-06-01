@@ -170,6 +170,24 @@ class MLS_Property{
 			$property_type = sanitize_text_field($_REQUEST['property_type']);
 		}
 
+		$orderby = '';
+		if( sanitize_text_field(isset($search_data['orderby'])) ){
+			$orderby = sanitize_text_field($search_data['orderby']);
+		}elseif( sanitize_text_field(isset($_REQUEST['orderby'])) ){
+			$orderby = sanitize_text_field($_REQUEST['orderby']);
+		}
+
+		if( $orderby == 'posted_at' ){
+			$orderby = 'latest';
+		}
+
+		$order_direction = '';
+		if( sanitize_text_field(isset($search_data['order_direction'])) ){
+			$order_direction = sanitize_text_field($search_data['order_direction']);
+		}elseif( sanitize_text_field(isset($_REQUEST['order_direction'])) ){
+			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
+		}
+
 		$limit = '11';
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
@@ -224,6 +242,8 @@ class MLS_Property{
 			'status'		=> $property_status,
 			'type'			=> $property_type,
 			'transaction'	=> $transaction,
+			'order_by'			=> $orderby,
+			'order_direction'	=> $order_direction,
 			'limit'			=> $limit,
 			'page'			=> $paged
 		);
