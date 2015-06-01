@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.4.1
+Stable tag: 3.9.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,63 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.9.13 =
+* update plugin css
+
+= 3.9.12 =
+* update masterdigm-style.css
+
+= 3.9.11 =
+* add listing office support in MLS
+* add in shortcode for MLS list property
+
+= 3.8.11 =
+* fix notice error in enfold theme config
+
+= 3.8.10 =
+* update MLS ( mfar and hcar ) fields name
+
+= 3.8.9 =
+* fix map geolocation
+* updated the height of the gallery in property details
+
+= 3.8.8 =
+* update send to a friend, use display_name in the mail as sender
+
+= 3.8.7 =
+* fix next and previous link on both crm and mls feed
+* add breadcrumb on the page created by locations
+* update similar homes layout, remove span line
+
+= 3.7.7 =
+* improve the property page details
+
+= 3.6.7 =
+* update new property details page
+
+= 3.5.7 =
+* fix and update property page in MLS
+
+= 3.5.6 =
+* update MLS API result message
+
+= 3.5.5 =
+* fix infinite scroller bug, not getting correct api source
+
+= 3.5.4 =
+* improved breadcrumb
+
+= 3.5.3 =
+* add hook property status
+
+= 3.5.2 =
+* added nearby properties in MLS data
+* add hook in single property area measurement
+* MLS convert virtual tour to hyperlink
+* MLS convert label with YN to Yes and No
+* MLS single property, add MLS# in the title and address
+* add next and previous link in MLS
 
 = 3.4.1 =
 * update meta description added mls# for mls data
