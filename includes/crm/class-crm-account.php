@@ -70,6 +70,8 @@ class CRM_Account{
 			if( !is_null($key) ){
 				if( $account_details->data && isset($account_details->data->$key) ){
 					return $account_details->data->$key;
+				}else{
+					return false;
 				}
 			}else{
 				if( $account_details && isset($account_details->data) ){

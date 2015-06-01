@@ -219,25 +219,26 @@ class MD_Searchby_Property {
 	public function searchPropertyResult($search_data = null){
 		$property_data = array();
 
-		$search_data['countyid'] 		= isset($_REQUEST['countyid']) ? sanitize_text_field($_REQUEST['countyid']):'';
-		$search_data['stateid'] 		= isset($_REQUEST['stateid']) ? sanitize_text_field($_REQUEST['stateid']):'';
-		$search_data['countyid'] 		= isset($_REQUEST['countyid']) ? sanitize_text_field($_REQUEST['countyid']):'';
-		$search_data['countryid'] 		= isset($_REQUEST['countryid']) ? sanitize_text_field($_REQUEST['countryid']):'';
-		$search_data['communityid'] 	= isset($_REQUEST['communityid']) ? sanitize_text_field($_REQUEST['communityid']):'';
-		$search_data['cityid'] 			= isset($_REQUEST['cityid']) ? sanitize_text_field($_REQUEST['cityid']):'';
-		$search_data['location'] 		= isset($_REQUEST['location']) ? sanitize_text_field($_REQUEST['location']):'';;
-		$search_data['bathrooms'] 		= isset($_REQUEST['bathrooms']) ? sanitize_text_field($_REQUEST['bathrooms']):'';
-		$search_data['bedrooms'] 		= isset($_REQUEST['bedrooms']) ? sanitize_text_field($_REQUEST['bedrooms']):'';
-		$search_data['transaction'] 	= isset($_REQUEST['transaction']) ? sanitize_text_field($_REQUEST['transaction']):'';
-		$search_data['communityid'] 	= isset($_REQUEST['communityid']) ? sanitize_text_field($_REQUEST['communityid']):'';
-		$search_data['property_type'] 	= isset($_REQUEST['property_type']) ? sanitize_text_field($_REQUEST['property_type']):'';
-		$search_data['property_status'] = isset($_REQUEST['property_status']) ? sanitize_text_field($_REQUEST['property_status']):'';
-		$search_data['min_listprice'] 	= isset($_REQUEST['min_listprice']) ? sanitize_text_field($_REQUEST['min_listprice']):'';
-		$search_data['max_listprice'] 	= isset($_REQUEST['max_listprice']) ? sanitize_text_field($_REQUEST['max_listprice']):'';
-		$search_data['orderby'] 		= isset($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']):'';
-		$search_data['order_direction']	= isset($_REQUEST['order_direction']) ? sanitize_text_field($_REQUEST['order_direction']):'';
-		$search_data['limit']			= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):'11';
-
+		$search_data['listing_office_id']	= isset($_REQUEST['listing_office_id']) ? sanitize_text_field($_REQUEST['listing_office_id']):'';
+		$search_data['countyid'] 			= isset($_REQUEST['countyid']) ? sanitize_text_field($_REQUEST['countyid']):'';
+		$search_data['stateid'] 			= isset($_REQUEST['stateid']) ? sanitize_text_field($_REQUEST['stateid']):'';
+		$search_data['countyid'] 			= isset($_REQUEST['countyid']) ? sanitize_text_field($_REQUEST['countyid']):'';
+		$search_data['countryid'] 			= isset($_REQUEST['countryid']) ? sanitize_text_field($_REQUEST['countryid']):'';
+		$search_data['communityid'] 		= isset($_REQUEST['communityid']) ? sanitize_text_field($_REQUEST['communityid']):'';
+		$search_data['cityid'] 				= isset($_REQUEST['cityid']) ? sanitize_text_field($_REQUEST['cityid']):'';
+		$search_data['location'] 			= isset($_REQUEST['location']) ? sanitize_text_field($_REQUEST['location']):'';;
+		$search_data['bathrooms'] 			= isset($_REQUEST['bathrooms']) ? sanitize_text_field($_REQUEST['bathrooms']):'';
+		$search_data['bedrooms'] 			= isset($_REQUEST['bedrooms']) ? sanitize_text_field($_REQUEST['bedrooms']):'';
+		$search_data['transaction'] 		= isset($_REQUEST['transaction']) ? sanitize_text_field($_REQUEST['transaction']):'';
+		$search_data['communityid'] 		= isset($_REQUEST['communityid']) ? sanitize_text_field($_REQUEST['communityid']):'';
+		$search_data['property_type'] 		= isset($_REQUEST['property_type']) ? sanitize_text_field($_REQUEST['property_type']):'';
+		$search_data['property_status'] 	= isset($_REQUEST['property_status']) ? sanitize_text_field($_REQUEST['property_status']):'';
+		$search_data['min_listprice'] 		= isset($_REQUEST['min_listprice']) ? sanitize_text_field($_REQUEST['min_listprice']):'';
+		$search_data['max_listprice'] 		= isset($_REQUEST['max_listprice']) ? sanitize_text_field($_REQUEST['max_listprice']):'';
+		$search_data['orderby'] 			= isset($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']):'';
+		$search_data['order_direction']		= isset($_REQUEST['order_direction']) ? sanitize_text_field($_REQUEST['order_direction']):'';
+		$search_data['limit']				= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):'11';
+		//\helpers\Text::print_r_array($_REQUEST);
 		$property_data = \MLS_Property::get_instance()->get_properties($search_data);
 
 		if( $property_data->total > 0 ){
