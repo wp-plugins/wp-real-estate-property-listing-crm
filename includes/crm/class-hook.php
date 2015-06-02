@@ -279,4 +279,11 @@ class CRM_Hook{
 		echo json_encode(array('msg'=>$msg,'status'=>$status));
 		die();
 	}
+
+	public function md_query_page_title($string){
+		global $wpdb;
+		$sql = "SELECT * FROM ".$wpdb->posts." WHERE post_title LIKE  '{$string}%' AND post_status =  'publish'";
+		$ret = $wpdb->get_results($sql);
+		return $ret;
+	}
 }

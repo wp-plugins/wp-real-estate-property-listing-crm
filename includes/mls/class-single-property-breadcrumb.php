@@ -254,7 +254,6 @@ class MD_Breadcrumb {
 
 	private function _check_wp_page($location_name, $object, $key){
 		$wp_page = get_page_by_title($location_name);
-
 		if( $wp_page ){
 			return esc_url( get_permalink( get_page_by_title( $location_name ) ) );
 		}else{
@@ -262,7 +261,14 @@ class MD_Breadcrumb {
 			$location = $this->_check_in_location($location_name);
 			if( $location && isset($location['full']) ){
 				$wp_page = get_page_by_title($location['full']);
-				return esc_url( get_permalink( get_page_by_title( $location['full'] ) ) );
+				if( $wp_page ){
+					return esc_url( get_permalink( get_page_by_title( $location['full'] ) ) );
+				}else{
+					$query = \MLS_Hook::get_instance()->md_query_page_title($location_name);
+					if($query){
+						return esc_url( get_permalink( $query[0]->ID ) );
+					}
+				}
 			}
 		}
 		return false;

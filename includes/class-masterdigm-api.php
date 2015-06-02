@@ -99,7 +99,7 @@ class Masterdigm_API {
 	public function __construct() {
 
 		$this->plugin_name = 'masterdigm-api';
-		$this->version = '3.9.13';
+		$this->version = '3.10.13';
 
 		$this->load_dependencies();
 		$this->set_locale();

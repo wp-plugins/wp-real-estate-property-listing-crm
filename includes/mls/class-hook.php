@@ -261,33 +261,48 @@ class MLS_Hook{
 
 					$page_location[$val->id]['shortcode'] = $content_shortcode;
 
+					$post_title		= $page_location[$val->id]['full'];
+					$post_content	= $page_location[$val->id]['shortcode'];
+
 					$post_insert_arg = array(
-					  'post_title'    => $page_location[$val->id]['full'],
-					  'post_content'  => $page_location[$val->id]['shortcode'],
+					  'post_title'    => $post_title,
+					  'post_content'  => $post_content,
 					  'post_status'   => $post_status,
 					  'post_author'   => $current_user->ID,
 					  'post_type'	  => 'page',
 					);
 
-					$post = get_page_by_title($page_location[$val->id]['full']);
+					$is_in_post = false;
+
+					if( get_page_by_title($post_title) ){
+						$post = get_page_by_title($post_title);
+						$post_id = $post->ID;
+						$is_in_post = true;
+					}elseif( $this->md_query_page_title($post_title) ){
+						$post = $this->md_query_page_title($post_title);
+						$post_id = $post[0]->ID;
+						$is_in_post = true;
+					}
 
 					$page_location['count']	= $count++;
 
-					if( $post && $post_status == 'trash' ){
+					if( $is_in_post && $post_status == 'trash' ){
 						wp_delete_post($post->ID, true);
 					}elseif( $post_status == 'draft' || $post_status == 'publish' ){
-						if( $post ){
-							$post_id = $post->ID;
+						if( $is_in_post ){
+							$post_id = $post_id;
 							$post_arg = array(
 								'ID' => $post_id,
 								'post_status' => $post_status
 							);
 							wp_update_post( $post_arg );
-							update_post_meta($post_id, 'page_breadcrumb', 1);
+							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
+							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
 						}else{
 							$post_id = wp_insert_post( $post_insert_arg );
 							//mark in the post_meta as breadcrumb
-							update_post_meta($post_id, 'page_breadcrumb', 1);
+							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
+							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
 						}
 					}
 
@@ -309,5 +324,16 @@ class MLS_Hook{
 		}
 		echo json_encode(array('msg'=>$msg,'status'=>$status));
 		die();
+	}
+
+	private function _wp_update_post_meta($post_id, $key, $value){
+		update_post_meta($post_id, $key, $value);
+	}
+
+	public function md_query_page_title($string){
+		global $wpdb;
+		$sql = "SELECT * FROM ".$wpdb->posts." WHERE post_title LIKE  '{$string}%' AND post_status =  'publish'";
+		$ret = $wpdb->get_results($sql);
+		return $ret;
 	}
 }

@@ -115,6 +115,7 @@ function enfold_config(){
 					'main_color-color' => $get_avia_options['avia']['colorset-main_color-color'],
 					'main_color-border' => $get_avia_options['avia']['colorset-main_color-border'],
 				);
+
 				?>
 				<style>
 					.md_main_color_bg{
@@ -162,6 +163,9 @@ function enfold_config(){
 					}
 					.masterdigm-property-box .caption h3{
 						color:<?php echo $main_color['main_color-primary'];?>;
+					}
+					#property-details li.price {
+						background-color: <?php echo $main_primary_bg_color;?>;
 					}
 				</style>
 				<?php
