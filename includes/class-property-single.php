@@ -185,7 +185,7 @@ class MD_Single_Property {
 			if( $wp_query->queried_object->post_name == $property_url && is_page($property_url) ){
 				$url 					= get_query_var('url');
 				$check_property_by_url 	= $this->getSinglePropertyDataURL($url);
-				//\helpers\Text::print_r_array($check_property_by_url);
+				//\helpers\Text::print_r_array($check_property_by_url,1);
 				if( $check_property_by_url['source'] == 'crm' ){
 					$this->setApiDataSource('crm');
 				}else{

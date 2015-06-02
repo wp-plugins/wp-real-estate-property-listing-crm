@@ -254,6 +254,10 @@ class Property_Entity{
 		return isset($this->LotSizeSqFt) ? number_format($this->LotSizeSqFt) : number_format($this->LotArea);
 	}
 
+	public function get_sqft_heated(){
+		return isset($this->SqFtHeated) ? $this->SqFtHeated : '';
+	}
+
 	public function displaySqFt(){
 		if( $this->FloorArea == 0 ){
 			return number_format($this->LotSizeSqFt);
@@ -493,7 +497,7 @@ class Property_Entity{
 	}
 
 	public function display_lot_size_sqft(){
-		return $this->LotSizeSqFt;
+		return number_format($this->LotSizeSqFt);
 	}
 
 	public function display_maintenance_includes(){
@@ -557,7 +561,9 @@ class Property_Entity{
 	}
 
 	public function display_taxes(){
-		return $this->Taxes;
+		$currency = \CRM_Account::get_instance()->get_account_data('currency');
+		$get_currency = ($currency) ? $currency:'$';
+		return $get_currency.number_format( $this->Taxes );
 	}
 
 	public function display_total_acreage(){
@@ -582,5 +588,17 @@ class Property_Entity{
 
 	public function display_water_frontage_yn(){
 		return $this->WaterFrontageYN;
+	}
+
+	public function legal_subdivision_name(){
+		return $this->LegalSubdivisionName;
+	}
+
+	public function hoa(){
+		if( isset($this->HOAYN) ){
+			return $this->HOAYN == 0 ? 'Y':'N';
+		}elseif( isset($this->HOACommonAssn) ){
+			return $this->HOACommonAssn == 'Required' ? 'Y':'N';
+		}
 	}
 }
