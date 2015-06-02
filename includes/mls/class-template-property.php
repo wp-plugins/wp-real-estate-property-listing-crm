@@ -11,6 +11,7 @@ class Template_Property{
 		add_action('template_carousel_mls',array($this,'display_carousel'),10,1);
 		add_action('template_photos_mls',array($this,'photo_tab'),10,1);
 		add_action('hook_favorites_property_mls',array($this,'saved_properties'),10,1);
+		add_action('next_prev_mls',array($this,'next_prev_mls'),10,1);
 	}
 
 	/**
@@ -61,7 +62,7 @@ class Template_Property{
 				if( has_filter('mls_more_details_single') ){
 					$template = apply_filters('mls_more_details_single',$path, $atts);
 				}
-				require_once $template;
+				require $template;
 			}
 		}
 	}
@@ -78,5 +79,118 @@ class Template_Property{
 				require_once $template;
 			}
 		}
+	}
+
+	public function next_prev_mls(){
+		$next_prev_array = array();
+		if( have_properties() ){
+
+			$property = get_single_data();
+
+			$search_data	= array();
+			$communityid 	= '';
+			$location 		= '';
+			if( $property['community'] && isset($property['community']->community_id) ){
+				$communityid = $property['community']->community_id;
+			}else{
+				$location = $property['property']->PostalCode;
+			}
+
+			$search_data['countyid'] 		= '';
+			$search_data['stateid'] 		= '';
+			$search_data['countyid'] 		= '';
+			$search_data['countryid'] 		= '';
+			$search_data['communityid'] 	= $communityid;
+			$search_data['cityid'] 			= '';
+			$search_data['location'] 		= $location;
+			$search_data['bathrooms'] 		= '';
+			$search_data['bedrooms'] 		= '';
+			$search_data['transaction'] 	= '';
+			$search_data['property_type'] 	= '';
+			$search_data['property_status'] = '';
+			$search_data['min_listprice'] 	= '';
+			$search_data['max_listprice'] 	= '';
+
+			$properties = \MLS_Property::get_instance()->get_properties($search_data);
+
+			$total_properties = $properties->total;
+			if( $total_properties >= 10 ){
+				//make the limit 10;
+				$search_data['limit'] = $total_properties;
+			}
+
+			$next_prev = \MLS_Property::get_instance()->get_properties($search_data);
+
+			if( isset($next_prev->data) ){
+				foreach($next_prev->data as $key => $val){
+					$next_prev_array[$val->getID()] = $val->displayUrl();
+				}
+			}
+
+			$current_property 	= get_single_data();
+			$current_id			= $current_property['property']->getID();
+			$get_current_key	= array_search($current_id,array_keys($next_prev_array));
+			$next_url = '#';
+			$prev_url = '#';
+
+			$next_prev_keys = array_keys($next_prev_array);
+
+			$get_next_key = 0;
+			if( $next_prev_keys > $total_properties ){
+				$get_next_key	= ($get_current_key + 1);
+			}
+
+			if( isset($next_prev_keys[$get_next_key]) ){
+				$next_key = $next_prev_keys[$get_next_key];
+				if( isset($next_key) ){
+					$next_url = $next_prev_array[$next_key];
+				}
+			}else{
+				$next_key = '';
+				if( isset($next_prev_keys[0]) ){
+					$next_key = $next_prev_keys[0];
+					$next_url = $next_prev_array[$next_key];
+				}
+			}
+
+			$next_prev_keys = array_keys($next_prev_array);
+			$get_prev_key = 0;
+			if( $get_current_key > 0 ){
+				$get_prev_key = ($get_current_key - 1);
+			}
+			$prev_key = '';
+			if( isset($next_prev_keys[$get_prev_key]) ){
+				$prev_key = $next_prev_keys[$get_prev_key];
+			}
+			if( isset($prev_key) && $get_current_key > 0 ){
+				$prev_url = $next_prev_array[$prev_key];
+			}else{
+				$total_properties -= 1;
+				if(isset($next_prev_keys[$total_properties])){
+					$prev_key = $next_prev_keys[$total_properties];
+					$prev_url = $next_prev_array[$prev_key];
+				}
+			}
+
+
+			$show_next_prev_array = array();
+			if( $total_properties == 0 && $get_current_key == 0 ){
+				$show_next_prev_array = array(
+					'next_url' => $next_url,
+					'show_next_url' => false,
+					'prev_url' => '#',
+					'show_prev_url' => false
+				);
+			}else{
+				$show_next_prev_array = array(
+					'next_url' => $next_url,
+					'show_next_url' => true,
+					'prev_url' => $prev_url,
+					'show_prev_url' => true
+				);
+			}
+			return $show_next_prev_array;
+		}
+		return false;
 	}
 }

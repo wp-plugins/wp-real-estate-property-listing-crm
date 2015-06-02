@@ -129,12 +129,9 @@ class Property_Entity{
 	 */
 	public function displayDescription( $word_limit = 0 )
 	{
-
 		if( $word_limit ){
-
 			return 	\helpers\Text::limit_words( strip_tags($this->description) , $word_limit );
 		}
-
 		return $this->description;
 	}
 
@@ -164,13 +161,18 @@ class Property_Entity{
 	 */
 	public function displayPrice()
 	{
-		$currency = \CRM_Account::get_instance()->get_account_data('currency');
-		$get_currency = ($currency) ? $currency:'$';
+		$account  = \CRM_Account::get_instance()->get_account_data();
+		$get_currency = ($account->currency) ? $account->currency:'$';
 		if( $this->price == 0 ){
-			return 'Call for pricing';
+			$price = "Call for pricing ".$account->work_phone;
+			return $price;
 		}else{
 			return $get_currency.number_format( $this->price );
 		}
+	}
+
+	public function get_price(){
+		return $this->price;
 	}
 
 	/**
@@ -237,6 +239,17 @@ class Property_Entity{
 				);
 			break;
 			default:
+				if( $this->floor_area == 0 ){
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->lot_area)
+					);
+				}else{
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->floor_area)
+					);
+				}
 			break;
 		}
 		return (object)$array_measure;
