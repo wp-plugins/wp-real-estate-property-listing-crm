@@ -596,9 +596,9 @@ class Property_Entity{
 
 	public function hoa(){
 		if( isset($this->HOAYN) ){
-			return $this->HOAYN == 0 ? 'Y':'N';
+			return $this->HOAYN == 0 ? 'Yes':'No';
 		}elseif( isset($this->HOACommonAssn) ){
-			return $this->HOACommonAssn == 'Required' ? 'Y':'N';
+			return $this->HOACommonAssn == 'Required' ? 'Yes':'No';
 		}
 	}
 }

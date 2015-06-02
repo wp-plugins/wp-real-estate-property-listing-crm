@@ -69,15 +69,12 @@ class Template_Property{
 
 	public function photo_tab($atts){
 		global $have_properties;
-
-		if(have_properties()){
-			$template =  MLS_VIEW . 'single/partials/photos/photos.php';
-			if( file_exists($template) ){
-				if( has_filter('mls_photo_tab_single') ){
-					$template = apply_filters('mls_photo_tab_single',$path, $atts);
-				}
-				require_once $template;
+		$template =  MLS_VIEW . 'single/partials/photos/photos.php';
+		if( file_exists($template) ){
+			if( has_filter('mls_photo_tab_single') ){
+				$template = apply_filters('mls_photo_tab_single',$path, $atts);
 			}
+			require_once $template;
 		}
 	}
 
