@@ -27,7 +27,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<h2><span>Location Information </span></h2>
+		<h3><span>Location Information </span></h3>
 		<ul class="list-unstyled left-details">
 			<li class="tab-light"><span class="list">County : </span><span class="cont"><?php echo get_single_property_data()->get_county_name();?></span></li>
 			<li class="tab-dark"><span class="list">HOA : </span><span class="cont"><?php echo get_single_property_data()->hoa();?></span></li>
@@ -37,7 +37,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<h2><span>Interior Features </span></h2>
+		<h3><span>Interior Features </span></h3>
 		<ul class="list-unstyled left-details">
 			<li class="tab-light"><span class="list">Interior Features : </span><span class="cont"><?php echo get_single_property_data()->display_interior_features();?></span></li>
 			<li class="tab-dark"><span class="list">Fireplace : </span><span class="cont"><?php echo get_single_property_data()->display_fireplace_yn() == 0 ? 'No':'Yes';?></span></li>
@@ -51,7 +51,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<h2><span>Exterior Features </span></h2>
+		<h3><span>Exterior Features </span></h3>
 		<ul class="list-unstyled left-details">
 			<li class="tab-light"><span class="list">Construction : </span><span class="cont"><?php echo get_single_property_data()->display_exterior_construction();?></span></li>
 			<li class="tab-dark"><span class="list">Foundation : </span><span class="cont"><?php echo get_single_property_data()->display_foundation();?></span></li>
@@ -70,7 +70,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<h2><span>Additional Information </span></h2>
+		<h3><span>Additional Information </span></h3>
 		<ul class="list-unstyled left-details">
 			<li class="tab-dark"><span class="list">Year Built : </span><span class="cont"><?php echo get_single_property_data()->displayYearBuilt();?></span></li>
 			<li class="tab-light"><span class="list">Tax Year : </span><span class="cont"><?php echo get_single_property_data()->display_tax_year();?></span></li>

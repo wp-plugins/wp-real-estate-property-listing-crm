@@ -212,6 +212,10 @@ ul.child_list > li {
     width: 100%;
     overflow: hidden;
 }
+#md-proppage h3 {
+    font-size: 15px;
+	font-weight: bold;
+}
 #md-proppage h2 span {
     display: inline-block;
     position: relative;
