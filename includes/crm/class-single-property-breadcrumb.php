@@ -264,9 +264,14 @@ class MD_Breadcrumb {
 		}else{
 			$page = $object->$key->name;
 		}
-
-		if( get_page_by_title($page) ){
+		$wp_page = get_page_by_title($page);
+		if( $wp_page ){
 			return esc_url( get_permalink( get_page_by_title( $page ) ) );
+		}else{
+			$query = \CRM_Hook::get_instance()->md_query_page_title($page);
+			if($query){
+				return esc_url( get_permalink( $query[0]->ID ) );
+			}
 		}
 		return false;
 	}

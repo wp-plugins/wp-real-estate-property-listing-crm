@@ -40,8 +40,9 @@ if ( !class_exists( 'md_sc_search_form' ) )
 		}
 
 		private function _get_account_fields(){
-			$fields = \CRM_Account::get_instance()->get_fields();
-			return $fields;
+			//$fields = \CRM_Account::get_instance()->get_fields();
+			$property_type = array();
+			return apply_filters('fields_type_' . DEFAULT_FEED, $property_type);
 		}
 
 		public function get_autocomplete_location($output = null){
@@ -55,6 +56,14 @@ if ( !class_exists( 'md_sc_search_form' ) )
 			}elseif( $output == 'json' ){
 				echo json_encode($location_lookup);
 			}
+		}
+
+		public function shortcode_tag(){
+			return '[md_sc_search_property_form template="searchform/search-form-minimal.php"]';
+		}
+
+		public function shortcode_tag_full(){
+			return '[md_sc_search_property_form template="searchform/search-form.php" ]';
 		}
 
 		public function init_shortcode($atts){
@@ -83,12 +92,7 @@ if ( !class_exists( 'md_sc_search_form' ) )
 				$template = apply_filters('shortcode_search_form_crm', $path);
 			}
 
-			$fields = $this->_get_account_fields();
-
-			$fields_type = array();
-			if( $fields->result == 'success' ){
-				$fields_type = $fields->fields->types;
-			}
+			$fields_type = $this->_get_account_fields();
 
 			$currency = \CRM_Account::get_instance()->get_account_data('currency');
 			$array_search_criteria = array();

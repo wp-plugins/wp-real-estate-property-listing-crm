@@ -1,8 +1,5 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Inquire form</h3>
-  </div>
-  <div class="panel-body">
+<div class="inqform">
+    <h2><span>Inquiry Form</span></h2>
 	<form class="inquiry_form" method="POST" name="inquiry_form"  role="form">
 		<div class="form-group">
 			<input type="text" value="<?php echo $yourname;?>" name="yourname" required="required" placeholder="Your First Name" class="form-control">
@@ -29,5 +26,4 @@
 		</div>
 	<input type="hidden" name="assigned_to" value="<?php echo \CRM_Account::get_instance()->get_account_data('userid'); ?>">
 	</form>
-  </div>
 </div>

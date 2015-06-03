@@ -1,0 +1,46 @@
+/*========== start template style ==========*/
+
+/*====== masterdigm pagination =====*/
+#md-proppage-pagi .pager li > a, #md-proppage-pagi .pager li > span {
+    background-color: #cccccc;
+    color: #000;
+}
+#md-proppage-pagi .pager li > a:hover {
+    background-color: #999;
+     color: #fff;
+}
+
+/*===== masterdigm pricing details =====*/
+#property-details .single-property-quick-info > li {
+    color: #FFFFFF;
+}
+#md-proppage-prdet li.price {
+    background-color: #666666;
+}
+#property-details li.price {
+    background-color: #666666;
+    color: #FFFFFF !important;
+}
+
+/*===== masterdigm carousel =====*/
+.galleria-theme-classic .galleria-thumb-nav-left, .galleria-theme-classic .galleria-thumb-nav-right {
+    background-color: #000;
+}
+
+/*===== masterdigm property right side ======*/
+#md-proppage-right .inqform {
+    background-color: #e9e9e9;
+    border: 1px solid #d9d9d9;
+}
+#md-proppage-right .similar-homes .prop-contain {
+    background-color: #F3F3F3;
+    border: 1px solid #E9E9E9;
+}
+
+/*===== masterdigm property left side ======*/
+#md-proppage-left .tab-light {
+    background-color: #F3F3F3;
+}
+#md-proppage-left .tab-dark {
+    background-color: #E8E8E8;
+}
