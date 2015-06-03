@@ -14,6 +14,7 @@ class MLS_Hook{
 		add_filter('property_nearby_property_mls',array($this,'property_nearby_property_mls'),10,2);
 		add_filter('is_property_viewable_hook_mls',array($this,'is_property_viewable_hook_mls'),10,1);
 		add_action('wp_ajax_create_location_page_action_mls', array($this,'create_location_page_action_mls_callback') );
+		add_action('fields_type_mls', array($this,'fields_type_mls'),10,1 );
 	}
 
 	/**
@@ -336,5 +337,17 @@ class MLS_Hook{
 		$sql = "SELECT * FROM ".$wpdb->posts." WHERE post_name LIKE  '{$location_name}%' AND post_status =  'publish'";
 		$ret = $wpdb->get_results($sql);
 		return $ret;
+	}
+
+	public function fields_type_mls($property_type){
+		$fields =  \mls\AccountEntity::get_instance()->get_property_type();
+		$fields_type = array();
+		if( $fields->result == 'success' ){
+			//$fields_type = $fields->types;
+			foreach($fields->types as $key => $val){
+				$fields_type[$val] = $val;
+			}
+		}
+		return $fields_type;
 	}
 }

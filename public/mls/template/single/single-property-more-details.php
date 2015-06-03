@@ -64,7 +64,7 @@
 			<li class="tab-dark"><span class="list">Lot Size Acres : </span><span class="cont"><?php echo get_single_property_data()->display_lot_size_acres();?></span></li>
 			<li class="tab-light"><span class="list">Water Frontage : </span><span class="cont"><?php echo get_single_property_data()->display_water_frontage_yn() == 0 ? 'No':'Yes';?></span></li>
 			<li class="tab-dark"><span class="list">Pool : </span><span class="cont"><?php echo get_single_property_data()->display_pool();?></span></li>
-			<li class="tab-dark"><span class="list">Pool Type : </span><span class="cont"><?php echo get_single_property_data()->display_pool_type();?></span></li>
+			<li class="tab-light"><span class="list">Pool Type : </span><span class="cont"><?php echo get_single_property_data()->display_pool_type();?></span></li>
 		</ul>
 	</div>
 </div>
@@ -73,8 +73,8 @@
 		<h3><span>Additional Information </span></h3>
 		<ul class="list-unstyled left-details">
 			<li class="tab-dark"><span class="list">Year Built : </span><span class="cont"><?php echo get_single_property_data()->displayYearBuilt();?></span></li>
-			<li class="tab-dark"><span class="list">Property SubType : </span><span class="cont"><?php echo get_single_property_data()->displayPropertyType();?></span></li>
-			<li class="tab-light"><span class="list">Taxes : </span><span class="cont"><?php echo get_single_property_data()->display_taxes();?></span></li>
+			<li class="tab-light"><span class="list">Property SubType : </span><span class="cont"><?php echo get_single_property_data()->displayPropertyType();?></span></li>
+			<li class="tab-dark"><span class="list">Taxes : </span><span class="cont"><?php echo get_single_property_data()->display_taxes();?></span></li>
 			<li class="tab-light"><span class="list">Tax Year : </span><span class="cont"><?php echo get_single_property_data()->display_tax_year();?></span></li>
 		</ul>
 	</div>

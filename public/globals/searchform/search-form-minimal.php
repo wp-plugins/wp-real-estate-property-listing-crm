@@ -58,7 +58,7 @@ Template Name: Search Form Minimal - Default UI
 			<?php if( !has_filter('show_button_property_type_'.DEFAULT_FEED) ){ ?>
 			<div class="col-md-1 col-xs-12 col-nopad-3">
 				<select name="property_type" id="property_type" class="form-control">
-					<option value="0">Type</option>
+					<option value="0">Type - All</option>
 					<?php foreach($fields_type as $key=>$val){ ?>
 							<option value="<?php echo $key;?>" <?php echo ($property_type == $key) ? "selected":""; ?>><?php echo $val;?></option>
 					<?php } ?>

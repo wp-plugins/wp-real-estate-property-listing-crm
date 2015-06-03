@@ -163,7 +163,7 @@ class MLS_Property{
 			$property_status = sanitize_text_field($_REQUEST['status']);
 		}
 
-		$property_type = '0';
+		$property_type = '';
 		if( sanitize_text_field(isset($search_data['property_type'])) ){
 			$property_type = sanitize_text_field($search_data['property_type']);
 		}elseif( sanitize_text_field(isset($_REQUEST['property_type'])) ){
@@ -240,7 +240,7 @@ class MLS_Property{
 			'min_listprice' => $min_listprice,
 			'max_listprice' => $max_listprice,
 			'status'		=> $property_status,
-			'type'			=> $property_type,
+			'property_type'	=> $property_type,
 			'transaction'	=> $transaction,
 			'order_by'			=> $orderby,
 			'order_direction'	=> $order_direction,
@@ -252,6 +252,7 @@ class MLS_Property{
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{

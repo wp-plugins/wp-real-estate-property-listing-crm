@@ -157,9 +157,14 @@ width:100% !important;
     top: 1px;
 }
 .property-item .thumbnail a > img {
-    /*height: 150px;
-    min-height: 150px;
-    width:100%;*/
+    height: 200px;
+    min-height: 200px;
+    width:100%;
+}
+.col-md-6 .thumbnail a > img {
+    height: 300px;
+    min-height: 300px;
+    width:100%;
 }
 .property-item .thumbnail .caption {
     /*height: 180px;
@@ -407,7 +412,9 @@ ul.child_list > li {
     padding: 0px;
     margin: 0px;
     font-size: 12px;
-}
+} height: 150px;
+    min-height: 150px;
+    width:100%;
 #md-proppage-right .similar-homes p.price {
     font-size: 15px;
     font-weight: bold;
@@ -453,7 +460,9 @@ ul.child_list > li {
     width: 25%;
     vertical-align: top;
 }
-#md-proppage-left ul.left-details li span.cont {
+#md-proppage-left ul.left-details li  height: 150px;
+    min-height: 150px;
+    width:100%;span.cont {
     display: inline-block;
     width: 50%px;
 }
@@ -469,7 +478,24 @@ ul.agent-box > li {
     padding-left: 5px;
     padding-right: 5px;
 }
+/* Extra Small */
+@media(max-width:767px){
+	.property-item .thumbnail a > img {
+		height: 50%;
+	}
+}
+/* Small */
+@media(min-width:768px) and (max-width:991px){
+	.property-item .thumbnail a > img {
+		height: 50%;
+	}
+}
 
+/* Medium */
+@media(min-width:992px) and (max-width:1199px){}
+
+/* Large */
+@media(min-width:1200px){}
 /*
 start global layout style here
 */
