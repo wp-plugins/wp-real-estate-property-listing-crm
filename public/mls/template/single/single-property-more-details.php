@@ -58,13 +58,13 @@
 			<li class="tab-light"><span class="list">Garage Features : </span><span class="cont"><?php echo get_single_property_data()->display_garage_features();?></span></li>
 			<li class="tab-dark"><span class="list">Garage / Carport : </span><span class="cont"><?php echo get_single_property_data()->display_garage_carport();?></span></li>
 			<li class="tab-light"><span class="list">Lot Size Sq Ft : </span><span class="cont"><?php echo get_single_property_data()->display_lot_size_sqft();?></span></li>
-			<li class="tab-light"><span class="list">Exterior Features : </span><span class="cont"><?php echo get_single_property_data()->display_exterior_features();?></span></li>
-			<li class="tab-dark"><span class="list">Roof : </span><span class="cont"><?php echo get_single_property_data()->display_roof();?></span></li>
-			<li class="tab-light"><span class="list">Utilities : </span><span class="cont"><?php echo get_single_property_data()->display_utilities();?></span></li>
-			<li class="tab-dark"><span class="list">Lot Size Acres : </span><span class="cont"><?php echo get_single_property_data()->display_lot_size_acres();?></span></li>
-			<li class="tab-light"><span class="list">Water Frontage : </span><span class="cont"><?php echo get_single_property_data()->display_water_frontage_yn() == 0 ? 'No':'Yes';?></span></li>
-			<li class="tab-dark"><span class="list">Pool : </span><span class="cont"><?php echo get_single_property_data()->display_pool();?></span></li>
-			<li class="tab-light"><span class="list">Pool Type : </span><span class="cont"><?php echo get_single_property_data()->display_pool_type();?></span></li>
+			<li class="tab-dark"><span class="list">Exterior Features : </span><span class="cont"><?php echo get_single_property_data()->display_exterior_features();?></span></li>
+			<li class="tab-light"><span class="list">Roof : </span><span class="cont"><?php echo get_single_property_data()->display_roof();?></span></li>
+			<li class="tab-dark"><span class="list">Utilities : </span><span class="cont"><?php echo get_single_property_data()->display_utilities();?></span></li>
+			<li class="tab-light"><span class="list">Lot Size Acres : </span><span class="cont"><?php echo get_single_property_data()->display_lot_size_acres();?></span></li>
+			<li class="tab-dark"><span class="list">Water Frontage : </span><span class="cont"><?php echo get_single_property_data()->display_water_frontage_yn() == 0 ? 'No':'Yes';?></span></li>
+			<li class="tab-light"><span class="list">Pool : </span><span class="cont"><?php echo get_single_property_data()->display_pool();?></span></li>
+			<li class="tab-dark"><span class="list">Pool Type : </span><span class="cont"><?php echo get_single_property_data()->display_pool_type();?></span></li>
 		</ul>
 	</div>
 </div>

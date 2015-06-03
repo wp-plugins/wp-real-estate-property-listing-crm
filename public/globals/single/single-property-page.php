@@ -155,7 +155,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div role="tabpanel" class="tab-pane" id="photos">
 			<div class="single-property-photos md-container">
 				<?php
-					echo 'template_photos_'.get_single_property_source();
 					if( has_filter('template_photos_'.get_single_property_source()) ){
 						apply_filters('template_photos_'.get_single_property_source(), $atts);
 					}else{

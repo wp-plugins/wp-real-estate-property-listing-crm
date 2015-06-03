@@ -467,7 +467,7 @@ ul.child_list > li {
     width: 50%px;
 }
 #property-details li span {
-    display: block;
+    display: inline-block;
     font-size: 13px;
 }
 #property-details li span.cont {
