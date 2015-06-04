@@ -467,11 +467,12 @@ ul.child_list > li {
     width: 50%px;
 }
 #property-details li span {
-    display: inline-block;
+	display: block;
     font-size: 13px;
 }
 #property-details li span.cont {
     width: 600px;
+    display: inline-block;
 }
 ul.agent-box > li {
     display: inline-block;

@@ -15,6 +15,7 @@ class MLS_Hook{
 		add_filter('is_property_viewable_hook_mls',array($this,'is_property_viewable_hook_mls'),10,1);
 		add_action('wp_ajax_create_location_page_action_mls', array($this,'create_location_page_action_mls_callback') );
 		add_action('fields_type_mls', array($this,'fields_type_mls'),10,1 );
+		add_action('pdf_photos_mls', array($this,'pdf_photos_mls'),10,1 );
 	}
 
 	/**
@@ -349,5 +350,15 @@ class MLS_Hook{
 			}
 		}
 		return $fields_type;
+	}
+
+	public function pdf_photos_mls($photos){
+		$mls_photos = array();
+		if( count($photos) > 0 ){
+			foreach($photos as $key => $val){
+				$mls_photos[] = $val->url;
+			}
+		}
+		return $mls_photos;
 	}
 }

@@ -18,6 +18,7 @@ class CRM_Hook{
 		add_filter('is_property_viewable_hook_crm',array($this,'is_property_viewable_hook_crm'),10,1);
 		add_action('wp_ajax_create_location_page_action_crm', array($this,'create_location_page_action_crm_callback') );
 		add_action('fields_type_crm', array($this,'fields_type_crm'),10,1 );
+		add_action('pdf_photos_crm', array($this,'pdf_photos_crm'),10,1 );
 	}
 
 	/**
@@ -287,6 +288,14 @@ class CRM_Hook{
 		$sql = "SELECT * FROM ".$wpdb->posts." WHERE post_name LIKE  '{$location_name}%' AND post_status =  'publish'";
 		$ret = $wpdb->get_results($sql);
 		return $ret;
+	}public function pdf_photos_mls($photos){
+		$mls_photos = array();
+		if( count($photos) > 0 ){
+			foreach($photos as $key => $val){
+				$mls_photos[] = $val->url;
+			}
+		}
+		return $mls_photos;
 	}
 
 	public function fields_type_crm($property_type){
@@ -298,4 +307,13 @@ class CRM_Hook{
 		return $fields_type;
 	}
 
+	public function pdf_photos_crm($photos){
+		$crm_photos = array();
+		if( count($photos) > 0 ){
+			foreach($photos as $key => $val){
+				$crm_photos[] = $val;
+			}
+		}
+		return $crm_photos;
+	}
 }

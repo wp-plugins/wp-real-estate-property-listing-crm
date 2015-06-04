@@ -11,7 +11,7 @@
 			<input type="email" value="<?php echo $email1;?>" name="email1" required="required" placeholder="Your Email Address" class="form-control">
 		</div>
 		<div class="form-group">
-			<input type="text" value="<?php echo $phone_mobile;?>" name="phone_mobile" placeholder="Your Phone Mobile" class="form-control">
+			<input type="text" value="<?php echo $phone_mobile;?>" name="phone_mobile" placeholder="Your Mobile Phone" class="form-control">
 		</div>
 		<div class="form-group">
 			<textarea class="form-control" rows="10" cols="5" name="message" style="resize: none;" ><?php echo $msg;?></textarea>
