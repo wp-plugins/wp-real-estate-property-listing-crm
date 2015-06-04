@@ -15,9 +15,9 @@ class DB_Store{
 	protected $option_properties_prefix = 'db_store_property';
 
 	public function __construct(){
-		/*add_action('init', array($this,'add_reset_cache_rewrite_rule'));
+		add_action('init', array($this,'add_reset_cache_rewrite_rule'));
 		add_filter('query_vars',array($this,'add_reset_cache_url'));
-		add_action('parse_request',array($this,'parse_request_reset_cache'));*/
+		add_action('pre_get_posts',array($this,'parse_request_reset_cache'));
 	}
 
 	/**
@@ -104,22 +104,22 @@ class DB_Store{
 	}
 
 	public function add_reset_cache_url($query_vars){
-		/*$query_vars[] = 'masterdigm-reset-cache';
-		return $query_vars;*/
+		$query_vars[] = 'masterdigm-reset-cache';
+		return $query_vars;
 	}
 
 	public function add_reset_cache_rewrite_rule(){
-		//add_rewrite_rule('masterdigm-reset-cache.php$', 'index.php?masterdigm-reset-cache=1', 'top');
+		add_rewrite_rule( 'masterdigm-reset-cache/(.*)/?', 'index.php?masterdigm-reset-cache=$matches[1]', 'top' );
 	}
 
 	public function parse_request_reset_cache($query){
-		/*if ( array_search( 'masterdigm-reset-cache', $query->query_vars ) ) {
+		global $wp;
+        if (isset($wp->request) && $wp->request == 'masterdigm-reset-cache'){
 			\DB_Store::get_instance()->reset_db_store_properties();
 			update_option('log_crm_'.date('m.d.y.g.i.a'),array($_SERVER,$_REQUEST));
 			header('Content-Type: application/json');
 			$data = array('response'=>'OK','return'=>true);
-			echo json_encode($data);
+			die( json_encode($data) );
 		}
-		return;*/
 	}
 }
