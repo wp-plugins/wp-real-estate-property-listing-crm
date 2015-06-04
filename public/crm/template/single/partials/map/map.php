@@ -35,7 +35,6 @@
 
 	</div>
 </div>
-
 <script type="text/javascript">
 	var origin_place = '<?php echo remove_nonaplha(get_single_property_data()->displayAddress());?>';
 	var propertyList =[
