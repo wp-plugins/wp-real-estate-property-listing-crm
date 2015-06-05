@@ -109,7 +109,9 @@ class Property_Page{
 			wp_insert_post( $post );
 		}
 		if( !get_page_by_title('Search Properties') ){
-			$shortcode = '[md_search_property_result template="searchresult/search-result.php" col="4" infinite="true" ]';
+			$shortcode = '[md_sc_search_property_form template="searchform/search-form-minimal.php"]';
+			$shortcode .= '<p></p>';
+			$shortcode .= '[md_search_property_result template="searchresult/search-result.php" col="4" infinite="true" ]';
 			$post = array(
 			  'post_title'    => 'Search Properties',
 			  'post_content'  => $shortcode,

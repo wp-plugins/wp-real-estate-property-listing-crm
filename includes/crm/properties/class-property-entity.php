@@ -336,10 +336,6 @@ class Property_Entity{
 		return $this->mlsid ? $this->mlsid:'&nbsp;';
 	}
 
-	public function get_id(){
-		return $this->id;
-	}
-
 	public function displayBathrooms(){
 		return $this->baths;
 	}

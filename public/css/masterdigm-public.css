@@ -226,16 +226,6 @@ ul.child_list > li {
     position: relative;
     width: 100%;
 }
-#md-proppage h2 span:after {
-    content: "";
-    position: absolute;
-    height: 17px;
-    border-bottom: 1px solid #000;
-    top: 0;
-    width: 100%;
-    margin-left: 20px;
-}
-
 /*========== masterdigm form ==========*/
 #md-proppage-form {
 
@@ -484,16 +474,26 @@ ul.agent-box > li {
 	.property-item .thumbnail a > img {
 		height: 50%;
 	}
+	#property-details li span.cont{
+		width:100%;
+	}
 }
 /* Small */
 @media(min-width:768px) and (max-width:991px){
 	.property-item .thumbnail a > img {
 		height: 50%;
 	}
+	#property-details li span.cont{
+		width:100%;
+	}
 }
 
 /* Medium */
-@media(min-width:992px) and (max-width:1199px){}
+@media(min-width:992px) and (max-width:1199px){
+	#property-details li span.cont{
+		width:70%;
+	}
+}
 
 /* Large */
 @media(min-width:1200px){}

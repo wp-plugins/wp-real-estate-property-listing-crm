@@ -88,7 +88,7 @@ class Property_Entity{
 		// enable popup for un-registered user
 		$address 			= str_replace(' ','-',$this->displayAddress());
 		$second_uri 		= $address;
-		$urlencoded_address = urlencode( preg_replace("/[^A-Za-z0-9 \-]/", '', $this->Matrix_Unique_ID.'-'.$second_uri ) );
+		$urlencoded_address = urlencode( preg_replace("/[^A-Za-z0-9 \-]/", '', $this->ListingId.'-'.$second_uri ) );
 		$url 				= \Property_URL::get_instance()->get_property_url($urlencoded_address);
 		return $url;
 	}
@@ -337,7 +337,7 @@ class Property_Entity{
 	}
 
 	public function getID(){
-		return $this->Matrix_Unique_ID;
+		return $this->ListingId;
 	}
 
 	public function getLattitude(){
