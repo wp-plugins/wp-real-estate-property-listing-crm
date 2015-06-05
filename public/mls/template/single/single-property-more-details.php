@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<ul class="list-unstyled left-details">
-			<li class="tab-light">Property ID : <?php echo get_single_property_data()->get_property_id();?></li>
+			<li class="tab-light">Property ID : <?php echo md_get_mls();?></li>
 			<li class="tab-dark">Status : <?php echo get_single_property_data()->display_status();?></li>
 			<li class="tab-light">Location : <?php echo get_single_property_data()->displayAddress();?></li>
 			<li class="tab-dark">Bedroom : <?php echo get_single_property_data()->displayBed();?></li>
@@ -29,9 +29,9 @@
 	<div class="col-md-12">
 		<h3><span>Location Information </span></h3>
 		<ul class="list-unstyled left-details">
-			<li class="tab-light"><span class="list">County : </span><span class="cont"><?php echo get_single_property_data()->get_county_name();?></span></li>
-			<li class="tab-dark"><span class="list">HOA : </span><span class="cont"><?php echo get_single_property_data()->hoa();?></span></li>
-			<li class="tab-light"><span class="list">Subdivision : </span><span class="cont"><?php echo get_single_property_data()->legal_subdivision_name();?></span></li>
+			<li class="tab-light">County :  <?php echo get_single_property_data()->get_county_name();?> </li>
+			<li class="tab-dark">HOA :  <?php echo get_single_property_data()->hoa();?> </li>
+			<li class="tab-light">Subdivision :  <?php echo get_single_property_data()->legal_subdivision_name();?> </li>
 		</ul>
 	</div>
 </div>
@@ -39,13 +39,13 @@
 	<div class="col-md-12">
 		<h3><span>Interior Features </span></h3>
 		<ul class="list-unstyled left-details">
-			<li class="tab-light"><span class="list">Interior Features : </span><span class="cont"><?php echo get_single_property_data()->display_interior_features();?></span></li>
-			<li class="tab-dark"><span class="list">Fireplace : </span><span class="cont"><?php echo get_single_property_data()->display_fireplace_yn() == 0 ? 'No':'Yes';?></span></li>
-			<li class="tab-light"><span class="list">Heating and Fuel : </span><span class="cont"><?php echo get_single_property_data()->display_heating_fuel();?></span></li>
-			<li class="tab-dark"><span class="list">Flooring : </span><span class="cont"><?php echo get_single_property_data()->display_floor_covering();?></span></li>
-			<li class="tab-light"><span class="list">Full Baths : </span><span class="cont"><?php echo get_single_property_data()->display_bath_full();?></span></li>
-			<li class="tab-dark"><span class="list">Air Conditioning : </span><span class="cont"><?php echo get_single_property_data()->display_air_conditioning();?></span></li>
-			<li class="tab-light"><span class="list">Appliances Included : </span><span class="cont"><?php echo get_single_property_data()->display_appliances_included();?></span></li>
+			<li class="tab-light">Interior Features :  <?php echo get_single_property_data()->display_interior_features();?> </li>
+			<li class="tab-dark">Fireplace :  <?php echo get_single_property_data()->display_fireplace_yn() == 0 ? 'No':'Yes';?> </li>
+			<li class="tab-light">Heating and Fuel :  <?php echo get_single_property_data()->display_heating_fuel();?> </li>
+			<li class="tab-dark">Flooring :  <?php echo get_single_property_data()->display_floor_covering();?> </li>
+			<li class="tab-light">Full Baths :  <?php echo get_single_property_data()->display_bath_full();?> </li>
+			<li class="tab-dark">Air Conditioning :  <?php echo get_single_property_data()->display_air_conditioning();?> </li>
+			<li class="tab-light">Appliances Included :  <?php echo get_single_property_data()->display_appliances_included();?> </li>
 		</ul>
 	</div>
 </div>
@@ -53,18 +53,18 @@
 	<div class="col-md-12">
 		<h3><span>Exterior Features </span></h3>
 		<ul class="list-unstyled left-details">
-			<li class="tab-light"><span class="list">Construction : </span><span class="cont"><?php echo get_single_property_data()->display_exterior_construction();?></span></li>
-			<li class="tab-dark"><span class="list">Foundation : </span><span class="cont"><?php echo get_single_property_data()->display_foundation();?></span></li>
-			<li class="tab-light"><span class="list">Garage Features : </span><span class="cont"><?php echo get_single_property_data()->display_garage_features();?></span></li>
-			<li class="tab-dark"><span class="list">Garage / Carport : </span><span class="cont"><?php echo get_single_property_data()->display_garage_carport();?></span></li>
-			<li class="tab-light"><span class="list">Lot Size Sq Ft : </span><span class="cont"><?php echo get_single_property_data()->display_lot_size_sqft();?></span></li>
-			<li class="tab-dark"><span class="list">Exterior Features : </span><span class="cont"><?php echo get_single_property_data()->display_exterior_features();?></span></li>
-			<li class="tab-light"><span class="list">Roof : </span><span class="cont"><?php echo get_single_property_data()->display_roof();?></span></li>
-			<li class="tab-dark"><span class="list">Utilities : </span><span class="cont"><?php echo get_single_property_data()->display_utilities();?></span></li>
-			<li class="tab-light"><span class="list">Lot Size Acres : </span><span class="cont"><?php echo get_single_property_data()->display_lot_size_acres();?></span></li>
-			<li class="tab-dark"><span class="list">Water Frontage : </span><span class="cont"><?php echo get_single_property_data()->display_water_frontage_yn() == 0 ? 'No':'Yes';?></span></li>
-			<li class="tab-light"><span class="list">Pool : </span><span class="cont"><?php echo get_single_property_data()->display_pool();?></span></li>
-			<li class="tab-dark"><span class="list">Pool Type : </span><span class="cont"><?php echo get_single_property_data()->display_pool_type();?></span></li>
+			<li class="tab-light">Construction :  <?php echo get_single_property_data()->display_exterior_construction();?> </li>
+			<li class="tab-dark">Foundation :  <?php echo get_single_property_data()->display_foundation();?> </li>
+			<li class="tab-light">Garage Features :  <?php echo get_single_property_data()->display_garage_features();?> </li>
+			<li class="tab-dark">Garage / Carport :  <?php echo get_single_property_data()->display_garage_carport();?> </li>
+			<li class="tab-light">Lot Size Sq Ft :  <?php echo get_single_property_data()->display_lot_size_sqft();?> </li>
+			<li class="tab-dark">Exterior Features :  <?php echo get_single_property_data()->display_exterior_features();?> </li>
+			<li class="tab-light">Roof :  <?php echo get_single_property_data()->display_roof();?> </li>
+			<li class="tab-dark">Utilities :  <?php echo get_single_property_data()->display_utilities();?> </li>
+			<li class="tab-light">Lot Size Acres :  <?php echo get_single_property_data()->display_lot_size_acres();?> </li>
+			<li class="tab-dark">Water Frontage :  <?php echo get_single_property_data()->display_water_frontage_yn() == 0 ? 'No':'Yes';?> </li>
+			<li class="tab-light">Pool :  <?php echo get_single_property_data()->display_pool();?> </li>
+			<li class="tab-dark">Pool Type :  <?php echo get_single_property_data()->display_pool_type();?> </li>
 		</ul>
 	</div>
 </div>
@@ -72,10 +72,10 @@
 	<div class="col-md-12">
 		<h3><span>Additional Information </span></h3>
 		<ul class="list-unstyled left-details">
-			<li class="tab-dark"><span class="list">Year Built : </span><span class="cont"><?php echo get_single_property_data()->displayYearBuilt();?></span></li>
-			<li class="tab-light"><span class="list">Property SubType : </span><span class="cont"><?php echo get_single_property_data()->displayPropertyType();?></span></li>
-			<li class="tab-dark"><span class="list">Taxes : </span><span class="cont"><?php echo get_single_property_data()->display_taxes();?></span></li>
-			<li class="tab-light"><span class="list">Tax Year : </span><span class="cont"><?php echo get_single_property_data()->display_tax_year();?></span></li>
+			<li class="tab-dark">Year Built :  <?php echo get_single_property_data()->displayYearBuilt();?> </li>
+			<li class="tab-light">Property SubType :  <?php echo get_single_property_data()->displayPropertyType();?> </li>
+			<li class="tab-dark">Taxes :  <?php echo get_single_property_data()->display_taxes();?> </li>
+			<li class="tab-light">Tax Year :  <?php echo get_single_property_data()->display_tax_year();?> </li>
 		</ul>
 	</div>
 </div>

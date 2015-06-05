@@ -124,7 +124,7 @@ class MD_Breadcrumb {
 			$source		= $obj_property['source'];
 
 			$url 		= \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
-			$city_name 	= $obj_property['property']->StreetCity;
+			$city_name 	= $obj_property['property']->get_city();
 			$uri  		= str_replace(' ','-',strtolower($city_name));
 			$ret_city 	= \mls\AccountEntity::get_instance()->get_coverage_lookup_key($city_name);
 			if( isset($ret_city['id']) ){
@@ -174,11 +174,13 @@ class MD_Breadcrumb {
 				$community_name = $obj_property['community']->community;
 				$uri 			= str_replace(' ','-',strtolower($community_name));
 				$community_url 	= $url . $source . '-' . $communityid . '-' . $uri;
-			}else{
+			}elseif( isset($obj_property['property']->PostalCode) ){
 				$postal_code 	= $this->zipDetail($obj_property);
 				$communityid 	= $postal_code['id'];
 				$community_name = $communityid;
 				$community_url 	= $url . $source . '-' . $communityid;
+			}else{
+
 			}
 
 			$community = array(

@@ -11,7 +11,7 @@
 	</div>
 	<div class="col-md-6">
 		<ul class="list-unstyled right-details">
-			<li class="tab-light">Property ID : <?php echo get_single_property_data()->id;?></li>
+			<li class="tab-light">Property Code : <?php echo md_get_mls();?></li>
 			<li class="tab-dark">Price : <?php echo get_single_property_data()->displayPrice();?></li>
 			<li class="tab-light">Bedroom : <?php echo get_single_property_data()->beds;?></li>
 			<li class="tab-dark">Bathroom : <?php echo get_single_property_data()->baths;?></li>

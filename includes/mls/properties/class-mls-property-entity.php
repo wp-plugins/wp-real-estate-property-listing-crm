@@ -352,6 +352,14 @@ class Property_Entity{
 		return $this->County;
 	}
 
+	public function get_city(){
+		if( isset($this->Street) ){
+			return $this->Street;
+		}elseif( isset($this->CITY) ){
+			return $this->CITY;
+		}
+	}
+
 	public function get_city_name(){
 		return $this->City;
 	}
