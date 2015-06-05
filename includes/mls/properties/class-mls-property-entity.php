@@ -88,7 +88,7 @@ class Property_Entity{
 		// enable popup for un-registered user
 		$address 			= str_replace(' ','-',$this->displayAddress());
 		$second_uri 		= $address;
-		$urlencoded_address = urlencode( preg_replace("/[^A-Za-z0-9 \-]/", '', $this->Matrix_Unique_ID.'-'.$second_uri ) );
+		$urlencoded_address = urlencode( preg_replace("/[^A-Za-z0-9 \-]/", '', $this->ListingId.'-'.$second_uri ) );
 		$url 				= \Property_URL::get_instance()->get_property_url($urlencoded_address);
 		return $url;
 	}
@@ -167,6 +167,10 @@ class Property_Entity{
 		}
 	}
 
+	public function get_price(){
+		return $this->ListPrice;
+	}
+
 	/**
 	 * @param string $type
 	 * return string
@@ -215,11 +219,19 @@ class Property_Entity{
 	}
 
 	public function displayBed(){
-		return $this->Bedrooms;
+		if( $this->Bedrooms == 0 ){
+			return $this->BedsTotal;
+		}else{
+			return $this->Bedrooms;
+		}
 	}
 
 	public function displayBathrooms(){
-		return $this->Baths;
+		if( $this->Baths == 0 ){
+			return $this->BathsTotal;
+		}else{
+			return $this->Baths;
+		}
 	}
 
 	public function getBathroom(){
@@ -234,8 +246,24 @@ class Property_Entity{
 		return $this->displayMLS();
 	}
 
+	public function get_floor_area(){
+		return number_format($this->FloorArea);
+	}
+
+	public function get_lot_area(){
+		return isset($this->LotSizeSqFt) ? number_format($this->LotSizeSqFt) : number_format($this->LotArea);
+	}
+
+	public function get_sqft_heated(){
+		return isset($this->SqFtHeated) ? $this->SqFtHeated : '';
+	}
+
 	public function displaySqFt(){
-		return number_format($this->LotSizeSqFt);
+		if( $this->FloorArea == 0 ){
+			return number_format($this->LotSizeSqFt);
+		}else{
+			return number_format($this->FloorArea);
+		}
 	}
 
 	public function displayAreaMeasurement($type){
@@ -257,14 +285,27 @@ class Property_Entity{
 				);
 			break;
 			default:
+				if( $this->FloorArea == 0 || !isset($this->FloorArea) ){
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->LotArea)
+					);
+				}else{
+					$array_measure = array(
+						'area_type'=>$unit_area,
+						'measure'=>number_format($this->FloorArea)
+					);
+				}
 			break;
 		}
+
 		return (object)$array_measure;
 	}
 
 	public function displayAreaUnit( $type = 'account' ){
 		$unit = '';
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
+
 		switch($type){
 			case 'floor':
 				$unit = $this->floor_area_unit;
@@ -284,7 +325,7 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->MLnumber ? $this->MLnumber:'&nbsp;';
+		return $this->MLSID ? $this->MLSID:$this->ListingId;
 	}
 
 	public function displayPropertyStatus(){
@@ -296,7 +337,7 @@ class Property_Entity{
 	}
 
 	public function getID(){
-		return $this->Matrix_Unique_ID;
+		return $this->ListingId;
 	}
 
 	public function getLattitude(){
@@ -320,6 +361,10 @@ class Property_Entity{
 	}
 
 	public function get_property_id(){
+		return $this->Propertyid;
+	}
+
+	public function get_listing_id(){
 		return $this->Propertyid;
 	}
 
@@ -452,7 +497,7 @@ class Property_Entity{
 	}
 
 	public function display_lot_size_sqft(){
-		return $this->LotSizeSqFt;
+		return number_format($this->LotSizeSqFt);
 	}
 
 	public function display_maintenance_includes(){
@@ -464,7 +509,7 @@ class Property_Entity{
 	}
 
 	public function display_mls_number(){
-		return $this->MLSNumber;
+		return $this->MLSID;
 	}
 
 	public function display_pool(){
@@ -516,7 +561,9 @@ class Property_Entity{
 	}
 
 	public function display_taxes(){
-		return $this->Taxes;
+		$currency = \CRM_Account::get_instance()->get_account_data('currency');
+		$get_currency = ($currency) ? $currency:'$';
+		return $get_currency.number_format( $this->Taxes );
 	}
 
 	public function display_total_acreage(){
@@ -541,5 +588,17 @@ class Property_Entity{
 
 	public function display_water_frontage_yn(){
 		return $this->WaterFrontageYN;
+	}
+
+	public function legal_subdivision_name(){
+		return $this->LegalSubdivisionName;
+	}
+
+	public function hoa(){
+		if( isset($this->HOAYN) ){
+			return $this->HOAYN == 0 ? 'Yes':'No';
+		}elseif( isset($this->HOACommonAssn) ){
+			return $this->HOACommonAssn == 'Required' ? 'Yes':'No';
+		}
 	}
 }
