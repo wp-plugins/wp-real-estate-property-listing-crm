@@ -51,7 +51,9 @@ class AccountEntity{
 			$location = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
+			var_dump($md_client);
 			$location 	= $md_client->getCoverageLookup( null );
+			var_dump($location);
 			\DB_Store::get_instance()->put($cache_keyword, $location);
 		}
 		return $location;
@@ -106,6 +108,19 @@ class AccountEntity{
 			}
 		}
 		return $result;
+	}
+
+	public function get_property_type(){
+		$cache_keyword 	= 'mls_property_type';
+		$property_type 	= array();
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$property_type = \DB_Store::get_instance()->get($cache_keyword);
+		}else{
+			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
+			$property_type 	= $md_client->getPropertyTypes();
+			\DB_Store::get_instance()->put($cache_keyword, $property_type);
+		}
+		return $property_type;
 	}
 
 }

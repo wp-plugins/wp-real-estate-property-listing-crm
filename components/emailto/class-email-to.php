@@ -43,6 +43,7 @@ class Email_To{
 		get_currentuserinfo();
 
 		$source = get_bloginfo('url').', '. get_bloginfo('name') . ', Send to friend Form';
+
 		$msg 	= '';
 		$status = false;
 		$yourname = '';
@@ -93,7 +94,7 @@ class Email_To{
 		}
 
 		if( is_user_logged_in() ){
-			$yourname  = $current_user->user_firstname.' '.$current_user->user_lastname;
+			$yourname  = $current_user->display_name;
 			$youremail = $current_user->user_email;
 		}
 
