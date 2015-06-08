@@ -109,7 +109,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			}
 			$listing_office_id = '';
 			if( isset($atts['listing_office_id']) ){
-				$listing_office_id = $atts['listing_office_id'];
+				$listing_office_id = \CRM_Account::get_instance()->get_account_data('listing_office_id');
 			}
 			$location = '';
 			if( isset($atts['q']) ){
@@ -196,13 +196,14 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'status'		=> $status,
 				'type'			=> $type,
 				'transaction'	=> $transaction,
+				'listing_office_id'			=> $listing_office_id,
 				'limit'			=> $limit,
 				'infinite'		=> $atts['infinite'],
 				'col'			=> $col,
 				'template'		=> $template
 			), $atts, 'mls_list_property' );
 
-			$search_data['listing_office_id']		= $atts['listing_office_id'];
+			$search_data['listing_office_id']		= $listing_office_id;
 			$search_data['communityid']		= $atts['communityid'];
 			$search_data['countyid']		= $atts['countyid'];
 			$search_data['cityid']			= $atts['cityid'];

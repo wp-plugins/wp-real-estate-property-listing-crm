@@ -54,7 +54,7 @@ height: 300px;
 			<p>Show Infinite Scroll? this will show the scrolling ajax instead of tix "how many display" <input type="checkbox" name="infinite" id="infinite"></p>
 			<p>Choose template to display <select id="template" name="template"></select></p>
 			<p>Set property per columns ( should be divided by 12 ) <input name="col" value="4"></p>
-			<p>Include Office List? <input type="checkbox" name="listing_office_id" id="listing_office_id" value="<?php echo \CRM_Account::get_instance()->get_account_data('listing_office_id');?>"></p>
+			<p>Include Office List? <input type="checkbox" name="listing_office_id" id="listing_office_id"></p>
 		</div>
 	</div>
 	<p></p>
@@ -118,9 +118,10 @@ height: 300px;
 		var city_shortcode 		= ' cityid="0" ';
 		var county_shortcode = ' countyid="0" ';
 
-		var listing_office_id_shortcode = ' listing_office_id="0" ';
+		var listing_office_id_shortcode = 'false';
 		if( $('#listing_office_id',context).is(":checked") ){
-			listing_office_id_shortcode = ' listing_office_id="'+$('#listing_office_id',context).val()+'" '
+			//listing_office_id_shortcode = ' listing_office_id="'+$('#listing_office_id',context).val()+'" '
+			listing_office_id_shortcode = 'true';
 		}
 
 		var infinite_check = 'false';
@@ -137,6 +138,7 @@ height: 300px;
 		var transaction 	= ' transaction="' + $('#transaction',context).val() + '" ';
 		var limit 			= ' limit="' + $('input[name="limit"]',context).val() + '" ';
 		var infinite 		= ' infinite="' + infinite_check + '" ';
+		var list_office_id	= ' listing_office_id="' + listing_office_id_shortcode + '" ';
 		var template_path 	= ' template="' + $('#template',context).val() + '" ';
 		var col_grid 		= ' col="' + $('input[name="col"]',context).val() + '" ';
 
@@ -167,7 +169,7 @@ height: 300px;
 						+ limit
 						+ template_path
 						+ col_grid
-						+ listing_office_id_shortcode
+						+ list_office_id
 						+ infinite
 					+ ']';
 		editor.selection.setContent(shortcode);

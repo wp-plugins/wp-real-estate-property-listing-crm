@@ -115,7 +115,7 @@ class DB_Store{
 	public function parse_request_reset_cache($query){
 		global $wp;
         if (isset($wp->request) && $wp->request == 'masterdigm-reset-cache'){
-			\DB_Store::get_instance()->reset_db_store_properties();
+			\DB_Store::get_instance()->reset_db_store();
 			update_option('log_crm_'.date('m.d.y.g.i.a'),array($_SERVER,$_REQUEST));
 			header('Content-Type: application/json');
 			$data = array('response'=>'OK','return'=>true);
