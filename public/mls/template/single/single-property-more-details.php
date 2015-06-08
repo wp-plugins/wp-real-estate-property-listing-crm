@@ -45,7 +45,8 @@
 			<li class="tab-dark">Flooring :  <?php echo get_single_property_data()->display_floor_covering();?> </li>
 			<li class="tab-light">Full Baths :  <?php echo get_single_property_data()->display_bath_full();?> </li>
 			<li class="tab-dark">Air Conditioning :  <?php echo get_single_property_data()->display_air_conditioning();?> </li>
-			<li class="tab-light">Appliances Included :  <?php echo get_single_property_data()->display_appliances_included();?> </li>
+			<li class="tab-light">Heat / Air Conditioning :  <?php echo get_single_property_data()->display_heat_air_conditioning();?> </li>
+			<li class="tab-dark">Appliances Included :  <?php echo get_single_property_data()->display_appliances_included();?> </li>
 		</ul>
 	</div>
 </div>
@@ -73,7 +74,7 @@
 		<h3><span>Additional Information </span></h3>
 		<ul class="list-unstyled left-details">
 			<li class="tab-dark">Year Built :  <?php echo get_single_property_data()->displayYearBuilt();?> </li>
-			<li class="tab-light">Property SubType :  <?php echo get_single_property_data()->displayPropertyType();?> </li>
+			<li class="tab-light">Property SubType :  <?php echo get_single_property_data()->display_property_type();?> </li>
 			<li class="tab-dark">Taxes :  <?php echo get_single_property_data()->display_taxes();?> </li>
 			<li class="tab-light">Tax Year :  <?php echo get_single_property_data()->display_tax_year();?> </li>
 		</ul>

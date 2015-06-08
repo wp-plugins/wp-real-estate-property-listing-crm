@@ -5,7 +5,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 $settings 	= get_option('plugin-settings');
 $plugin_foldername = explode('/',plugin_basename( __FILE__ ));
 $social_api = get_option('social-api');
-define('MD_BUG',0);
 define('DO_NOT_CACHE',false);
 define('DEFAULT_FEED',get_option( 'property_data_feed' ));
 define('SEARCH_RESULT_FEED',get_option( 'property_data_feed' ));

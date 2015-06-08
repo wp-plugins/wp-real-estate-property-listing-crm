@@ -47,3 +47,7 @@ function md_display_nearby_property($atts){
 		}
 	}
 }
+
+function dump($string, $exit = false){
+	return \helpers\Text::print_r_array($string, $exit);
+}

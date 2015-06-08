@@ -51,9 +51,9 @@ class AccountEntity{
 			$location = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
-			var_dump($md_client);
+			//var_dump($md_client);
 			$location 	= $md_client->getCoverageLookup( null );
-			var_dump($location);
+			//var_dump($location);
 			\DB_Store::get_instance()->put($cache_keyword, $location);
 		}
 		return $location;
@@ -121,6 +121,18 @@ class AccountEntity{
 			\DB_Store::get_instance()->put($cache_keyword, $property_type);
 		}
 		return $property_type;
+	}
+
+	public function get_property_type_key($key = ''){
+		$types = $this->get_property_type();
+		if( $types && isset($types->result) && $types->result == 'success' ){
+			$get_key = array_key_exists($key,$types->types);
+			if( $get_key ){
+				return $types->types[$get_key];
+			}
+		}else{
+			return false;
+		}
 	}
 
 }

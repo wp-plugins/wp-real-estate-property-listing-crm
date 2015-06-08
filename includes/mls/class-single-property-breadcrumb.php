@@ -227,7 +227,7 @@ class MD_Breadcrumb {
 		$bread_crumb = $this->getBreadCrumb($property_data, $show_location);
 
 		$build_bread_crumb = array();
-		//\helpers\Text::print_r_array($bread_crumb);
+
 		foreach($bread_crumb as $key=>$val){
 			$url = '';
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){

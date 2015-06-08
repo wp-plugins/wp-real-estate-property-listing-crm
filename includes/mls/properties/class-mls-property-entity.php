@@ -255,7 +255,7 @@ class Property_Entity{
 	}
 
 	public function get_sqft_heated(){
-		return isset($this->SqFtHeated) ? $this->SqFtHeated : '';
+		return isset($this->SqFtHeated) ? number_format($this->SqFtHeated) : number_format($this->SqFtLivingArea);
 	}
 
 	public function displaySqFt(){
@@ -269,6 +269,11 @@ class Property_Entity{
 	public function displayAreaMeasurement($type){
 		$area = '';
 		$measure_area = 0;
+		if( isset($this->SqFtLivingArea) ){
+			$measure_area = $this->SqFtLivingArea;
+		}elseif( isset($this->SqFtHeated) ){
+			$measure_area = $this->SqFtHeated;
+		}
 		$array_measure = array();
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
 		switch($type){
@@ -285,17 +290,10 @@ class Property_Entity{
 				);
 			break;
 			default:
-				if( $this->FloorArea == 0 || !isset($this->FloorArea) ){
-					$array_measure = array(
-						'area_type'=>$unit_area,
-						'measure'=>number_format($this->LotArea)
-					);
-				}else{
-					$array_measure = array(
-						'area_type'=>$unit_area,
-						'measure'=>number_format($this->FloorArea)
-					);
-				}
+				$array_measure = array(
+					'area_type'=>$unit_area,
+					'measure'=>number_format($measure_area)
+				);
 			break;
 		}
 
@@ -381,11 +379,15 @@ class Property_Entity{
 	}
 
 	public function display_air_conditioning(){
-		return $this->AirConditioning;
+		return isset($this->AirConditioning) ? $this->AirConditioning:$this->HeatAndCool;
+	}
+
+	public function display_heat_air_conditioning(){
+		return isset($this->HeatAndCool) ? $this->HeatAndCool:$this->HeatingandFuel.' '.$this->AirConditioning;
 	}
 
 	public function display_appliances_included(){
-		return $this->AppliancesIncluded;
+		return isset($this->AppliancesIncluded) ? $this->AppliancesIncluded:$this->EquipAndAppliances;
 	}
 
 	public function display_architectural_style(){
@@ -397,7 +399,7 @@ class Property_Entity{
 	}
 
 	public function display_bath_full(){
-		return $this->BathsFull;
+		return isset($this->BathsFull) ? ($this->BathsFull + $this->BathsHalf) : $this->BathsTotal;
 	}
 
 	public function display_bath_half(){
@@ -433,7 +435,7 @@ class Property_Entity{
 	}
 
 	public function display_exterior_construction(){
-		return $this->ExteriorConstruction;
+		return isset($this->ExteriorConstruction) ? $this->ExteriorConstruction:$this->ConstructionMaterials;
 	}
 
 	public function display_exterior_features(){
@@ -449,7 +451,7 @@ class Property_Entity{
 	}
 
 	public function display_floor_covering(){
-		return $this->FloorCovering;
+		return isset($this->FloorCovering) ? $this->FloorCovering:$this->Flooring;
 	}
 
 	public function display_foundation(){
@@ -469,7 +471,7 @@ class Property_Entity{
 	}
 
 	public function display_heating_fuel(){
-		return $this->HeatingandFuel;
+		return isset($this->HeatingandFuel) ? $this->HeatingandFuel:$this->HeatAndCool;
 	}
 
 	public function display_high_school(){
@@ -501,11 +503,11 @@ class Property_Entity{
 	}
 
 	public function display_lot_size_acres(){
-		return $this->LotSizeAcres;
+		return isset($this->LotSizeAcres) ? $this->LotSizeAcres : $this->LotSizeArea;
 	}
 
 	public function display_lot_size_sqft(){
-		return number_format($this->LotSizeSqFt);
+		return isset($this->LotSizeSqFt) ? number_format($this->LotSizeSqFt):number_format($this->LotSqFt);
 	}
 
 	public function display_maintenance_includes(){
@@ -521,11 +523,11 @@ class Property_Entity{
 	}
 
 	public function display_pool(){
-		return $this->Pool;
+		return isset($this->Pool) ? $this->Pool:$this->PoolPresent;
 	}
 
 	public function display_pool_type(){
-		return $this->PoolType;
+		return isset($this->PoolType) ? $this->PoolType:$this->PoolAndPoolExtras;
 	}
 
 	public function display_postal_code(){
@@ -533,7 +535,11 @@ class Property_Entity{
 	}
 
 	public function display_property_type(){
-		return $this->PropertyType;
+		if( isset($this->PropertyTypeNumber) ){
+			return \mls\AccountEntity::get_instance()->get_property_type_key($this->PropertyTypeNumber);
+		}else{
+			return $this->PropertyType;
+		}
 	}
 
 	public function display_public_remarks_new(){
@@ -569,9 +575,15 @@ class Property_Entity{
 	}
 
 	public function display_taxes(){
-		$currency = \CRM_Account::get_instance()->get_account_data('currency');
-		$get_currency = ($currency) ? $currency:'$';
-		return $get_currency.number_format( $this->Taxes );
+		$currency 		= \CRM_Account::get_instance()->get_account_data('currency');
+		$get_currency 	= ($currency) ? $currency:'$';
+		$taxes = 0;
+		if( isset($this->Taxes) ){
+			$taxes = $this->Taxes;
+		}elseif( isset($this->TaxAmount) ){
+			$taxes = $this->TaxAmount;
+		}
+		return $get_currency.number_format( $taxes );
 	}
 
 	public function display_total_acreage(){
@@ -599,7 +611,7 @@ class Property_Entity{
 	}
 
 	public function legal_subdivision_name(){
-		return $this->LegalSubdivisionName;
+		return isset($this->LegalSubdivisionName) ? $this->LegalSubdivisionName : $this->SubdivisionName;
 	}
 
 	public function hoa(){

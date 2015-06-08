@@ -247,7 +247,7 @@ class MLS_Property{
 			'limit'			=> $limit,
 			'page'			=> $paged
 		);
-		//\helpers\Text::print_r_array($data);
+
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
@@ -257,7 +257,7 @@ class MLS_Property{
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-			//\helpers\Text::print_r_array($properties);
+
 			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -325,7 +325,7 @@ class MLS_Property{
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-			//\helpers\Text::print_r_array($property);
+
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;

@@ -32,7 +32,6 @@ function get_single_property_data(){
 }
 function get_single_property_photos(){
 	$property = get_single_data();
-	//\helpers\Text::print_r_array($property);
 	// hook filter, incase we want to just use hook
 	if( has_filter('photos_data') ){
 		return apply_filters('photos_data', $property);
