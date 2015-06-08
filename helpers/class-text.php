@@ -468,11 +468,13 @@ class Text {
 	}
 
 	public static function print_r_array($array, $exit = false){
-		echo '<pre>';
-		print_r($array);
-		echo '</pre>';
-		if( $exit ){
-			exit();
+		if( defined('MD_BUG') ){
+			echo '<pre>';
+			print_r($array);
+			echo '</pre>';
+			if( $exit ){
+				exit();
+			}
 		}
 	}
 } // End text
