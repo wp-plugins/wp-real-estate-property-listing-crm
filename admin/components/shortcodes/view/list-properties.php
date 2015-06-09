@@ -165,7 +165,6 @@ height: 300px;
 						+ template_path
 						+ col_grid
 						+ infinite
-						+ listing_office_id_shortcode
 					+ ']';
 		editor.selection.setContent(shortcode);
 		editor.windowManager.close();

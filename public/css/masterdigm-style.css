@@ -44,3 +44,6 @@
 #md-proppage-left .tab-dark {
     background-color: #E8E8E8;
 }
+.quick_map_view img{
+	max-width:none !important;
+}

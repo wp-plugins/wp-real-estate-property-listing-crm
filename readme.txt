@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.13.21
+Stable tag: 3.14.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -153,6 +153,12 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.14.21 =
+* add shortcode last_updated_property for mls
+* fix bug crm_list_property shortcode, that returns zero when inserting the shortcode
+* updated SqFt field in the list property using getProperties method
+* update quick map img set to max-width:none
 
 = 3.13.21 =
 * update masterdigm reset cache

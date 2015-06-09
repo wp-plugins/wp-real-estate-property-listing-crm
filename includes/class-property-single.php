@@ -157,10 +157,12 @@ class MD_Single_Property {
 				// then its mls
 				$mls = \MLS_Property::get_instance()->get_property($property_id);
 				if( $mls ){
-					$data['property'] = $mls['properties'];
-					$data['photos']   = $mls['photos'];
-					$data['community']   = $mls['community'];
-					$data['source']   = 'mls';
+					$data['property'] 			= $mls['properties'];
+					$data['photos']   			= $mls['photos'];
+					$data['community']   		= $mls['community'];
+					$data['source']   			= 'mls';
+					$data['mls_type']   		= $mls['mls_type'];
+					$data['last_mls_update']   	= $mls['last_mls_update'];
 				}
 			}
 
@@ -185,7 +187,7 @@ class MD_Single_Property {
 			if( $wp_query->queried_object->post_name == $property_url && is_page($property_url) ){
 				$url 					= get_query_var('url');
 				$check_property_by_url 	= $this->getSinglePropertyDataURL($url);
-				dump($check_property_by_url);
+				//dump($check_property_by_url);
 				if( $check_property_by_url['source'] == 'crm' ){
 					$this->setApiDataSource('crm');
 				}else{

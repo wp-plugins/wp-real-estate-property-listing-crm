@@ -228,37 +228,35 @@ class MLS_Property{
 
 		$data = array(
 			'listing_office_id'	=> $listing_office_id,
-			'communityid'	=> $communityid,
-			'countyid'		=> $countyid,
-			'stateid'		=> $stateid,
-			'cityid'		=> $cityid,
-			'lat' 			=> $lat,
-			'lon' 			=> $lon,
-			'q'				=> $q,
-			'bathrooms' 	=> $bathrooms,
-			'bedrooms' 		=> $bedrooms,
-			'min_listprice' => $min_listprice,
-			'max_listprice' => $max_listprice,
-			'status'		=> $property_status,
-			'property_type'	=> $property_type,
-			'transaction'	=> $transaction,
+			'communityid'		=> $communityid,
+			'countyid'			=> $countyid,
+			'stateid'			=> $stateid,
+			'cityid'			=> $cityid,
+			'lat' 				=> $lat,
+			'lon' 				=> $lon,
+			'q'					=> $q,
+			'bathrooms' 		=> $bathrooms,
+			'bedrooms' 			=> $bedrooms,
+			'min_listprice' 	=> $min_listprice,
+			'max_listprice' 	=> $max_listprice,
+			'status'			=> $property_status,
+			'property_type'		=> urldecode($property_type),
+			'transaction'		=> $transaction,
 			'order_by'			=> $orderby,
 			'order_direction'	=> $order_direction,
-			'limit'			=> $limit,
-			'page'			=> $paged
+			'limit'				=> $limit,
+			'page'				=> $paged
 		);
 
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-		//dump($data);
-		//\DB_Store::get_instance()->del($cache_keyword);
+
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-			//dump($properties);
 			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -310,6 +308,7 @@ class MLS_Property{
 				);
 			}
 		}
+
 		return $get_properties;
 	}
 
@@ -326,7 +325,7 @@ class MLS_Property{
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-
+			//dump($property);
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -337,16 +336,26 @@ class MLS_Property{
 					$photos = $property->photos;
 				}
 
-				$community = '';
+				$community 	= '';
+				$mls_type 	= '';
 				if( isset($property->community) ){
-					$community = $property->community;
+					$community 	= $property->community;
+					if( isset($property->community->mls) ){
+						$mls_type	= $property->community->mls;
+					}
+				}
+				$last_mls_update = '';
+				if( isset($property->last_mls_update) ){
+					$last_mls_update = $property->last_mls_update;
 				}
 				$data = array(
-					'properties'=>$propertyEntity,
-					'photos'	=>$photos,
+					'properties'=> $propertyEntity,
+					'photos'	=> $photos,
 					'result'	=> 'success',
 					'community'	=> $community,
-					'source'=>'mls'
+					'mls_type'	=> $mls_type,
+					'last_mls_update'	=> $last_mls_update,
+					'source'	=>'mls'
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $data);
 			}else{
