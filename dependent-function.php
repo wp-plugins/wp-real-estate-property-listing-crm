@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // yoast
 if ( defined('WPSEO_VERSION') ) {
 function md_canonical($url) {
-	if( function_exists('get_single_data') ){
+	if( function_exists('get_single_data') || function_exists('parse_query_callback') ){
 		$address = parse_query_callback();
 		if( $address ){
 			$url = $address['property']->displayUrl();
