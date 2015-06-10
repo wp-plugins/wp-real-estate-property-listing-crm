@@ -162,3 +162,29 @@ add_action( 'loop_start',
 	}
 );
 add_filter( 'wp_title', 'md_page_title', 10, 2 );
+
+function md_redirect_property_url(){
+	global $wp_query;
+	$idx = '';
+	if( isset($wp_query->query['pagename']) ){
+		$explode = explode('/',$wp_query->query['pagename']);
+		if( in_array('pview',$explode) ){
+			list($segment_uri, $idx) = $explode;
+			$property = \CRM_Property::get_instance()->get_property($idx);
+			if( $property ){
+				header("HTTP/1.1 301 Moved Permanently");
+				header("Location: ".$property->properties->displayURL());
+				exit();
+			}
+		}
+	}
+}
+
+add_action('wp','is_404_function');
+function is_404_function(){
+	if ( is_404() ) {
+		md_redirect_property_url();
+	}
+}
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_print_styles', 'print_emoji_styles' );
