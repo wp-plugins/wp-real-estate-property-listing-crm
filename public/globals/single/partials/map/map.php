@@ -63,7 +63,7 @@
 								'</div>'+
 								'<div class="col-md-7 col-sm-12">' +
 									'<h3 style="margin:0;padding:0;color:#428bca;">' +
-										'<?php echo get_single_property_data()->displayAddress();?>' +
+										'<?php echo remove_nonaplha(get_single_property_data()->displayAddress());?>' +
 									'</h3>' +
 									'<h3 style="margin:0;padding:0;color:#d9534f;">' +
 										'<?php echo get_single_property_data()->displayPrice();?> - <?php echo get_single_property_data()->displayTransaction();?>' +

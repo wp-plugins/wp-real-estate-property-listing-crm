@@ -183,7 +183,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <script type="text/javascript">
 	var mainLat = '<?php echo get_single_property_data()->getLattitude();?>';
 	var mainLng = '<?php echo get_single_property_data()->getLongitude();?>';
-	var mainAddress = '<?php echo get_single_property_data()->displayAddress('long');?>';
+	var mainAddress = '<?php echo remove_nonaplha(get_single_property_data()->displayAddress('long'));?>';
 </script>
 <?php
 	}else{

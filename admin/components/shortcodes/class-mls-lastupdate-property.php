@@ -38,7 +38,7 @@ class mls_lastupdate_property {
 		if( get_single_data() ){
 			$get_data = get_single_data();
 			if( $get_data && isset($get_data['last_mls_update']) ){
-				$new_date = date("M d, Y", strtotime($get_data['last_mls_update']));
+				$new_date = date("F d, Y", strtotime($get_data['last_mls_update']));
 				$last_update = $new_date;
 			}
 		}

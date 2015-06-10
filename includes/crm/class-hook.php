@@ -288,7 +288,9 @@ class CRM_Hook{
 		$sql = "SELECT * FROM ".$wpdb->posts." WHERE post_name LIKE  '{$location_name}%' AND post_status =  'publish'";
 		$ret = $wpdb->get_results($sql);
 		return $ret;
-	}public function pdf_photos_mls($photos){
+	}
+
+	public function pdf_photos_mls($photos){
 		$mls_photos = array();
 		if( count($photos) > 0 ){
 			foreach($photos as $key => $val){

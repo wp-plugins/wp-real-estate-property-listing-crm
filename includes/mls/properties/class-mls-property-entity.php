@@ -463,11 +463,19 @@ class Property_Entity{
 	}
 
 	public function display_garage_carport(){
-		return $this->GarageCarport;
+		if( isset($this->GarageCarport) ){
+			return $this->GarageCarport;
+		}elseif( isset($this->Garage) ){
+			return $this->Garage;
+		}
 	}
 
 	public function display_garage_features(){
-		return $this->GarageFeatures;
+		if( isset($this->GarageFeatures) ){
+			return $this->GarageFeatures;
+		}elseif( isset($this->GarageAndParking) ){
+			return $this->GarageAndParking;
+		}
 	}
 
 	public function display_heating_fuel(){

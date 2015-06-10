@@ -424,7 +424,8 @@ class Text {
 	}
 
 	public static function remove_non_alphanumeric($string){
-		return preg_replace("/[^A-Za-z0-9 ]/", '', $string);
+		$string = preg_replace("/[^A-Za-z0-9 ]/", '', $string);
+		return trim($string);
 	}
 
 	public static function create_array_range($from, $to, $step=1){

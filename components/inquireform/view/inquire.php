@@ -25,5 +25,6 @@
 			</div>
 		</div>
 	<input type="hidden" name="assigned_to" value="<?php echo \CRM_Account::get_instance()->get_account_data('userid'); ?>">
+	<input type="hidden" name="source_url" value="<?php echo get_single_property_data()->displayUrl(); ?>">
 	</form>
 </div>
