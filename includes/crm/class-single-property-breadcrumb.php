@@ -238,6 +238,7 @@ class MD_Breadcrumb {
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
 
 				if($this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key)){
+					echo '1';
 					$url = $this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key);
 				}elseif( $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key) ){
 					$url = $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key);
@@ -260,13 +261,20 @@ class MD_Breadcrumb {
 		$page = '';
 
 		if( $key == 'community' ){
-			$page = $object->community->name.' '.$object->city->name;
+			$location_name = $object->community->name.' '.$object->city->name;
 		}else{
-			$page = $object->$key->name;
+			$location_name = $object->$key->name;
 		}
+		$location_name = trim($location_name);
+		$wp_page = get_page_by_title($location_name);
 
-		if( get_page_by_title($page) ){
-			return esc_url( get_permalink( get_page_by_title( $page ) ) );
+		if( $wp_page ){
+			return esc_url( get_permalink( get_page_by_title( $location_name ) ) );
+		}else{
+			$query = \CRM_Hook::get_instance()->md_query_page_title($location_name);
+			if($query){
+				return esc_url( get_permalink( $query[0]->ID ) );
+			}
 		}
 		return false;
 	}

@@ -32,9 +32,13 @@ function get_single_property_data(){
 }
 function get_single_property_photos(){
 	$property = get_single_data();
-
-	if( $property && isset($property['photos']) ){
-		return $property['photos'];
+	// hook filter, incase we want to just use hook
+	if( has_filter('photos_data') ){
+		return apply_filters('photos_data', $property);
+	}else{
+		if( $property && isset($property['photos']) ){
+			return $property['photos'];
+		}
 	}
 	return false;
 }
@@ -108,6 +112,7 @@ function single_property_breadcrumb_trail($trail, $args){
 	$source 		= '';
 
 	$display = false;
+	$page_breadcrumb = get_post_meta($post->ID,'page_breadcrumb',true);
 
 	if( $wp_query->post->post_name == 'property' && $property ){
 		$source  = get_single_property_source();
@@ -118,7 +123,8 @@ function single_property_breadcrumb_trail($trail, $args){
 		$wp_query->post->post_name == 'state' ||
 		$wp_query->post->post_name == 'city' ||
 		$wp_query->post->post_name == 'community' ||
-		$wp_query->post->post_name == 'zip'
+		$wp_query->post->post_name == 'zip' ||
+		$page_breadcrumb == 1
 	){
 		if( $source == '' ){
 			$url_source = get_query_var('url');
@@ -155,6 +161,7 @@ function single_property_breadcrumb_trail($trail, $args){
 				}
 			}
 		}
+
 		$current_page = '';
 		if( is_page('country') ||
 			is_page('county') ||
@@ -171,6 +178,7 @@ function single_property_breadcrumb_trail($trail, $args){
 			}
 
 			$current_page = $wp_query->query_vars['name'];
+
 			if( count($breadcrumb) >= 3 ){
 				if( is_page('state') ){
 					if( isset($breadcrumb[1]) ){
@@ -181,19 +189,19 @@ function single_property_breadcrumb_trail($trail, $args){
 					}
 				}
 				if( is_page('community') || is_page('county') ){
-					if( isset($breadcrumb[1]) ){
-						unset($breadcrumb[1]);
-					}
-				}
-				if( is_page('city') ){
 					if( isset($breadcrumb[2]) ){
 						unset($breadcrumb[2]);
 					}
 				}
+				if( is_page('city') ){
+					if( isset($breadcrumb[2]) ){
+						//unset($breadcrumb[2]);
+					}
+				}
 			}else{
 				if( is_page('community') || is_page('county') ){
-					if( isset($breadcrumb[0]) ){
-						unset($breadcrumb[0]);
+					if( isset($breadcrumb[1]) ){
+						//unset($breadcrumb[1]);
 					}
 				}
 				if( is_page('city') ){
