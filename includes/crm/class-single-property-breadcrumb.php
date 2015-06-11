@@ -238,7 +238,6 @@ class MD_Breadcrumb {
 			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
 
 				if($this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key)){
-					echo '1';
 					$url = $this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key);
 				}elseif( $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key) ){
 					$url = $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key);
