@@ -639,6 +639,6 @@ class Property_Entity{
 	}
 
 	public function display_listing_office(){
-		return isset($this->OriginalListingFirmName) ? $this->OriginalListingFirmName:'';
+		return isset($this->OriginalListingFirmName) ? $this->OriginalListingFirmName:$this->ListOfficeName;
 	}
 }

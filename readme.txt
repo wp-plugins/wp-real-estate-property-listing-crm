@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.15.23
+Stable tag: 3.15.24
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -154,7 +154,10 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
-= 3.15.23 -
+= 3.15.24 =
+* update mls hcar/mfr fields - office listing
+
+= 3.15.23 =
 * update mls hcar/mfr fields
 
 = 3.15.22 =

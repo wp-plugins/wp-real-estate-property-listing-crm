@@ -55,7 +55,7 @@
 		<h3><span>Exterior Features </span></h3>
 		<ul class="list-unstyled left-details">
 			<li class="tab-light">Construction :  <?php echo get_single_property_data()->display_exterior_construction();?> </li>
-			<li class="tab-dark">Foundation :  <?php echo get_single_property_data()->display_foundation();?> </li>
+			<li class="tab-dark">Foundation :  <?php echo get_single_property_data()->display_exterior_construction();?> </li>
 			<li class="tab-light">Garage Features :  <?php echo get_single_property_data()->display_garage_features();?> </li>
 			<li class="tab-dark">Garage / Carport :  <?php echo get_single_property_data()->display_garage_carport();?> </li>
 			<li class="tab-light">Lot Size Sq Ft :  <?php echo get_single_property_data()->display_lot_size_sqft();?> </li>
