@@ -77,6 +77,7 @@
 			<li class="tab-light">Property SubType :  <?php echo get_single_property_data()->display_property_type();?> </li>
 			<li class="tab-dark">Taxes :  <?php echo get_single_property_data()->display_taxes();?> </li>
 			<li class="tab-light">Tax Year :  <?php echo get_single_property_data()->display_tax_year();?> </li>
+			<li class="tab-dark">Listing Office :  <?php echo get_single_property_data()->display_listing_office();?> </li>
 		</ul>
 	</div>
 </div>

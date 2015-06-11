@@ -399,7 +399,11 @@ class Property_Entity{
 	}
 
 	public function display_bath_full(){
-		return isset($this->BathsFull) ? ($this->BathsFull + $this->BathsHalf) : $this->BathsTotal;
+		if( isset($this->Baths) ){
+			return ($this->Baths + $this->BathsHalf);
+		}elseif( isset($this->BathsTotal) ){
+			return $this->BathsTotal;
+		}
 	}
 
 	public function display_bath_half(){
@@ -435,7 +439,7 @@ class Property_Entity{
 	}
 
 	public function display_exterior_construction(){
-		return isset($this->ExteriorConstruction) ? $this->ExteriorConstruction:$this->ConstructionMaterials;
+		return isset($this->ExteriorConstruction) ? $this->ExteriorConstruction:$this->Construction;
 	}
 
 	public function display_exterior_features(){
@@ -511,7 +515,7 @@ class Property_Entity{
 	}
 
 	public function display_lot_size_acres(){
-		return isset($this->LotSizeAcres) ? $this->LotSizeAcres : $this->LotSizeArea;
+		return isset($this->LotSizeAcres) ? $this->LotSizeAcres : $this->Area;
 	}
 
 	public function display_lot_size_sqft(){
@@ -531,7 +535,11 @@ class Property_Entity{
 	}
 
 	public function display_pool(){
-		return isset($this->Pool) ? $this->Pool:$this->PoolPresent;
+		if( isset($this->PoolPresent) ){
+			return ($this->PoolPresent == 'N') ? 'No':'Yes';
+		}elseif( isset($this->Pool) ){
+			return $this->Pool;
+		}
 	}
 
 	public function display_pool_type(){
@@ -619,7 +627,7 @@ class Property_Entity{
 	}
 
 	public function legal_subdivision_name(){
-		return isset($this->LegalSubdivisionName) ? $this->LegalSubdivisionName : $this->SubdivisionName;
+		return isset($this->LegalSubdivisionName) ? $this->LegalSubdivisionName : $this->Subdivision;
 	}
 
 	public function hoa(){
@@ -628,5 +636,9 @@ class Property_Entity{
 		}elseif( isset($this->HOACommonAssn) ){
 			return $this->HOACommonAssn == 'Required' ? 'Yes':'No';
 		}
+	}
+
+	public function display_listing_office(){
+		return isset($this->OriginalListingFirmName) ? $this->OriginalListingFirmName:'';
 	}
 }
