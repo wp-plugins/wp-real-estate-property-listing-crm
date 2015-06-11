@@ -95,6 +95,7 @@ class Masterdigm_API_Public {
 	 */
 	public function enqueue_styles() {
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/masterdigm-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-style-css', plugin_dir_url( __FILE__ ) . 'css/masterdigm-style.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name . '-bootstrap-css', plugin_dir_url( __FILE__ ) . 'plugin/bootstrap/css/bootstrap.min.css' );
 		wp_enqueue_style( $this->plugin_name . '-fontawesome', plugin_dir_url( __FILE__ ) . 'css/font-awesome.min.css' );
 		wp_enqueue_style('thickbox.css', '/'.WPINC.'/js/thickbox/thickbox.css', null, '1.0');

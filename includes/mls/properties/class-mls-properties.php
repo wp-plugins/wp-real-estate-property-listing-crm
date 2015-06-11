@@ -312,7 +312,7 @@ class Properties{
 		}else{
 			$md_client 		= \Clients\Masterdigm_MLS::instance()->connect();
 			$property 		= $md_client->getPropertyByMatrixID( $matrix_unique_id );
-
+			//dump($property);
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;

@@ -11,6 +11,11 @@ class MLS_Hook{
 		add_action('md_list_property_by_mls',array($this,'md_list_property_by_mls'),10,3);
 		add_action('search_utility_by_mls',array($this,'search_utility_by_mls'),10,1);
 		add_filter('wp_title_mls',array($this,'wp_title_mls'),11,1);
+		add_filter('property_nearby_property_mls',array($this,'property_nearby_property_mls'),10,2);
+		add_filter('is_property_viewable_hook_mls',array($this,'is_property_viewable_hook_mls'),10,1);
+		add_action('wp_ajax_create_location_page_action_mls', array($this,'create_location_page_action_mls_callback') );
+		add_action('fields_type_mls', array($this,'fields_type_mls'),10,1 );
+		add_action('pdf_photos_mls', array($this,'pdf_photos_mls'),10,1 );
 	}
 
 	/**
@@ -169,9 +174,191 @@ class MLS_Hook{
 
 	public function wp_title_mls($data){
 		if( $data ){
-			return '';
+			return ' MLS# '.$data['property']->getMLS().' ';
 		}else{
-			return ' MLS#'.$data['property']->getMLS().' ';
+			return '';
 		}
+	}
+
+	public function property_nearby_property_mls($array_properties, $array_option_search){
+		$search_data	= array();
+		$communityid 	= '';
+		$location 		= '';
+		if( $array_properties['community'] && isset($array_properties['community']->community_id) ){
+			$communityid = $array_properties['community']->community_id;
+		}else{
+			$location = $array_properties['property']->PostalCode;
+		}
+
+		$limit = 6;
+		if( isset($array_option_search['limit']) ){
+			$limit = $array_option_search['limit'];
+		}
+
+		$search_data['countyid'] 		= '';
+		$search_data['stateid'] 		= '';
+		$search_data['countyid'] 		= '';
+		$search_data['countryid'] 		= '';
+		$search_data['communityid'] 	= $communityid;
+		$search_data['cityid'] 			= '';
+		$search_data['location'] 		= $location;
+		$search_data['bathrooms'] 		= '';
+		$search_data['bedrooms'] 		= '';
+		$search_data['transaction'] 	= '';
+		$search_data['property_type'] 	= '';
+		$search_data['property_status'] = '';
+		$search_data['min_listprice'] 	= '';
+		$search_data['max_listprice'] 	= '';
+		$search_data['limit']			= $limit;
+
+		$properties = \MLS_Property::get_instance()->get_properties($search_data);
+		return $properties;
+	}
+
+	public function is_property_viewable_hook_mls($status){
+		return true;
+	}
+
+	public function create_location_page_action_mls_callback(){
+		check_ajax_referer( 'md-ajax-request', 'security' );
+		$current_user = wp_get_current_user();
+
+		$msg 	= '';
+		$status = false;
+
+		$page_location 	= array();
+		//hook, get the default
+		$account 					= \mls\AccountEntity::get_instance()->get_coverage_lookup();
+		$shortcode_tag 				= \md_sc_mls_list_properties::get_instance()->get_shortcode_tag();
+
+		if( isset($account->result) == 'success' ){
+			$locations 	= $account->lookups;
+			if( count($locations) > 0 ){
+
+				$post_status = 'publish';
+				if( isset($_POST['post_status']) ){
+					$post_status = sanitize_text_field($_POST['post_status']);
+				}
+
+				$page_location['total']	= count($locations);
+				$count = 0;
+
+				wp_defer_term_counting( true );
+				wp_defer_comment_counting( true );
+
+				foreach($locations as $key => $val){
+					$content_shortcode = '';
+					$page_location['date_added'] 	= date("F j, Y, g:i a");
+
+					$page_location[$val->id]['full'] 			= $val->full;
+					$page_location[$val->id]['location_type'] 	= $val->location_type;
+					$page_location[$val->id]['id'] 				= $val->id;
+
+					$location = $page_location[$val->id]['location_type'].'id';
+					$id = $page_location[$val->id]['id'];
+
+					$content_shortcode 	= \md_sc_search_form::get_instance()->shortcode_tag().'<br>';
+
+					$content_shortcode .= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="11" template="list/default/list-default.php" col="4" infinite="true"]';
+
+					$page_location[$val->id]['shortcode'] = $content_shortcode;
+
+					$post_title		= $page_location[$val->id]['full'];
+					$post_content	= $page_location[$val->id]['shortcode'];
+
+					$post_insert_arg = array(
+					  'post_title'    => $post_title,
+					  'post_content'  => $post_content,
+					  'post_status'   => $post_status,
+					  'post_author'   => $current_user->ID,
+					  'post_type'	  => 'page',
+					);
+
+					$is_in_post = false;
+
+					if( get_page_by_title($post_title) ){
+						$post = get_page_by_title($post_title);
+						$post_id = $post->ID;
+						$is_in_post = true;
+					}elseif( $this->md_query_page_title($post_title) ){
+						$post = $this->md_query_page_title($post_title);
+						$post_id = $post[0]->ID;
+						$is_in_post = true;
+					}
+
+					$page_location['count']	= $count++;
+
+					if( $is_in_post && $post_status == 'trash' ){
+						wp_delete_post($post->ID, true);
+					}elseif( $post_status == 'draft' || $post_status == 'publish' ){
+						if( $is_in_post ){
+							$post_id = $post_id;
+							$post_arg = array(
+								'ID' => $post_id,
+								'post_status' => $post_status
+							);
+							wp_update_post( $post_arg );
+							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
+							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
+						}else{
+							$post_id = wp_insert_post( $post_insert_arg );
+							//mark in the post_meta as breadcrumb
+							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
+							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
+						}
+					}
+
+				}
+
+				wp_defer_term_counting( false );
+				wp_defer_comment_counting( false );
+
+				$option_name = 'create_page_by_location_'.date("m.d.Y.H.i.s");
+				$date 		 = date("F j, Y, g:i a");
+				$option_value = array(
+					'data'=>$page_location,
+					'date'=>$date
+				);
+				update_option($option_name, $option_value);
+				$msg = 'Done, total '.$post_status.' page : '.$option_value['data']['count'];
+				$status = true;
+			}
+		}
+		echo json_encode(array('msg'=>$msg,'status'=>$status));
+		die();
+	}
+
+	private function _wp_update_post_meta($post_id, $key, $value){
+		update_post_meta($post_id, $key, $value);
+	}
+
+	public function md_query_page_title($string){
+		global $wpdb;
+		$location_name = str_replace(' ','-',strtolower($string));
+		$sql = "SELECT * FROM ".$wpdb->posts." WHERE post_name LIKE  '{$location_name}%' AND post_status =  'publish'";
+		$ret = $wpdb->get_results($sql);
+		return $ret;
+	}
+
+	public function fields_type_mls($property_type){
+		$fields =  \mls\AccountEntity::get_instance()->get_property_type();
+		$fields_type = array();
+		if( $fields->result == 'success' ){
+			//$fields_type = $fields->types;
+			foreach($fields->types as $key => $val){
+				$fields_type[$val] = $val;
+			}
+		}
+		return $fields_type;
+	}
+
+	public function pdf_photos_mls($photos){
+		$mls_photos = array();
+		if( count($photos) > 0 ){
+			foreach($photos as $key => $val){
+				$mls_photos[] = $val->url;
+			}
+		}
+		return $mls_photos;
 	}
 }

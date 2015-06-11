@@ -113,7 +113,7 @@ if ( !class_exists( 'md_sc_single_properties' ) )
 
 				$att_inquire_msg = array(
 					'show' => 1,
-					'msg' => "I'd like to know more about " . $data['property']->displayAddress(),
+					'msg' => "I would like to get more information regarding: mls# " . $data['property']->getMLS() .' '. $data['property']->displayAddress(),
 				);
 
 				$args_button_action = array(

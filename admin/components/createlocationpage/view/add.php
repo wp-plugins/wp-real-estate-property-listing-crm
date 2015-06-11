@@ -30,6 +30,7 @@
 			<a href="#" class="add-new-h2 click-create-page-location"><?php echo $button;?></a>
 		</h2>
 		<input type="hidden" name="option_name" id="option_name" value="<?php echo $option_name;?>">
+		<input type="hidden" name="default_feed" id="default_feed" value="<?php echo DEFAULT_FEED;?>">
 		<div class="indicator"></div>
 	</div>
 </div>
