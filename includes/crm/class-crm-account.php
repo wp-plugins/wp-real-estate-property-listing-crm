@@ -70,6 +70,8 @@ class CRM_Account{
 			if( !is_null($key) ){
 				if( $account_details->data && isset($account_details->data->$key) ){
 					return $account_details->data->$key;
+				}else{
+					return false;
 				}
 			}else{
 				if( $account_details && isset($account_details->data) ){
@@ -203,7 +205,8 @@ class CRM_Account{
 				'address_country'    => sanitize_text_field(isset($address_country)) ? sanitize_text_field($address_country):'',
 				'company'            => sanitize_text_field(isset($company)) ? sanitize_text_field($company):'',
 				'assigned_to'		 => sanitize_text_field(isset($userid)) ? sanitize_text_field($userid):'',
-				'note'				 => sanitize_text_field(isset($note)) ? sanitize_text_field($note):''
+				'note'				 => sanitize_text_field(isset($note)) ? sanitize_text_field($note):'',
+				'source_url'		 => sanitize_text_field(isset($source_url)) ? sanitize_text_field($source_url):''
 			)
 		);
 
