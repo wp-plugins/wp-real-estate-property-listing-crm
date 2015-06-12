@@ -44,17 +44,17 @@ class MD_Searchby_Property {
 	public $country_pagename 	= 'Country';
 	public $country_slug 		= 'country';
 
-	public $state_pagename 	= 'State';
-	public $state_slug 		= 'state';
+	public $state_pagename 		= 'State';
+	public $state_slug 			= 'state';
 
-	public $city_pagename 	= 'City';
-	public $city_slug 		= 'city';
+	public $city_pagename 		= 'City';
+	public $city_slug 			= 'city';
 
 	public $county_pagename 	= 'County';
 	public $county_slug 		= 'county';
 
-	public $zip_pagename 	= 'Zip';
-	public $zip_slug 		= 'zip';
+	public $zip_pagename 		= 'Zip';
+	public $zip_slug 			= 'zip';
 
 	public $community_pagename 	= 'Community';
 	public $community_slug 		= 'community';

@@ -390,10 +390,10 @@ class CRM_Property{
 			return $data;
 		}else{
 			$property = $this->crm->get_property( $id, $broker_id );
-
+			//dump($property);
 			if( isset($property) && is_array($property) && $property['result'] == 'fail' ){
 				$result = false;
-			}elseif( isset($property) && ($property->result == 'success' || $property->count > 0) ){
+			}elseif( isset($property) && ($property->result == 'success') ){
 				$result = true;
 			}
 
