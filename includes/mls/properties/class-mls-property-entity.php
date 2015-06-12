@@ -459,7 +459,7 @@ class Property_Entity{
 	}
 
 	public function display_foundation(){
-		return $this->Foundation;
+		return isset($this->Foundation) ? $this->Foundation:$this->display_exterior_construction();
 	}
 
 	public function displayGarage(){
