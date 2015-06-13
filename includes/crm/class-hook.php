@@ -97,6 +97,7 @@ class CRM_Hook{
 			'parent_location_id'	=> $location_id,
 			'search_by'				=> $search_by
 		);
+
 		// hook filter, incase we want to just use hook
 		if( has_filter('hook_md_list_property_by_crm') ){
 			$data_array = apply_filters('hook_md_list_property_by_crm', $data_array);
