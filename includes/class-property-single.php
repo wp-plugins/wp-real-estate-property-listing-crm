@@ -44,8 +44,6 @@ class MD_Single_Property {
 		add_action('parse_query', array($this, 'parse_query'));
 		add_filter('wp_title', array($this,'chage_wp_title'), 10, 2 );
 		add_filter('the_title', array($this,'chage_page_title'),10, 2 );
-		add_filter('is_property_viewable_crm',array($this,'is_property_viewable_hook_crm'),10,1);
-		add_filter('is_property_viewable_mls',array($this,'is_property_viewable_hook_mls'),10,1);
 	}
 
 	public function chage_page_title($title, $id){
@@ -159,10 +157,12 @@ class MD_Single_Property {
 				// then its mls
 				$mls = \MLS_Property::get_instance()->get_property($property_id);
 				if( $mls ){
-					$data['property'] = $mls['properties'];
-					$data['photos']   = $mls['photos'];
-					$data['community']   = $mls['community'];
-					$data['source']   = 'mls';
+					$data['property'] 			= $mls['properties'];
+					$data['photos']   			= $mls['photos'];
+					$data['community']   		= $mls['community'];
+					$data['source']   			= 'mls';
+					$data['mls_type']   		= $mls['mls_type'];
+					$data['last_mls_update']   	= $mls['last_mls_update'];
 				}
 			}
 
@@ -182,11 +182,12 @@ class MD_Single_Property {
 
 		$property_url 	= $this->getCurrentPropertyPage();
 		$data 			= array();
-		$property_url = strtolower($property_url);
+		$property_url 	= strtolower($property_url);
 		if( isset($wp_query->queried_object) ){
 			if( $wp_query->queried_object->post_name == $property_url && is_page($property_url) ){
 				$url 					= get_query_var('url');
 				$check_property_by_url 	= $this->getSinglePropertyDataURL($url);
+				//dump($check_property_by_url);
 				if( $check_property_by_url['source'] == 'crm' ){
 					$this->setApiDataSource('crm');
 				}else{
@@ -199,18 +200,5 @@ class MD_Single_Property {
 		return false;
 	}
 
-	public function is_property_viewable_hook_mls($status){
-		return true;
-	}
-
-	public function is_property_viewable_hook_crm($status){
-		$status = get_account_fields();
-		if( $status->result == 'success' && $status->success ){
-			if( array_search(md_get_property_status(),(array)$status->fields->status) ){
-				return true;
-			}
-		}
-		return false;
-	}
 }
 

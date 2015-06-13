@@ -424,7 +424,8 @@ class Text {
 	}
 
 	public static function remove_non_alphanumeric($string){
-		return preg_replace("/[^A-Za-z0-9 ]/", '', $string);
+		$string = preg_replace("/[^A-Za-z0-9 ]/", '', $string);
+		return trim($string);
 	}
 
 	public static function create_array_range($from, $to, $step=1){
@@ -468,11 +469,13 @@ class Text {
 	}
 
 	public static function print_r_array($array, $exit = false){
-		echo '<pre>';
-		print_r($array);
-		echo '</pre>';
-		if( $exit ){
-			exit();
+		if( defined('MD_BUG') ){
+			echo '<pre>';
+			print_r($array);
+			echo '</pre>';
+			if( $exit ){
+				exit();
+			}
 		}
 	}
 } // End text

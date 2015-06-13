@@ -187,7 +187,7 @@ class Masterdigm_CRM_Property{
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = '11';
+		$limit = \MD_Search_Utility::get_instance()->search_limit();
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){

@@ -50,9 +50,14 @@ class MD_Search_Utility {
 			'properties' 	=> array(),
 			'source' 		=> ''
 		);
-
+		$source_api = '';
 		if( isset($_REQUEST['source']) ){
-			$source = sanitize_text_field($_REQUEST['source']);
+			$source_api = $_REQUEST['source'];
+		}else{
+			$source_api = DEFAULT_FEED;
+		}
+		if( $source_api ){
+			$source = sanitize_text_field($source_api);
 			$request = $_POST;
 			$api_result = apply_filters('search_utility_by_' . $source, $request);
 
@@ -83,6 +88,7 @@ class MD_Search_Utility {
 	}
 
 	public function set_request_property($request = null){
+		global $wp_rewrite;
 		if( is_null($request) ){
 			$request = array();
 			$url 	= parse_url($_SERVER['QUERY_STRING']);
@@ -253,6 +259,10 @@ class MD_Search_Utility {
 		$to	  = 20000000;
 		$step = 1000000;
 		return \helpers\Text::create_array_range($from, $to, $step);
+	}
+
+	public function search_limit($limit = 10){
+		return $limit;
 	}
 }
 

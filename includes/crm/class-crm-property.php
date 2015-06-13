@@ -207,7 +207,7 @@ class CRM_Property{
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = '11';
+		$limit = \MD_Search_Utility::get_instance()->search_limit();
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){
@@ -217,8 +217,8 @@ class CRM_Property{
 		$paged = 1;
 		if( isset($_REQUEST['paged']) ){
 			$paged = $_REQUEST['paged'];
-		}elseif( get_query_var( 'page' ) ){
-			$page = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ):$paged;
+		}elseif( get_query_var( 'paged' ) ){
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
 		}
 
 		$search_criteria_data = array(
@@ -244,7 +244,7 @@ class CRM_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-		//var_dump($search_criteria_data);
+		//dump($search_criteria_data);
 		$search_md5 	  = md5(json_encode($search_criteria_data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . $search_md5;
@@ -278,6 +278,7 @@ class CRM_Property{
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->crm->get_properties($search_criteria_data);
+			//dump($properties);
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;
@@ -390,10 +391,10 @@ class CRM_Property{
 			return $data;
 		}else{
 			$property = $this->crm->get_property( $id, $broker_id );
-
+			//dump($property);
 			if( isset($property) && is_array($property) && $property['result'] == 'fail' ){
 				$result = false;
-			}elseif( isset($property) && ($property->result == 'success' || $property->count > 0) ){
+			}elseif( isset($property) && ($property->result == 'success') ){
 				$result = true;
 			}
 
