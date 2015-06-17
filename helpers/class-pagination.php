@@ -48,8 +48,13 @@ class Pagination {
 			$current_page = $wp_query->query_vars['pagename'];
 			switch($current_page){
 				case 'search-properties':
-					$server_query_string = $_SERVER['QUERY_STRING'] ? '/?' . $_SERVER['QUERY_STRING']:$_SERVER['QUERY_STRING'];
-					$query_string = $page_number . $server_query_string;
+					/*if( isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING'] != '' ) {
+						$server_query_string = $_SERVER['QUERY_STRING'] ? '/?' . $_SERVER['QUERY_STRING']:$_SERVER['QUERY_STRING'];
+					}else{
+						$server_query_string = \Property_URL::get_instance()->get_search_page_default();
+					}*/
+					//$query_string = $page_number . $server_query_string;
+					$query_string = \Property_URL::get_instance()->get_search_page_default() .'page/'.$page_number;
 				break;
 				case 'city':
 					$query_string = '/?pg='.$page_number;
@@ -70,12 +75,12 @@ class Pagination {
 		$current_page = $wp_query->query_vars['pagename'];
 		switch($current_page){
 			case 'search-properties':
-				$search = \Masterdigm_API::get_instance()->gets_search_properties_title();
-				$host 	= \Masterdigm_API::get_instance()->get_permalink_property($search);
+				$search = 'search-properties';
+				$host 	= \Property_URL::get_instance()->get_permalink_property($search);
 				return $host;
 			break;
 			case 'city':
-				$url = \Masterdigm_API::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
+				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
 				return $url . $wp_query->query['cityid'] . '/' . $wp_query->query['cityname'];
 			break;
 		}
@@ -192,7 +197,7 @@ class Pagination {
 	public function wp_nav( $data = array(), $max_num_pages = null ){
 		$host 	= $this->getHost();
 
-		$limit = get_query_var( 'limit' ) ? absint( get_query_var( 'limit' ) ) : 10;
+		$limit = get_query_var( 'limit' ) ? absint( get_query_var( 'limit' ) ) : 11;
 
 		if( !$max_num_pages ){
 			$max_num_pages = count($data);
@@ -202,18 +207,18 @@ class Pagination {
 		if( $max_num_pages <= 1 )
 			return;
 
-		if( $_REQUEST['pg'] ){
+		if( isset($_REQUEST['pg']) ){
 			$paged = $_REQUEST['pg'];
 		}else{
-			$paged = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ) : 1;
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
 		}
 
 		$max   = ceil( intval( $max_num_pages ) / $limit );
 
 		/**	Add current page to the array */
-		if ( $paged >= 1 )
+		if ( $paged >= 1 ){
 			$links[] = $paged;
-
+		}
 		/**	Add the pages around the current page to the array */
 		if ( $paged >= 3 ) {
 			$links[] = $paged - 1;
@@ -224,18 +229,17 @@ class Pagination {
 			$links[] = $paged + 2;
 			$links[] = $paged + 1;
 		}
-		//echo http_build_query(array('page'=>10));
+
 		echo '<div class="property-navigation"><ul class="pagination">' . "\n";
 		/**	Previous Post Link */
 		if ( $paged > 1 )
-			//printf( '<li><a href="%s">%s</a></li>' . "\n", ($host . ($paged - 1) . $query_string ), '&laquo;' );
-			printf( '<li><a href="%s">%s</a></li>' . "\n", esc_url($host . $this->build_links_query(($paged - 1)) ), '&laquo;' );
+			printf( '<li><a href="%s">%s</a></li>' . "\n", get_pagenum_link($paged - 1), '&laquo;' );
 
 		/**	Link to first page, plus ellipses if necessary */
 		if ( ! in_array( 1, $links ) ) {
 			$class = 1 == $paged ? ' class="active"' : '';
 
-			printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( $host . $this->build_links_query(1) ), '1' );
+			printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, get_pagenum_link(1), '1' );
 
 			if ( ! in_array( 2, $links ) )
 				echo '<li class="disabled"><span>…</span></li>' . "\n";
@@ -244,7 +248,7 @@ class Pagination {
 		sort( $links );
 		foreach ( (array) $links as $link ) {
 			$class = $paged == $link ? ' class="active"' : '';
-			printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( $host . $this->build_links_query($link) ), $link );
+			printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, get_pagenum_link($link), $link );
 		}
 		/**	Link to last page, plus ellipses if necessary */
 		if ( ! in_array( $max, $links ) ) {
@@ -252,13 +256,73 @@ class Pagination {
 				echo '<li class="disabled"><span>…</span></li>' . "\n";
 
 			$class = $paged == $max ? ' class="active"' : '';
-			printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( $host . $this->build_links_query($max) ), $max );
+			printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, get_pagenum_link($max), $max );
 		}
 
 		/**	Next Post Link */
 		if ( $paged < $max )
-			printf( '<li><a href="%s">%s</a></li>' . "\n", esc_url( $host . $this->build_links_query( ($paged + 1) ) ), '&raquo;' );
+			printf( '<li><a href="%s">%s</a></li>' . "\n", get_pagenum_link($paged+1), '&raquo;' );
 		echo '</ul></div>';
+	}
+
+	public function md_pagination_pagenum($page_num, $url){
+		//if( is_null($url) ){
+			return get_pagenum_link($page_num);
+		/*}else{
+			$current_query_url = '';
+			if( isset($url['current_query_url']) ){
+				$current_query_url = $url['current_query_url'];
+			}
+			$current_site_url = '';
+			if( isset($url['current_site_url']) ){
+				$current_site_url = $url['current_site_url'];
+			}
+			$current_page = '';
+			if( isset($url['current_page']) ){
+				$current_page = $url['current_page'];
+			}
+			return $current_site_url.'/'.$current_page.'/page/'.$page_num.'/?'.$current_query_url;
+		}*/
+	}
+
+	public function md_pagination($pages = '', $range = 2, $max_num_pages = null, $url = array())
+	{
+		$showitems = ($range * 2)+1;
+		global $paged;
+		if(empty($paged)){
+		  $paged = 1;
+		}
+
+		$limit = get_query_var( 'limit' ) ? absint( get_query_var( 'limit' ) ) : \MD_Search_Utility::get_instance()->search_limit();
+		$max   = ceil( intval( $max_num_pages ) / $limit );
+
+		if($pages == ''){
+		 global $wp_query;
+		 $pages = $max;
+		 if(!$pages)
+		 {
+			 $pages = 1;
+		 }
+		}
+
+		 if(1 != $pages)
+		 {
+			 echo "<div class='pagination'>";
+			 if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum(1, $url)."'>&laquo;</a>";
+			 if($paged > 1 && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($paged - 1,$url)."'>&lsaquo;</a>";
+
+			 for ($i=1; $i <= $pages; $i++)
+			 {
+				 if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
+				 {
+					 echo ($paged == $i)? "<span class='current'>".$i."</span>":"<a href='".$this->md_pagination_pagenum($i,$url)."' class='inactive' >".$i."</a>";
+				 }
+			 }
+
+			 if ($paged < $pages && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($paged + 1,$url)."'>&rsaquo;</a>";
+			 if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($pages,$url)."'>&raquo;</a>";
+			 echo "</div>\n";
+		 }
 	}
 
 }
