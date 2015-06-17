@@ -7,11 +7,12 @@
 				require $list_part;
 			?>
 		<?php } ?>
+
 		<div style="display:none !important;">
 		<?php
 			global $paged;
 			$paged = $_POST['paged'];
-			md_pagination('',2,get_ret_properties()->total);
+			//md_pagination('', 2, get_ret_properties()->total, $atts['url']);
 		?>
 		</div>
 	</div>

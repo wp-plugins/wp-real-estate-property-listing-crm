@@ -138,6 +138,8 @@ if ( !class_exists( 'md_sc_crm_list_properties_by' ) )
 					$search_by => $id
 				);
 			}
+			$atts['server_query_string'] = $_SERVER['QUERY_STRING'];
+			$atts['site_url'] = site_url();
 			require $template;
 		}
 

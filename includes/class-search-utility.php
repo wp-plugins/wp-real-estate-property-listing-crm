@@ -84,7 +84,13 @@ class MD_Search_Utility {
 				$col = MD_DEFAULT_GRID_COL;
 			}
 			$current_paged = ($this->get_paged());
-
+			if( isset($_POST['current_query_url']) ){
+				$atts['url'] = array(
+					'current_query_url'=>$_POST['current_query_url'],
+					'current_site_url'=>$_POST['current_site_url'],
+					'current_page'=>$_POST['current_page']
+				);
+			}
 			require $template;
 		}
 		die();
@@ -148,7 +154,6 @@ class MD_Search_Utility {
 		}
 		$selector 			= $other_option['selector'];
 		$infinite_result 	= $other_option['ajax_display'];
-		$current_url = get_site_url() . $_SERVER['REQUEST_URI'];
 
 		if( count($arr_properties_data) > 0 || $arr_properties_data->total > 0 ){
 			?>
@@ -158,7 +163,8 @@ class MD_Search_Utility {
 					var col 					= <?php echo isset($att_short_code['col']) ? $att_short_code['col']:MD_DEFAULT_GRID_COL;?>;
 					var infinite_selector		= '<?php echo $selector;?>';
 					var wp_var = [
-						{name:'current_url', value:'<?php echo $current_url; ?>'},
+						{name:'current_query_url', value:'<?php echo isset($att_short_code['server_query_string'])?$att_short_code['server_query_string']:''; ?>'},
+						{name:'current_site_url', value:'<?php echo isset($att_short_code['site_url'])?$att_short_code['site_url']:''; ?>'},
 						{name:'current_page', value:'<?php echo $post->post_name;?>'},
 						{name:'next_url_page', value:'<?php echo $next_pagination;?>'},
 						{name:'grid_col', value:'<?php echo isset($col) ? $col:MD_DEFAULT_GRID_COL;?>'},

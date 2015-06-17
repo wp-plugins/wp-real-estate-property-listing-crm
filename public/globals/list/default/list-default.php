@@ -29,10 +29,8 @@ Template Name: List - Box Style
 		</div>
 	</div>
 	<?php if( !is_front_page() ){ ?>
-		<div class="row">
-			<div class="container">
-				<?php md_pagination('',2,get_ret_properties()->total); ?>
-			</div>
+		<div class="md-pagination" style="position:fixed;bottom:0;">
+			<?php md_pagination('',2,get_ret_properties()->total); ?>
 		</div>
 
 		<?php if( have_properties() > 0 && $atts['infinite'] ){ ?>
@@ -52,6 +50,7 @@ Template Name: List - Box Style
 			if( !isset($search_data) ){
 				$search_data = null;
 			}
+
 			\MD_Search_Utility::get_instance()->js_var_search_data($properties, $atts, $search_data, $options);
 		?>
 	<?php }//end is_front_page() ?>

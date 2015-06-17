@@ -141,8 +141,8 @@
 							}else{
 								_ajax_container_result.append($moreBlocks);
 							}
-							var replace_pagination = $( data ).find('.pagination');
-							jQuery('.pagination').html(replace_pagination);
+							//var replace_pagination = $( data ).find('.pagination');
+							//jQuery('.pagination').html(replace_pagination);
 							//console.log(data);
 							busy = false;
 							printPdf();

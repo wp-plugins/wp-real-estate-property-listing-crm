@@ -265,15 +265,27 @@ class Pagination {
 		echo '</ul></div>';
 	}
 
-	public function md_pagination_pagenum($page_num, $url = null){
-		if( is_null($url) ){
+	public function md_pagination_pagenum($page_num, $url){
+		//if( is_null($url) ){
 			return get_pagenum_link($page_num);
-		}else{
-			return $url;
-		}
+		/*}else{
+			$current_query_url = '';
+			if( isset($url['current_query_url']) ){
+				$current_query_url = $url['current_query_url'];
+			}
+			$current_site_url = '';
+			if( isset($url['current_site_url']) ){
+				$current_site_url = $url['current_site_url'];
+			}
+			$current_page = '';
+			if( isset($url['current_page']) ){
+				$current_page = $url['current_page'];
+			}
+			return $current_site_url.'/'.$current_page.'/page/'.$page_num.'/?'.$current_query_url;
+		}*/
 	}
 
-	public function md_pagination($pages = '', $range = 2, $max_num_pages = null, $url = null)
+	public function md_pagination($pages = '', $range = 2, $max_num_pages = null, $url = array())
 	{
 		$showitems = ($range * 2)+1;
 		global $paged;
@@ -297,7 +309,7 @@ class Pagination {
 		 {
 			 echo "<div class='pagination'>";
 			 if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum(1, $url)."'>&laquo;</a>";
-			 if($paged > 1 && $showitems < $pages) echo "<a href='".get_pagenum_link($paged - 1)."'>&lsaquo;</a>";
+			 if($paged > 1 && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($paged - 1,$url)."'>&lsaquo;</a>";
 
 			 for ($i=1; $i <= $pages; $i++)
 			 {
@@ -307,7 +319,7 @@ class Pagination {
 				 }
 			 }
 
-			 if ($paged < $pages && $showitems < $pages) echo "<a href='".get_pagenum_link($paged + 1)."'>&rsaquo;</a>";
+			 if ($paged < $pages && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($paged + 1,$url)."'>&rsaquo;</a>";
 			 if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($pages,$url)."'>&raquo;</a>";
 			 echo "</div>\n";
 		 }

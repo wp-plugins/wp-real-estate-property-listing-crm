@@ -18,8 +18,8 @@ function md_global_carousel_template($atts){
 function next_prev(){
 	\Next_Prev::get_instance()->display();
 }
-function md_pagination($pages, $range, $max_num_pages = null){
-	\Pagination::get_instance()->md_pagination($pages, $range, $max_num_pages);
+function md_pagination($pages, $range, $max_num_pages = null, $url = array()){
+	\Pagination::get_instance()->md_pagination($pages, $range, $max_num_pages, $url);
 }
 function display_map_single($atts){
 	\MD_Property_Details::get_instance()->single_map($atts);
