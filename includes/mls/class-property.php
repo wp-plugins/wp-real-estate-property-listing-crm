@@ -198,8 +198,8 @@ class MLS_Property{
 		$paged = 1;
 		if( isset($_REQUEST['paged']) ){
 			$paged = $_REQUEST['paged'];
-		}elseif( get_query_var( 'page' ) ){
-			$page = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ):$paged;
+		}elseif( get_query_var( 'paged' ) ){
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
 		}
 
 		$transaction = 'For Sale';

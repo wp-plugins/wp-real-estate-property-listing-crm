@@ -249,6 +249,13 @@ class MD_Searchby_Property {
 	public function searchPropertyResult(){
 		$property_data = array();
 
+		$paged = 1;
+		if( isset($_REQUEST['paged']) ){
+			$paged = $_REQUEST['paged'];
+		}elseif( get_query_var( 'paged' ) ){
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
+		}
+
 		$search_data['countyid'] 		= isset($_REQUEST['countyid']) ? sanitize_text_field($_REQUEST['countyid']):'';
 		$search_data['stateid'] 		= isset($_REQUEST['stateid']) ? sanitize_text_field($_REQUEST['stateid']):'';
 		$search_data['countyid'] 		= isset($_REQUEST['countyid']) ? sanitize_text_field($_REQUEST['countyid']):'';
@@ -268,7 +275,7 @@ class MD_Searchby_Property {
 		$search_data['orderby'] 		= isset($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']):'';
 		$search_data['order_direction']	= isset($_REQUEST['order_direction']) ? sanitize_text_field($_REQUEST['order_direction']):'';
 		$search_data['limit']			= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):\MD_Search_Utility::get_instance()->search_limit();
-		//$search_data['page']			= isset($_REQUEST['page']) ? sanitize_text_field($_REQUEST['page']):'1';
+		$search_data['page']			= $paged;
 
 		do_action('before_get_properties_crm', $search_data);
 

@@ -83,12 +83,12 @@ Template Name: Search Form Minimal - Default UI
 			</div>
 			<div class="col-md-2 col-xs-12 col-nopad-3">
 				<?php if( $show_button_for_sale ){ ?>
-				<button type="submit" class="btn btn-default wp-site-color-theme" value="For Sale">
+				<button type="submit" class="search-form-btn btn btn-default wp-site-color-theme" value="For Sale">
 					<?php echo $button_for_sale;?>
 				</button>
 				<?php } ?>
 				<?php if( $show_button_for_rent ){ ?>
-				<button type="submit" class="btn btn-default wp-site-color-theme" value="For Rent">
+				<button type="submit" class="search-form-btn btn btn-default wp-site-color-theme" value="For Rent">
 					<?php echo $button_for_rent;?>
 				</button>
 				<?php } ?>

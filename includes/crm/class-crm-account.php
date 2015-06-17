@@ -131,13 +131,13 @@ class CRM_Account{
 			foreach($location->lookups as $items){
 				if( $search_type == 'full' ){
 					$json_location[] = array(
-						'keyword'=>preg_replace('/(\s)+/', ' ', $items->full),
+						'keyword'=>preg_replace('/(\s)+/', ' ', $items->full) . ' [ ' . $items->location_type . ' ]',
 						'id'=>$items->id,
 						'type'=>$items->location_type,
 					);
 				}else{
 					$json_location[] = array(
-						'keyword'=>preg_replace('/(\s)+/', ' ', $items->keyword),
+						'keyword'=>preg_replace('/(\s)+/', ' ', $items->keyword) . ' [ ' . $items->location_type . ' ]',
 						'id'=>$items->id,
 						'type'=>$items->location_type,
 					);

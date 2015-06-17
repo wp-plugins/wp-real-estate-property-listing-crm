@@ -120,7 +120,6 @@ class CRM_Hook{
 		}
 
 		$properties = \crm\MD_Searchby_Property::get_instance()->searchPropertyResult();
-
 		return array(
 			'search_data' 	=> $request,
 			'properties' 	=> $properties,

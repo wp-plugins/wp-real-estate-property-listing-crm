@@ -91,8 +91,8 @@ class MD_Searchby_Property {
 
 	private function _countryRewriteURL(){
 		add_rewrite_rule(
-			'^'.$this->country_slug.'/([^/]*)/?',
-			'index.php?pagename='.$this->country_pagename.'&url=$matches[1]',
+			'^'.$this->country_slug.'/([^/]*)/page/([0-9]{1,})/?',
+			'index.php?pagename='.$this->country_pagename.'&url=$matches[1]&paged=$matches[2]',
 			'top'
 		);
 		add_rewrite_tag('%url%', '([^&]+)');
@@ -100,8 +100,13 @@ class MD_Searchby_Property {
 
 	private function _stateRewriteURL(){
 		add_rewrite_rule(
-			'^'.$this->state_slug.'/([^/]*)/?',
+			'^'.$this->state_slug.'/([^/]+)/?$',
 			'index.php?pagename='.$this->state_pagename.'&url=$matches[1]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^'.$this->state_slug.'/([^/]+)/page/([0-9]+)?$',
+			'index.php?pagename='.$this->state_pagename.'&url=$matches[1]&paged=$matches[2]',
 			'top'
 		);
 		add_rewrite_tag('%url%', '([^&]+)');
@@ -109,8 +114,13 @@ class MD_Searchby_Property {
 
 	private function _cityRewriteURL(){
 		add_rewrite_rule(
-			'^'.$this->city_slug.'/([^/]*)/?',
+			'^'.$this->city_slug.'/([^/]+)/?$',
 			'index.php?pagename='.$this->city_pagename.'&url=$matches[1]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^'.$this->city_slug.'/([^/]+)/page/([0-9]+)?$',
+			'index.php?pagename='.$this->city_pagename.'&url=$matches[1]&paged=$matches[2]',
 			'top'
 		);
 		add_rewrite_tag('%url%', '([^&]+)');
@@ -118,8 +128,13 @@ class MD_Searchby_Property {
 
 	private function _countyRewriteURL(){
 		add_rewrite_rule(
-			'^'.$this->county_slug.'/([^/]*)/?',
+			'^'.$this->county_slug.'/([^/]+)/?$',
 			'index.php?pagename='.$this->county_pagename.'&url=$matches[1]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^'.$this->county_slug.'/([^/]+)/page/([0-9]+)?$',
+			'index.php?pagename='.$this->county_pagename.'&url=$matches[1]&paged=$matches[2]',
 			'top'
 		);
 		add_rewrite_tag('%url%', '([^&]+)');
@@ -127,8 +142,8 @@ class MD_Searchby_Property {
 
 	private function _zipRewriteURL(){
 		add_rewrite_rule(
-			'^'.$this->zip_slug.'/([^/]*)/?',
-			'index.php?pagename='.$this->zip_pagename.'&url=$matches[1]',
+			'^'.$this->zip_slug.'/([^/]*)/page/([0-9]{1,})/?',
+			'index.php?pagename='.$this->zip_pagename.'&url=$matches[1]&paged=$matches[2]',
 			'top'
 		);
 		add_rewrite_tag('%url%', '([^&]+)');
@@ -136,8 +151,13 @@ class MD_Searchby_Property {
 
 	private function _communityRewriteURL(){
 		add_rewrite_rule(
-			'^'.$this->community_slug.'/([^/]*)/?',
+			'^'.$this->community_slug.'/([^/]+)/?$',
 			'index.php?pagename='.$this->community_pagename.'&url=$matches[1]',
+			'top'
+		);
+		add_rewrite_rule(
+			'^'.$this->community_slug.'/([^/]+)/page/([0-9]+)?$',
+			'index.php?pagename='.$this->community_pagename.'&url=$matches[1]&paged=$matches[2]',
 			'top'
 		);
 		add_rewrite_tag('%url%', '([^&]+)');

@@ -59,14 +59,15 @@ class MD_Search_Utility {
 		if( $source_api ){
 			$source = sanitize_text_field($source_api);
 			$request = $_POST;
+
 			$api_result = apply_filters('search_utility_by_' . $source, $request);
 
 			\MD\Property::get_instance()->set_properties($api_result['properties'], $api_result['source']);
 
 			$att_template = CRM_DEFAULT_SEARCH_RESULT_SCROLL;
 			// hook filter, incase we want to just use hook
-			if( has_filter('shortcode_search_result_scroll_crm') ){
-				$att_template = apply_filters('shortcode_search_result_scroll_crm', $path);
+			if( has_filter('shortcode_search_result_scroll_' . $source) ){
+				$att_template = apply_filters('shortcode_search_result_scroll_' . $source, $path);
 			}
 
 			// check if its from template
@@ -82,6 +83,8 @@ class MD_Search_Utility {
 			}else{
 				$col = MD_DEFAULT_GRID_COL;
 			}
+			$current_paged = ($this->get_paged());
+
 			require $template;
 		}
 		die();
@@ -96,7 +99,7 @@ class MD_Search_Utility {
 
 			foreach($query as $key => $val){
 				$array_val = explode('=', $val);
-				if( $array_val[0] == 'location' ){
+				if( $array_val[0] == 'location' && isset($array_val[1]) ){
 					$request['location'] = $array_val[1];
 				}else{
 					if( isset($array_val[1]) ){
@@ -104,10 +107,27 @@ class MD_Search_Utility {
 					}
 				}
 			}
+
 			return $request;
 		}
-
+		$request['paged'] = $this->get_paged();
 		return $request;
+	}
+
+	public function get_paged(){
+		$paged = 1;
+		if( isset($_REQUEST['paged']) ){
+			$paged = $_REQUEST['paged'];
+		}elseif( get_query_var( 'paged' ) ){
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
+		}
+		return $paged;
+	}
+
+	public function set_next_page_url(){
+		$next_page_url = '';
+		$next_page_url =  get_pagenum_link($this->get_paged() + 1);
+		return str_replace('#038;','',$next_page_url);
 	}
 
 	public function js_var_search_data($arr_properties_data, $att_short_code, $request = null, $other_option = array()){
@@ -116,6 +136,8 @@ class MD_Search_Utility {
 		if( is_null($request) ){
 			$request = $this->set_request_property();
 		}
+
+		$next_pagination = $this->set_next_page_url();
 
 		$infinite = 0;
 		if( isset($att_short_code['infinite']) && $att_short_code['infinite'] ) {
@@ -126,6 +148,7 @@ class MD_Search_Utility {
 		}
 		$selector 			= $other_option['selector'];
 		$infinite_result 	= $other_option['ajax_display'];
+		$current_url = get_site_url() . $_SERVER['REQUEST_URI'];
 
 		if( count($arr_properties_data) > 0 || $arr_properties_data->total > 0 ){
 			?>
@@ -135,7 +158,9 @@ class MD_Search_Utility {
 					var col 					= <?php echo isset($att_short_code['col']) ? $att_short_code['col']:MD_DEFAULT_GRID_COL;?>;
 					var infinite_selector		= '<?php echo $selector;?>';
 					var wp_var = [
+						{name:'current_url', value:'<?php echo $current_url; ?>'},
 						{name:'current_page', value:'<?php echo $post->post_name;?>'},
+						{name:'next_url_page', value:'<?php echo $next_pagination;?>'},
 						{name:'grid_col', value:'<?php echo isset($col) ? $col:MD_DEFAULT_GRID_COL;?>'},
 						{name:'infinite_result', value:'<?php echo $infinite_result;?>'},
 						<?php if(count($request) > 0 ) { ?>

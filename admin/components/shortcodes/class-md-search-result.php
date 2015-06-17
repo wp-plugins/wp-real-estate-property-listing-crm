@@ -86,6 +86,7 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 			}
 
 			$atts['source'] = $source;
+			$atts['server_query_string'] = $_SERVER['QUERY_STRING'];
 			$show_sort = true;
 			ob_start();
 			require $template;
