@@ -40,6 +40,7 @@ class Show_Popup{
 		if(
 			$wp_query &&
 			!$cookie->wp_cookie_is_user_logged() &&
+			isset($wp_query->post->post_name) &&
 			$wp_query->post->post_name == 'property'
 		){
 			if(

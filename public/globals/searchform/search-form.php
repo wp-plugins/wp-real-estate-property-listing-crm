@@ -46,17 +46,24 @@ Template Name: Search Form - Default UI
 									<option value="<?php echo $val;?>" <?php echo ($max_listprice == $val) ? "selected":""; ?>><?php echo $currency.number_format($val);?></option>
 							<?php } ?>
 					<?php } ?>
-					<option value="100000000">
-						<?php
-							if( has_action('max_price_val_plus') ){
-								do_action('max_price_val_plus');
-							}else{
-								echo $currency.'100,000,000+';
-							}
-						?>
-					</option>
+
+					<?php
+						if( has_filter('max_price_val_plus') ){
+							$max_price_val_plus = '';
+							$max_price_val_plus = apply_filters('max_price_val_plus',$max_price_val_plus);
+							echo '<option value="'.$max_price_val_plus.'">';
+								echo $currency.number_format($max_price_val_plus).'+';
+							echo '</option>';
+						}else{
+							echo '<option value="100000000">';
+							echo $currency.'100,000,000+';
+							echo '</option>';
+						}
+					?>
+
 				</select>
 			</div>
+			<?php if( !has_filter('show_button_property_type_'.DEFAULT_FEED) ){ ?>
 			<div class="col-md-4 col-xs-12">
 				<select name="property_type" id="property_type" class="form-control">
 					<option value="0">Type - All</option>
@@ -65,6 +72,7 @@ Template Name: Search Form - Default UI
 					<?php } ?>
 				</select>
 			</div>
+			<?php } ?>
 		</div>
 		<div class="row md-container">
 			<div class="col-md-4 col-xs-12">
@@ -93,12 +101,12 @@ Template Name: Search Form - Default UI
 		<input type="hidden" name="countyid" value="<?php echo $countyid ? $countyid:'';?>" id="countyid">
 		<input type="hidden" name="subdivisionid" value="<?php echo $subdivisionid ? $subdivisionid:'';?>" id="subdivisionid">
 		<?php if( $show_button_for_sale ){ ?>
-		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Sale">
+		<button type="submit" class="search-form-btn btn btn-default wp-site-color-theme" value="For Sale">
 			<?php echo $button_for_sale;?>
 		</button>
 		<?php } ?>
 		<?php if( $show_button_for_rent ){ ?>
-		<button type="submit" class="btn btn-default wp-site-color-theme" value="For Rent">
+		<button type="submit" class="search-form-btn btn btn-default wp-site-color-theme" value="For Rent">
 			<?php echo $button_for_rent;?>
 		</button>
 		<?php } ?>
