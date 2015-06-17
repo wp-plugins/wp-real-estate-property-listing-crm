@@ -31,7 +31,7 @@ Template Name: List - Box Style
 
 	<?php $max = ceil( intval( get_ret_properties()->total ) / $atts['limit'] );?>
 	<?php if( !is_front_page() && ($max > 1) ){ ?>
-		<div class="md-pagination" style="position:fixed;bottom:0;">
+		<div class="md-pagination">
 			<?php md_pagination('',2,get_ret_properties()->total); ?>
 		</div>
 
