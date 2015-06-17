@@ -89,7 +89,7 @@ Template Name: Single - Default Property page
 						<div class="col-md-12">
 							<div class="single-property-related">
 								<h3>Nearby Properties</h3>
-								<?php md_display_nearby_property($atts); ?>
+								<?php //md_display_nearby_property($atts); ?>
 								<?php //display_single_related_properties($att_nearby_prop_col);?>
 							</div>
 						</div>

@@ -138,7 +138,6 @@ if ( !class_exists( 'md_sc_crm_list_properties_by' ) )
 					$search_by => $id
 				);
 			}
-
 			require $template;
 		}
 

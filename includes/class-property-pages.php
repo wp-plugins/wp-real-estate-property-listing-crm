@@ -52,7 +52,9 @@ class Property_Page{
 		$current_user 	= wp_get_current_user();
 		$get_user_id 	= $current_user->ID;
 		if( !get_page_by_title('Property') ){
-			$shortcode = '[md_single_properties template="single/single-property-page.php" template_carousel="carousel/html-galleria.php" show_nearby_prop="true" nearby_prop_col="4" ]';
+			$shortcode = '[md_sc_search_property_form template="searchform/search-form-minimal.php"]';
+			$shortcode .= '<p></p>';
+			$shortcode .= '[md_single_properties template="single/single-property-page.php" template_carousel="carousel/html-galleria.php" show_nearby_prop="true" nearby_prop_col="4" ]';
 			$post = array(
 			  'post_title'    => 'Property',
 			  'post_content'  => $shortcode,
@@ -107,7 +109,9 @@ class Property_Page{
 			wp_insert_post( $post );
 		}
 		if( !get_page_by_title('Search Properties') ){
-			$shortcode = '[md_search_property_result template="searchresult/search-result.php" col="4" infinite="true" ]';
+			$shortcode = '[md_sc_search_property_form template="searchform/search-form-minimal.php"]';
+			$shortcode .= '<p></p>';
+			$shortcode .= '[md_search_property_result template="searchresult/search-result.php" col="4" infinite="true" ]';
 			$post = array(
 			  'post_title'    => 'Search Properties',
 			  'post_content'  => $shortcode,

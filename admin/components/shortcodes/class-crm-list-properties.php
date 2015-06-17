@@ -212,7 +212,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 					'show' => 1
 				),
 			);
-
+			$atts['source'] = 'crm';
 			ob_start();
 			require $template;
 			$output = ob_get_clean();
