@@ -242,7 +242,7 @@ class Pagination {
 			printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, get_pagenum_link(1), '1' );
 
 			if ( ! in_array( 2, $links ) )
-				echo '<li class="disabled"><span>…</span></li>' . "\n";
+				echo '<li class="dishttp://local.dev/masterdigmwp/horizonpalm/00aa/abled"><span>…</span></li>' . "\n";
 		}
 		/**	Link to current page, plus 2 pages in either direction if necessary */
 		sort( $links );
