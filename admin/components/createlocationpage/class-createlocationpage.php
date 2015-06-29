@@ -112,10 +112,12 @@ class Create_Location_Page{
 		foreach($log as $key => $val){
 			$parse_log['total'] += 1;
 			$date_added = unserialize($val->option_value);
-			$parse_log['data'][] = array(
-				'total' => $date_added['data']['total'],
-				'date' 	=> $date_added['data']['date_added']
-			);
+			if( isset($parse_log['data']) ){
+				$parse_log['data'][] = array(
+					'total' => $date_added['data']['total'],
+					'date' 	=> $date_added['data']['date_added']
+				);
+			}
 		}
 		return json_decode(json_encode($parse_log), FALSE);
 	}

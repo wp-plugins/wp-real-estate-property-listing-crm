@@ -227,7 +227,6 @@ function single_property_breadcrumb_trail($trail, $args){
 		$trail 	 = array();
 		$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
 	}
-
 	return $trail;
 }
 function meta_tag_og() {

@@ -10,11 +10,13 @@
 			<h3>Last Activity : </h3>
 			<ul style="height: 150px;overflow-x: hidden;overflow-y: scroll;">
 				<?php if( isset($log->total) && $log->total > 0 ){ ?>
-						<?php foreach($log->data as $key => $val ){ ?>
-								<li>
-									<p>Date : <?php echo $val->date;?>,
-									Total Page created : <?php echo $val->total;?></p>
-								</li>
+						<?php if(isset($log->data) ){ ?>
+							<?php foreach($log->data as $key => $val ){ ?>
+									<li>
+										<p>Date : <?php echo $val->date;?>,
+										Total Page created : <?php echo $val->total;?></p>
+									</li>
+							<?php } ?>
 						<?php } ?>
 				<?php }else{ ?>
 						<li>No last activity, create page now.</li>

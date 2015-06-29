@@ -9,7 +9,8 @@
 		</a>
 	<?php } ?>
 <?php }else{ ?>
-		<a class="btn btn-default register-open btn-xs <?php echo $class;?>" href="javascript:void(null)" data-property-id="<?php echo $property_id;?>" data-property-feed="<?php echo $feed;?>" role="button">
+		<a class="btn btn-default register-open btn-xs <?php echo $class;?>" href="javascript:void(null)" data-post="<?php echo "property-id={$property_id}&property-feed={$feed}"; ?>" data-current-action="<?php echo $action;?>" role="button">
 			<i class="fa fa-times-circle"></i> <?php echo $label;?>
 		</a>
+		<div class="content-<?php echo $action;?> hidden" style="display:hiden !important;"><?php echo $content;?></div>
 <?php } ?>

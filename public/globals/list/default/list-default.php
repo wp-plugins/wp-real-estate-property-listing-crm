@@ -29,7 +29,7 @@ Template Name: List - Box Style
 		</div>
 	</div>
 
-	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:10) );?>
+	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:10));?>
 	<?php if( !is_front_page() && ($max > 1) ){ ?>
 		<div class="md-pagination">
 			<?php md_pagination('',2,get_ret_properties()->total); ?>

@@ -90,7 +90,7 @@ class Template_Property{
 			if( $property['community'] && isset($property['community']->community_id) ){
 				$communityid = $property['community']->community_id;
 			}else{
-				$location = $property['property']->PostalCode;
+				$location = isset($property['property']->PostalCode) ? $property['property']->PostalCode:$property['property']->ZIP;
 			}
 
 			$search_data['countyid'] 		= '';

@@ -35,7 +35,7 @@ class MLS_Property{
 	}
 
 	private function get_default_location(){
-		$zip 		= 0;
+		$zip 		= '';
 		$account 	= \CRM_Account::get_instance()->get_account_details();
 		if( isset($account->zipcode) ){
 			$zip = $account->zipcode;
@@ -188,7 +188,7 @@ class MLS_Property{
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = '11';
+		$limit = '10';
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){
@@ -252,11 +252,12 @@ class MLS_Property{
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
+
 			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -283,7 +284,10 @@ class MLS_Property{
 				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
 			}else{
 				$msg = '';
-				if( $properties['result'] == 'fail' ){
+				$result = '';
+
+
+				if( $result == 'fail' ){
 					if( isset($properties['error_message']) ){
 						$msg = $properties['error_message'];
 					}elseif(isset($properties['messsage'])){
@@ -308,7 +312,6 @@ class MLS_Property{
 				);
 			}
 		}
-
 		return $get_properties;
 	}
 
@@ -325,7 +328,7 @@ class MLS_Property{
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-			//dump($property);
+
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -362,6 +365,7 @@ class MLS_Property{
 				return false;
 			}
 		}
+
 		return $data;
 	}
 }

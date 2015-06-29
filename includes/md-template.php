@@ -39,3 +39,5 @@ function display_property_details_left_content($atts, $additional_atts = array()
 function display_property_details_right_content($atts, $additional_atts = array()){
 	\MD_Property_Details::get_instance()->display_property_details_right_content($atts, $additional_atts);
 }
+function display_property_alert_button(){
+}

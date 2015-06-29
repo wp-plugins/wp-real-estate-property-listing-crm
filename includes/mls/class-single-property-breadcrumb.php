@@ -168,7 +168,7 @@ class MD_Breadcrumb {
 			$url = \Property_URL::get_instance()->get_permalink_property(
 				\MD_Searchby_Property::get_instance()->community_pagename
 			);
-
+			$community_url = $url;
 			if( isset($obj_property['community']) && $obj_property['community'] != '' && count($obj_property['community']) >= 1 ){
 				$communityid 	= $obj_property['community']->community_id;
 				$community_name = $obj_property['community']->community;
@@ -179,8 +179,6 @@ class MD_Breadcrumb {
 				$communityid 	= $postal_code['id'];
 				$community_name = $communityid;
 				$community_url 	= $url . $source . '-' . $communityid;
-			}else{
-
 			}
 
 			$community = array(

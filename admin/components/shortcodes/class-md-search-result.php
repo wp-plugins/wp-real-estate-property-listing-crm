@@ -87,7 +87,20 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 			$atts['source'] = $source;
 			$atts['server_query_string'] = $_SERVER['QUERY_STRING'];
 			$atts['site_url'] = site_url();
+			$mls_type = '';
+			if( isset($properties->mls_type) ){
+				$mls_type = '$properties->mls_type';
+			}
+			$atts['mls_type'] = $mls_type;
 			$show_sort = true;
+			$atts['search_keyword'] = '';
+			if( isset($properties->search_keyword) ){
+				$atts['search_keyword'] = $properties->search_keyword;
+			}
+			$atts['mls_type'] = '';
+			if( isset($properties->mls_type) ){
+				$atts['mls_type'] = $properties->mls_type;
+			}
 			ob_start();
 			require $template;
 			$output = ob_get_clean();
