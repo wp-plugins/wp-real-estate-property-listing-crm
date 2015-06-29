@@ -1,4 +1,5 @@
 <?php
+
 namespace MlsConnector;
 
 class MlsConnector {
@@ -58,6 +59,29 @@ class MlsConnector {
     public function getProperties( $data )
     {
         return $this->sendRequest( 'getproperties' , $data );
+    }
+    /**
+     * @param array $data
+     *
+     *    possible property criteria fields
+     *
+     *    mls: abbreviation of the mls id MFR, HL, CRMLS
+     *    city: city name
+     *    community: community name
+     *    subdivision: subdivision name
+     *    min_listprice: Minimum list price
+     *    max_listprice:  Maximum list price
+     *    min_beds:
+     *    max_beds:
+     *    min_baths:
+     *    max_baths:
+     *    min_garage:
+     *    transaction: 'rent','sale'
+     * @return string json_encoded property list
+     */
+    public function addPropertyAlert( $data )
+    {
+        return $this->sendRequest( 'addPropertyAlert' , $data );
     }
 
     public function getPropertyByMLSID( $mls_id )
@@ -122,11 +146,6 @@ class MlsConnector {
         return $this->sendRequest( 'getLatestPropertiesByZip' , $data );
     }
 
-    public function getHighResPhotos()
-    {
-        //$post['matrix_id'] = $matrix_id;
-        //return $this->getRequest( 'getHighResPhotosByMatrixID' , $post );
-    }
 
     public function getRelatedPropertiesByMatrixID( $matrix_id )
     {
@@ -147,9 +166,20 @@ class MlsConnector {
         return $this->uri;
     }
 
+    public function getComparable( $listing_id )
+    {
+        $data['listing_id'] 	=  $listing_id;
+        return $this->sendRequest( 'getComparable' , $data );
+    }
+
+    public function getFeatured()
+    {
+        return $this->sendRequest( 'getFeatured' , [] );
+    }
+
     public function getCoverageLookup( $mls )
     {
-        $data[ 'mls' ] = $mls;
+        $data[ 'mls' ] =  $mls;
         $data[ 'verb' ] = 'GET';
         return $this->sendRequest( 'getCoverageLookup' , $data );
     }
@@ -177,7 +207,7 @@ class MlsConnector {
         $etoken =   hash_hmac( 'sha256' , $data , $this->token ) ;
 
         $uri_with_data = $uri.'/?'.$data;
-		//echo $uri_with_data;
+
         $ch     =   curl_init( $uri );
 
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
@@ -186,19 +216,6 @@ class MlsConnector {
         curl_setopt( $ch, CURLOPT_POSTFIELDS,  $data );
         curl_setopt( $ch, CURLOPT_POST, 1 );
         $this->uri =  $uri;
-
-        if( isset( $data['verb'] ) && $data['verb'] == 'POST' ){
-
-        }else{
-            /**
-            $ch     =   curl_init( $uri );
-            curl_setopt( $ch, CURLOPT_POSTFIELDS,  $data );
-            curl_setopt( $ch, CURLOPT_POST, 1 );
-            $this->uri =  $uri;
-             */
-            //$ch     =   curl_init();
-            //curl_setopt( $ch, CURLOPT_URL,  $uri_with_data );
-        }
 
         try {
             $curl_output = curl_exec($ch);

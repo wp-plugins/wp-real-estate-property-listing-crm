@@ -185,7 +185,7 @@ class Properties{
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = '11';
+		$limit = '10';
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){

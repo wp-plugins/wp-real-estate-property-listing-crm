@@ -208,16 +208,19 @@
 			var id_register_modal = $('#registerModal');
 			id_register_modal.modal('show');
 
-			var property_id = $(this).data('property-id');
-			if (typeof property_id !== 'undefined') {
+			$('#registerModal .content-text').empty();
+
+			var current_action = $(this).data('current-action');
+			if (typeof current_action !== 'undefined') {
 				// the variable is defined
-				$('#registerModal .property_id').val(property_id);
+				$('#registerModal .current_action').val(current_action);
+				$('#registerModal .content-text').html(jQuery('.content-' + current_action).html());
 			}
 
-			var feed = $(this).data('property-feed');
-			if (typeof feed !== 'undefined') {
+			var data_post = $(this).data('post');
+			if (typeof data_post !== 'undefined') {
 				// the variable is defined
-				$('#registerModal .feed').val(feed);
+				$('#registerModal .data_post').val(data_post);
 			}
 			e.preventDefault();
 		});

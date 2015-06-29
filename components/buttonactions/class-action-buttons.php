@@ -148,6 +148,8 @@ class Action_Buttons {
 		}
 
 		if( $show == 1 ){
+			$action = 'saveproperty_action';
+			$content = '<p>Must register or login to mark as favorite</p>';
 			require 'view/favorite-button.php';
 		}
 	}
@@ -201,6 +203,8 @@ class Action_Buttons {
 		}
 
 		if( $show == 1 ){
+			$action = 'xoutproperty_action';
+			$content = '<p>Must register or login to mark as x-out</p>';
 			require 'view/xout-button.php';
 		}
 	}
