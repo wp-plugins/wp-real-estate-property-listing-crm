@@ -1,5 +1,5 @@
 <!-- Modal -->
-<?php if( have_properties() ){ ?>
+<?php //if( have_properties() ){ ?>
 <div class="modal fade register-modal" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
 
@@ -22,6 +22,9 @@
 					<?php } ?>
 					<div class="login-indicator"></div>
 				</div>
+				<div class="col-md-12">
+					<div class="content-text"></div>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
@@ -39,8 +42,8 @@
 						<div class="form-group">
 							<input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number">
 						</div>
-						<input type="hidden" name="property_id" class="property_id">
-						<input type="hidden" name="feed" class="feed">
+						<input type="hidden" name="current_action" class="current_action">
+						<input type="hidden" name="data_post" class="data_post">
 						<button type="submit" class="btn btn-primary registersend">Sign-up</button>
 					</form>
 				</div>
@@ -56,8 +59,8 @@
 						<div class="form-group">
 							<a href="<?php echo home_url('wp-login.php?action=lostpassword');?>">Forgot password</a>
 						</div>
-						<input type="hidden" name="property_id" class="property_id">
-						<input type="hidden" name="feed" class="feed">
+						<input type="hidden" name="current_action" class="current_action">
+						<input type="hidden" name="data_post" class="data_post">
 						<button type="submit" class="btn btn-primary modal-login">Login</button>
 					</form>
 				</div>
@@ -71,4 +74,4 @@
     </div>
    </div>
 </div>
-<?php } ?>
+<?php //} ?>
