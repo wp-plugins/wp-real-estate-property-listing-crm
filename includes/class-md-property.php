@@ -111,7 +111,8 @@ class Property{
 				$get_photo_url 	= $this->getObject()->getPhotoUrl($this->getPhotos());
 				$img 			= $get_photo_url[$array_key];
 			}elseif( $this->isMLS() ){
-				$img =  $this->getPhotos()[$array_key];
+				$get_photo_url 	= $this->getPhotos();
+				$img =  $get_photo_url[$array_key];
 			}
 			return $this->getObject()->displayPrimaryPhotoUrl() ? $this->getObject()->displayPrimaryPhotoUrl():$img;
 		}

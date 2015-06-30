@@ -52,7 +52,8 @@ function option_plugin_settings($settings = null){
 	return 0;
 }
 function default_search_status(){
-	return option_plugin_settings('search_criteria')['status'] ? option_plugin_settings('search_criteria')['status']:0;
+	$option_plugin_settings = option_plugin_settings('search_criteria');
+	return $option_plugin_settings['status'] ? $option_plugin_settings['status']:0;
 }
 function get_states_by_country(){
 	return \CRM_Account::get_instance()->getStatesByCountryId();

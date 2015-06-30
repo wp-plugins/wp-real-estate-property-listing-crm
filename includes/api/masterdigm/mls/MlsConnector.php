@@ -10,7 +10,7 @@ class MlsConnector {
     protected $etoken; // hashed token
 
     protected $authenticated = FALSE;
-    protected $errors   = []; // erros saved on array
+    protected $errors = array(); // erros saved on array
     protected $version  = 'v2';
     protected $uri;
     protected $sourceid;
@@ -86,12 +86,14 @@ class MlsConnector {
 
     public function getPropertyByMLSID( $mls_id )
     {
+	$data = array();
         $data['mls_id'] = $mls_id;
         return $this->sendRequest( 'getPropertyByMLSID' , $data );
     }
 
     public function getPropertyByMatrixID( $matrix_id )
     {
+	$data = array();
         $data['matrix_id'] = $matrix_id;
         $response =  $this->sendRequest( 'getPropertyByMatrixID' , $data );
 
@@ -101,30 +103,35 @@ class MlsConnector {
 
     public function getHighResPhotosByMatrixID( $matrix_id )
     {
+	$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getHighResPhotosByMatrixID' , $data );
     }
 
     public function getHighResPhotosObjectByMatrixID( $matrix_id )
     {
+	$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getHighResPhotosObjectByMatrixID' , $data );
     }
 
     public function importHighResPhotos( $matrix_id )
     {
+	$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'importHighResPhotos' , $data );
     }
 
     public function getPhotosByMatrixID( $matrix_id )
     {
+	$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getPhotosByMatrixID' , $data );
     }
 
     public function getPhotosObjectByMatrixID( $matrix_id )
     {
+	$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getPhotosObjectByMatrixID' , $data );
     }
@@ -149,6 +156,7 @@ class MlsConnector {
 
     public function getRelatedPropertiesByMatrixID( $matrix_id )
     {
+	$data = array();
         if( ! $matrix_id ){
             return array(
                 'result' => 'fail',
@@ -174,11 +182,12 @@ class MlsConnector {
 
     public function getFeatured()
     {
-        return $this->sendRequest( 'getFeatured' , [] );
+        return $this->sendRequest( 'getFeatured' , array() );
     }
 
     public function getCoverageLookup( $mls )
     {
+	$data = array();
         $data[ 'mls' ] =  $mls;
         $data[ 'verb' ] = 'GET';
         return $this->sendRequest( 'getCoverageLookup' , $data );
@@ -186,14 +195,14 @@ class MlsConnector {
 
     private function sendRequest( $request , $data )
     {
-
+	$data = array();
         if( ! $this->checkCredentials() ){
-            return [
+            return array(
                 'result'    => 'fail',
                 'success'    => 0,
                 'message'   => 'Error found',
                 'errors'    => $this->errors
-            ];
+            );
         }
 
         $data['key']      = $this->key;

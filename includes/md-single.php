@@ -240,8 +240,9 @@ function meta_tag_og() {
 			$photo = get_single_property_photos();
 
 			if( get_single_property_source() == 'crm' ){
-				if( isset($property->getPhotoUrl($photo)[0]) ){
-					$photo = $property->getPhotoUrl($photo)[0];
+				$photo_url = $property->getPhotoUrl($photo);
+				if( isset($photo_url[0]) ){
+					$photo = $photo_url[0];
 				}
 			}elseif(get_single_property_source() == 'mls' ){
 				$photo = $property->PrimaryPhotoUrl;

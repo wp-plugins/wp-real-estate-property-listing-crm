@@ -146,7 +146,8 @@ class Pagination {
 					$previous_record_key 	= 0;
 				}else{
 					$previous_record_key 	= ($array_key - 1);
-					$property_id  = (array_keys($data_array)[$previous_record_key]);
+					$temp_data_array_prev = array_keys($data_array);
+					$property_id  = $temp_data_array_prev[$previous_record_key];
 					$prev_url	= $data_array[$property_id]['url'];
 					if( $label == 'name' ){
 						$previous	= $data_array[$property_id]['name'];
@@ -155,7 +156,8 @@ class Pagination {
 
 				if( $current_total != $current_record_key ){
 					$next_record_key 	= ($array_key + 1);
-					$property_id  = (array_keys($data_array)[$next_record_key]);
+					$temp_data_array_next = array_keys($data_array);
+					$property_id  = $temp_data_array_next[$next_record_key];
 					$next_url	= $data_array[$property_id]['url'];
 					if( $label == 'name' ){
 						$next	= $data_array[$property_id]['name'];

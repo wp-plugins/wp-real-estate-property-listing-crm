@@ -101,8 +101,9 @@ if ( !class_exists( 'md_sc_single_properties' ) )
 					$template 		= CRM_DEFAULT_SINGLE;
 					$template_path 	= CRM_VIEW;
 					$photo = '';
-					if( isset($data['property']->getPhotoUrl($data['photos'])[0]) ){
-						$photo 			= $data['property']->getPhotoUrl($data['photos'])[0];
+					$photo_url = $data['property']->getPhotoUrl($data['photos']);
+					if( isset($photo_url[0]) ){
+						$photo 			= $photo_url[0];
 					}
 				}elseif( $data['source'] == 'mls' ){
 					$template 		= MLS_DEFAULT_SINGLE;
