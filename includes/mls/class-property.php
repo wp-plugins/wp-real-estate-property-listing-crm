@@ -35,7 +35,7 @@ class MLS_Property{
 	}
 
 	private function get_default_location(){
-		$zip 		= 0;
+		$zip 		= '';
 		$account 	= \CRM_Account::get_instance()->get_account_details();
 		if( isset($account->zipcode) ){
 			$zip = $account->zipcode;
@@ -49,6 +49,13 @@ class MLS_Property{
 	 * @return array | object
 	 * */
 	public function get_properties($search_data = null){
+
+		$listing_office_id = '';
+		if( sanitize_text_field(isset($search_data['listing_office_id'])) ){
+			$listing_office_id = sanitize_text_field($search_data['listing_office_id']);
+		}elseif( sanitize_text_field(isset($_REQUEST['listing_office_id'])) ){
+			$listing_office_id = sanitize_text_field($_REQUEST['listing_office_id']);
+		}
 
 		$communityid = '';
 		if( sanitize_text_field(isset($search_data['communityid'])) ){
@@ -156,14 +163,32 @@ class MLS_Property{
 			$property_status = sanitize_text_field($_REQUEST['status']);
 		}
 
-		$property_type = '0';
-		if( sanitize_text_field(isset($search_data['type'])) ){
-			$property_type = sanitize_text_field($search_data['type']);
-		}elseif( sanitize_text_field(isset($_REQUEST['type'])) ){
-			$property_type = sanitize_text_field($_REQUEST['type']);
+		$property_type = '';
+		if( sanitize_text_field(isset($search_data['property_type'])) ){
+			$property_type = sanitize_text_field($search_data['property_type']);
+		}elseif( sanitize_text_field(isset($_REQUEST['property_type'])) ){
+			$property_type = sanitize_text_field($_REQUEST['property_type']);
 		}
 
-		$limit = '11';
+		$orderby = '';
+		if( sanitize_text_field(isset($search_data['orderby'])) ){
+			$orderby = sanitize_text_field($search_data['orderby']);
+		}elseif( sanitize_text_field(isset($_REQUEST['orderby'])) ){
+			$orderby = sanitize_text_field($_REQUEST['orderby']);
+		}
+
+		if( $orderby == 'posted_at' ){
+			$orderby = 'latest';
+		}
+
+		$order_direction = '';
+		if( sanitize_text_field(isset($search_data['order_direction'])) ){
+			$order_direction = sanitize_text_field($search_data['order_direction']);
+		}elseif( sanitize_text_field(isset($_REQUEST['order_direction'])) ){
+			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
+		}
+
+		$limit = '10';
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){
@@ -173,8 +198,8 @@ class MLS_Property{
 		$paged = 1;
 		if( isset($_REQUEST['paged']) ){
 			$paged = $_REQUEST['paged'];
-		}elseif( get_query_var( 'page' ) ){
-			$page = get_query_var( 'page' ) ? absint( get_query_var( 'page' ) ):$paged;
+		}elseif( get_query_var( 'paged' ) ){
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
 		}
 
 		$transaction = 'For Sale';
@@ -202,24 +227,27 @@ class MLS_Property{
 		}
 
 		$data = array(
-			'communityid'	=> $communityid,
-			'countyid'		=> $countyid,
-			'stateid'		=> $stateid,
-			'cityid'		=> $cityid,
-			'lat' 			=> $lat,
-			'lon' 			=> $lon,
-			'q'				=> $q,
-			'bathrooms' 	=> $bathrooms,
-			'bedrooms' 		=> $bedrooms,
-			'min_listprice' => $min_listprice,
-			'max_listprice' => $max_listprice,
-			'status'		=> $property_status,
-			'type'			=> $property_type,
-			'transaction'	=> $transaction,
-			'limit'			=> $limit,
-			'page'			=> $paged
+			'listing_office_id'	=> $listing_office_id,
+			'communityid'		=> $communityid,
+			'countyid'			=> $countyid,
+			'stateid'			=> $stateid,
+			'cityid'			=> $cityid,
+			'lat' 				=> $lat,
+			'lon' 				=> $lon,
+			'q'					=> $q,
+			'bathrooms' 		=> $bathrooms,
+			'bedrooms' 			=> $bedrooms,
+			'min_listprice' 	=> $min_listprice,
+			'max_listprice' 	=> $max_listprice,
+			'status'			=> $property_status,
+			'property_type'		=> urldecode($property_type),
+			'transaction'		=> $transaction,
+			'order_by'			=> $orderby,
+			'order_direction'	=> $order_direction,
+			'limit'				=> $limit,
+			'page'				=> $paged
 		);
-		//var_dump($data);
+
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
@@ -230,7 +258,7 @@ class MLS_Property{
 		}else{
 			$properties = $this->mls->get_properties( $data );
 
-			if( isset($properties->result) == 'success' )
+			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
 
@@ -242,28 +270,33 @@ class MLS_Property{
 				$total = 0;
 				$obj_data_properties = array();
 				if( isset($data_properties) && $data_properties ){
-					$total 					= count($data_properties);
+					$total 					= $properties->total;
 					$obj_data_properties 	= $data_properties;
 				}
 
 				$get_properties = (object)array(
-					'total'			=>$total,
-					'data'			=>$obj_data_properties,
-					'search_keyword'=>$data,
-					'source'		=>'mls'
+					'total'				=>	$total,
+					'data'				=>	$obj_data_properties,
+					'search_keyword'	=>	$data,
+					'source'			=>	'mls',
+					'mls_type'			=>	$properties->mls
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
 			}else{
+				$msg = '';
+				$result = '';
+
+
+				if( $result == 'fail' ){
+					if( isset($properties['error_message']) ){
+						$msg = $properties['error_message'];
+					}elseif(isset($properties['messsage'])){
+						$msg = $properties['messsage'];
+					}
+				}
 				$properties_count = 0;
 				if( isset($properties->count) ){
 					$properties_count = $properties->count;
-				}
-				$properties_msg = '';
-				if( isset($properties->messsage) ){
-					$properties_msg = $properties->messsage;
-				}
-				if( isset($properties['messsage']) ){
-					$properties_msg = $properties['messsage'];
 				}
 				$properties_request = '';
 				if( isset($properties->request) ){
@@ -272,7 +305,7 @@ class MLS_Property{
 				$get_properties = (object)array(
 					'total'			=>$properties_count,
 					'result'		=>$properties_count,
-					'messsage'		=>$properties_msg,
+					'messsage'		=>$msg,
 					'request'		=>$properties_request,
 					'search_keyword'=>array(),
 					'source'		=>'mls'
@@ -305,18 +338,33 @@ class MLS_Property{
 					$photos = $property->photos;
 				}
 
+				$community 	= '';
+				$mls_type 	= '';
+				if( isset($property->community) ){
+					$community 	= $property->community;
+					if( isset($property->community->mls) ){
+						$mls_type	= $property->community->mls;
+					}
+				}
+				$last_mls_update = '';
+				if( isset($property->last_mls_update) ){
+					$last_mls_update = $property->last_mls_update;
+				}
 				$data = array(
-					'properties'=>$propertyEntity,
-					'photos'	=>$photos,
+					'properties'=> $propertyEntity,
+					'photos'	=> $photos,
 					'result'	=> 'success',
-					'community'	=> $property->community,
-					'source'=>'mls'
+					'community'	=> $community,
+					'mls_type'	=> $mls_type,
+					'last_mls_update'	=> $last_mls_update,
+					'source'	=>'mls'
 				);
 				\DB_Store::get_instance()->put($cache_keyword, $data);
 			}else{
 				return false;
 			}
 		}
+
 		return $data;
 	}
 }

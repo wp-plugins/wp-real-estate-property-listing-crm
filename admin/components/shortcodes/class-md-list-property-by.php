@@ -60,7 +60,6 @@ if ( !class_exists( 'md_sc_list_properties_by' ) )
 			){
 				$query_var   	= get_query_var('url');
 				$parse_property = explode( '-', $query_var);
-
 				//add hook
 				if( isset($parse_property[0]) && in_array($parse_property[0],$accepted_source) && count($parse_property) >= 3 ){
 					$data_url = apply_filters('md_list_property_by_' . $parse_property[0], $parse_property, $wp_query, $atts);
