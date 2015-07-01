@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.17.30
+Stable tag: 3.17.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,7 +112,12 @@ Yes, we work diligently to ensure we work with themes.  Should something not wor
 Yes, our real estate property plugin is responsive offering favorites, x-out, share, property pdf’s and more.
 
 = Will the plugin work after I download it and install it? =
+Yes, here are 3 sites we would like to share for your viewing pleasure:
+* http://www.realestatecabosanlucas.com/
+* http://www.curridabatrealty.com/
+* http://www.horizonpalmrealty.com/
 Once you download it, you will need an API key.  Sign up at www.Masterdigm.com.
+
 
 = Do the property URL’s search engine friendly? =
 Absolutely!  We follow on-page SEO guidelines like proper URL structure, Title, Meta description, H1 tag usage and more.
@@ -153,6 +158,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.17.31 =
+* fix mls api
 
 = 3.17.30 =
 * fix code for php 5.3 compatible

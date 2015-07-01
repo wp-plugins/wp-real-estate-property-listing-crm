@@ -93,7 +93,7 @@ class MlsConnector {
 
     public function getPropertyByMatrixID( $matrix_id )
     {
-	$data = array();
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         $response =  $this->sendRequest( 'getPropertyByMatrixID' , $data );
 
@@ -103,35 +103,35 @@ class MlsConnector {
 
     public function getHighResPhotosByMatrixID( $matrix_id )
     {
-	$data = array();
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getHighResPhotosByMatrixID' , $data );
     }
 
     public function getHighResPhotosObjectByMatrixID( $matrix_id )
     {
-	$data = array();
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getHighResPhotosObjectByMatrixID' , $data );
     }
 
     public function importHighResPhotos( $matrix_id )
     {
-	$data = array();
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'importHighResPhotos' , $data );
     }
 
     public function getPhotosByMatrixID( $matrix_id )
     {
-	$data = array();
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getPhotosByMatrixID' , $data );
     }
 
     public function getPhotosObjectByMatrixID( $matrix_id )
     {
-	$data = array();
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getPhotosObjectByMatrixID' , $data );
     }
@@ -156,7 +156,7 @@ class MlsConnector {
 
     public function getRelatedPropertiesByMatrixID( $matrix_id )
     {
-	$data = array();
+		$data = array();
         if( ! $matrix_id ){
             return array(
                 'result' => 'fail',
@@ -187,15 +187,14 @@ class MlsConnector {
 
     public function getCoverageLookup( $mls )
     {
-	$data = array();
+		$data = array();
         $data[ 'mls' ] =  $mls;
         $data[ 'verb' ] = 'GET';
         return $this->sendRequest( 'getCoverageLookup' , $data );
     }
 
-    private function sendRequest( $request , $data )
+    private function sendRequest( $request , $data = array() )
     {
-	$data = array();
         if( ! $this->checkCredentials() ){
             return array(
                 'result'    => 'fail',
@@ -216,7 +215,7 @@ class MlsConnector {
         $etoken =   hash_hmac( 'sha256' , $data , $this->token ) ;
 
         $uri_with_data = $uri.'/?'.$data;
-
+		//echo $uri_with_data;
         $ch     =   curl_init( $uri );
 
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );

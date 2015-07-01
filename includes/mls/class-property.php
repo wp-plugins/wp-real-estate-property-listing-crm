@@ -328,7 +328,6 @@ class MLS_Property{
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
