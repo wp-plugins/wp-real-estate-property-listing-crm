@@ -100,76 +100,78 @@ function enfold_config(){
 				}
 				return $title . $add_string;
 			}
-			add_action( 'wp_head', 'my_styles_method',100);
-			function my_styles_method(){
-				$theme 					= wp_get_theme();
-				$name 					= strtolower(str_replace(' ','_',$theme->name));
-				$get_avia_options 		= get_option('avia_options_'.$name);
-				//var_dump($get_avia_options);exit();
-				$main_primary_bg_color 	= $get_avia_options['avia']['colorset-main_color-primary'];
-				$main_color_secondary 	= $get_avia_options['avia']['colorset-main_color-secondary'];
-				$main_color				= array(
-					'main_color-bg' => $get_avia_options['avia']['colorset-main_color-bg'],
-					'main_color-bg2' => $get_avia_options['avia']['colorset-main_color-bg2'],
-					'main_color-primary' => $get_avia_options['avia']['colorset-main_color-primary'],
-					'main_color-color' => $get_avia_options['avia']['colorset-main_color-color'],
-					'main_color-border' => $get_avia_options['avia']['colorset-main_color-border'],
-				);
 
-				?>
-				<style>
-					.md_main_color_bg{
-						background-color:<?php echo $main_color['main_color-bg'];?>;
-					}
-					.md_main_color_bg2{
-						background-color:<?php echo $main_color['main_color-bg2'];?>;
-					}
-					.md_main_color_primary{
-						background-color:<?php echo $main_color['main_color-primary'];?>;
-						color:<?php echo $main_color['main_color-primary'];?>;
-					}
-					.md_main_color_primary_bg{
-						background-color:<?php echo $main_color['main_color-primary'];?>;
-					}
-					.md_main_color_primary_color{
-						color:<?php echo $main_color['main_color-primary'];?>;
-					}
-					.md_main_color-color{
-						color:<?php echo $main_color['main_color-color'];?>;
-					}
-					.md_main_color-border{
-						color:<?php echo $main_color['main_color-border'];?>;
-					}
-					.nav-tabs > li > a{
+			if( !has_filter('use_enfold_style') ){
+				add_action( 'wp_head', 'my_styles_method',100);
+				function my_styles_method(){
+					$theme 					= wp_get_theme();
+					$name 					= strtolower(str_replace(' ','_',$theme->name));
+					$get_avia_options 		= get_option('avia_options_'.$name);
+					$main_primary_bg_color 	= $get_avia_options['avia']['colorset-main_color-primary'];
+					$main_color_secondary 	= $get_avia_options['avia']['colorset-main_color-secondary'];
+					$main_color				= array(
+						'main_color-bg' => $get_avia_options['avia']['colorset-main_color-bg'],
+						'main_color-bg2' => $get_avia_options['avia']['colorset-main_color-bg2'],
+						'main_color-primary' => $get_avia_options['avia']['colorset-main_color-primary'],
+						'main_color-color' => $get_avia_options['avia']['colorset-main_color-color'],
+						'main_color-border' => $get_avia_options['avia']['colorset-main_color-border'],
+					);
+
+					?>
+					<style>
+						.md_main_color_bg{
+							background-color:<?php echo $main_color['main_color-bg'];?>;
+						}
+						.md_main_color_bg2{
+							background-color:<?php echo $main_color['main_color-bg2'];?>;
+						}
+						.md_main_color_primary{
+							background-color:<?php echo $main_color['main_color-primary'];?>;
+							color:<?php echo $main_color['main_color-primary'];?>;
+						}
+						.md_main_color_primary_bg{
+							background-color:<?php echo $main_color['main_color-primary'];?>;
+						}
+						.md_main_color_primary_color{
+							color:<?php echo $main_color['main_color-primary'];?>;
+						}
+						.md_main_color-color{
+							color:<?php echo $main_color['main_color-color'];?>;
+						}
+						.md_main_color-border{
+							color:<?php echo $main_color['main_color-border'];?>;
+						}
+						.nav-tabs > li > a{
+								background-color: <?php echo $main_primary_bg_color;?>;
+						}
+						.nav-tabs > li > a:hover{
+								background-color: <?php echo $main_color_secondary;?>;
+						}
+						.right-sidebar .btn{
 							background-color: <?php echo $main_primary_bg_color;?>;
-					}
-					.nav-tabs > li > a:hover{
+						}
+						.right-sidebar .btn:hover{
 							background-color: <?php echo $main_color_secondary;?>;
-					}
-					.right-sidebar .btn{
-						background-color: <?php echo $main_primary_bg_color;?>;
-					}
-					.right-sidebar .btn:hover{
-						background-color: <?php echo $main_color_secondary;?>;
-					}
-					.property-item .label-property{
-						background-color: <?php echo $main_primary_bg_color;?> !important;
-					}
-					.panel-footer .btn{
-						background-color: <?php echo $main_primary_bg_color;?>;
-					}
-					.panel-footer .btn:hover{
-						background-color: <?php echo $main_color_secondary;?>;
-					}
-					.masterdigm-property-box .caption h3{
-						color:<?php echo $main_color['main_color-primary'];?>;
-					}
-					#property-details li.price {
-						background-color: <?php echo $main_primary_bg_color;?>;
-					}
-				</style>
-				<?php
-			}
+						}
+						.property-item .label-property{
+							background-color: <?php echo $main_primary_bg_color;?> !important;
+						}
+						.panel-footer .btn{
+							background-color: <?php echo $main_primary_bg_color;?>;
+						}
+						.panel-footer .btn:hover{
+							background-color: <?php echo $main_color_secondary;?>;
+						}
+						.masterdigm-property-box .caption h3{
+							color:<?php echo $main_color['main_color-primary'];?>;
+						}
+						#property-details li.price {
+							background-color: <?php echo $main_primary_bg_color;?>;
+						}
+					</style>
+					<?php
+				}
+			}//overwrite_enfold_style
 		}//enfold
 
 	}

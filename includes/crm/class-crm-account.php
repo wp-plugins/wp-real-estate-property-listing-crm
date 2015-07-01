@@ -50,6 +50,7 @@ class CRM_Account{
 	public function get_account_details(){
 		$account_details_keyword 	= \Property_Cache::get_instance()->getCacheAccountDetailsKeyword();
 		$cache_keyword 	  			= $account_details_keyword->id;
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$account_details = \DB_Store::get_instance()->get($cache_keyword);
 		}else{

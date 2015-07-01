@@ -65,7 +65,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 								if( has_action('single_area_measurement_unit_'.md_get_source()) ){
 									do_action('single_area_measurement_unit_'.md_get_source());
 								}else{
-									echo ucwords(get_single_property_data()->displayAreaMeasurement('')->area_type);
+									$unit = get_single_property_data()->displayAreaMeasurement('')->area_type;
+									echo ($unit!='') ? ucwords($unit):'&nbsp;';
 								}
 							?>
 						</span>
