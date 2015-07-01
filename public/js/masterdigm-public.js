@@ -44,15 +44,6 @@
 					itemSelector: '.property-item'
 				});
 			});
-
-
-			var $photo_container = $('.photos-single-container');
-			// initialize
-			$photo_container.imagesLoaded(function(){
-				$photo_container.masonry({
-					itemSelector: '.photos-single-item'
-				});
-			});
 		}
 	});
 })( jQuery );

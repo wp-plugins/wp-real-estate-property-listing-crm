@@ -76,7 +76,7 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 						$url = \crm\MD_Searchby_Property::get_instance()->url_page($full_community_name_city);
 					}else{
 						$permalink = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->community_pagename);
-						$url = $permalink . $val->community_id . '-' . $url;
+						$url = $permalink . 'crm-' . $val->community_id . '-' . $url;
 					}
 
 					$data_locations[] = array(

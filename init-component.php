@@ -9,4 +9,5 @@ require_once plugin_dir_path( __FILE__ ) . 'components/emailto/init.php';
 require_once plugin_dir_path( __FILE__ ) . 'components/showpopup/init.php';
 require_once plugin_dir_path( __FILE__ ) . 'components/account/init.php';
 require_once plugin_dir_path( __FILE__ ) . 'components/pdf/init.php';
+require_once plugin_dir_path( __FILE__ ) . 'components/propertyalert/init.php';
 

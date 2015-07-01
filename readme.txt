@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.4.1
+Stable tag: 3.17.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,7 +112,12 @@ Yes, we work diligently to ensure we work with themes.  Should something not wor
 Yes, our real estate property plugin is responsive offering favorites, x-out, share, property pdf’s and more.
 
 = Will the plugin work after I download it and install it? =
+Yes, here are 3 sites we would like to share for your viewing pleasure:
+* http://www.realestatecabosanlucas.com/
+* http://www.curridabatrealty.com/
+* http://www.horizonpalmrealty.com/
 Once you download it, you will need an API key.  Sign up at www.Masterdigm.com.
+
 
 = Do the property URL’s search engine friendly? =
 Absolutely!  We follow on-page SEO guidelines like proper URL structure, Title, Meta description, H1 tag usage and more.
@@ -153,6 +158,156 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.17.31 =
+* fix mls api
+
+= 3.17.30 =
+* fix code for php 5.3 compatible
+
+= 3.17.29 =
+* fix error in crm display single properties shortcode
+
+= 3.17.28 =
+* added save search button and data will pass into CRM as a property alert
+
+= 3.16.28 =
+* improve search pagination on individual page and in ajax
+
+= 3.16.27 =
+* fix search pagination on individual page
+
+= 3.16.26 =
+* update pagination, infinite scroll plus add classic pagination for fallback purposes
+incase browser has no JS support then the pagination will work
+* update auto search location show location type
+* fix safari issue in search
+
+= 3.15.26 =
+* update crm get locations shortcode
+
+= 3.15.25 =
+* update mls hcar/mfr fields - foundation
+
+= 3.15.24 =
+* update mls hcar/mfr fields - office listing
+
+= 3.15.23 =
+* update mls hcar/mfr fields
+
+= 3.15.22 =
+* fix redirect using global server
+
+= 3.15.21 =
+* add source_url in the push crm lead method
+* fix breadcrumn url on location pages, added trim to strip off white spaces
+* fix bug in dependent function, md_canonical
+
+= 3.14.21 =
+* add shortcode last_updated_property for mls
+* fix bug crm_list_property shortcode, that returns zero when inserting the shortcode
+* updated SqFt field in the list property using getProperties method
+* update quick map img set to max-width:none
+
+= 3.13.21 =
+* update masterdigm reset cache
+* update listing office id in MLS
+
+= 3.12.21 =
+* change fields in MLS between HCAR and MFR
+
+= 3.12.20 =
+* update mls property details fields html
+
+= 3.12.19 =
+* update property list template
+* fix css span cont
+* update print pdf
+
+= 3.12.18 =
+* update description api in CRM
+
+= 3.12.17 =
+* update inquiry form, phone field description
+* fix css in mobile version on the property details, running off
+* fix print pdf in MLS
+* update the reset cache using http api
+
+= 3.11.17 =
+* fix css issue in property details - MLS
+
+= 3.11.16 =
+* update css in property list box
+* fix blank space in the property box
+* add property type support in MLS search form
+
+= 3.10.16 =
+* update property details in MLS
+
+= 3.10.14 =
+* improve both breadcrumb crm and mls
+* update property details in MLS
+
+= 3.10.13 =
+* fix breadcrumb url page
+* update enfold support css theme
+
+= 3.9.13 =
+* update plugin css
+
+= 3.9.12 =
+* update masterdigm-style.css
+
+= 3.9.11 =
+* add listing office support in MLS
+* add in shortcode for MLS list property
+
+= 3.8.11 =
+* fix notice error in enfold theme config
+
+= 3.8.10 =
+* update MLS ( mfar and hcar ) fields name
+
+= 3.8.9 =
+* fix map geolocation
+* updated the height of the gallery in property details
+
+= 3.8.8 =
+* update send to a friend, use display_name in the mail as sender
+
+= 3.8.7 =
+* fix next and previous link on both crm and mls feed
+* add breadcrumb on the page created by locations
+* update similar homes layout, remove span line
+
+= 3.7.7 =
+* improve the property page details
+
+= 3.6.7 =
+* update new property details page
+
+= 3.5.7 =
+* fix and update property page in MLS
+
+= 3.5.6 =
+* update MLS API result message
+
+= 3.5.5 =
+* fix infinite scroller bug, not getting correct api source
+
+= 3.5.4 =
+* improved breadcrumb
+
+= 3.5.3 =
+* add hook property status
+
+= 3.5.2 =
+* added nearby properties in MLS data
+* add hook in single property area measurement
+* MLS convert virtual tour to hyperlink
+* MLS convert label with YN to Yes and No
+* MLS single property, add MLS# in the title and address
+* add next and previous link in MLS
 
 = 3.4.1 =
 * update meta description added mls# for mls data
