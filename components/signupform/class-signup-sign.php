@@ -69,6 +69,12 @@ class Signup_Form{
 
 	public function signup_action_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
+		$ret_data = array();
+		$save_lead = array();
+		$current_action = 0;
+		if( isset($_POST['current_action']) ){
+			$current_action = $_POST['current_action'];
+		}
 		$user_id 	= false;
 		$source 	= get_bloginfo('url').', '. get_bloginfo('name') . ', Register Form';
 		$msg 		= '';
@@ -115,7 +121,7 @@ class Signup_Form{
 					update_user_meta($user_id,'phone_num',$phone);
 					update_user_meta($user_id,'first_name',$firstname);
 					update_user_meta($user_id,'last_name',$lastname);
-					wp_new_user_notification($user_id, $password);
+					//wp_new_user_notification($user_id, $password);
 					$this->user_signon($emailaddress, $password);
 				}
 			}
@@ -132,19 +138,22 @@ class Signup_Form{
 				$array_data['note'] = $source;
 			}
 
-			\CRM_Account::get_instance()->push_crm_data($array_data);
-
-			if( $propertyid != 0 ){
-				$save_property = array(
-					'id' => $propertyid,
-					'feed' => sanitize_text_field($_POST['feed'])
-				);
-				if( $user_id && isset($user_id) ){
-					update_user_meta($user_id, 'save-property-' . $propertyid, $save_property);
-				}
-			}
+			$save_lead = \CRM_Account::get_instance()->push_crm_data($array_data);
+			update_user_meta($user_id, 'lead-data', $save_lead);
+			$ret_data = array(
+				'save_lead' => $save_lead,
+				'array_data' => $array_data,
+				'post' => $_POST,
+			);
 		}
-		echo json_encode(array('msg'=>$msg,'status'=>$status));
+		echo json_encode(
+			array(
+				'msg'=>$msg,
+				'status'=>$status,
+				'ret_data' => $ret_data,
+				'callback_action'=>$current_action
+			)
+		);
 		die();
 	}
 

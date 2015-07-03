@@ -98,12 +98,18 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'Sale' => 'Sale',
 			);
 		}
-
+		public function get_shortcode_tag(){
+			return 'mls_list_properties';
+		}
 		public function init_shortcode($atts){
 			$search_data = array();
 			$template = '';
 			if( isset($atts['template']) ){
 				$att_template = $atts['template'];
+			}
+			$listing_office_id = '';
+			if( isset($atts['listing_office_id']) ){
+				$listing_office_id = \CRM_Account::get_instance()->get_account_data('listing_office_id');
 			}
 			$location = '';
 			if( isset($atts['q']) ){
@@ -176,6 +182,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 
 			$atts = shortcode_atts(	array(
 				'template' 		=> $att_template,
+				'listing_office_id'	=> $listing_office_id,
 				'communityid'	=> $search_by_communityid,
 				'countyid'		=> $search_by_countyid,
 				'cityid'		=> $search_by_cityid,
@@ -189,12 +196,14 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'status'		=> $status,
 				'type'			=> $type,
 				'transaction'	=> $transaction,
+				'listing_office_id'			=> $listing_office_id,
 				'limit'			=> $limit,
 				'infinite'		=> $atts['infinite'],
 				'col'			=> $col,
 				'template'		=> $template
 			), $atts, 'mls_list_property' );
 
+			$search_data['listing_office_id']		= $listing_office_id;
 			$search_data['communityid']		= $atts['communityid'];
 			$search_data['countyid']		= $atts['countyid'];
 			$search_data['cityid']			= $atts['cityid'];
@@ -241,7 +250,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 					'show' => 1
 				),
 			);
-
+			$atts['source'] = 'mls';
 			ob_start();
 			require $template;
 			$output = ob_get_clean();
