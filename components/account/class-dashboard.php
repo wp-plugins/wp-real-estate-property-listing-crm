@@ -42,8 +42,8 @@ class Account_Dashboard {
 	}
 
 	public function __construct(){
-		add_action( 'init', array($this,'get_dashboard_page') );
 		add_action( 'init', array($this,'run') );
+		add_action( 'init', array($this,'get_dashboard_page') );
 		add_action( 'wp_before_admin_bar_render', array( $this, 'modify_wp_admin_bar' ) );
 		if( !current_user_can('activate_plugins') ){
 			add_action( 'wp_before_admin_bar_render', array( $this, 'subscriber_modify_wp_admin_bar' ) );
@@ -56,6 +56,7 @@ class Account_Dashboard {
 
 
 	public function run(){
+		$this->create_my_account_page();
 		$this->set_url();
 	}
 
@@ -133,12 +134,26 @@ class Account_Dashboard {
 		return get_option($key);
 	}
 
+	public function create_my_account_page(){
+		if( !get_page_by_title('My Account') ){
+			$shortcode = \Subscriber_Shortcode::get_instance()->get_shortcode();
+			$post = array(
+			  'post_title'    => 'My Account',
+			  'post_content'  => $shortcode,
+			  'post_status'   => 'publish',
+			  'post_author'   => $get_user_id,
+			  'post_type'	  => 'page',
+			);
+			$wp_insert_post = wp_insert_post( $post );
+			\Subscriber_Dashboard::get_instance()->set_option_dashboard($wp_insert_post);
+		}
+	}
+
 	public function get_dashboard_page(){
 		if( get_page_by_title('My Account') ){
 			$my_account = get_page_by_title('My Account');
 			return $my_account;
 		}else{
-			$dashboard = $this->get_option_dashboard();
 			return false;
 		}
 	}
