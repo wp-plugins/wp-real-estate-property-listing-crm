@@ -94,6 +94,7 @@ class PDF_MD{
 			\MD\Property::get_instance()->set_properties($data['property'],$data['source']);
 			\MD\Property::get_instance()->set_loop($data['property']);
 		}
+
 		if( $property_id && have_properties() ){
 			$name 		= get_account_data('company');
 			$address 	= "Address: ".get_account_data('street_address').', '.get_account_data('state').', '.get_account_data('country')."\n";
@@ -153,8 +154,9 @@ class PDF_MD{
 			// add a page
 			$pdf->AddPage();
 
-			$body_photos = $this->build_property_photos(get_single_property_photos());
-			$body_details = $this->build_property_details();
+			$photos 		= apply_filters('pdf_photos_' . $data['source'], get_single_property_photos());
+			$body_photos 	= $this->build_property_photos($photos);
+			$body_details 	= $this->build_property_details();
 
 			// create some HTML content
 			$html = '<p></p><img src="'.get_account_data('company_logo').'" width="130px">

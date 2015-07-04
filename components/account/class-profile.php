@@ -1,5 +1,5 @@
 <?php
-class Account_Profile{
+class Account_Profile extends Account_Dashboard{
 	protected static $instance = null;
 
 	/**
@@ -24,13 +24,70 @@ class Account_Profile{
 		$this->version 	 	= \Masterdigm_API::get_instance()->get_version();
 		add_action('wp_enqueue_scripts', array($this,'enqueue_scripts'));
 		add_action('wp_ajax_update_profile', array($this,'update_profile_callback') );
-		add_action('wp_ajax_nopriv_update_profile',array($this,'update_profile_callback') );
+		add_action('wp_ajax_nopriv_update_profile',array($this,'update_profile_nopriv_callback') );
 		add_action('wp_ajax_update_password', array($this,'update_password_callback') );
-		add_action('wp_ajax_nopriv_update_password',array($this,'update_password_callback') );
+		add_action('wp_ajax_nopriv_update_password',array($this,'update_password_nopriv_callback') );
+		add_filter( 'dashboard_content_profile', array($this,'controller'),10, 1 );
+	}
+
+	public function get_dashboard_page(){
+		if( parent::get_instance()->get_dashboard_page() ){
+			return parent::get_instance()->get_dashboard_page();
+		}
+	}
+
+	public function url(){
+		if( $this->get_dashboard_page() ){
+			return get_permalink($this->get_dashboard_page()->ID).'profile';
+		}
+	}
+
+	public function controller(){
+		global $wp_query;
+		$arr_action = parent::get_instance()->md_get_query_vars();
+
+		$action_args = $arr_action;
+
+		$action = '';
+		if( isset($arr_action->action) ){
+			$action = $arr_action->action;
+		}
+		$task = '';
+		if( isset($arr_action->task) ){
+			$task = $arr_action->task;
+		}
+
+		switch($task){
+			case 'update_profile':
+				$this->update_profile_callback();
+				$this->edit();
+			break;
+			case 'update_password':
+				$this->update_password_callback();
+				$this->edit();
+			break;
+			case 'edit':
+			default:
+				$this->edit();
+			break;
+		}
+	}
+
+	public function edit(){
+		$user_account = wp_get_current_user();
+		$user_meta 	  = get_user_meta($user_account->ID);
+		$url 		  = $this->url();
+		$phone_number = '';
+		if( isset($user_meta['phone_num'][0]) ){
+			$phone_number = $user_meta['phone_num'][0];
+		}
+
+		require_once $this->template();
 	}
 
 	public function enqueue_scripts(){
-		if( is_page('md-account') ){
+		$dashboard_page = \Account_Dashboard::get_instance()->get_dashboard_page();
+		if( $dashboard_page && is_page($dashboard_page->ID) ){
 			wp_enqueue_script( $this->plugin_name . '-account-actions', plugin_dir_url( __FILE__ ) . 'js/account.js', array( 'jquery' ), $this->version, true );
 		}
 	}
@@ -39,7 +96,7 @@ class Account_Profile{
 		return wp_get_current_user();
 	}
 
-	public function get_default_template($template = null){
+	public function template($template = null){
 		if( is_null($template) ){
 			$template = GLOBAL_TEMPLATE . 'account/partials/profileform.php';
 		}
@@ -62,7 +119,11 @@ class Account_Profile{
 	}
 
 	public function update_profile_callback(){
-		check_ajax_referer( 'md-ajax-request', 'security' );
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		{
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+
 		global $current_user;
 		get_currentuserinfo();
 
@@ -95,17 +156,47 @@ class Account_Profile{
 				// Success!
 				$msg 	= 'Success';
 				$status = true;
-				update_user_meta($user_id, 'phone', $phone_number);
+				update_user_meta($user_id,'phone_num',$phone_number);
+				update_user_meta($user_id,'first_name',$first_name);
+				update_user_meta($user_id,'last_name',$last_name);
 			}else{
 				$status = false;
 			}
 		}
+
+		$ret = array('msg'=>$msg,'status'=>$status);
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		{
+			echo json_encode($ret);
+			die();
+		}else{
+			return $ret;
+		}
+	}
+
+	public function update_profile_nopriv_callback(){
+		check_ajax_referer( 'md-ajax-request', 'security' );
+		$msg 	= 'Not logged in user';
+		$status = false;
+		echo json_encode(array('msg'=>$msg,'status'=>$status));
+		die();
+	}
+
+	public function update_password_nopriv_callback(){
+		check_ajax_referer( 'md-ajax-request', 'security' );
+		$msg 	= 'Not logged in user';
+		$status = false;
 		echo json_encode(array('msg'=>$msg,'status'=>$status));
 		die();
 	}
 
 	public function update_password_callback(){
-		check_ajax_referer( 'md-ajax-request', 'security' );
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		{
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+
 		global $current_user;
 		get_currentuserinfo();
 
@@ -135,7 +226,14 @@ class Account_Profile{
 			$status = true;
 		}
 
-		echo json_encode(array('msg'=>$msg,'status'=>$status));
-		die();
+		$ret = array('msg'=>$msg,'status'=>$status);
+
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+		{
+			echo json_encode($ret);
+			die();
+		}else{
+			return $ret;
+		}
 	}
 }
