@@ -34,6 +34,13 @@ class Property{
 		return self::$instance;
 	}
 
+	public function reset_propertydata(){
+		if( $this->have_properties() ){
+			$this->objProperty = null;
+			$this->source = '';
+		}
+	}
+
 	public function set_properties($data, $source = null){
 		if( is_null($source) ){
 			$source = MD_DATA_FEED;

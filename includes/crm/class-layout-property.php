@@ -9,6 +9,7 @@ class Layout_Property{
 	public function __construct(){
 		add_action('template_more_details_crm',array($this,'more_details'),10,1);
 		add_action('hook_favorites_property_crm',array($this,'saved_properties'),10,1);
+		add_action('hook_xout_property_crm',array($this,'saved_properties'),10,1);
 	}
 
 	/**

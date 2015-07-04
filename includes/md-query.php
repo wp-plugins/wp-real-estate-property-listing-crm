@@ -78,8 +78,9 @@ function md_property_html_price(){
 	return $price;
 }
 function md_property_img($property_id = null){
-	if( \MD\Property::get_instance()->getPhoto() ){
-		return \MD\Property::get_instance()->getPhoto();
+	$photos = \MD\Property::get_instance()->getPhoto();
+	if( $photos ){
+		return $photos;
 	}elseif(crm_md_get_featured_img($property_id)){
 		return crm_md_get_featured_img($property_id);
 	}

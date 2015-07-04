@@ -1,5 +1,5 @@
 <?php
-class Favorite_Property{
+class Favorite_Button{
 	protected static $instance = null;
 
 	protected $key_save_property = 'save-property-';
@@ -8,8 +8,10 @@ class Favorite_Property{
 		if( is_user_logged_in() ){
 			add_action( 'wp_ajax_saveproperty_action', array($this,'saveproperty_action_callback') );
 			add_action( 'wp_ajax_nopriv_saveproperty_action',array($this,'saveproperty_action_nopriv_callback') );
+
 			add_action( 'wp_ajax_remove_property_action', array($this,'remove_property_action_callback') );
-			add_action( 'wp_ajax_nopriv_remove_property_action',array($this,'remove_property_action_callback') );
+			add_action( 'wp_ajax_nopriv_remove_property_action',array($this,'remove_property_action_nopriv_callback') );
+
 			add_action( 'execute_after_signup_add-favorite',array($this,'add_favorite'),10, 2 );
 		}
 	}
@@ -51,16 +53,15 @@ class Favorite_Property{
 		$post_property_id = 0;
 		if( isset($ajax_data_post['property-id']) ){
 			$post_property_id = $ajax_data_post['property-id'];
+		}else{
+			$post_property_id = $_POST['property-id'];
 		}
 
 		$post_property_feed = DEFAULT_FEED;
 		if( isset($ajax_data_post['property-feed']) ){
 			$post_property_feed = $ajax_data_post['property-feed'];
-		}
-
-		$save_lead = array();
-		if( isset($post['save_lead']) ){
-			$save_lead = $post['save_lead'];
+		}else{
+			$post_property_feed = $_POST['property-feed'];
 		}
 
 		$msg 	= '';
@@ -71,6 +72,7 @@ class Favorite_Property{
 		$user_id 	 = $current_user->ID;
 		$property_id = sanitize_text_field($post_property_id);
 		$feed 		 = sanitize_text_field($post_property_feed);
+
 		if( $property_id != 0 ){
 			$save_property = array(
 				'id' => $property_id,
@@ -105,21 +107,30 @@ class Favorite_Property{
 		die();
 	}
 
+	public function remove_property_action_nopriv_callback(){
+		$msg = 'not logged in user';
+		$status = true;
+		echo json_encode(
+			array(
+				'msg'=>$msg,
+				'status'=>$status,
+				'is_loggedin'=>0
+			)
+		);
+		die();
+	}
 	public function remove_property_action_callback(){
 		global $current_user;
 		get_currentuserinfo();
 
-		check_ajax_referer( 'md-ajax-request', 'security' );
 		$msg 	= '';
 		$status = false;
 
-		if(is_user_logged_in()) {
-			$msg = 'Successfully Remove property';
-			$status = true;
-			$user_id = $current_user->ID;
-			$property_id = sanitize_text_field($_POST['property-id']);
-			delete_user_meta($user_id, 'save-property-' . $property_id);
-		}
+		$msg = 'Successfully Remove property';
+		$status = true;
+		$user_id = $current_user->ID;
+		$property_id = sanitize_text_field($_POST['property-id']);
+		delete_user_meta($user_id, 'save-property-' . $property_id);
 
 		echo json_encode(array('msg'=>$msg,'status'=>$status));
 		die();

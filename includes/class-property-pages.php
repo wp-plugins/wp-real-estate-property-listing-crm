@@ -35,8 +35,7 @@ class Property_Page{
 		return self::$instance;
 	}
 
-	public function __construct(){
-	}
+	public function __construct(){}
 
 	/**
 	 * Create Search Properties page
@@ -120,6 +119,18 @@ class Property_Page{
 			  'post_type'	  => 'page',
 			);
 			wp_insert_post( $post );
+		}
+		if( !get_page_by_title('My Account') ){
+			$shortcode = \Subscriber_Shortcode::get_instance()->get_shortcode();
+			$post = array(
+			  'post_title'    => 'My Account',
+			  'post_content'  => $shortcode,
+			  'post_status'   => 'publish',
+			  'post_author'   => $get_user_id,
+			  'post_type'	  => 'page',
+			);
+			$wp_insert_post = wp_insert_post( $post );
+			\Subscriber_Dashboard::get_instance()->set_option_dashboard($wp_insert_post);
 		}
 	}
 }

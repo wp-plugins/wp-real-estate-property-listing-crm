@@ -26,6 +26,7 @@
 								md_search_form(editor),
 								md_search_result(editor),
 								md_single_property(editor),
+								md_account(editor),
 							]
 						},
 					];

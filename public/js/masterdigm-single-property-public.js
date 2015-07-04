@@ -255,8 +255,8 @@
 	var showMap = function(){
 		return {
 			init:function(selector, lat, lng, latlngData){
-				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
+				$(document).on('shown.bs.tab','a[data-toggle="tab"]', function (e) {
+				//$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 					var currentTab = $(e.target).text(); // get current tab
 					var LastTab = $(e.relatedTarget).text(); // get last tab
 					var currentHref = $(e.target).attr('href'); // get last tab
@@ -284,11 +284,11 @@
 	var ShowTabPhotos = function(){
 		return {
 			init:function(){
-				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+				$(document).on('shown.bs.tab','a[data-toggle="tab"]', function (e) {
+				//$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 					var currentTab = $(e.target).text(); // get current tab
 					var LastTab = $(e.relatedTarget).text(); // get last tab
 					var currentHref = $(e.target).attr('href'); // get last tab
-
 					if(
 						currentHref == '#photos'
 					){
@@ -296,7 +296,7 @@
 						// initialize
 						$photo_container.imagesLoaded(function(){
 							$photo_container.masonry({
-								itemSelector: '.photos-item-single'
+								itemSelector: 'li.photos-item-single'
 							});
 						});
 					}
@@ -364,7 +364,6 @@
 			QuickMapShow.init(".quick_map_view",mainLat,mainLng,mainAddress);
 		}
 		ShowTabPhotos.init();
-
 	});
 })( jQuery );
 

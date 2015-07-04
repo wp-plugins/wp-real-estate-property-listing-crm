@@ -132,6 +132,4 @@ class MD_Template{
 		}
 		return $label;
 	}
-
-
 }

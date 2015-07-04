@@ -12,6 +12,7 @@ class Template_Property{
 		add_action('template_photos_mls',array($this,'photo_tab'),10,1);
 		add_action('hook_favorites_property_mls',array($this,'saved_properties'),10,1);
 		add_action('next_prev_mls',array($this,'next_prev_mls'),10,1);
+		add_action('hook_xout_property_mls',array($this,'saved_properties'),10,1);
 	}
 
 	/**
@@ -41,7 +42,7 @@ class Template_Property{
 	}
 
 	public function saved_properties($data_properties){
-		$properties = \mls\Properties::get_instance()->get_property_by_id($data_properties['id']);
+		$properties = \MLS_Property::get_instance()->get_property($data_properties['id']);
 		return $properties;
 	}
 

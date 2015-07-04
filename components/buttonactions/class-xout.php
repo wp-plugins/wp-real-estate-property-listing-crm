@@ -1,5 +1,5 @@
 <?php
-class XOut_Property{
+class Xout_Button{
 	protected static $instance = null;
 
 	protected $key_xout_property = 'xout-property-';
@@ -10,7 +10,7 @@ class XOut_Property{
 			add_action( 'wp_ajax_nopriv_xoutproperty_action',array($this,'xoutproperty_action_nopriv_callback') );
 
 			add_action( 'wp_ajax_remove_xout_property_action', array($this,'remove_xout_property_action_callback') );
-			add_action( 'wp_ajax_nopriv_remove_xout_property_action',array($this,'remove_xout_property_action_callback') );
+			add_action( 'wp_ajax_nopriv_remove_xout_property_action',array($this,'remove_xout_property_action_nopriv_callback') );
 		}
 	}
 
@@ -51,11 +51,15 @@ class XOut_Property{
 		$post_property_id = 0;
 		if( isset($ajax_data_post['property-id']) ){
 			$post_property_id = $ajax_data_post['property-id'];
+		}else{
+			$post_property_id = $_POST['property-id'];
 		}
 
 		$post_property_feed = DEFAULT_FEED;
 		if( isset($ajax_data_post['property-feed']) ){
 			$post_property_feed = $ajax_data_post['property-feed'];
+		}else{
+			$post_property_feed = $_POST['property-feed'];
 		}
 
 		$msg 	= '';
@@ -100,15 +104,26 @@ class XOut_Property{
 		$msg 	= '';
 		$status = false;
 
-		if(is_user_logged_in()) {
-			$msg = 'Successfully Remove X-Out Property';
-			$status = true;
-			$user_id = $current_user->ID;
-			$property_id = sanitize_text_field($_POST['property-id']);
-			delete_user_meta($user_id, 'xout-property-' . $property_id);
-		}
+		$msg = 'Successfully Remove X-Out Property';
+		$status = true;
+		$user_id = $current_user->ID;
+		$property_id = sanitize_text_field($_POST['property-id']);
+		delete_user_meta($user_id, 'xout-property-' . $property_id);
 
 		echo json_encode(array('msg'=>$msg,'status'=>$status));
+		die();
+	}
+
+	public function remove_xout_property_action_nopriv_callback(){
+		$msg = 'not logged in user';
+		$status = true;
+		echo json_encode(
+			array(
+				'msg'=>$msg,
+				'status'=>$status,
+				'is_loggedin'=>0
+			)
+		);
 		die();
 	}
 
