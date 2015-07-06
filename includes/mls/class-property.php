@@ -257,7 +257,7 @@ class MLS_Property{
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-
+			//dump($properties);
 			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -328,6 +328,7 @@ class MLS_Property{
 			$data = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
+			//dump($property);
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;

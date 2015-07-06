@@ -215,4 +215,8 @@ class Property{
 	public function get_city_name(){
 		return $this->loop->get_city_name();
 	}
+
+	public function time_stamp_modified(){
+		return $this->loop->time_stamp_modified();
+	}
 }

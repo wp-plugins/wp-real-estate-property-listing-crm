@@ -99,7 +99,7 @@ function md_property_transaction(){
 	return \MD\Property::get_instance()->getTransaction();
 }
 function md_property_area(){
-	return \MD\Property::get_instance()->getArea();
+	return number_format(\MD\Property::get_instance()->getArea());
 }
 function md_property_area_unit($default = 'account'){
 	return ucwords(\MD\Property::get_instance()->getAreaUnit($default));
@@ -150,4 +150,7 @@ function crm_md_get_featured_img($property_id){
 		return \MD_Template::get_instance()->get_featured_img($properties_photos, $property_id);
 	}
 	return false;
+}
+function md_time_stamp_modified(){
+	return \MD\Property::get_instance()->time_stamp_modified();
 }

@@ -42,16 +42,6 @@
 			else $initmessage = 'Click for more';
 			// Append custom messages and extra UI
 			var nomoredata = 1;
-
-			function printPdf(){
-				$('.print-pdf-action').on('click',function(e){
-					var url = $(this).attr('href');
-					var newwindow = window.open(url,'print pdf','height=700,width=900');
-					if (window.focus) {newwindow.focus()}
-					return false;
-					e.preventDefault();
-				});
-			}
 			function get_absolute_path() {
 				var loc = window.location;
 				var link;
@@ -108,15 +98,6 @@
 				// Post data to ajax.php
 				var $container = $('.' + MDAjax.masonry_container);
 
-				// initialize
-				if( MDAjax.masonry == 1 ){
-					$container.imagesLoaded(function(){
-						$container.masonry({
-							itemSelector: '.property-item'
-						});
-					});
-				}
-
 				$.post(
 					$settings.ajax_url,
 					_ajax_data,
@@ -131,21 +112,8 @@
 							history.replaceState(null, null, get_paged_link());
 							var $moreBlocks = $( data );
 							var $data 		= $moreBlocks.filter(".property-item");
-							if( MDAjax.masonry == 1 ){
-								$data.hide();
-								$container.append( $data );
-								$data.imagesLoaded(function(){
-									$data.show();
-									$container.masonry( 'appended', $data );
-								});
-							}else{
-								_ajax_container_result.append($moreBlocks);
-							}
-							//var replace_pagination = $( data ).find('.pagination');
-							//jQuery('.pagination').html(replace_pagination);
-							//console.log(data);
+							_ajax_container_result.append($moreBlocks);
 							busy = false;
-							printPdf();
 						}
 					},
 					$settings.ajax_dataType

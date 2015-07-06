@@ -404,4 +404,8 @@ class Property_Entity{
 			echo 'community : '.$this->communityid.':'.$this->community.'<br>';
 		echo '</pre>';
 	}
+
+	public function time_stamp_modified(){
+		return false;
+	}
 }
