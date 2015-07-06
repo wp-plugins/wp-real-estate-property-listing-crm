@@ -5,7 +5,7 @@
 
 		return {
 			init:function(){
-				$('.property_favorite').click(function(){
+				$(document).on('click','.property_favorite',function(){
 					var data 		= $(this).serializeArray();
 					var $this 		= $(this);
 					var xoutButton 	= $(this).closest('div').find('.xout');
@@ -31,7 +31,6 @@
 								xoutButton.find('.fa').toggleClass('fa-times-circle fa-times-circle-o');
 							}
 							alert(data.msg);
-							//location.reload(true);
 						}else{
 							alert(data.msg);
 						}
@@ -46,7 +45,7 @@
 	var singlePropertyXOutProperty = function () {
 		return {
 			init:function(){
-				$('.property_xout').on('click',function(){
+				$(document).on('click','.property_xout',function(){
 					var data 			= $(this).serializeArray();
 					var $this 			= $(this);
 					var favoriteButton 	= $(this).closest('div').find('.favorite');
@@ -86,7 +85,7 @@
 	var singlePropertyRemoveProperty = function () {
 		return {
 			init:function(){
-				$('.property_favorite_remove').on('click',function(){
+				$(document).on('click','.property_favorite_remove',function(){
 					var data 	= $(this).serializeArray();
 					var $this 	= $(this);
 					var xoutButton 	= $(this).closest('div').find('.xout');
@@ -126,7 +125,7 @@
 	var singlePropertyRemoveXOutProperty = function () {
 		return {
 			init:function(){
-				$('.property_xout_remove').on('click',function(){
+				$(document).on('click','.property_xout_remove',function(){
 					var data 	= $(this).serializeArray();
 					var $this 	= $(this);
 					var favoriteButton 	= $(this).closest('div').find('.favorite');
@@ -150,8 +149,6 @@
 							$this.toggleClass('btn-primary btn-default');
 							$this.find('.fa').toggleClass('fa-times-circle fa-times-circle-o');
 							alert(data.msg);
-							//location.reload(true);
-							//jQuery(this).toggleClass('property_xout_remove property_xout');
 						}else{
 							alert(data.msg);
 						}
@@ -208,16 +205,19 @@
 			var id_register_modal = $('#registerModal');
 			id_register_modal.modal('show');
 
-			var property_id = $(this).data('property-id');
-			if (typeof property_id !== 'undefined') {
+			$('#registerModal .content-text').empty();
+
+			var current_action = $(this).data('current-action');
+			if (typeof current_action !== 'undefined') {
 				// the variable is defined
-				$('#registerModal .property_id').val(property_id);
+				$('#registerModal .current_action').val(current_action);
+				$('#registerModal .content-text').html(jQuery('.content-' + current_action).html());
 			}
 
-			var feed = $(this).data('property-feed');
-			if (typeof feed !== 'undefined') {
+			var data_post = $(this).data('post');
+			if (typeof data_post !== 'undefined') {
 				// the variable is defined
-				$('#registerModal .feed').val(feed);
+				$('#registerModal .data_post').val(data_post);
 			}
 			e.preventDefault();
 		});
