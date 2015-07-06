@@ -202,7 +202,7 @@ class MLS_Property{
 			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
 		}
 
-		$transaction = 'For Sale';
+		$transaction = 'sale';
 		if( isset($search_data['transaction']) ){
 			$transaction = $search_data['transaction'];
 		}
@@ -222,7 +222,7 @@ class MLS_Property{
 					$transaction = sanitize_text_field($_REQUEST['transaction']);
 				}
 			}else{
-				$transaction = 'For Sale';
+				$transaction = 'sale';
 			}
 		}
 
@@ -247,7 +247,7 @@ class MLS_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-
+		//dump($data);
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
