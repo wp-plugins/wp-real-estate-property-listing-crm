@@ -46,14 +46,14 @@ height: 300px;
 			<p>
 				Transaction
 				<select name="transaction" id="transaction">
-					<option value="For Sale">For Sale</option>
-					<option value="For Rent">For Rent</option>
+					<option value="sale">For Sale</option>
 				</select>
 			</p>
 			<p>How many property to display <input name="limit" value="11"></p>
 			<p>Show Infinite Scroll? this will show the scrolling ajax instead of tix "how many display" <input type="checkbox" name="infinite" id="infinite"></p>
 			<p>Choose template to display <select id="template" name="template"></select></p>
 			<p>Set property per columns ( should be divided by 12 ) <input name="col" value="4"></p>
+			<p>Include Office List? <input type="checkbox" name="listing_office_id" id="listing_office_id"></p>
 		</div>
 	</div>
 	<p></p>
@@ -117,10 +117,17 @@ height: 300px;
 		var city_shortcode 		= ' cityid="0" ';
 		var county_shortcode = ' countyid="0" ';
 
+		var listing_office_id_shortcode = 'false';
+		if( $('#listing_office_id',context).is(":checked") ){
+			//listing_office_id_shortcode = ' listing_office_id="'+$('#listing_office_id',context).val()+'" '
+			listing_office_id_shortcode = 'true';
+		}
+
 		var infinite_check = 'false';
 		if( $('#infinite',context).is(":checked") ){
 			infinite_check = 'true';
 		}
+
 		var bathromms 		= ' bathrooms="' + $('input[name="bath"]',context).val() + '" ';
 		var bedrooms 		= ' bedrooms="' + $('input[name="bed"]',context).val() + '" ';
 		var min_listprice 	= ' min_listprice="' + $('input[name="min_price"]',context).val() + '" ';
@@ -130,6 +137,7 @@ height: 300px;
 		var transaction 	= ' transaction="' + $('#transaction',context).val() + '" ';
 		var limit 			= ' limit="' + $('input[name="limit"]',context).val() + '" ';
 		var infinite 		= ' infinite="' + infinite_check + '" ';
+		var list_office_id	= ' listing_office_id="' + listing_office_id_shortcode + '" ';
 		var template_path 	= ' template="' + $('#template',context).val() + '" ';
 		var col_grid 		= ' col="' + $('input[name="col"]',context).val() + '" ';
 
@@ -160,6 +168,7 @@ height: 300px;
 						+ limit
 						+ template_path
 						+ col_grid
+						+ list_office_id
 						+ infinite
 					+ ']';
 		editor.selection.setContent(shortcode);

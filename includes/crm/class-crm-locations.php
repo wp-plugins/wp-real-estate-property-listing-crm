@@ -53,8 +53,13 @@ class CRM_Locations{
 	 * */
 	public function get_communities_by_cityId($city_id){
 		$communities 		= array();
-		$keyword_city_id 	= implode('_', $city_id);
+		$data_city_id = $city_id;
+		if( is_array($city_id['city_id'])){
+			$data_city_id = $city_id['city_id'];
+		}
+		$keyword_city_id 	= implode('_', $data_city_id);
 		$cache_keyword 		= 'property-communities-by-city-' . $keyword_city_id;
+
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$communities = \DB_Store::get_instance()->get($cache_keyword);

@@ -26,8 +26,8 @@
 			<div class="form-group">
 				<input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number">
 			</div>
-			<input type="hidden" name="property_id" class="property_id">
-			<input type="hidden" name="feed" class="feed">
+			<input type="hidden" name="current_action" class="current_action">
+			<input type="hidden" name="data_post" class="data_post">
 			<button type="submit" class="btn btn-primary registersend">Sign-up</button>
 		</form>
 	</div>
@@ -43,8 +43,8 @@
 			<div class="form-group">
 				<a href="<?php echo home_url('wp-login.php?action=lostpassword');?>">Forgot password</a>
 			</div>
-			<input type="hidden" name="property_id" class="property_id">
-			<input type="hidden" name="feed" class="feed">
+			<input type="hidden" name="current_action" class="current_action">
+			<input type="hidden" name="data_post" class="data_post">
 			<button type="submit" class="btn btn-primary modal-login">Login</button>
 		</form>
 	</div>

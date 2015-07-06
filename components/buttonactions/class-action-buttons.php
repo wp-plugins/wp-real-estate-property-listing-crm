@@ -148,6 +148,8 @@ class Action_Buttons {
 		}
 
 		if( $show == 1 ){
+			$action = 'saveproperty_action';
+			$content = '<p>Must register or login to mark as favorite</p>';
 			require 'view/favorite-button.php';
 		}
 	}
@@ -201,6 +203,8 @@ class Action_Buttons {
 		}
 
 		if( $show == 1 ){
+			$action = 'xoutproperty_action';
+			$content = '<p>Must register or login to mark as x-out</p>';
 			require 'view/xout-button.php';
 		}
 	}
@@ -315,8 +319,9 @@ class Action_Buttons {
 		$photo = get_single_property_photos();
 		$property = get_single_property_data();
 		if( get_single_property_source() == 'crm' ){
-			if( isset($property->getPhotoUrl($photo)[0]) ){
-				$photo = $property->getPhotoUrl($photo)[0];
+			$photo_url = $property->getPhotoUrl($photo);
+			if( isset($photo_url[0]) ){
+				$photo = $photo_url[0];
 			}
 		}elseif(get_single_property_source() == 'mls' ){
 			$photo = $property->PrimaryPhotoUrl;
@@ -347,4 +352,3 @@ class Action_Buttons {
 		require 'view/sort.php';
 	}
 }
-

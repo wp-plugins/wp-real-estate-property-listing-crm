@@ -1,4 +1,5 @@
 <?php
+
 namespace MlsConnector;
 
 class MlsConnector {
@@ -9,7 +10,7 @@ class MlsConnector {
     protected $etoken; // hashed token
 
     protected $authenticated = FALSE;
-    protected $errors   = []; // erros saved on array
+    protected $errors = array(); // erros saved on array
     protected $version  = 'v2';
     protected $uri;
     protected $sourceid;
@@ -59,15 +60,40 @@ class MlsConnector {
     {
         return $this->sendRequest( 'getproperties' , $data );
     }
+    /**
+     * @param array $data
+     *
+     *    possible property criteria fields
+     *
+     *    mls: abbreviation of the mls id MFR, HL, CRMLS
+     *    city: city name
+     *    community: community name
+     *    subdivision: subdivision name
+     *    min_listprice: Minimum list price
+     *    max_listprice:  Maximum list price
+     *    min_beds:
+     *    max_beds:
+     *    min_baths:
+     *    max_baths:
+     *    min_garage:
+     *    transaction: 'rent','sale'
+     * @return string json_encoded property list
+     */
+    public function addPropertyAlert( $data )
+    {
+        return $this->sendRequest( 'addPropertyAlert' , $data );
+    }
 
     public function getPropertyByMLSID( $mls_id )
     {
+	$data = array();
         $data['mls_id'] = $mls_id;
         return $this->sendRequest( 'getPropertyByMLSID' , $data );
     }
 
     public function getPropertyByMatrixID( $matrix_id )
     {
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         $response =  $this->sendRequest( 'getPropertyByMatrixID' , $data );
 
@@ -77,30 +103,35 @@ class MlsConnector {
 
     public function getHighResPhotosByMatrixID( $matrix_id )
     {
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getHighResPhotosByMatrixID' , $data );
     }
 
     public function getHighResPhotosObjectByMatrixID( $matrix_id )
     {
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getHighResPhotosObjectByMatrixID' , $data );
     }
 
     public function importHighResPhotos( $matrix_id )
     {
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'importHighResPhotos' , $data );
     }
 
     public function getPhotosByMatrixID( $matrix_id )
     {
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getPhotosByMatrixID' , $data );
     }
 
     public function getPhotosObjectByMatrixID( $matrix_id )
     {
+		$data = array();
         $data['matrix_id'] = $matrix_id;
         return $this->sendRequest( 'getPhotosObjectByMatrixID' , $data );
     }
@@ -122,14 +153,10 @@ class MlsConnector {
         return $this->sendRequest( 'getLatestPropertiesByZip' , $data );
     }
 
-    public function getHighResPhotos()
-    {
-        //$post['matrix_id'] = $matrix_id;
-        //return $this->getRequest( 'getHighResPhotosByMatrixID' , $post );
-    }
 
     public function getRelatedPropertiesByMatrixID( $matrix_id )
     {
+		$data = array();
         if( ! $matrix_id ){
             return array(
                 'result' => 'fail',
@@ -147,23 +174,34 @@ class MlsConnector {
         return $this->uri;
     }
 
+    public function getComparable( $listing_id )
+    {
+        $data['listing_id'] 	=  $listing_id;
+        return $this->sendRequest( 'getComparable' , $data );
+    }
+
+    public function getFeatured()
+    {
+        return $this->sendRequest( 'getFeatured' , array() );
+    }
+
     public function getCoverageLookup( $mls )
     {
-        $data[ 'mls' ] = $mls;
+		$data = array();
+        $data[ 'mls' ] =  $mls;
         $data[ 'verb' ] = 'GET';
         return $this->sendRequest( 'getCoverageLookup' , $data );
     }
 
-    private function sendRequest( $request , $data )
+    private function sendRequest( $request , $data = array() )
     {
-
         if( ! $this->checkCredentials() ){
-            return [
+            return array(
                 'result'    => 'fail',
                 'success'    => 0,
                 'message'   => 'Error found',
                 'errors'    => $this->errors
-            ];
+            );
         }
 
         $data['key']      = $this->key;
@@ -186,19 +224,6 @@ class MlsConnector {
         curl_setopt( $ch, CURLOPT_POSTFIELDS,  $data );
         curl_setopt( $ch, CURLOPT_POST, 1 );
         $this->uri =  $uri;
-
-        if( isset( $data['verb'] ) && $data['verb'] == 'POST' ){
-
-        }else{
-            /**
-            $ch     =   curl_init( $uri );
-            curl_setopt( $ch, CURLOPT_POSTFIELDS,  $data );
-            curl_setopt( $ch, CURLOPT_POST, 1 );
-            $this->uri =  $uri;
-             */
-            //$ch     =   curl_init();
-            //curl_setopt( $ch, CURLOPT_URL,  $uri_with_data );
-        }
 
         try {
             $curl_output = curl_exec($ch);
