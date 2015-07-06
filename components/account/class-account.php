@@ -1,4 +1,5 @@
 <?php
+//remove
 class Account_Registered{
 	protected static $instance = null;
 	public $plugin_name;
@@ -20,17 +21,15 @@ class Account_Registered{
 		return self::$instance;
 	}
 
-	public function __construct(){
+	public function __construct(){}
 
-	}
-
-	public function get_default_template($template = null){
+	public function template($template = null){
 		if( is_null($template) ){
 			$template = GLOBAL_TEMPLATE . 'account/main.php';
 		}
 		// hook filter, incase we want to just use hook
-		if( has_filter('shortcode_account_page') ){
-			$template = apply_filters('shortcode_account_page', $path);
+		if( has_filter('registeruser_dashboard_template') ){
+			$template = apply_filters('registeruser_dashboard_template', $path);
 		}
 		return $template;
 	}

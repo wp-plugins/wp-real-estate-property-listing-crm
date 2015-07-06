@@ -9,6 +9,7 @@ class Layout_Property{
 	public function __construct(){
 		add_action('template_more_details_crm',array($this,'more_details'),10,1);
 		add_action('hook_favorites_property_crm',array($this,'saved_properties'),10,1);
+		add_action('hook_xout_property_crm',array($this,'saved_properties'),10,1);
 	}
 
 	/**
@@ -54,7 +55,7 @@ class Layout_Property{
 			if( has_filter('crm_more_details_single') ){
 				$template = apply_filters('crm_more_details_single',$path, $atts);
 			}
-			require_once $template;
+			require $template;
 		}
 	}
 
@@ -64,12 +65,31 @@ class Layout_Property{
 
 			$property = have_properties();
 
+			$cityid = 0;
+			$communityid = 0;
+			$subdivisionid = 0;
+
+			if( $property->cityid != '' && $property->cityid != 0 ){
+				$cityid = $property->cityid;
+			}
+
+			if( $property->communityid != '' && $property->communityid != 0 ){
+				$communityid = $property->communityid;
+			}
+
+			if( $property->subdivisionid != '' && $property->subdivisionid != 0 ){
+				$subdivisionid = $property->subdivisionid;
+				$cityid = 0;
+				$communityid = 0;
+			}
+
 			$search_data['countyid'] 		= 0;
 			$search_data['stateid'] 		= 0;
 			$search_data['countryid'] 		= 0;
-			$search_data['cityid'] 			= 0;
+			$search_data['cityid'] 			= $cityid;
 			$search_data['zip'] 			= '';
-			$search_data['communityid'] 	= $property->communityid;
+			$search_data['communityid'] 	= $communityid;
+			$search_data['subdivisionid'] 	= $subdivisionid;
 			$search_data['bathrooms'] 		= '';
 			$search_data['bedrooms'] 		= '';
 			$search_data['transaction'] 	= $property->transaction_type;
@@ -182,7 +202,7 @@ class Layout_Property{
 				if( has_filter('crm_more_details_single') ){
 					$template = apply_filters('crm_more_details_single',$path, $atts);
 				}
-				require_once $template;
+				require $template;
 			}
 		}
 	}

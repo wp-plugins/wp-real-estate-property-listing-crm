@@ -34,6 +34,13 @@ class Property{
 		return self::$instance;
 	}
 
+	public function reset_propertydata(){
+		if( $this->have_properties() ){
+			$this->objProperty = null;
+			$this->source = '';
+		}
+	}
+
 	public function set_properties($data, $source = null){
 		if( is_null($source) ){
 			$source = MD_DATA_FEED;
@@ -111,14 +118,15 @@ class Property{
 				$get_photo_url 	= $this->getObject()->getPhotoUrl($this->getPhotos());
 				$img 			= $get_photo_url[$array_key];
 			}elseif( $this->isMLS() ){
-				$img =  $this->getPhotos()[$array_key];
+				$get_photo_url 	= $this->getPhotos();
+				$img =  $get_photo_url[$array_key];
 			}
 			return $this->getObject()->displayPrimaryPhotoUrl() ? $this->getObject()->displayPrimaryPhotoUrl():$img;
 		}
 	}
 
-	public function getAddress(){
-		return $this->loop->displayAddress();
+	public function getAddress($type = 'long'){
+		return $this->loop->displayAddress($type);
 	}
 
 	public function getURL(){
@@ -127,6 +135,10 @@ class Property{
 
 	public function getPrice(){
 		return $this->loop->displayPrice();
+	}
+
+	public function getRawPrice(){
+		return $this->loop->get_price();
 	}
 
 	public function getBed(){
@@ -202,5 +214,9 @@ class Property{
 
 	public function get_city_name(){
 		return $this->loop->get_city_name();
+	}
+
+	public function time_stamp_modified(){
+		return $this->loop->time_stamp_modified();
 	}
 }

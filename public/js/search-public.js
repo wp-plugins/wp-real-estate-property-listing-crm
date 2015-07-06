@@ -140,16 +140,17 @@
 
 		return {
 			init: function(){
+				var buttonpressed;
+				jQuery('.search-form-btn').click(function() {
+					  buttonpressed = jQuery(this).attr('value');
+				})
 				jQuery("#advanced_search").submit(function(e){
 					var address = jQuery("#location").val();
-
-					var btn = jQuery(this).find("button[type=submit]:focus" );
-
 					jQuery('#transaction').val('For Sale');
-					if( typeof btn.val() !== 'undefined' ){
-						if( btn.val() == 'For Sale' ){
+					if( typeof buttonpressed !== 'undefined' ){
+						if( buttonpressed == 'For Sale' ){
 							jQuery('#transaction').val('For Sale');
-						}else if( btn.val() == 'For Rent' ){
+						}else if( buttonpressed == 'For Rent' ){
 							jQuery('#transaction').val('For Rent');
 						}
 					}
@@ -160,6 +161,31 @@
 		};
 
 	}();
+
+	var search_properties = function(){
+		return {
+			init:function(){
+				var buttonpressed;
+				jQuery('.search-form-btn').click(function() {
+					  buttonpressed = jQuery(this).attr('value');
+				})
+				jQuery("#advanced_search").submit(function(e){
+					var address = jQuery("#location").val();
+					jQuery('#transaction').val('For Sale');
+					if( typeof buttonpressed !== 'undefined' ){
+						if( buttonpressed == 'For Sale' ){
+							jQuery('#transaction').val('For Sale');
+						}else if( buttonpressed == 'For Rent' ){
+							jQuery('#transaction').val('For Rent');
+						}
+					}
+					//codeAddress(address);
+					return true;
+				});
+			},
+		};
+	}();
+
 	var LocationTypeAhead = function () {
 
 		return {
@@ -258,11 +284,10 @@
 
 	$(window).load(function(){
 		searchPropertyTransactionChange.init();
-		geocodeServiceSearch.init();
+		search_properties.init();
 		if(typeof location_autocomplete !== 'undefined' ){
 			LocationTypeAhead.init(location_autocomplete);
 		}
-
 		if(typeof infinite_scroll !== 'undefined' && infinite_scroll == '1' ){
 			ScrollInfiniteSearchResult.init(infinite_selector,search_property_result,wp_var);
 		}
