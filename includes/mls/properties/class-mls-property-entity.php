@@ -614,4 +614,17 @@ class Property_Entity{
 	public function listing_agent_full_name(){
 		return $this->ListingAgentFullName;
 	}
+
+	public function getPhotoUrl($array, $key = 0, $object = 'url'){
+		$data = array();
+		if( $array && is_array($array) && count($array) > 0 ){
+			if( isset($array[$key]->$object) ){
+				$data[] = $array[$key]->$object;
+			}
+			return $data;
+		}else{
+			return array();
+		}
+
+	}
 }

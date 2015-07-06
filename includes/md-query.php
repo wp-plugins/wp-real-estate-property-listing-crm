@@ -99,7 +99,7 @@ function md_property_transaction(){
 	return \MD\Property::get_instance()->getTransaction();
 }
 function md_property_area(){
-	return number_format(\MD\Property::get_instance()->getArea());
+	return \MD\Property::get_instance()->getArea();
 }
 function md_property_area_unit($default = 'account'){
 	return ucwords(\MD\Property::get_instance()->getAreaUnit($default));
@@ -109,6 +109,11 @@ function md_property_title(){
 }
 function md_get_source(){
 	return \MD\Property::get_instance()->getSource();
+}
+function md_get_source_single($property_data = null){
+	if( !is_null($property_data) ){
+		return $property_data['source'];
+	}
 }
 function md_get_mls(){
 	return \MD\Property::get_instance()->getMLS();
