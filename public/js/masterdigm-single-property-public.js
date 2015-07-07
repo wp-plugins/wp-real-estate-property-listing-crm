@@ -255,8 +255,8 @@
 	var showMap = function(){
 		return {
 			init:function(selector, lat, lng, latlngData){
-				$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
+				$(document).on('shown.bs.tab','a[data-toggle="tab"]', function (e) {
+				//$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 					var currentTab = $(e.target).text(); // get current tab
 					var LastTab = $(e.relatedTarget).text(); // get last tab
 					var currentHref = $(e.target).attr('href'); // get last tab
@@ -281,6 +281,76 @@
 		};
 	}();
 
+	var ShowTabPhotos = function(){
+		return {
+			init:function(){
+				$(document).on('shown.bs.tab','a[data-toggle="tab"]', function (e) {
+				//$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+					var currentTab = $(e.target).text(); // get current tab
+					var LastTab = $(e.relatedTarget).text(); // get last tab
+					var currentHref = $(e.target).attr('href'); // get last tab
+					if(
+						currentHref == '#photos'
+					){
+						var $photo_container = $('#photos-single-container');
+						// initialize
+						$photo_container.imagesLoaded(function(){
+							$photo_container.masonry({
+								itemSelector: 'li.photos-item-single'
+							});
+						});
+					}
+				});
+			}
+		};
+	}();
+
+	var QuickMapShow = function(){
+		return {
+			init:function(sel, lat,lon, str_data){
+				$(sel).gmap3({
+				  map:{
+					options:{
+					  center:[lat,lon],
+					  zoom: 15
+					}
+				  },
+				  marker:{
+					values:[
+					  {latLng:[lat,lon], data:str_data, options:{icon: "http://maps.google.com/mapfiles/marker_green.png"}},
+					],
+					options:{
+					  draggable: false
+					},
+					events:{
+					  mouseover: function(marker, event, context){
+						var map = $(this).gmap3("get"),
+						  infowindow = $(this).gmap3({get:{name:"infowindow"}});
+						if (infowindow){
+						  infowindow.open(map, marker);
+						  infowindow.setContent(context.data);
+						} else {
+						  $(this).gmap3({
+							infowindow:{
+							  anchor:marker,
+							  options:{content: context.data}
+							}
+						  });
+						}
+					  },
+					  mouseout: function(){
+						var infowindow = $(this).gmap3({get:{name:"infowindow"}});
+						if (infowindow){
+						  infowindow.close();
+						}
+					  }
+					}
+				  }
+				});
+			}
+		};
+	}();
+
 	$(window).load(function(){
 		if(typeof mainLat !== 'undefined' && typeof mainLng !== 'undefined'){
 			showMap.init('.map_view', mainLat, mainLng, propertyList);
@@ -291,7 +361,9 @@
 				return false; // prevent default click action from happening!
 				e.preventDefault();
 			});
+			QuickMapShow.init(".quick_map_view",mainLat,mainLng,mainAddress);
 		}
+		ShowTabPhotos.init();
 	});
 })( jQuery );
 
