@@ -27,8 +27,6 @@ class Create_Location_Page{
 		$this->slug 		= 'admin.php?page=md-api-create-page-location';
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
 		add_action('admin_menu', array( $this, 'add_plugin_admin_menu' ) );
-		add_action('wp_ajax_create_location_page_action', array($this,'create_location_page_action_callback') );
-		add_action('wp_ajax_nopriv_create_location_page_action',array($this,'create_location_page_action_callback') );
 	}
 
 	public function enqueue_scripts(){
@@ -100,98 +98,6 @@ class Create_Location_Page{
 		require_once( plugin_dir_path( __FILE__ ) . 'view/add.php' );
 	}
 
-	public function create_location_page_action_callback(){
-		check_ajax_referer( 'md-ajax-request', 'security' );
-		$current_user = wp_get_current_user();
-
-		$msg 	= '';
-		$status = false;
-
-		$page_location 	= array();
-		//hook, get the default
-		//$account = do_action('get_locations_' . DEFAULT_FEED);
-		$account 					= \CRM_Account::get_instance()->get_coverage_lookup();
-		$shortcode_tag 				= \md_sc_crm_list_properties::get_instance()->get_shortcode_tag();
-		$shortcode_list_community 	= \md_sc_crm_get_locations::get_instance()->get_shortcode_tag();
-
-		if( isset($account->result) == 'success' ){
-			$locations 	= $account->lookups;
-			if( count($locations) > 0 ){
-
-				$post_status = 'publish';
-				if( isset($_POST['post_status']) ){
-					$post_status = sanitize_text_field($_POST['post_status']);
-				}
-
-				$page_location['total']	= count($locations);
-				$count = 0;
-
-				wp_defer_term_counting( true );
-				wp_defer_comment_counting( true );
-
-				foreach($locations as $key => $val){
-					$content_shortcode = '';
-					$page_location['date_added'] 	= date("F j, Y, g:i a");
-					list($title_location) = explode(',',$val->full);
-					$page_location[$val->id]['full'] 			= $title_location;
-					$page_location[$val->id]['location_type'] 	= $val->location_type;
-					$page_location[$val->id]['id'] 				= $val->id;
-
-					$location = $page_location[$val->id]['location_type'].'id';
-					$id = $page_location[$val->id]['id'];
-
-					if( $val->location_type == 'city' ){
-						$content_shortcode 	= '['.$shortcode_list_community.' cityid="'.$id.'"]'.'<br>';
-					}
-					$content_shortcode .= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="11" template="list/default/list-default.php" col="4" infinite="true"]';
-
-					$page_location[$val->id]['shortcode'] = $content_shortcode;
-
-					$post_insert_arg = array(
-					  'post_title'    => $page_location[$val->id]['full'],
-					  'post_content'  => $page_location[$val->id]['shortcode'],
-					  'post_status'   => $post_status,
-					  'post_author'   => $current_user->ID,
-					  'post_type'	  => 'page',
-					);
-					$post = get_page_by_title($page_location[$val->id]['full']);
-
-					$page_location['count']	= $count++;
-
-					if( $post && $post_status == 'trash' ){
-						wp_delete_post($post->ID, true);
-					}elseif( $post_status == 'draft' || $post_status == 'publish' ){
-						if( $post ){
-							$post_arg = array(
-								'ID' => $post->ID,
-								'post_status' => $post_status
-							);
-							wp_update_post( $post_arg );
-						}else{
-							wp_insert_post( $post_insert_arg );
-						}
-					}
-
-				}
-
-				wp_defer_term_counting( false );
-				wp_defer_comment_counting( false );
-
-				$option_name = 'create_page_by_location_'.date("m.d.Y.H.i.s");
-				$date 		 = date("F j, Y, g:i a");
-				$option_value = array(
-					'data'=>$page_location,
-					'date'=>$date
-				);
-				update_option($option_name, $option_value);
-				$msg = 'Done, total '.$post_status.' page : '.$option_value['data']['count'];
-				$status = true;
-			}
-		}
-		echo json_encode(array('msg'=>$msg,'status'=>$status));
-		die();
-	}
-
 	public function get_option_log(){
 		global $wpdb;
 		$sql = "SELECT * FROM $wpdb->options WHERE option_name like '%create_page_by_location_%'";
@@ -206,10 +112,12 @@ class Create_Location_Page{
 		foreach($log as $key => $val){
 			$parse_log['total'] += 1;
 			$date_added = unserialize($val->option_value);
-			$parse_log['data'][] = array(
-				'total' => $date_added['data']['total'],
-				'date' 	=> $date_added['data']['date_added']
-			);
+			if( isset($parse_log['data']) ){
+				$parse_log['data'][] = array(
+					'total' => $date_added['data']['total'],
+					'date' 	=> $date_added['data']['date_added']
+				);
+			}
 		}
 		return json_decode(json_encode($parse_log), FALSE);
 	}

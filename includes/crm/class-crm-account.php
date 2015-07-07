@@ -50,6 +50,7 @@ class CRM_Account{
 	public function get_account_details(){
 		$account_details_keyword 	= \Property_Cache::get_instance()->getCacheAccountDetailsKeyword();
 		$cache_keyword 	  			= $account_details_keyword->id;
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$account_details = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
@@ -70,6 +71,8 @@ class CRM_Account{
 			if( !is_null($key) ){
 				if( $account_details->data && isset($account_details->data->$key) ){
 					return $account_details->data->$key;
+				}else{
+					return false;
 				}
 			}else{
 				if( $account_details && isset($account_details->data) ){
@@ -129,13 +132,13 @@ class CRM_Account{
 			foreach($location->lookups as $items){
 				if( $search_type == 'full' ){
 					$json_location[] = array(
-						'keyword'=>preg_replace('/(\s)+/', ' ', $items->full),
+						'keyword'=>preg_replace('/(\s)+/', ' ', $items->full) . ' [ ' . $items->location_type . ' ]',
 						'id'=>$items->id,
 						'type'=>$items->location_type,
 					);
 				}else{
 					$json_location[] = array(
-						'keyword'=>preg_replace('/(\s)+/', ' ', $items->keyword),
+						'keyword'=>preg_replace('/(\s)+/', ' ', $items->keyword) . ' [ ' . $items->location_type . ' ]',
 						'id'=>$items->id,
 						'type'=>$items->location_type,
 					);
@@ -203,10 +206,23 @@ class CRM_Account{
 				'address_country'    => sanitize_text_field(isset($address_country)) ? sanitize_text_field($address_country):'',
 				'company'            => sanitize_text_field(isset($company)) ? sanitize_text_field($company):'',
 				'assigned_to'		 => sanitize_text_field(isset($userid)) ? sanitize_text_field($userid):'',
-				'note'				 => sanitize_text_field(isset($note)) ? sanitize_text_field($note):''
+				'note'				 => sanitize_text_field(isset($note)) ? sanitize_text_field($note):'',
+				'source_url'		 => sanitize_text_field(isset($source_url)) ? sanitize_text_field($source_url):''
 			)
 		);
 
 		return $response;
+	}
+
+	public function get_agent_details($agent_id = null){
+		$cache_keyword = 'get_agent_details_'.$agent_id;
+		//\DB_Store::get_instance()->del($cache_keyword);
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$get_agent_details = \DB_Store::get_instance()->get($cache_keyword);
+		}else{
+			$get_agent_details = $this->crm->get_agent_details($agent_id);
+			\DB_Store::get_instance()->put($cache_keyword, $get_agent_details);
+		}
+		return $get_agent_details;
 	}
 }

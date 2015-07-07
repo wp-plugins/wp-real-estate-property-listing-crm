@@ -176,4 +176,8 @@ class Masterdigm_CRM implements iMasterdigm_API{
 	public function save_lead($data){
 		return $this->get_client()->saveLead($data);
 	}
+
+	public function get_agent_details($data){
+		return $this->get_client()->getAgentDetails($data);
+	}
 }
