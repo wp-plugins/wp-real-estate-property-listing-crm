@@ -36,73 +36,78 @@ class MD_Agent{
 	}
 
 	public function set_agent_data($data = null){
-		if( is_null($data) ){
-			$account = \CRM_Account::get_instance()->get_account_data();
-			$agent = array();
+		$agent = array();
 
-			$agent['img'] = PLUGIN_ASSET_URL . 'agent-blank.jpg';
-			if( isset($account->company_logo) && $account->company_logo != '' ){
-				$agent['img'] = $account->company_logo;
+		if( !isset($data['property']->assigned_to) ){
+			$agent_info = \CRM_Account::get_instance()->get_account_data();
+		}elseif( isset($data['property']->assigned_to) ){
+			$assign_to = $data['property']->assigned_to;
+			$get_agent_info = \CRM_Account::get_instance()->get_agent_details($assign_to);
+			if( $get_agent_info->result == 'success' ){
+				$agent_info = $get_agent_info->data;
 			}
-
-			$agent['manager_first_name'] = '';
-			if( isset($account->manager_first_name) && $account->manager_first_name != '' ){
-				$agent['manager_first_name'] = $account->manager_first_name;
-			}
-
-			$agent['manager_last_name'] = '';
-			if( isset($account->manager_last_name) && $account->manager_last_name != '' ){
-				$agent['manager_last_name'] = $account->manager_last_name;
-			}
-
-			$agent['full_name'] = $agent['manager_first_name'].' '.$agent['manager_last_name'];
-
-			$agent['company'] = '';
-			if( isset($account->company) && $account->company != '' ){
-				$agent['company'] = $account->company;
-			}
-
-			$agent['work_phone'] = '';
-			if( isset($account->work_phone) && $account->work_phone != '' ){
-				$agent['work_phone'] = $account->work_phone;
-			}
-
-			$agent['manager_email'] = '';
-			if( isset($account->manager_email) && $account->manager_email != '' ){
-				$agent['manager_email'] = $account->manager_email;
-			}
-
-			$agent['website'] = '';
-			if( isset($account->website) && $account->website != '' ){
-				$agent['website'] = $account->website;
-			}
-
-			$agent['facebook'] = '';
-			if( isset($account->facebook) && $account->facebook != '' ){
-				$agent['facebook'] = $account->facebook;
-			}
-
-			$agent['twitter'] = '';
-			if( isset($account->twitter) && $account->twitter != '' ){
-				$agent['twitter'] = $account->twitter;
-			}
-
-			$agent['linkedin'] = '';
-			if( isset($account->linkedin) && $account->linkedin != '' ){
-				$agent['linkedin'] = $account->linkedin;
-			}
-
-			$agent['youtube'] = '';
-			if( isset($account->youtube) && $account->youtube != '' ){
-				$agent['youtube'] = $account->youtube;
-			}
-
-			$agent = \helpers\Text::array_to_object($agent);
-
-			$this->set_agent_data = $agent;
-		}else{
-			$this->set_agent_data = $data;
 		}
+
+		$agent['img'] = PLUGIN_ASSET_URL . 'agent-blank.jpg';
+		if( isset($agent_info->company_logo) && $agent_info->company_logo != '' ){
+			$agent['img'] = $agent_info->company_logo;
+		}
+
+		$agent['manager_first_name'] = '';
+		if( isset($agent_info->manager_first_name) && $agent_info->manager_first_name != '' ){
+			$agent['manager_first_name'] = $agent_info->manager_first_name;
+		}
+
+		$agent['manager_last_name'] = '';
+		if( isset($agent_info->manager_last_name) && $agent_info->manager_last_name != '' ){
+			$agent['manager_last_name'] = $agent_info->manager_last_name;
+		}
+
+		$agent['full_name'] = $agent['manager_first_name'].' '.$agent['manager_last_name'];
+
+		$agent['company'] = '';
+		if( isset($agent_info->company) && $agent_info->company != '' ){
+			$agent['company'] = $agent_info->company;
+		}
+
+		$agent['work_phone'] = '';
+		if( isset($agent_info->work_phone) && $agent_info->work_phone != '' ){
+			$agent['work_phone'] = $agent_info->work_phone;
+		}
+
+		$agent['manager_email'] = '';
+		if( isset($agent_info->manager_email) && $agent_info->manager_email != '' ){
+			$agent['manager_email'] = $agent_info->manager_email;
+		}
+
+		$agent['website'] = '';
+		if( isset($agent_info->website) && $agent_info->website != '' ){
+			$agent['website'] = $agent_info->website;
+		}
+
+		$agent['facebook'] = '';
+		if( isset($agent_info->facebook) && $agent_info->facebook != '' ){
+			$agent['facebook'] = $agent_info->facebook;
+		}
+
+		$agent['twitter'] = '';
+		if( isset($agent_info->twitter) && $agent_info->twitter != '' ){
+			$agent['twitter'] = $agent_info->twitter;
+		}
+
+		$agent['linkedin'] = '';
+		if( isset($agent_info->linkedin) && $agent_info->linkedin != '' ){
+			$agent['linkedin'] = $agent_info->linkedin;
+		}
+
+		$agent['youtube'] = '';
+		if( isset($agent_info->youtube) && $agent_info->youtube != '' ){
+			$agent['youtube'] = $agent_info->youtube;
+		}
+
+		$agent = \helpers\Text::array_to_object($agent);
+
+		$this->set_agent_data = $agent;
 	}
 
 	public function get_data(){

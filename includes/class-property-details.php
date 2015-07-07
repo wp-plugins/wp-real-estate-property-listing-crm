@@ -62,9 +62,9 @@ class MD_Property_Details{
 	}
 
 	public function display_agent_box($property_data, $atts = array()){
-		$template = GLOBAL_TEMPLATE . 'agent/html-agent.php';
-		$agent = new MD_Agent;
-		$agent->set_agent_data();
+		$template 	= GLOBAL_TEMPLATE . 'agent/html-agent.php';
+		$agent 		= new MD_Agent;
+		$agent->set_agent_data($property_data);
 		require $template;
 	}
 

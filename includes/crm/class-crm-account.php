@@ -213,4 +213,16 @@ class CRM_Account{
 
 		return $response;
 	}
+
+	public function get_agent_details($agent_id = null){
+		$cache_keyword = 'get_agent_details_'.$agent_id;
+		//\DB_Store::get_instance()->del($cache_keyword);
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$get_agent_details = \DB_Store::get_instance()->get($cache_keyword);
+		}else{
+			$get_agent_details = $this->crm->get_agent_details($agent_id);
+			\DB_Store::get_instance()->put($cache_keyword, $get_agent_details);
+		}
+		return $get_agent_details;
+	}
 }
