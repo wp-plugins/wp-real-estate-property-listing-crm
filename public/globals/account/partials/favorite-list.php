@@ -8,7 +8,7 @@
 					<div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source_single($property);?>">
 						<div class="thumbnail masterdigm-property-box">
 							<a href="<?php echo md_property_url();?>" class="propertyphoto">
-								<img class="img-responsive" src="<?php echo isset($photo[0]) ? $photo[0]:PLUGIN_ASSET_URL . 'house.png'; ?>" style="<?php $photo[0] ? '':'width:170px;height:180px;'; ?>" alt="Property List Image">
+								<img class="img-responsive" src="<?php echo isset($photo[0]) ? $photo[0]:PLUGIN_ASSET_URL . 'house.png'; ?>" style="<?php isset($photo[0]) ? '':'width:170px;height:180px;'; ?>" alt="Property List Image">
 							</a>
 							<span class="label label-primary primary-background wp-site-color-theme label-property"><?php echo md_property_transaction();?></span>
 							<div class="caption">

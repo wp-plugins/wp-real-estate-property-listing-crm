@@ -145,7 +145,7 @@ class Account_Dashboard {
 			  'post_type'	  => 'page',
 			);
 			$wp_insert_post = wp_insert_post( $post );
-			\Subscriber_Dashboard::get_instance()->set_option_dashboard($wp_insert_post);
+			$this->set_option_dashboard($wp_insert_post);
 		}
 	}
 
