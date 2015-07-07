@@ -159,6 +159,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
+= 3.21.36 =
+* update display agent website both assigned and master
+
 = 3.20.36 =
 * add agent details or info for the assigned property when viewing property details for CRM api
 

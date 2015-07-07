@@ -38,76 +38,24 @@ class MD_Agent{
 	public function set_agent_data($data = null){
 		$agent = array();
 
-		if( !isset($data['property']->assigned_to) ){
-			$agent_info = \CRM_Account::get_instance()->get_account_data();
-		}elseif( isset($data['property']->assigned_to) ){
+		if( isset($data['agent']) ){
+			$agent_info = $data['agent'];
+		}elseif( !isset($data->agent) && isset($data['property']->assigned_to) ){
 			$assign_to = $data['property']->assigned_to;
 			$get_agent_info = \CRM_Account::get_instance()->get_agent_details($assign_to);
+
 			if( $get_agent_info->result == 'success' ){
-				$agent_info = $get_agent_info->data;
+				$agent_info 	= \crm\Agent_Entity::get_instance()->bind( $get_agent_info->data );
 			}
+		}else{
+			$agent_info = \CRM_Account::get_instance()->get_account_data();
+			if( $agent_info ){
+				$agentEntity 	= \crm\Agent_Entity::get_instance()->bind( $agent_info );
+			}
+			$agent_info = $agentEntity;
 		}
 
-		$agent['img'] = PLUGIN_ASSET_URL . 'agent-blank.jpg';
-		if( isset($agent_info->company_logo) && $agent_info->company_logo != '' ){
-			$agent['img'] = $agent_info->company_logo;
-		}
-
-		$agent['manager_first_name'] = '';
-		if( isset($agent_info->manager_first_name) && $agent_info->manager_first_name != '' ){
-			$agent['manager_first_name'] = $agent_info->manager_first_name;
-		}
-
-		$agent['manager_last_name'] = '';
-		if( isset($agent_info->manager_last_name) && $agent_info->manager_last_name != '' ){
-			$agent['manager_last_name'] = $agent_info->manager_last_name;
-		}
-
-		$agent['full_name'] = $agent['manager_first_name'].' '.$agent['manager_last_name'];
-
-		$agent['company'] = '';
-		if( isset($agent_info->company) && $agent_info->company != '' ){
-			$agent['company'] = $agent_info->company;
-		}
-
-		$agent['work_phone'] = '';
-		if( isset($agent_info->work_phone) && $agent_info->work_phone != '' ){
-			$agent['work_phone'] = $agent_info->work_phone;
-		}
-
-		$agent['manager_email'] = '';
-		if( isset($agent_info->manager_email) && $agent_info->manager_email != '' ){
-			$agent['manager_email'] = $agent_info->manager_email;
-		}
-
-		$agent['website'] = '';
-		if( isset($agent_info->website) && $agent_info->website != '' ){
-			$agent['website'] = $agent_info->website;
-		}
-
-		$agent['facebook'] = '';
-		if( isset($agent_info->facebook) && $agent_info->facebook != '' ){
-			$agent['facebook'] = $agent_info->facebook;
-		}
-
-		$agent['twitter'] = '';
-		if( isset($agent_info->twitter) && $agent_info->twitter != '' ){
-			$agent['twitter'] = $agent_info->twitter;
-		}
-
-		$agent['linkedin'] = '';
-		if( isset($agent_info->linkedin) && $agent_info->linkedin != '' ){
-			$agent['linkedin'] = $agent_info->linkedin;
-		}
-
-		$agent['youtube'] = '';
-		if( isset($agent_info->youtube) && $agent_info->youtube != '' ){
-			$agent['youtube'] = $agent_info->youtube;
-		}
-
-		$agent = \helpers\Text::array_to_object($agent);
-
-		$this->set_agent_data = $agent;
+		$this->set_agent_data = $agent_info;
 	}
 
 	public function get_data(){
@@ -115,51 +63,47 @@ class MD_Agent{
 	}
 
 	public function get_photo(){
-		return $this->set_agent_data->img;
+		return $this->set_agent_data->get_photo();
 	}
 
-	public function get_first_name(){
-		return $this->set_agent_data->manager_first_name;
-	}
-
-	public function get_last_name(){
-		return $this->set_agent_data->manager_last_name;
-	}
-
-	public function get_full_name(){
-		return $this->set_agent_data->full_name;
+	public function get_name(){
+		return $this->set_agent_data->get_name();
 	}
 
 	public function get_company(){
-		return $this->set_agent_data->company;
+		return $this->set_agent_data->get_company();
 	}
 
-	public function get_work_phone(){
-		return $this->set_agent_data->work_phone;
+	public function get_phone(){
+		return $this->set_agent_data->get_phone();
 	}
 
-	public function get_manager_email(){
-		return $this->set_agent_data->manager_email;
+	public function get_mobile_num(){
+		return $this->set_agent_data->get_mobile_num();
+	}
+
+	public function get_email(){
+		return $this->set_agent_data->get_email();
 	}
 
 	public function get_website(){
-		return $this->set_agent_data->website;
+		return $this->set_agent_data->get_website();
 	}
 
 	public function get_facebook(){
-		return $this->set_agent_data->facebook;
+		return $this->set_agent_data->get_fb();
 	}
 
 	public function get_twitter(){
-		return $this->set_agent_data->twitter;
+		return $this->set_agent_data->get_twitter();
 	}
 
 	public function get_linkedin(){
-		return $this->set_agent_data->linkedin;
+		return $this->set_agent_data->get_linkedin();
 	}
 
 	public function get_youtube(){
-		return $this->set_agent_data->youtube;
+		return $this->set_agent_data->get_youtube();
 	}
 
 }
