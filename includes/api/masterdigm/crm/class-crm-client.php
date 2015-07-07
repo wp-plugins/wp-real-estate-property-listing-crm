@@ -100,6 +100,10 @@ class MD_Client{
         return $this->sendRequest( 'accounts/get/'.$accountid  , array() );
     }
 
+	public function getAgentDetails( $agent_id = NULL ){
+        return $this->sendRequest( 'accounts/getAgentInfo/'.$agent_id  , array() );
+    }
+
     public function setAccountId( $accountid )
     {
         $this->accountid =  $accountid ;

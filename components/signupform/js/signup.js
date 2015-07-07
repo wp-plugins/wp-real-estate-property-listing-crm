@@ -1,6 +1,17 @@
 (function( $ ) {
 	'use strict';
 
+	var ReloadThis = function(){
+		return {
+			init:function(){
+				setTimeout(function(){
+					$('.register-modal').modal('hide');
+					location.reload(true);
+				},2000);
+			}
+		};
+	}();
+
 	var LoginForm = function () {
 		return {
 			init:function(){
@@ -8,7 +19,7 @@
 				$('.modal-login').text("Login").attr("disabled", false);
 				$('.login-form').on('submit',function(){
 					var data = jQuery(this).serializeArray();
-
+					var finish = 1;
 					data.push({name: 'action', value: 'login_action'});
 					data.push({name: 'security', value: MDAjax.security});
 
@@ -25,14 +36,25 @@
 					}).done(function( data ) {
 						$('.register-login-alert').html( data.msg );
 						if( data.status ){
-							//console.log('success');
 							$('.register-login-alert').removeClass('hide alert-danger').addClass('alert-success').html(data.msg);
-							setTimeout(function(){
-								$('.register-modal').modal('hide');
-								location.reload(true);
-							},2000);
+							if( data.callback_action != 0 ){
+								var data_callback = {
+									action: data.callback_action,
+									security: MDAjax.security,
+									post_data: data.ret_data
+								};
+								jQuery.post(
+									MDAjax.ajaxurl,
+									data_callback,
+									function(response){
+										ReloadThis.init();
+									}
+								);
+							}else{
+								finish = 1;
+							}
+							ReloadThis.init();
 						}else{
-							//console.log('fail');
 							$('.register-login-alert').removeClass('hide alert-success').addClass('alert-danger').html(data.msg);
 						}
 						$('.modal-login').text("Login").attr("disabled", false);
@@ -53,14 +75,14 @@
 				$('.registersend').text("Sign-up").attr("disabled", false);
 				$('.register-form').on('submit',function(){
 					var data = jQuery(this).serializeArray();
-
+					var finish = 1;
 					data.push({name: 'action', value: 'signup_action'});
 					data.push({name: 'security', value: MDAjax.security});
 
 					$('.register-login-alert').removeClass('alert-success alert-danger');
 					$('.registersend').text("Please wait signing-up...").attr("disabled", true);
 					$('.closemodal').attr("disabled", true);
-
+					var finish = 0;
 					$.ajax({
 						type: "POST",
 						url: MDAjax.ajaxurl,
@@ -69,12 +91,24 @@
 					}).done(function( data ) {
 						$('.register-login-alert').html( data.msg );
 						if( data.status ){
-							//console.log('success');
 							$('.register-login-alert').removeClass('hide alert-danger').addClass('alert-success').html(data.msg);
-							setTimeout(function(){
-								$('.register-modal').modal('hide');
-								location.reload(true);
-							},2000);
+							if( data.callback_action != 0 ){
+								var data_callback = {
+									action: data.callback_action,
+									security: MDAjax.security,
+									post_data: data.ret_data
+								};
+								jQuery.post(
+									MDAjax.ajaxurl,
+									data_callback,
+									function(response){
+										ReloadThis.init();
+									}
+								);
+							}else{
+								finish = 1;
+							}
+							ReloadThis.init();
 						}else{
 							$('.register-login-alert').removeClass('hide alert-success').addClass('alert-danger').html(data.msg);
 						}
