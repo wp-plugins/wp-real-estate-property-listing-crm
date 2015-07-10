@@ -16,6 +16,7 @@
 							menu:[
 								mls_list_properties(editor),
 								mls_single_property(editor),
+								mls_lastupdate_property(editor),
 							]
 						},
 						{
@@ -25,6 +26,7 @@
 								md_search_form(editor),
 								md_search_result(editor),
 								md_single_property(editor),
+								md_account(editor),
 							]
 						},
 					];

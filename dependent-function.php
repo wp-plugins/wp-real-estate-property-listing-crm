@@ -5,11 +5,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 // yoast
 if ( defined('WPSEO_VERSION') ) {
 function md_canonical($url) {
-	$address = parse_query_callback();
-	if( $address ){
-		$url = $address['property']->displayUrl();
+	global $get_single_data;
+	if( is_page('property') ){
+		$address = get_single_data();
+		if( $address ){
+			$url = $address['property']->displayUrl();
+		}
+		return $url;
 	}
-	return $url;
 }
 add_filter('wpseo_canonical', 'md_canonical' );
 add_action('wpseo_sitemap_index','sitemap_mdproperties');

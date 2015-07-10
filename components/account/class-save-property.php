@@ -1,4 +1,5 @@
 <?php
+//remove
 class Save_Property{
 	protected static $instance = null;
 	public $plugin_name;
