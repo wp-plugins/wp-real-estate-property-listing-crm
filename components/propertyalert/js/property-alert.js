@@ -29,7 +29,7 @@
 	}();
 
 	$(window).load(function(){
-		PropertyAlert.init();
+		//PropertyAlert.init();
 	});
 
 })( jQuery );

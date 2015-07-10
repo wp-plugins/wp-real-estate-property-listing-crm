@@ -64,7 +64,11 @@ class MlsConnector {
      * @param array $data
      *
      *    possible property criteria fields
-     *
+     * 	  leadid:
+     *    lead_name:
+     *    lead_email:
+     *    source:
+     *    source_url:
      *    mls: abbreviation of the mls id MFR, HL, CRMLS
      *    city: city name
      *    community: community name
@@ -86,7 +90,7 @@ class MlsConnector {
 
     public function getPropertyByMLSID( $mls_id )
     {
-	$data = array();
+		$data = array();
         $data['mls_id'] = $mls_id;
         return $this->sendRequest( 'getPropertyByMLSID' , $data );
     }

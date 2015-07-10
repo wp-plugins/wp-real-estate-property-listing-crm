@@ -120,6 +120,7 @@ class Agent_Entity{
 		}elseif( isset($this->company_logo) ){
 			return $this->company_logo;
 		}
+		return PLUGIN_ASSET_URL . 'agent-blank.jpg';
 	}
 
 	public function get_fb(){

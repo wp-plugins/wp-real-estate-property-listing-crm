@@ -15,7 +15,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<?php if( !is_user_logged_in() ){ ?>
-						<h3>Sign in with...</h3>
+						<!--<h3>Sign in with...</h3>-->
 						<div class="social-signin">
 							<span class="facebook-login"><?php //\Facebook_APP::get_instance()->js_init(); ?></span>
 						</div>

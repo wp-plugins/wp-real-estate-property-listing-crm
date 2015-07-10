@@ -8,4 +8,7 @@
 	<li role="presentation" class="<?php echo ($action == 'xout') ? 'active':'';?>">
 		<a href="<?php echo \Xout_Property::get_instance()->url();?>">X-Out</a>
 	</li>
+	<li role="presentation" class="<?php echo ($action == 'savesearch') ? 'active':'';?>">
+		<a href="<?php echo \Dashboard_Save_Search::get_instance()->url();?>">Save Search</a>
+	</li>
 </ul>

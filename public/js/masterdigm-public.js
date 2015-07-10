@@ -30,6 +30,7 @@
 	$(window).load(function(){
 		sharePop.init();
 		printPdf.init();
+		$('[data-toggle="tooltip"]').tooltip();
 	});
 })( jQuery );
 

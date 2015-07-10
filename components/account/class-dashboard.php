@@ -286,5 +286,21 @@ class Account_Dashboard {
 			'href' => \Xout_Property::get_instance()->url(), // name of file
 			'meta' => false // array of any of the following options: array( 'html' => '', 'class' => '', 'onclick' => '', target => '', title => '' );
 		));
+
+        $wp_admin_bar->add_menu( array(
+			'parent' => 'user-actions', // use 'false' for a root menu, or pass the ID of the parent menu
+			'id' => 'save_search', // link ID, defaults to a sanitized title value
+			'title' => __('Save Search'), // link title
+			'href' => \Dashboard_Save_Search::get_instance()->url(), // name of file
+			'meta' => false // array of any of the following options: array( 'html' => '', 'class' => '', 'onclick' => '', target => '', title => '' );
+		));
+
+        /*$wp_admin_bar->add_menu( array(
+			'parent' => 'user-actions', // use 'false' for a root menu, or pass the ID of the parent menu
+			'id' => 'property_alert', // link ID, defaults to a sanitized title value
+			'title' => __('Property Alert'), // link title
+			'href' => '', // name of file
+			'meta' => false // array of any of the following options: array( 'html' => '', 'class' => '', 'onclick' => '', target => '', title => '' );
+		));*/
 	}
 }

@@ -45,7 +45,26 @@ class Property_Alert{
 		wp_enqueue_script( $this->plugin_name . '-property-alert-actions', plugin_dir_url( __FILE__ ) . 'js/property-alert.js', array( 'jquery' ), $this->version, true );
 	}
 
-	public function property_alert_init($data = array()){
+	public function subscribe_property_alert($post_data = array()){
+		global $current_user;
+		get_currentuserinfo();
+
+		$user_meta = get_user_meta($current_user->ID);
+		if( $user_meta && isset($user_meta['lead-data']) ){
+			$lead_data = unserialize($user_meta['lead-data'][0]);
+			$post_data['leadid'] = $lead_data->leadid;
+			$post_data['lead_name'] = $current_user->user_firstname.' '.$current_user->user_lastname;
+			$post_data['lead_email'] = $current_user->user_email;
+
+			strtolower($post_data['transaction']);
+
+			return \Masterdigm_MLS::get_instance()->add_property_alert($post_data);
+		}
+
+		return false;
+	}
+
+	public function ajax_subscribe_property_alert($data = array()){
 		global $current_user;
 		get_currentuserinfo();
 		$post_data = array();
@@ -54,20 +73,12 @@ class Property_Alert{
 			parse_str($post_data['post']['data_post'],$ajax_data_post);
 		}
 
-		$user_meta = get_user_meta($current_user->ID);
-		if( $user_meta && isset($user_meta['lead-data']) ){
-			$lead_data = unserialize($user_meta['lead-data'][0]);
-			$ajax_data_post['leadid'] = $lead_data->leadid;
-			$ajax_data_post['lead_name'] = $current_user->user_firstname.' '.$current_user->user_lastname;
-			$ajax_data_post['lead_email'] = $current_user->user_email;
-		}
-		$ret = \Masterdigm_MLS::get_instance()->add_property_alert($ajax_data_post);
-		return $ret;
+		return $this->subscribe_property_alert($ajax_data_post);
 	}
 
 	// for logged in users
 	public function property_alert_action_callback(){
-		$ret = $this->property_alert_init();
+		$ret = $this->ajax_subscribe_property_alert();
 		$msg = 'logged in users';
 		$status = true;
 		echo json_encode(
