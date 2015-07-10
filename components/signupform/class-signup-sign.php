@@ -69,6 +69,12 @@ class Signup_Form{
 
 	public function signup_action_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
+		$ret_data = array();
+		$save_lead = array();
+		$current_action = 0;
+		if( isset($_POST['current_action']) ){
+			$current_action = $_POST['current_action'];
+		}
 		$user_id 	= false;
 		$source 	= get_bloginfo('url').', '. get_bloginfo('name') . ', Register Form';
 		$msg 		= '';
@@ -132,33 +138,39 @@ class Signup_Form{
 				$array_data['note'] = $source;
 			}
 
-			\CRM_Account::get_instance()->push_crm_data($array_data);
-
-			if( $propertyid != 0 ){
-				$save_property = array(
-					'id' => $propertyid,
-					'feed' => sanitize_text_field($_POST['feed'])
-				);
-				if( $user_id && isset($user_id) ){
-					update_user_meta($user_id, 'save-property-' . $propertyid, $save_property);
-				}
-			}
+			$save_lead = \CRM_Account::get_instance()->push_crm_data($array_data);
+			update_user_meta($user_id, 'lead-data', $save_lead);
+			$ret_data = array(
+				'save_lead' => $save_lead,
+				'array_data' => $array_data,
+				'post' => $_POST,
+			);
 		}
-		echo json_encode(array('msg'=>$msg,'status'=>$status));
+		echo json_encode(
+			array(
+				'msg'=>$msg,
+				'status'=>$status,
+				'ret_data' => $ret_data,
+				'callback_action'=>$current_action
+			)
+		);
 		die();
 	}
 
 	public function login_action_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
-
+		$ret_data = array();
+		$save_lead = array();
+		$current_action = 0;
+		if( isset($_POST['current_action']) ){
+			$current_action = $_POST['current_action'];
+		}
 		$msg 	= '';
 		$status = false;
 		$propertyid = 0;
 
 		$user_login = sanitize_text_field($_POST['emailaddress']);
 		$password 	= sanitize_text_field($_POST['password']);
-		$propertyid		= sanitize_text_field($_POST['property_id']);
-
 		$user = $this->user_signon($user_login, $password);
 
 		if ( is_wp_error($user) ){
@@ -167,10 +179,17 @@ class Signup_Form{
 			$msg = "<p class='text-success'>Successfully Loged In. Wait while we redirect you. </p>";
 			$status = true;
 		}
-		if( $propertyid != 0 ){
-			update_user_meta($user->ID, 'save-property-' . $propertyid, $propertyid);
-		}
-		echo json_encode(array('msg'=>$msg,'status'=>$status));
+		$ret_data = array(
+			'post' => $_POST,
+		);
+		echo json_encode(
+			array(
+				'msg'=>$msg,
+				'status'=>$status,
+				'ret_data' => $ret_data,
+				'callback_action'=>$current_action
+			)
+		);
 		die();
 	}
 

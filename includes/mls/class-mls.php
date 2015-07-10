@@ -71,6 +71,10 @@ class Masterdigm_MLS implements iMasterdigm_API{
 		return $this->get_client()->getProperties($search_criteria_data);
 	}
 
+	public function add_property_alert($data = array()){
+		return $this->get_client()->addPropertyAlert($data);
+	}
+
 	public function get_location(){
 
 	}

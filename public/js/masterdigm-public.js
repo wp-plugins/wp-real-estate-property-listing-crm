@@ -17,7 +17,7 @@
 	var printPdf = function(){
 		return {
 			init:function(){
-				$('.print-pdf-action').on('click',function(e){
+				$(document).on('click','.print-pdf-action',function(e){
 					var url = $(this).attr('href');
 					var newwindow = window.open(url,'print pdf','height=700,width=900');
 					if (window.focus) {newwindow.focus()}
@@ -30,30 +30,7 @@
 	$(window).load(function(){
 		sharePop.init();
 		printPdf.init();
-		if( MDAjax.masonry == 1 ){
-			var $container = $('.' + MDAjax.masonry_container);
-			// initialize
-			$container.imagesLoaded(function(){
-				$container.masonry({
-					itemSelector: '.property-item'
-				});
-			});
-
-			$('.item-container').imagesLoaded(function(){
-				$('.item-container').masonry({
-					itemSelector: '.property-item'
-				});
-			});
-
-
-			var $photo_container = $('.photos-single-container');
-			// initialize
-			$photo_container.imagesLoaded(function(){
-				$photo_container.masonry({
-					itemSelector: '.photos-single-item'
-				});
-			});
-		}
+		$('[data-toggle="tooltip"]').tooltip();
 	});
 })( jQuery );
 

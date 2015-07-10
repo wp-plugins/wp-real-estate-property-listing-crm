@@ -123,19 +123,6 @@ class MD_Template{
 		return $img;
 	}
 
-	// we will get the default
-	public function get_carousel_template($atts){
-		$photos 			= get_single_property_photos();
-		$template_carousel 	= \MD_Template::get_instance()->load_template($atts['template_carousel']);
-
-		if( $template_carousel ){
-			if( has_filter('global_template_carousel') ){
-				$template_carousel = apply_filters('global_template_carousel',$atts);
-			}
-			require_once $template_carousel;
-		}
-	}
-
 	public function label(){
 		global $array_label;
 		$label = $array_label;
@@ -144,17 +131,5 @@ class MD_Template{
 			$label 			= array_merge($label,$array_label);
 		}
 		return $label;
-	}
-
-	public function single_map($atts){
-		require GLOBAL_TEMPLATE . 'single/partials/map/map.php';
-	}
-
-	public function single_walkscore($atts){
-		require GLOBAL_TEMPLATE . 'single/partials/walkscore/walkscore.php';
-	}
-
-	public function single_photos($atts){
-		require GLOBAL_TEMPLATE . 'single/partials/photos/photos.php';
 	}
 }

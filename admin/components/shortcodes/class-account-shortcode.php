@@ -1,4 +1,5 @@
 <?php
+//remove
 class Account_Shortcode{
 	protected static $instance = null;
 
