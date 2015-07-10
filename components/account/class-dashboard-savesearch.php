@@ -38,7 +38,7 @@ class Dashboard_Save_Search extends Account_Dashboard{
 		global $wp_query;
 		$user_account = wp_get_current_user();
 		$arr_action = parent::get_instance()->md_get_query_vars();
-
+		$redirect = $this->url();
 		$action_args = $arr_action;
 
 		$action = '';
@@ -49,9 +49,21 @@ class Dashboard_Save_Search extends Account_Dashboard{
 		if( isset($arr_action->task) ){
 			$task = $arr_action->task;
 		}
+
 		switch($task){
+			case 'update_save_search':
+				if( isset($_POST['save_search_name']) ){
+					$post_umeta_key = $_POST['save_search_name'];
+					$meta_key 		= 'save-search-';
+					foreach($post_umeta_key as $key => $val){
+						$get_umeta_key = \Save_Search::get_instance()->get_save_search($key,true);
+						$get_umeta_key['save_search_name'] = $val;
+						update_user_meta( $user_account->ID, $get_umeta_key['user_meta_name'], $get_umeta_key );
+					}
+				}
+				\Masterdigm_Admin_Util::get_instance()->redirect_to($redirect);
+			break;
 			case 'subscribe':
-				$redirect = $this->url();
 				$key = sanitize_text_field($_GET['id']);
 				$nonce = sanitize_text_field($_GET['_nonce']);
 				$redirect = $this->url();
@@ -75,7 +87,6 @@ class Dashboard_Save_Search extends Account_Dashboard{
 			case 'unsubscribe':
 				$key 		= sanitize_text_field($_GET['id']);
 				$nonce 		= sanitize_text_field($_GET['_nonce']);
-				$redirect 	= $this->url();
 				if(wp_verify_nonce($nonce, $task.'-saved-search-'. $key . $user_account->ID) ){
 					$umeta_key = get_user_meta($user_account->ID, 'save-search-'.$key, 1);
 					if( $umeta_key ){
@@ -90,7 +101,6 @@ class Dashboard_Save_Search extends Account_Dashboard{
 			case 'trash':
 				$key 		= sanitize_text_field($_GET['id']);
 				$nonce 		= sanitize_text_field($_GET['_nonce']);
-				$redirect 	= $this->url();
 				if(wp_verify_nonce($nonce, 'trash-saved-search-'. $key . $user_account->ID) ){
 					$umeta_key = get_user_meta($user_account->ID,'save-search-'.$key);
 					if( $umeta_key ){
@@ -113,12 +123,14 @@ class Dashboard_Save_Search extends Account_Dashboard{
 		$user_account 		= wp_get_current_user();
 		$has_saved_search 	= false;
 		$search_data		= array();
+		$redirect = $this->url();
 		if( count($db_save_search) > 0 && $db_save_search ){
 			foreach($db_save_search as $key_db => $val_db){
 				$search_data[$val_db->umeta_id] 	= unserialize($val_db->meta_value);
 			}
 			$has_saved_search = true;
 		}
+
 		require_once GLOBAL_TEMPLATE . 'account/partials/save-search-list.php';
 	}
 
