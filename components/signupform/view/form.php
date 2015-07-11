@@ -2,7 +2,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<?php if( !is_user_logged_in() ){ ?>
-			<h3>Sign in with...</h3>
+			<!--<h3>Sign in with...</h3>-->
 			<div class="social-signin">
 				<span class="facebook-login"><?php //\Facebook_APP::get_instance()->js_init(); ?></span>
 			</div>
@@ -26,8 +26,8 @@
 			<div class="form-group">
 				<input type="text" class="form-control" id="phone" name="phone" placeholder="Phone Number">
 			</div>
-			<input type="hidden" name="property_id" class="property_id">
-			<input type="hidden" name="feed" class="feed">
+			<input type="hidden" name="current_action" class="current_action">
+			<input type="hidden" name="data_post" class="data_post">
 			<button type="submit" class="btn btn-primary registersend">Sign-up</button>
 		</form>
 	</div>
@@ -43,8 +43,8 @@
 			<div class="form-group">
 				<a href="<?php echo home_url('wp-login.php?action=lostpassword');?>">Forgot password</a>
 			</div>
-			<input type="hidden" name="property_id" class="property_id">
-			<input type="hidden" name="feed" class="feed">
+			<input type="hidden" name="current_action" class="current_action">
+			<input type="hidden" name="data_post" class="data_post">
 			<button type="submit" class="btn btn-primary modal-login">Login</button>
 		</form>
 	</div>

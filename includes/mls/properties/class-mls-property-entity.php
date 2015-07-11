@@ -88,7 +88,7 @@ class Property_Entity{
 		// enable popup for un-registered user
 		$address 			= str_replace(' ','-',$this->displayAddress());
 		$second_uri 		= $address;
-		$urlencoded_address = urlencode( preg_replace("/[^A-Za-z0-9 \-]/", '', $this->Matrix_Unique_ID.'-'.$second_uri ) );
+		$urlencoded_address = urlencode( preg_replace("/[^A-Za-z0-9 \-]/", '', $this->ListingId.'-'.$second_uri ) );
 		$url 				= \Property_URL::get_instance()->get_property_url($urlencoded_address);
 		return $url;
 	}
@@ -167,13 +167,17 @@ class Property_Entity{
 		}
 	}
 
+	public function get_price(){
+		return $this->ListPrice;
+	}
+
 	/**
 	 * @param string $type
 	 * return string
 	 */
 	public function displayBathsTotal()
 	{
-		return number_format( $this->BathsTotal );
+		return number_format( $this->Baths );
 	}
 
 	/**
@@ -234,13 +238,29 @@ class Property_Entity{
 		return $this->displayMLS();
 	}
 
+	public function get_floor_area(){
+		return number_format($this->FloorArea);
+	}
+
+	public function get_lot_area(){
+		return number_format($this->LotArea);
+	}
+
+	public function get_sqft_heated(){
+		return isset($this->FloorArea) ? number_format($this->FloorArea) : 0;
+	}
+
 	public function displaySqFt(){
-		return number_format($this->LotSizeSqFt);
+		if( $this->FloorArea == 0 ){
+			return $this->LotArea;
+		}else{
+			return $this->FloorArea;
+		}
 	}
 
 	public function displayAreaMeasurement($type){
 		$area = '';
-		$measure_area = 0;
+		$measure_area = $this->displaySqFt();
 		$array_measure = array();
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
 		switch($type){
@@ -257,14 +277,20 @@ class Property_Entity{
 				);
 			break;
 			default:
+				$array_measure = array(
+					'area_type'=>$unit_area,
+					'measure'=>number_format($measure_area)
+				);
 			break;
 		}
+
 		return (object)$array_measure;
 	}
 
 	public function displayAreaUnit( $type = 'account' ){
 		$unit = '';
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
+
 		switch($type){
 			case 'floor':
 				$unit = $this->floor_area_unit;
@@ -284,11 +310,11 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->MLnumber ? $this->MLnumber:'&nbsp;';
+		return $this->MLSID ? $this->MLSID:$this->ListingId;
 	}
 
 	public function displayPropertyStatus(){
-		return $this->PropertyStatus;
+		return $this->Status;
 	}
 
 	public function displayPropertyType(){
@@ -296,7 +322,7 @@ class Property_Entity{
 	}
 
 	public function getID(){
-		return $this->Matrix_Unique_ID;
+		return $this->ListingId;
 	}
 
 	public function getLattitude(){
@@ -311,6 +337,10 @@ class Property_Entity{
 		return $this->County;
 	}
 
+	public function get_city(){
+		return $this->City;
+	}
+
 	public function get_city_name(){
 		return $this->City;
 	}
@@ -323,16 +353,24 @@ class Property_Entity{
 		return $this->Propertyid;
 	}
 
+	public function get_listing_id(){
+		return $this->Propertyid;
+	}
+
 	public function display_garage(){
-		return $this->GarageCarport ? $this->GarageCarport:0;
+		return $this->Garage;
 	}
 
 	public function display_air_conditioning(){
-		return $this->AirConditioning;
+		return $this->Airconditioning;
+	}
+
+	public function display_heat_air_conditioning(){
+		return $this->Airconditioning;
 	}
 
 	public function display_appliances_included(){
-		return $this->AppliancesIncluded;
+		return $this->Appliances;
 	}
 
 	public function display_architectural_style(){
@@ -344,7 +382,7 @@ class Property_Entity{
 	}
 
 	public function display_bath_full(){
-		return $this->BathsFull;
+		return $this->Baths;
 	}
 
 	public function display_bath_half(){
@@ -352,7 +390,7 @@ class Property_Entity{
 	}
 
 	public function display_bed_total(){
-		return $this->BedsTotal;
+		return $this->Bedrooms;
 	}
 
 	public function display_close_date(){
@@ -368,11 +406,11 @@ class Property_Entity{
 	}
 
 	public function display_county_or_parish(){
-		return $this->CountyOrParish;
+		return $this->County;
 	}
 
 	public function display_current_price(){
-		return $this->CurrentPrice;
+		return $this->ListPrice;
 	}
 
 	public function display_elem_school(){
@@ -380,7 +418,7 @@ class Property_Entity{
 	}
 
 	public function display_exterior_construction(){
-		return $this->ExteriorConstruction;
+		return $this->Construction;
 	}
 
 	public function display_exterior_features(){
@@ -392,11 +430,11 @@ class Property_Entity{
 	}
 
 	public function display_fireplace_yn(){
-		return $this->FireplaceYN;
+		return $this->Fireplace;
 	}
 
 	public function display_floor_covering(){
-		return $this->FloorCovering;
+		return $this->Flooring;
 	}
 
 	public function display_foundation(){
@@ -404,11 +442,11 @@ class Property_Entity{
 	}
 
 	public function displayGarage(){
-		return $this->GarageCarport;
+		return $this->Garage;
 	}
 
 	public function display_garage_carport(){
-		return $this->GarageCarport;
+		return $this->Garage;
 	}
 
 	public function display_garage_features(){
@@ -416,7 +454,7 @@ class Property_Entity{
 	}
 
 	public function display_heating_fuel(){
-		return $this->HeatingandFuel;
+		return $this->Heating;
 	}
 
 	public function display_high_school(){
@@ -444,15 +482,15 @@ class Property_Entity{
 	}
 
 	public function display_list_office_name(){
-		return $this->ListOfficeName;
+		return $this->ListingOffice;
 	}
 
 	public function display_lot_size_acres(){
-		return $this->LotSizeAcres;
+		return isset($this->LotSizeAcres) ? $this->LotSizeAcres : $this->Area;
 	}
 
 	public function display_lot_size_sqft(){
-		return $this->LotSizeSqFt;
+		return $this->LotArea;
 	}
 
 	public function display_maintenance_includes(){
@@ -464,7 +502,7 @@ class Property_Entity{
 	}
 
 	public function display_mls_number(){
-		return $this->MLSNumber;
+		return $this->MLSID;
 	}
 
 	public function display_pool(){
@@ -480,7 +518,11 @@ class Property_Entity{
 	}
 
 	public function display_property_type(){
-		return $this->PropertyType;
+		if( isset($this->PropertyTypeNumber) ){
+			return \mls\AccountEntity::get_instance()->get_property_type_key($this->PropertyTypeNumber);
+		}else{
+			return $this->Type;
+		}
 	}
 
 	public function display_public_remarks_new(){
@@ -492,7 +534,7 @@ class Property_Entity{
 	}
 
 	public function display_sqft_heated(){
-		return $this->SqFtHeated;
+		return $this->FloorArea;
 	}
 
 	public function display_sqft_total(){
@@ -500,7 +542,7 @@ class Property_Entity{
 	}
 
 	public function display_state_or_province(){
-		return $this->StateOrProvince;
+		return $this->State;
 	}
 
 	public function display_status(){
@@ -516,7 +558,13 @@ class Property_Entity{
 	}
 
 	public function display_taxes(){
-		return $this->Taxes;
+		$currency 		= \CRM_Account::get_instance()->get_account_data('currency');
+		$get_currency 	= ($currency) ? $currency:'$';
+		$taxes = 0;
+		if( isset($this->Tax) ){
+			$taxes = $this->Tax;
+		}
+		return $get_currency.number_format( $taxes );
 	}
 
 	public function display_total_acreage(){
@@ -541,5 +589,42 @@ class Property_Entity{
 
 	public function display_water_frontage_yn(){
 		return $this->WaterFrontageYN;
+	}
+
+	public function legal_subdivision_name(){
+		return isset($this->LegalSubdivisionName) ? $this->LegalSubdivisionName : $this->Subdivision;
+	}
+
+	public function hoa(){
+		if( isset($this->HOA) ){
+			return $this->HOA == 0 ? 'Yes':'No';
+		}elseif( isset($this->HOACommonAssn) ){
+			return $this->HOACommonAssn == 'Required' ? 'Yes':'No';
+		}
+	}
+
+	public function display_listing_office(){
+		return $this->ListingOffice;
+	}
+
+	public function time_stamp_modified(){
+		return $this->TimeStampModified;
+	}
+
+	public function listing_agent_full_name(){
+		return $this->ListingAgentFullName;
+	}
+
+	public function getPhotoUrl($array, $key = 0, $object = 'url'){
+		$data = array();
+		if( $array && is_array($array) && count($array) > 0 ){
+			if( isset($array[$key]->$object) ){
+				$data[] = $array[$key]->$object;
+			}
+			return $data;
+		}else{
+			return array();
+		}
+
 	}
 }
