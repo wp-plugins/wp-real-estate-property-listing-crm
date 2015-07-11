@@ -362,11 +362,11 @@ class Property_Entity{
 	}
 
 	public function display_air_conditioning(){
-		return $this->AirConditioning;
+		return $this->Airconditioning;
 	}
 
 	public function display_heat_air_conditioning(){
-		return $this->AirConditioning;
+		return $this->Airconditioning;
 	}
 
 	public function display_appliances_included(){
