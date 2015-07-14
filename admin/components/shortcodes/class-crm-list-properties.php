@@ -313,7 +313,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 										{
 											width:1000,
 											height:600,
-											title: 'Insert Propert by search criteria API',
+											title: 'Insert Property by search criteria API',
 											file: ajaxurl + '?action=list_property_view',
 											inline:1,
 										},
