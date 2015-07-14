@@ -17,6 +17,7 @@
 								mls_list_properties(editor),
 								mls_single_property(editor),
 								mls_lastupdate_property(editor),
+								mls_get_locations(editor),
 							]
 						},
 						{
