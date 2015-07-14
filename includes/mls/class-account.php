@@ -135,12 +135,26 @@ class AccountEntity{
 	}
 
 	public function get_cities_by_mls($mls = array()){
-		$api 		= $this->mls->get_cities_by_mls();
-		return $api;
+		$cities = array();
+		$cache_keyword = 'mls-cities';
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$cities = \DB_Store::get_instance()->get($cache_keyword);
+		}else{
+			$cities	= $this->mls->get_cities_by_mls();
+			\DB_Store::get_instance()->put($cache_keyword,$cities);
+		}
+		return	$cities;
 	}
 
 	public function get_communities_by_city_id($city_id){
-		$api 		= $this->mls->get_communities_by_city_id($city_id);
-		return $api;
+		$communities = array();
+		$cache_keyword = 'mls-communities-'.$city_id;
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$communities = \DB_Store::get_instance()->get($cache_keyword);
+		}else{
+			$communities	= $this->mls->get_communities_by_city_id($city_id);
+			\DB_Store::get_instance()->put( $cache_keyword, $communities );
+		}
+		return	$communities;
 	}
 }
