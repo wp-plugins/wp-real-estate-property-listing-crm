@@ -9,7 +9,10 @@ class AccountEntity{
 
 	private $account_details;
 
+	public $mls;
+
 	public function __construct(){
+		$this->mls = new \Masterdigm_MLS;
 		$this->set_account_details();
 		add_filter('location_lookup_mls',array($this,'createCountryLookup'),10,2);
 	}
@@ -50,10 +53,7 @@ class AccountEntity{
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$location = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
-			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
-			//var_dump($md_client);
-			$location 	= $md_client->getCoverageLookup( null );
-			//var_dump($location);
+			$location 	= $this->mls->get_coverage_lookup( null );
 			\DB_Store::get_instance()->put($cache_keyword, $location);
 		}
 		return $location;
@@ -116,8 +116,7 @@ class AccountEntity{
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$property_type = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
-			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
-			$property_type 	= $md_client->getPropertyTypes();
+			$property_type 	= $this->mls->get_property_types();
 			\DB_Store::get_instance()->put($cache_keyword, $property_type);
 		}
 		return $property_type;
@@ -135,4 +134,27 @@ class AccountEntity{
 		}
 	}
 
+	public function get_cities_by_mls($mls = array()){
+		$cities = array();
+		$cache_keyword = 'mls-cities';
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$cities = \DB_Store::get_instance()->get($cache_keyword);
+		}else{
+			$cities	= $this->mls->get_cities_by_mls();
+			\DB_Store::get_instance()->put($cache_keyword,$cities);
+		}
+		return	$cities;
+	}
+
+	public function get_communities_by_city_id($city_id){
+		$communities = array();
+		$cache_keyword = 'mls-communities-'.$city_id;
+		if( \DB_Store::get_instance()->get($cache_keyword) ){
+			$communities = \DB_Store::get_instance()->get($cache_keyword);
+		}else{
+			$communities	= $this->mls->get_communities_by_city_id($city_id);
+			\DB_Store::get_instance()->put( $cache_keyword, $communities );
+		}
+		return	$communities;
+	}
 }

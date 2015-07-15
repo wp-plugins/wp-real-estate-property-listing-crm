@@ -5,7 +5,7 @@
 						<?php $photo = $property->properties->getPhotoUrl($property->photos); ?>
 						<div class="col-xs-12 col-md-<?php echo bootstrap_grid_col(count($property_data));?> property-item property-id-<?php echo $property->properties->getID();?> crm">
 							<div class="thumbnail masterdigm-property-box">
-							<a href="<?php echo md_property_url();?>" class="">
+							<a href="<?php echo $property->properties->displayUrl();?>" class="">
 								<img class="img-responsive" src="<?php echo $photo[0] ? $photo[0]:PLUGIN_ASSET_URL . 'house.png'; ?>" style="<?php $photo[0] ? '':'width:170px;height:180px;'; ?>" alt="Property List Image">
 							</a>
 							<span class="label label-primary primary-background wp-site-color-theme label-property"><?php echo $property->properties->displayTransaction();?></span>
