@@ -298,16 +298,15 @@ class MLS_Hook{
 								'post_status' => $post_status
 							);
 							wp_update_post( $post_arg );
-							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
-							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
 						}else{
 							$post_id = wp_insert_post( $post_insert_arg );
-							//mark in the post_meta as breadcrumb
-							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
-							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
 						}
 					}
-
+					//mark in the post_meta as breadcrumb
+					$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
+					$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
+					$this->_wp_update_post_meta($post_id, 'location_id', $val->id);
+					$this->_wp_update_post_meta($post_id, 'location_data', $page_location[$val->id]);
 				}
 
 				wp_defer_term_counting( false );

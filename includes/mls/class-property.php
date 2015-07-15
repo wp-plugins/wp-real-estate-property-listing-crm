@@ -252,7 +252,7 @@ class MLS_Property{
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-		\DB_Store::get_instance()->del($cache_keyword);
+		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
