@@ -279,7 +279,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 			?>
 				<script type="text/javascript">
 					function crm_list_properties(editor){
-						var crm_jquery_auto_location = <?php echo json_encode($this->get_location()); ?>;
+
 						var search_status = [
 							<?php if( $this->get_fields_status() ){ ?>
 								<?php foreach($this->get_fields_status() as $key => $val ) { ?>
@@ -313,14 +313,13 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 										{
 											width:1000,
 											height:600,
-											title: 'Insert Propert by search criteria API',
+											title: 'Insert Property by search criteria API',
 											file: ajaxurl + '?action=list_property_view',
 											inline:1,
 										},
 										{
 											editor:editor,
 											jquery:jQuery,
-											autocomplete_location:crm_jquery_auto_location,
 											template:template,
 											search_type:search_type,
 											search_status:search_status,

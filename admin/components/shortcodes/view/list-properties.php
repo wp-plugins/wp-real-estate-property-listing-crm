@@ -61,10 +61,11 @@ height: 300px;
 	<button name="Insert Shortcode" id="insert-shortcode">Insert Shortcode</button>
 </form>
 <script>
+	var crm_jquery_auto_location = <?php echo json_encode($this->get_location()); ?>;
 	var args 					= top.tinymce.activeEditor.windowManager.getParams();
 	var $ 						= args.jquery;
 	var editor 					= args.editor;
-	var autocomplete_location 	= args.autocomplete_location;
+	var autocomplete_location 	= crm_jquery_auto_location;
 	var template 				= args.template;
 	var search_status 			= args.search_status;
 	var search_type 			= args.search_type;
