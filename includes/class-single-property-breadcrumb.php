@@ -61,6 +61,7 @@ class MD_Single_Property_Breadcrumb {
 		if( isset($property_data['source']) ){
 			$breadcrumb = apply_filters('breadcrumb_' . $property_data['source'], $property_data, $show_location);
 		}
+
 		return $breadcrumb;
 	}
 

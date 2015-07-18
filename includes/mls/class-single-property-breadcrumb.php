@@ -50,24 +50,6 @@ class MD_Breadcrumb {
 	}
 
 	public function countryDetail($obj_property, $show = true){
-		if( $show ){
-			$country = array(
-				'id'	=>	0,
-				'name'	=>	'',
-				'url'	=>	''
-			);
-
-			if( $obj_property->countryid != '' || !is_null($obj_property->country) ){
-				$url  = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->country_pagename);
-				$uri  = str_replace(' ','-',strtolower($obj_property->country));
-				$country = array(
-					'id'	=>	$obj_property->countryid,
-					'name'	=>	$obj_property->country,
-					'url' 	=> 	$url . $obj_property->countryid . '-' . $uri
-				);
-			}
-			return $country;
-		}
 		return false;
 	}
 
@@ -95,21 +77,32 @@ class MD_Breadcrumb {
 
 	public function countyDetail($obj_property, $show = true){
 		if( $show ){
+			$countyid 	= '';
+			$county_name 	= '';
+			$uri 		= '';
+
+			if(
+				isset($obj_property['is_in_breadcrumb_filter']) &&
+				$obj_property['is_in_breadcrumb_filter'] == 0 &&
+				$obj_property['is_in_wp_page'] == 0 )
+			{
+				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->county_pagename);
+				$countyid 		= $obj_property['id'];
+				$county_name 	= $obj_property['full'];
+				$uri 			= str_replace(' ','-',strtolower($county_name));
+				$county_url 	= $url . 'mls-' . $countyid . '-' . $uri;
+			}else{
+				$countyid 		= $obj_property['id'];
+				$county_name 	= $obj_property['full'];
+				$county_url 	= $obj_property['url'];
+			}
+
 			$county = array(
-				'id'	=>	0,
-				'name'	=>	'',
-				'url'	=>	''
+				'id'	=>	$countyid,
+				'name'	=>	$county_name,
+				'url'	=>	$county_url
 			);
 
-			if( $obj_property->countyid != '' || !is_null($obj_property->countyid) ){
-				$url = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->county_pagename);
-				$uri  = str_replace(' ','-',strtolower($obj_property->county));
-				$county = array(
-					'id'	=>	$obj_property->countyid,
-					'name'	=>	$obj_property->county,
-					'url'	=>	$url . $obj_property->countyid . '-' . $uri
-				);
-			}
 			return $county;
 		}
 		return false;
@@ -117,28 +110,36 @@ class MD_Breadcrumb {
 
 	public function cityDetail($obj_property, $show = true){
 		if( $show ){
-
 			$cityid 	= '';
 			$city_name 	= '';
 			$uri 		= '';
-			$source		= $obj_property['source'];
 
-			$url 		= \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
-			$city_name 	= $obj_property['property']->get_city();
-			$uri  		= str_replace(' ','-',strtolower($city_name));
-			$ret_city 	= \mls\AccountEntity::get_instance()->get_coverage_lookup_key($city_name);
-			if( isset($ret_city['id']) ){
-				$cityid 	= $ret_city['id'];
+
+			if(
+				isset($obj_property['is_in_breadcrumb_filter']) &&
+				$obj_property['is_in_breadcrumb_filter'] == 0 &&
+				$obj_property['is_in_wp_page'] == 0 )
+			{
+				$url 		= \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->city_pagename);
+				$cityid 	= $obj_property['id'];
+				$city_name 	= $obj_property['full'];
+				$uri 		= str_replace(' ','-',strtolower($city_name));
+				$city_url 	= $url . 'mls-' . $cityid . '-' . $uri;
+			}else{
+				$cityid 	= $obj_property['id'];
+				$city_name 	= $obj_property['full'];
+				$city_url 	= $obj_property['url'];
 			}
 
 			$city = array(
 				'id'	=>	$cityid,
 				'name'	=>	$city_name,
-				'url'	=>	$url . 'mls-' . $cityid . '-' . $uri
+				'url'	=>	$city_url
 			);
 
 			return $city;
 		}
+
 		return false;
 	}
 
@@ -163,22 +164,24 @@ class MD_Breadcrumb {
 			$communityid 		= '';
 			$community_name 	= '';
 			$uri 				= '';
-			$source				= $obj_property['source'];
 
-			$url = \Property_URL::get_instance()->get_permalink_property(
-				\MD_Searchby_Property::get_instance()->community_pagename
-			);
-			$community_url = $url;
-			if( isset($obj_property['community']) && $obj_property['community'] != '' && count($obj_property['community']) >= 1 ){
-				$communityid 	= $obj_property['community']->community_id;
-				$community_name = $obj_property['community']->community;
+
+			if(
+				isset($obj_property['is_in_breadcrumb_filter']) &&
+				$obj_property['is_in_breadcrumb_filter'] == 0 &&
+				$obj_property['is_in_wp_page'] == 0 )
+			{
+				$url = \Property_URL::get_instance()->get_permalink_property(
+					\MD_Searchby_Property::get_instance()->community_pagename
+				);
+				$communityid 	= $obj_property['id'];
+				$community_name = $obj_property['full'];
 				$uri 			= str_replace(' ','-',strtolower($community_name));
-				$community_url 	= $url . $source . '-' . $communityid . '-' . $uri;
-			}elseif( isset($obj_property['property']->PostalCode) ){
-				$postal_code 	= $this->zipDetail($obj_property);
-				$communityid 	= $postal_code['id'];
-				$community_name = $communityid;
-				$community_url 	= $url . $source . '-' . $communityid;
+				$community_url 	= $url . 'mls-' . $communityid . '-' . $uri;
+			}else{
+				$communityid = $obj_property['id'];
+				$community_name = $obj_property['full'];
+				$community_url = $obj_property['url'];
 			}
 
 			$community = array(
@@ -195,12 +198,12 @@ class MD_Breadcrumb {
 	public function getBreadCrumb($obj_property, $show_location){
 		$breadCrumb = array();
 		$breadCrumb = array(
-			'country'	=>	$this->countryDetail($obj_property, $show_location['country']),
-			'state'		=>	$this->stateDetail($obj_property, $show_location['state']),
-			'county'	=>	$this->countyDetail($obj_property, $show_location['county']),
-			'city'		=>	$this->cityDetail($obj_property, $show_location['city']),
-			'community'	=>	$this->communityDetail($obj_property, $show_location['community']),
-			'zip'		=>	$this->zipDetail($obj_property, $show_location['zip']),
+			'country'	=>	$this->countryDetail($obj_property['country'], $show_location['country']),
+			'state'		=>	$this->stateDetail($obj_property['state'], $show_location['state']),
+			'county'	=>	$this->countyDetail($obj_property['county'], $show_location['county']),
+			'city'		=>	$this->cityDetail($obj_property['city'], $show_location['city']),
+			'community'	=>	$this->communityDetail($obj_property['community'], $show_location['community']),
+			'zip'		=>	$this->zipDetail($obj_property['zip'], $show_location['zip']),
 		);
 
 		return json_decode(json_encode($breadCrumb), FALSE);
@@ -221,23 +224,26 @@ class MD_Breadcrumb {
 				'zip'		=>	false,
 			);
 		}
+		$gcl = \mls\AccountEntity::get_instance()->get_coverage_lookup();
+		$mls_bread_crumb 	= get_mls_breadcrumb($property_data['property'], $gcl);
 
-		$bread_crumb = $this->getBreadCrumb($property_data, $show_location);
+		$bread_crumb 		= $this->getBreadCrumb($mls_bread_crumb, $show_location);
 
 		$build_bread_crumb = array();
 
-		foreach($bread_crumb as $key=>$val){
-			$url = '';
-			if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
-
-				if($this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key)){
-					$url = $this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key);
-				}elseif( $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key) ){
-					$url = $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key);
-				}else{
-					$url = $bread_crumb->$key->url;
+		if( count($bread_crumb) > 0 ){
+			foreach($bread_crumb as $key=>$val){
+				$url = '';
+				if( $bread_crumb->$key && $bread_crumb->$key->id != 0 && $bread_crumb->$key->name != '' ){
+					if($this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key)){
+						$url = $this->_check_breadcrumb_url($bread_crumb->$key->name, $bread_crumb, $key);
+					}elseif( $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key) ){
+						$url = $this->_check_wp_page($bread_crumb->$key->name, $bread_crumb, $key);
+					}else{
+						$url = $bread_crumb->$key->url;
+					}
+					$build_bread_crumb[] = '<a href="'.$url.'">'.$bread_crumb->$key->name.'</a>';
 				}
-				$build_bread_crumb[] = '<a href="'.$url.'">'.$bread_crumb->$key->name.'</a>';
 			}
 		}
 

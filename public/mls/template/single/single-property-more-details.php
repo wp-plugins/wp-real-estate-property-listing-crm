@@ -21,7 +21,7 @@
 	<div class="col-md-12">
 		<div class="single-property-desc md-container">
 			<h2><span>Details on <?php echo md_property_address('short');?></span></h2>
-			<p><?php echo wp_strip_all_tags(get_single_property_data()->display_public_remarks_new());?></p>
+			<p><?php echo wp_strip_all_tags(get_single_property_data()->displayDescription());?></p>
 		</div>
 	</div>
 </div>
@@ -31,7 +31,7 @@
 		<ul class="list-unstyled left-details">
 			<li class="tab-light">County :  <?php echo get_single_property_data()->get_county_name();?> </li>
 			<li class="tab-dark">HOA :  <?php echo get_single_property_data()->hoa();?> </li>
-			<li class="tab-light">Subdivision :  <?php echo get_single_property_data()->legal_subdivision_name();?> </li>
+			<li class="tab-light">Subdivision :  <?php echo get_single_property_data()->community();?> </li>
 		</ul>
 	</div>
 </div>

@@ -246,7 +246,7 @@ class CRM_Property{
 		);
 
 		$search_criteria_data = apply_filters( 'search_criteria_data', $search_criteria_data );
-		//var_dump($search_criteria_data);
+
 		$search_md5 	  = md5(json_encode($search_criteria_data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . $search_md5;
@@ -281,7 +281,7 @@ class CRM_Property{
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$properties = $this->crm->get_properties($search_criteria_data);
-			//dump($properties);
+
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;

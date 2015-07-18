@@ -267,7 +267,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			?>
 				<script type="text/javascript">
 					function mls_list_properties(editor){
-						var mls_jquery_auto_location = <?php echo json_encode($this->get_location()); ?>;
+
 						var search_status = [
 							<?php if( $this->_status() ){ ?>
 								<?php foreach($this->_status() as $key => $val ) { ?>
@@ -301,14 +301,13 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 										{
 											width:1000,
 											height:600,
-											title: 'Insert Propert by search criteria - MLS',
+											title: 'Insert Property by search criteria - MLS',
 											file: ajaxurl + '?action=mls_list_property_view',
 											inline:1,
 										},
 										{
 											editor:editor,
 											jquery:jQuery,
-											autocomplete_location:mls_jquery_auto_location,
 											template:template,
 											search_type:search_type,
 											search_status:search_status,
