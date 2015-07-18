@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.24.42
+Stable tag: 3.24.43
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -24,10 +24,10 @@ If you are a developer, and looking to offer a recurring billing platform to you
 SO, HERE ARE JUST A FEW SITES TO SEE WHAT OUR PLUGIN CAN DO!
 
 Sample Sites:
-* a.) www.DigmRealty.com
-* b.) www.CurridabatRealty.com
-* c.) www.HorizonPalmRealEstate.com
-* d.) www.ArrowRealtyKC.com
+* www.DigmRealty.com
+* www.CurridabatRealty.com
+* www.HorizonPalmRealEstate.com
+* www.ArrowRealtyKC.com
 
 Introduction
 [youtube http://www.youtube.com/watch?v=bKWE_kqmz10]
@@ -176,6 +176,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.24.43 =
+* update lotarea and floorarea for mls
 
 = 3.24.42 =
 * update mls breadcrumb
