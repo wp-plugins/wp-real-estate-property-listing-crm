@@ -477,6 +477,14 @@ class Property_Entity{
 		return $this->KitchenFeatures;
 	}
 
+	public function community(){
+		if( isset($this->Community) ){
+			return $this->Community;
+		}else{
+			return $this->Subdivision;
+		}
+	}
+
 	public function display_legal_subdivision_name(){
 		return $this->LegalSubdivisionName;
 	}
