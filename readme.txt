@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.23.38
+Stable tag: 3.24.45
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,6 +14,20 @@ An All-in-One Real Estate Plugin Solution for Brokerages and Agents Integrated w
 == Description ==
 
 Requires PHP Version: 5.4+
+
+Are you a Broker or Agent?  Start here!
+If you are a Brokerage or an Agent looking to start up a new website, then we have the perfect solution.  What is the solution?  A Wordpress based website “integrated” with a real estate crm. That’s Masterdigm! Want to learn more? We offer a free 30 minute Gotomeeting setup where we go into assisting you setting up your own WP setup.
+
+Are you a Developer?  Start here!
+If you are a developer, and looking to offer a recurring billing platform to your client base, we will help you do just that.  (check out our affiliate and partner program).
+
+SO, HERE ARE JUST A FEW SITES TO SEE WHAT OUR PLUGIN CAN DO!
+
+Sample Sites:
+* www.DigmRealty.com
+* www.CurridabatRealty.com
+* www.HorizonPalmRealEstate.com
+* www.ArrowRealtyKC.com
 
 Introduction
 [youtube http://www.youtube.com/watch?v=bKWE_kqmz10]
@@ -162,6 +176,33 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.24.45 =
+*fix breadcrumb state and county error, added mls get_photos_by_matrixID method
+
+= 3.24.44 =
+* add 'source_website' in property alert
+
+= 3.24.43 =
+* update lotarea and floorarea for mls
+
+= 3.24.42 =
+* update mls breadcrumb
+* update mls similar homes
+
+= 3.24.41 =
+* update mls property description
+* update subdivision mls field
+
+= 3.24.40 =
+* improve db caching of properties
+
+= 3.24.39 =
+* added shortcode for mls to retrieve community by city id
+
+= 3.23.39 =
+* fix crm shortcode for single property box
+* update shortcode popup title
 
 = 3.23.38 =
 * update map css in property details

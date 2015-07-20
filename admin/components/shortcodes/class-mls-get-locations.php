@@ -1,7 +1,7 @@
 <?php
-if ( !class_exists( 'md_sc_crm_get_locations' ) )
+if ( !class_exists( 'md_sc_mls_get_locations' ) )
 {
-	class md_sc_crm_get_locations {
+	class md_sc_mls_get_locations {
 		protected static $instance = null;
 
 		/**
@@ -32,14 +32,14 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 
 		public function __construct(){
 			add_action('admin_footer', array($this, 'md_get_locations_shortcodes'));
-			add_action('wp_ajax_list_locations_view', array($this,'list_locations_view') );
-			add_action('wp_ajax_nopriv_list_locations_view',array($this,'list_locations_view') );
+			add_action('wp_ajax_mls_list_locations_view', array($this,'list_locations_view') );
+			add_action('wp_ajax_nopriv_mls_list_locations_view',array($this,'list_locations_view') );
 			$shortcode_tag = $this->get_shortcode_tag();
 			add_shortcode($shortcode_tag,array($this,'init_shortcode'));
 		}
 
 		public function get_shortcode_tag(){
-			return 'crm_get_locations';
+			return 'mls_get_locations';
 		}
 
 		public function init_shortcode($atts){
@@ -57,40 +57,42 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 			), $atts, 'crm_get_locations' );
 
 			$data['city_id'] = $search_by_cityid;
-			$locations = \CRM_Locations::get_instance()->get_communities_by_cityId($data);
+			$locations = \mls\AccountEntity::get_instance()->get_communities_by_city_id($search_by_cityid);
 
-			if( $locations && isset($locations->result) == 'success' ){
-				foreach($locations->communities as $key => $val){
-					$community_name = str_replace( "\r\n", "\n", $val->community_name );
-					$city_name 		= str_replace( "\r\n", "\n", $val->city_name );
-					$full_community_name_city = $community_name .' '. $city_name;
+			if( $locations && count($locations) >= 1 ){
+				foreach($locations as $key => $val){
+					$community_name = str_replace( "\r\n", "\n", $val->community );
+					$url = str_replace( "\r\n", "\n", $community_name );
+					$url = str_replace( " ", "-", strtolower($community_name) );
 
-					$url = str_replace( "\r\n", "\n", $val->community_name );
-					$url = str_replace( " ", "-", strtolower($val->community_name) );
-
-					$url_swap = \Breadcrumb_Url::get_instance()->getUrlFilter($val->community_name);
+					$url_swap = \Breadcrumb_Url::get_instance()->getUrlFilter($community_name);
 
 					if( $url_swap ){
 						$url = $url_swap;
-					}elseif( \crm\MD_Searchby_Property::get_instance()->url_page($full_community_name_city) ){
-						$url = \crm\MD_Searchby_Property::get_instance()->url_page($full_community_name_city);
+					}elseif( \crm\MD_Searchby_Property::get_instance()->url_page($community_name) ){
+						$url = \crm\MD_Searchby_Property::get_instance()->url_page($community_name);
 					}else{
 						$permalink = \Property_URL::get_instance()->get_permalink_property(\MD_Searchby_Property::get_instance()->community_pagename);
-						$url = $permalink . 'crm-' . $val->community_id . '-' . $url;
+						$url = $permalink . 'mls-' . $val->community_id . '-' . $url;
 					}
 
 					$data_locations[] = array(
+						'id' => $val->city_id,
 						'url' => $url,
-						'name' => $val->community_name
+						'name' => $val->community
 					);
 				}
 			}
 
-			$template = GLOBAL_TEMPLATE . '/list/default/get-locations.php';
+			$template = GLOBAL_TEMPLATE . '/list/default/mls-get-locations.php';
 
+			$city_id = 0;
+			if( isset($atts['cityid']) ){
+				$city_id = $atts['cityid'];
+			}
 			// hook filter, incase we want to just use hook
-			if( has_filter('shortcode_list_location_crm') ){
-				$template = apply_filters('shortcode_list_location_crm', $path);
+			if( has_filter('shortcode_list_location_mls') ){
+				$template = apply_filters('shortcode_list_location_mls', $path);
 			}
 
 			ob_start();
@@ -109,27 +111,25 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 
 		public function get_location(){
 			$json = array();
-			$location = \CRM_Account::get_instance()->get_coverage_lookup();
-
-			if( isset($location->result) && $location->result == 'success' ){
+			$location = \mls\AccountEntity::get_instance()->get_cities_by_mls();
+			if( count($location) > 0 ){
 				//create a json
-				foreach($location->lookups as $items){
-					if( $items->location_type == 'city' ){
+				foreach($location as $items){
+					if( trim($items->city) != '' ){
 						$json[] = array(
-							'label'	=> 	\helpers\Text::remove_non_alphanumeric($items->full),
-							'value'	=>	\helpers\Text::remove_non_alphanumeric($items->full),
-							'id'	=>	$items->id,
-							'type'	=>	$items->location_type,
+							'label'	=> 	\helpers\Text::remove_non_alphanumeric($items->city),
+							'value'	=>	\helpers\Text::remove_non_alphanumeric($items->city),
+							'id'	=>	$items->city_id,
+							'type'	=>	'city',
 						);
 					}
 				}
-				return $json;
 			}
-			return array();
+			return $json;
 		}
 
 		public function list_locations_view(){
-			require_once( WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME.'/admin/components/shortcodes/view/get-locations.php' );
+			require_once( WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME.'/admin/components/shortcodes/view/mls-get-locations.php' );
  			wp_die();
  		}
 
@@ -142,8 +142,7 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 		{
 			?>
 				<script type="text/javascript">
-					function crm_get_locations(editor){
-
+					function mls_get_locations(editor){
 						var template = [
 							<?php if( count($this->get_template()) > 0 ){ ?>
 									<?php foreach($this->get_template() as $key=>$val){ ?>
@@ -161,7 +160,7 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 											width:1000,
 											height:600,
 											title: 'Insert locations',
-											file: ajaxurl + '?action=list_locations_view',
+											file: ajaxurl + '?action=mls_list_locations_view',
 											inline:1,
 										},
 										{

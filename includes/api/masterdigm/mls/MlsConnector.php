@@ -1,5 +1,4 @@
 <?php
-
 namespace MlsConnector;
 
 class MlsConnector {
@@ -195,6 +194,20 @@ class MlsConnector {
         $data[ 'mls' ] =  $mls;
         $data[ 'verb' ] = 'GET';
         return $this->sendRequest( 'getCoverageLookup' , $data );
+    }
+
+    public function getCitiesByMls( $mls )
+    {
+		$data = array();
+        $data[ 'mls' ] =  $mls;
+        return $this->sendRequest( 'getCitiesByMls' , $data );
+    }
+
+    public function getCommunitiesByCityId( $cityid )
+    {
+		$data = array();
+        $data[ 'cityid' ] =  $cityid;
+        return $this->sendRequest( 'getCommunitiesByCityId' , $data );
     }
 
     private function sendRequest( $request , $data = array() )

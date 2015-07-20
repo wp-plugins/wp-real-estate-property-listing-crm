@@ -12,8 +12,6 @@
 		</div>
 		<div class="col-md-10 col-xs-12">
 			<?php
-				dump($profile_args);
-				dump(\Account_Dashboard::get_instance()->md_get_query_vars());
 				if( has_filter('dashboard_profile') ){
 					//apply_filters('dashboard_profile', $profile_args);
 				}
