@@ -92,4 +92,8 @@ class Masterdigm_MLS implements iMasterdigm_API{
 	public function get_property_types(){
 		return $this->get_client()->getPropertyTypes();
 	}
+
+	public function get_photos_by_matrixID($matrix_id){
+		return $this->get_client()->getPhotosByMatrixID($matrix_id);
+	}
 }

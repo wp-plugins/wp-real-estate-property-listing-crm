@@ -42,10 +42,18 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 			$matches['state'] = array(
 				'keyword' => $obj_property_data->State
 			);
+		}else{
+			$matches['state'] = array(
+				'keyword' => ''
+			);
 		}
 		if(isset($obj_property_data->County) && $obj_property_data->County != ''){
 			$matches['county'] = array(
 				'keyword' => $obj_property_data->County
+			);
+		}else{
+			$matches['county'] = array(
+				'keyword' => ''
 			);
 		}
 		/**

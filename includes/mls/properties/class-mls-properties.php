@@ -1,9 +1,10 @@
 <?php
 namespace mls;
 /**
+ * remove
  * Handle logic for fetching properties
  * */
-class Properties{
+class Propertiesxx{
 
 	protected static $instance = null;
 
