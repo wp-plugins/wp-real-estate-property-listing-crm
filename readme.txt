@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.24.46
+Stable tag: 3.25.46
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -24,6 +24,7 @@ If you are a developer, and looking to offer a recurring billing platform to you
 SO, HERE ARE JUST A FEW SITES TO SEE WHAT OUR PLUGIN CAN DO!
 
 Sample Sites:
+
 * www.DigmRealty.com
 * www.CurridabatRealty.com
 * www.HorizonPalmRealEstate.com
@@ -176,6 +177,10 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.25.46 =
+* fix mls list property shortcode, remove auto adding list office id
+* added feature in create page by locations by parent as city and child as communities
 
 = 3.24.46 =
 *fix breadcrumb community check where it city it belongs

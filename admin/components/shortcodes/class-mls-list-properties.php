@@ -103,12 +103,13 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 		}
 		public function init_shortcode($atts){
 			$search_data = array();
+
 			$template = '';
 			if( isset($atts['template']) ){
 				$att_template = $atts['template'];
 			}
 			$listing_office_id = '';
-			if( isset($atts['listing_office_id']) ){
+			if( isset($atts['listing_office_id']) && $atts['listing_office_id'] == 'true' ){
 				$listing_office_id = \CRM_Account::get_instance()->get_account_data('listing_office_id');
 			}
 			$location = '';
