@@ -29,7 +29,6 @@ height: 300px;
 </style>
 <form>
 	<h2>List community locations base on City</h2>
-
 	<div class="ui-widget" id="city_location">
 	  <label for="tags">Type Location: </label>
 	  <input id="location" name="location" value="">
@@ -39,15 +38,16 @@ height: 300px;
 	<button name="Insert Shortcode" id="insert-shortcode">Insert Shortcode</button>
 </form>
 <script>
-	var crm_locations 			= <?php echo json_encode($this->get_location()); ?>;
+	var mls_locations 			= <?php echo json_encode($this->get_location()); ?>;
 	var args 					= top.tinymce.activeEditor.windowManager.getParams();
 	var $ 						= args.jquery;
 	var editor 					= args.editor;
-	var autocomplete_location 	= crm_locations;
+	var autocomplete_location 	= mls_locations;
 	var template 				= args.template;
 	var context 				= document.getElementsByTagName("body")[0];
 	var city_id					= [];
 
+	console.log(mls_locations);
 
 	$(template).each(function(k,v){
 		$('#template',context).append('<option value="'+v.value+'">'+v.text+'</option>');
@@ -71,7 +71,7 @@ height: 300px;
 		var loc_input = $( 'input[name^="loc_"]', context );
 
 		city_shortcode 		= ' cityid="'+city_id[0].value+'" ';
-		shortcode = '[crm_get_locations'
+		shortcode = '[mls_get_locations'
 						+ city_shortcode
 					+ ']';
 		editor.selection.setContent(shortcode);

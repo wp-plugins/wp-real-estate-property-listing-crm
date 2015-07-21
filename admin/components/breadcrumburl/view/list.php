@@ -11,7 +11,6 @@
 		</a>
 	</h2>
 	<div class="list-url">
-		<?php //var_dump($url); ?>
 		<?php if( count($url) > 0 ){ ?>
 				<table class="wp-list-table widefat fixed pages">
 					<thead>

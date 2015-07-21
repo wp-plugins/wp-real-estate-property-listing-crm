@@ -222,16 +222,13 @@ class Properties{
 			'page'				=> $paged
 		);
 		$search_md5 	  = md5(json_encode($search_criteria_data));
-		//var_dump($search_criteria_data);
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . $search_md5;
-		//\DB_Store::get_instance()->del($cache_keyword);
 		if( \DB_Store::get_instance()->get($cache_keyword) ){
 			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
 		}else{
 			$md_client 	= \Clients\Masterdigm_CRM::instance()->connect();
 			$properties = $md_client->getProperties( $search_criteria_data );
-			//var_dump($properties);
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;
