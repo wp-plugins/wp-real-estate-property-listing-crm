@@ -146,7 +146,7 @@ class API_Credentials{
 						}
 
 						// reset cache
-						\DB_Store::get_instance()->reset_db_store();
+						cache_clean();
 						\Masterdigm_Admin_Util::get_instance()->redirect_to($this->slug);
 					}
 				}

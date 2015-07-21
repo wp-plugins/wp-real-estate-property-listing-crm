@@ -38,11 +38,11 @@ class CRM_Locations{
 		$cities = array();
 		$cache_keyword = 'property-city-by-state-' . $state_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$cities = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$cities = cache_get($cache_keyword);
 		}else{
 			$cities	= $this->crm->get_cities_by_stateId($state_id);
-			\DB_Store::get_instance()->put($cache_keyword,$cities);
+			cache_set($cache_keyword,$cities);
 		}
 
 		return	$cities;
@@ -61,11 +61,11 @@ class CRM_Locations{
 		$cache_keyword 		= 'property-communities-by-city-' . $keyword_city_id;
 
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$communities = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$communities = cache_get($cache_keyword);
 		}else{
 			$communities	= $this->crm->get_communities_by_cityId($city_id);
-			\DB_Store::get_instance()->put($cache_keyword, $communities);
+			cache_set($cache_keyword, $communities);
 		}
 
 		return	$communities;
@@ -75,11 +75,11 @@ class CRM_Locations{
 		$state = array();
 		$cache_keyword = 'property-state-by-country-'. $country_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$state = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$state = cache_get($cache_keyword);
 		}else{
 			$state	= $this->crm->get_states_by_countryId($country_id);
-			\DB_Store::get_instance()->put($cache_keyword,$state);
+			cache_set($cache_keyword,$state);
 		}
 		return	$state;
 	}

@@ -4,13 +4,9 @@ require_once( plugin_dir_path( __FILE__ ) . 'class-mls.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'class-property.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'class-hook.php' );
 add_action( 'plugins_loaded', array( '\MLS_Hook', 'get_instance' ) );
-//refactor
-require_once( plugin_dir_path( __FILE__ ) . 'class-masterdigm-mls.php' );
 //account
 require_once( plugin_dir_path( __FILE__ ) . 'class-account.php' );
 add_action( 'plugins_loaded', array( '\mls\AccountEntity', 'get_instance' ) );
-// class for properties
-//require_once( plugin_dir_path( __FILE__ ) . 'properties/class-mls-properties.php' );
 // class for property entity
 require_once( plugin_dir_path( __FILE__ ) . 'properties/class-mls-property-entity.php' );
 // view

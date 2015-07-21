@@ -247,17 +247,15 @@ class MLS_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-		//dump($data);
+
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-		\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-			//dump($properties);
 			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -281,7 +279,7 @@ class MLS_Property{
 					'source'			=>	'mls',
 					'mls_type'			=>	$properties->mls
 				);
-				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
+				cache_set($cache_keyword, $get_properties);
 			}else{
 				$msg = '';
 				$result = '';
@@ -324,11 +322,11 @@ class MLS_Property{
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$data = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$data = cache_get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-			//dump($property);
+
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -360,7 +358,7 @@ class MLS_Property{
 					'last_mls_update'	=> $last_mls_update,
 					'source'	=>'mls'
 				);
-				\DB_Store::get_instance()->put($cache_keyword, $data);
+				cache_set($cache_keyword, $data);
 			}else{
 				return false;
 			}

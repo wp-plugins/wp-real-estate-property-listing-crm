@@ -65,7 +65,8 @@ class MLS_Hook{
 	}
 
 	public function breadcrumb_mls($property_data, $show_location){
-		return \mls\MD_Breadcrumb::get_instance()->createPageForBreadcrumbTrail($property_data, $show_location);
+		$ret = \mls\MD_Breadcrumb::get_instance()->createPageForBreadcrumbTrail($property_data, $show_location);
+		return $ret;
 	}
 
 	public function breadcrumb_list_property_mls($atts){
@@ -183,11 +184,21 @@ class MLS_Hook{
 	public function property_nearby_property_mls($array_properties, $array_option_search){
 		$search_data	= array();
 		$communityid 	= '';
+		$cityid 		= '';
 		$location 		= '';
+
+		$loc = get_coverage_lookup();
+		$ret = get_mls_hierarchy_location($array_properties['property'], $loc);
+
 		if( $array_properties['community'] && isset($array_properties['community']->community_id) ){
 			$communityid = $array_properties['community']->community_id;
 		}else{
-			$location = $array_properties['property']->PostalCode;
+			if( isset($ret['city']) && isset($ret['city']['id']) ){
+				$cityid = $ret['city']['id'];
+			}
+			if( isset($ret['community']) && isset($ret['community']['id']) ){
+				$communityid = $ret['community']['id'];
+			}
 		}
 
 		$limit = 6;
@@ -219,6 +230,56 @@ class MLS_Hook{
 		return true;
 	}
 
+	private function _wp_create_page($array_val, $parent_id = 0, $post_status = 'publish'){
+		$current_user = wp_get_current_user();
+
+		$content_shortcode 	= '';
+		$location 			= '';
+		$location 	= $array_val['location_type'].'id';
+		$id 		= $array_val['id'];
+
+		$shortcode_tag 		= \md_sc_mls_list_properties::get_instance()->get_shortcode_tag();
+		$content_shortcode 	= \md_sc_search_form::get_instance()->shortcode_tag().'<br>';
+		$content_shortcode .= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="10" template="list/default/list-default.php" col="4" infinite="true"]';
+
+		$post_title		= $array_val['full'];
+		$post_content	= $content_shortcode;
+		$post_parent	= $parent_id;
+		$post_arg = array(
+		  'post_title'    => $post_title,
+		  'post_content'  => $post_content,
+		  'post_status'   => $post_status,
+		  'post_author'   => $current_user->ID,
+		  'post_parent'	  => $post_parent,
+		  'post_type'	  => 'page',
+		);
+
+		$is_in_post = false;
+
+		if( get_page_by_title($post_title) ){
+			$post = get_page_by_title($post_title);
+			$post_id = $post->ID;
+			$is_in_post = true;
+		}elseif( $this->md_query_page_title($post_title) ){
+			$post = $this->md_query_page_title($post_title);
+			$post_id = $post[0]->ID;
+			$is_in_post = true;
+		}
+
+		if( $is_in_post && $post_status == 'trash' ){
+			$post_id = wp_delete_post($post->ID, true);
+		}elseif( $post_status == 'draft' || $post_status == 'publish' ){
+			if( $is_in_post ){
+				$post_arg['ID'] = $post_id;
+				$post_id 		= wp_update_post( $post_arg );
+			}else{
+				$post_id = wp_insert_post( $post_arg );
+			}
+		}
+
+		return $post_id;
+	}
+
 	public function create_location_page_action_mls_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
 		$current_user = wp_get_current_user();
@@ -229,11 +290,31 @@ class MLS_Hook{
 		$page_location 	= array();
 		//hook, get the default
 		$account 					= \mls\AccountEntity::get_instance()->get_coverage_lookup();
-		$shortcode_tag 				= \md_sc_mls_list_properties::get_instance()->get_shortcode_tag();
 
 		if( isset($account->result) == 'success' ){
 			$locations 	= $account->lookups;
+			$city_array = array();
 			if( count($locations) > 0 ){
+				foreach($locations as $key=>$val){
+					if( $val->location_type == 'city' ){
+						$city_array[$val->id] = array(
+							'id'=>$val->id,
+							'keyword'=>$val->keyword,
+							'full'=>$val->full,
+							'location_type'=>$val->location_type,
+						);
+					}
+					if( $val->location_type == 'community' ){
+						$city_array[$val->city_id]['community'][] = array(
+							'id'=>$val->id,
+							'keyword'=>$val->keyword,
+							'full'=>$val->full,
+							'location_type'=>$val->location_type,
+						);
+					}
+				}
+			}
+			if( count($city_array) > 0 ){
 
 				$post_status = 'publish';
 				if( isset($_POST['post_status']) ){
@@ -246,68 +327,24 @@ class MLS_Hook{
 				wp_defer_term_counting( true );
 				wp_defer_comment_counting( true );
 
-				foreach($locations as $key => $val){
-					$content_shortcode = '';
+				foreach($city_array as $key => $val){
 					$page_location['date_added'] 	= date("F j, Y, g:i a");
-
-					$page_location[$val->id]['full'] 			= $val->full;
-					$page_location[$val->id]['location_type'] 	= $val->location_type;
-					$page_location[$val->id]['id'] 				= $val->id;
-
-					$location = $page_location[$val->id]['location_type'].'id';
-					$id = $page_location[$val->id]['id'];
-
-					$content_shortcode 	= \md_sc_search_form::get_instance()->shortcode_tag().'<br>';
-
-					$content_shortcode .= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="11" template="list/default/list-default.php" col="4" infinite="true"]';
-
-					$page_location[$val->id]['shortcode'] = $content_shortcode;
-
-					$post_title		= $page_location[$val->id]['full'];
-					$post_content	= $page_location[$val->id]['shortcode'];
-
-					$post_insert_arg = array(
-					  'post_title'    => $post_title,
-					  'post_content'  => $post_content,
-					  'post_status'   => $post_status,
-					  'post_author'   => $current_user->ID,
-					  'post_type'	  => 'page',
-					);
-
-					$is_in_post = false;
-
-					if( get_page_by_title($post_title) ){
-						$post = get_page_by_title($post_title);
-						$post_id = $post->ID;
-						$is_in_post = true;
-					}elseif( $this->md_query_page_title($post_title) ){
-						$post = $this->md_query_page_title($post_title);
-						$post_id = $post[0]->ID;
-						$is_in_post = true;
-					}
-
 					$page_location['count']	= $count++;
 
-					if( $is_in_post && $post_status == 'trash' ){
-						wp_delete_post($post->ID, true);
-					}elseif( $post_status == 'draft' || $post_status == 'publish' ){
-						if( $is_in_post ){
-							$post_id = $post_id;
-							$post_arg = array(
-								'ID' => $post_id,
-								'post_status' => $post_status
-							);
-							wp_update_post( $post_arg );
-							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
-							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
-						}else{
-							$post_id = wp_insert_post( $post_insert_arg );
-							//mark in the post_meta as breadcrumb
-							$this->_wp_update_post_meta($post_id, 'page_breadcrumb', 1);
-							$this->_wp_update_post_meta($post_id, 'page_title', $post_title);
+					$post_id = $this->_wp_create_page($val, 0, $post_status);
+
+					if(
+						isset($val['community']) &&
+						is_array($val['community']) &&
+						count($val['community']) > 0 )
+					{
+						foreach($val['community'] as $key_community => $val_community){
+							if( $this->_wp_create_page($val_community, $post_id, $post_status)){
+								$page_location['count']	= $count++;
+							}
 						}
 					}
-
+					sleep(1);
 				}
 
 				wp_defer_term_counting( false );
