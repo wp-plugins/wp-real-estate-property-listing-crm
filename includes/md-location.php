@@ -36,24 +36,45 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 			$city = trim(strtolower($obj_property_data->City));
 		}
 		$matches['country'] = array(
-			'keyword' => ''
+			'id' => 0,
+			'city_id' => 0,
+			'type' => 'city',
+			'full' => '-1',
+			'keyword' => '-1',
 		);
+
 		if(isset($obj_property_data->State) && $obj_property_data->State != ''){
 			$matches['state'] = array(
-				'keyword' => $obj_property_data->State
+				'keyword' => $obj_property_data->State,
+				'id' => 0,
+				'city_id' => 0,
+				'type' => 'city',
+				'full' => '-1',
 			);
 		}else{
 			$matches['state'] = array(
-				'keyword' => ''
+				'id' => 0,
+				'city_id' => 0,
+				'type' => 'city',
+				'full' => '-1',
+				'keyword' => '-1',
 			);
 		}
 		if(isset($obj_property_data->County) && $obj_property_data->County != ''){
 			$matches['county'] = array(
-				'keyword' => $obj_property_data->County
+				'keyword' => $obj_property_data->County,
+				'id' => 0,
+				'city_id' => 0,
+				'type' => 'city',
+				'full' => '-1',
 			);
 		}else{
 			$matches['county'] = array(
-				'keyword' => ''
+				'keyword' => '',
+				'id' => 0,
+				'city_id' => 0,
+				'type' => 'city',
+				'full' => '-1',
 			);
 		}
 		/**
@@ -71,7 +92,7 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 
 		foreach($array_location as $key => $val){
 			$keyword = strtolower(trim($val[$gc_array_key]));
-			$city_id = 0;
+
 			if ($city != '' && strcmp($city, $keyword) == 0) {
 				$city_id = $val['id'];
 				if( $val['location_type'] == 'city' ){
@@ -83,9 +104,9 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 					);
 				}
 			}
-			//if ( $community != '' && strcmp($community, $keyword) == 0 && $indx_community == 0 ) {
+
 			if ( $community != '' && preg_match("/$community/", $keyword) ) {
-				if( $val['location_type'] == 'community' ){
+				if( $val['location_type'] == 'community' && $matches['city']['id'] == $val['city_id'] ){
 					$matches['community'][] = array(
 						'id' 		=> $val['id'],
 						'city_id' 	=> $val['city_id'],
@@ -97,7 +118,7 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 			}
 		}
 
-		if( isset($matches['community']) && count($matches['community']) >= 1 ){
+		if( isset($matches['community']) && count($matches['community']) > 0 ){
 			foreach($matches['community'] as $key => $val){
 				if( $matches['city']['id'] == $val['city_id'] ){
 					$matches['community'] = array(
@@ -120,7 +141,11 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 		}
 
 		$matches['zip'] = array(
-			'keyword' => ''
+			'id' => 0,
+			'city_id' => 0,
+			'type' => 'city',
+			'full' => '-1',
+			'keyword' => '-1',
 		);
 
 		return $matches;
