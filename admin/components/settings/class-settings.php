@@ -76,7 +76,7 @@ class Settings_API {
 				\Masterdigm_Admin_Util::get_instance()->redirect_to($this->get_slug());
 			break;
 			case 'delete_all_cache':
-				\DB_Store::get_instance()->reset_db_store();
+				cache_clean();
 				\Masterdigm_Admin_Util::get_instance()->redirect_to(admin_url());
 			break;
 			default:

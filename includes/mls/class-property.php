@@ -252,8 +252,8 @@ class MLS_Property{
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
 			if( isset($properties->result) && $properties->result == 'success' )
@@ -279,7 +279,7 @@ class MLS_Property{
 					'source'			=>	'mls',
 					'mls_type'			=>	$properties->mls
 				);
-				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
+				cache_set($cache_keyword, $get_properties);
 			}else{
 				$msg = '';
 				$result = '';
@@ -322,8 +322,8 @@ class MLS_Property{
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$data = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$data = cache_get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
 
@@ -358,7 +358,7 @@ class MLS_Property{
 					'last_mls_update'	=> $last_mls_update,
 					'source'	=>'mls'
 				);
-				\DB_Store::get_instance()->put($cache_keyword, $data);
+				cache_set($cache_keyword, $data);
 			}else{
 				return false;
 			}

@@ -50,11 +50,11 @@ class AccountEntity{
 	public function get_coverage_lookup(){
 		$cache_keyword 	= 'mls_location';
 		$location 		= array();
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$location = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$location = cache_get($cache_keyword);
 		}else{
 			$location 	= $this->mls->get_coverage_lookup( null );
-			\DB_Store::get_instance()->put($cache_keyword, $location);
+			cache_set($cache_keyword, $location);
 		}
 		return $location;
 	}
@@ -113,11 +113,11 @@ class AccountEntity{
 	public function get_property_type(){
 		$cache_keyword 	= 'mls_property_type';
 		$property_type 	= array();
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$property_type = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$property_type = cache_get($cache_keyword);
 		}else{
 			$property_type 	= $this->mls->get_property_types();
-			\DB_Store::get_instance()->put($cache_keyword, $property_type);
+			cache_set($cache_keyword, $property_type);
 		}
 		return $property_type;
 	}
@@ -137,11 +137,11 @@ class AccountEntity{
 	public function get_cities_by_mls($mls = array()){
 		$cities = array();
 		$cache_keyword = 'mls-cities';
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$cities = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$cities = cache_get($cache_keyword);
 		}else{
 			$cities	= $this->mls->get_cities_by_mls();
-			\DB_Store::get_instance()->put($cache_keyword,$cities);
+			cache_set($cache_keyword,$cities);
 		}
 		return	$cities;
 	}
@@ -149,11 +149,11 @@ class AccountEntity{
 	public function get_communities_by_city_id($city_id){
 		$communities = array();
 		$cache_keyword = 'mls-communities-'.$city_id;
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$communities = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$communities = cache_get($cache_keyword);
 		}else{
 			$communities	= $this->mls->get_communities_by_city_id($city_id);
-			\DB_Store::get_instance()->put( $cache_keyword, $communities );
+			cache_set( $cache_keyword, $communities );
 		}
 		return	$communities;
 	}
