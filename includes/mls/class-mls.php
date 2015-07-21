@@ -75,7 +75,25 @@ class Masterdigm_MLS implements iMasterdigm_API{
 		return $this->get_client()->addPropertyAlert($data);
 	}
 
-	public function get_location(){
+	public function get_location(){}
 
+	public function get_coverage_lookup($data = null){
+		return $this->get_client()->getCoverageLookup($data);
+	}
+
+	public function get_cities_by_mls($mls = array()){
+		return $this->get_client()->getCitiesByMls($mls);
+	}
+
+	public function get_communities_by_city_id($city_id){
+		return $this->get_client()->getCommunitiesByCityId($city_id);
+	}
+
+	public function get_property_types(){
+		return $this->get_client()->getPropertyTypes();
+	}
+
+	public function get_photos_by_matrixID($matrix_id){
+		return $this->get_client()->getPhotosByMatrixID($matrix_id);
 	}
 }

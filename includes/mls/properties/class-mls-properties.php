@@ -1,9 +1,10 @@
 <?php
 namespace mls;
 /**
+ * remove
  * Handle logic for fetching properties
  * */
-class Properties{
+class Propertiesxx{
 
 	protected static $instance = null;
 
@@ -240,7 +241,7 @@ class Properties{
 		}else{
 			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
 			$properties = $md_client->getProperties( $data );
-			//var_dump($properties);
+
 			if( isset($properties->result) == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -312,7 +313,6 @@ class Properties{
 		}else{
 			$md_client 		= \Clients\Masterdigm_MLS::instance()->connect();
 			$property 		= $md_client->getPropertyByMatrixID( $matrix_unique_id );
-			//dump($property);
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -341,7 +341,7 @@ class Properties{
 		$md_client 			= \Clients\Masterdigm_MLS::instance()->connect();
 		$relatedProperties 	= $md_client->getRelatedPropertiesByMatrixID( $matrix_unique_id );
 		$property_array = array();
-		//var_dump($relatedProperties);
+
 		if( $relatedProperties['result'] != 'fail' ){
 			foreach( $relatedProperties->properties as $property ){
 
