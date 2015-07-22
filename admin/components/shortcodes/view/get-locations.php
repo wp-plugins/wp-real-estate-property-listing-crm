@@ -34,19 +34,20 @@ height: 300px;
 	  <label for="tags">Type Location: </label>
 	  <input id="location" name="location" value="">
 	</div>
-
 	<p></p>
 
 	<button name="Insert Shortcode" id="insert-shortcode">Insert Shortcode</button>
 </form>
 <script>
+	var crm_locations 			= <?php echo json_encode($this->get_location()); ?>;
 	var args 					= top.tinymce.activeEditor.windowManager.getParams();
 	var $ 						= args.jquery;
 	var editor 					= args.editor;
-	var autocomplete_location 	= args.autocomplete_location;
+	var autocomplete_location 	= crm_locations;
 	var template 				= args.template;
 	var context 				= document.getElementsByTagName("body")[0];
 	var city_id					= [];
+
 
 	$(template).each(function(k,v){
 		$('#template',context).append('<option value="'+v.value+'">'+v.text+'</option>');

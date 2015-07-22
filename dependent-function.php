@@ -38,7 +38,7 @@ function property_list(){
 	);
 	$get_total_properties = \CRM_Property::get_instance()->get_properties($data);
 	$xml_db_store_prefix = 'product_sitemap_xml';
-	$xml_db_store		 = \DB_Store::get_instance()->get($xml_db_store_prefix);
+	$xml_db_store		 = cache_get($xml_db_store_prefix);
 	if( $xml_db_store ){
 		$xml_properties = $xml_db_store;
 	}else{

@@ -143,7 +143,6 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 			?>
 				<script type="text/javascript">
 					function crm_get_locations(editor){
-						var crm_locations = <?php echo json_encode($this->get_location()); ?>;
 
 						var template = [
 							<?php if( count($this->get_template()) > 0 ){ ?>
@@ -168,7 +167,6 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 										{
 											editor:editor,
 											jquery:jQuery,
-											autocomplete_location:crm_locations,
 											template:template,
 										}
 									);

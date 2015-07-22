@@ -9,7 +9,10 @@ class AccountEntity{
 
 	private $account_details;
 
+	public $mls;
+
 	public function __construct(){
+		$this->mls = new \Masterdigm_MLS;
 		$this->set_account_details();
 		add_filter('location_lookup_mls',array($this,'createCountryLookup'),10,2);
 	}
@@ -47,14 +50,11 @@ class AccountEntity{
 	public function get_coverage_lookup(){
 		$cache_keyword 	= 'mls_location';
 		$location 		= array();
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$location = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$location = cache_get($cache_keyword);
 		}else{
-			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
-			//var_dump($md_client);
-			$location 	= $md_client->getCoverageLookup( null );
-			//var_dump($location);
-			\DB_Store::get_instance()->put($cache_keyword, $location);
+			$location 	= $this->mls->get_coverage_lookup( null );
+			cache_set($cache_keyword, $location);
 		}
 		return $location;
 	}
@@ -113,12 +113,11 @@ class AccountEntity{
 	public function get_property_type(){
 		$cache_keyword 	= 'mls_property_type';
 		$property_type 	= array();
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$property_type = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$property_type = cache_get($cache_keyword);
 		}else{
-			$md_client 	= \Clients\Masterdigm_MLS::instance()->connect();
-			$property_type 	= $md_client->getPropertyTypes();
-			\DB_Store::get_instance()->put($cache_keyword, $property_type);
+			$property_type 	= $this->mls->get_property_types();
+			cache_set($cache_keyword, $property_type);
 		}
 		return $property_type;
 	}
@@ -135,4 +134,27 @@ class AccountEntity{
 		}
 	}
 
+	public function get_cities_by_mls($mls = array()){
+		$cities = array();
+		$cache_keyword = 'mls-cities';
+		if( cache_get($cache_keyword) ){
+			$cities = cache_get($cache_keyword);
+		}else{
+			$cities	= $this->mls->get_cities_by_mls();
+			cache_set($cache_keyword,$cities);
+		}
+		return	$cities;
+	}
+
+	public function get_communities_by_city_id($city_id){
+		$communities = array();
+		$cache_keyword = 'mls-communities-'.$city_id;
+		if( cache_get($cache_keyword) ){
+			$communities = cache_get($cache_keyword);
+		}else{
+			$communities	= $this->mls->get_communities_by_city_id($city_id);
+			cache_set( $cache_keyword, $communities );
+		}
+		return	$communities;
+	}
 }

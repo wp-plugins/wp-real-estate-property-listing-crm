@@ -223,9 +223,11 @@ function single_property_breadcrumb_trail($trail, $args){
 	}else{
 		$breadcrumb = \MD_Single_Property_Breadcrumb::get_instance()->getSessionBreadCrumb($source);
 
-		unset($trail);
-		$trail 	 = array();
-		$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
+		if( $breadcrumb ){
+			unset($trail);
+			$trail 	 = array();
+			$trail[] =	'<a href="'.get_bloginfo('url').'" class="property-bread-crumb trail-begin">'.$home_label.'</a>';
+		}
 	}
 	return $trail;
 }
