@@ -75,11 +75,14 @@ class Signup_Form{
 		if( isset($_POST['current_action']) ){
 			$current_action = $_POST['current_action'];
 		}
-		$user_id 	= false;
-		$source 	= get_bloginfo('url').', '. get_bloginfo('name') . ', Register Form';
-		$msg 		= '';
-		$status 	= false;
-		$propertyid = 0;
+		$user_id 		= false;
+		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
+		$source 		= $crm_company;
+		$source_note	= $crm_company . ', Register Form';
+		$source_url		= site_url();
+		$msg 			= '';
+		$status 		= false;
+		$propertyid 	= 0;
 
 		$firstname 		= sanitize_text_field(isset($_POST['firstname'])) ? sanitize_text_field($_POST['firstname']):'';
 		$lastname 		= sanitize_text_field(isset($_POST['lastname'])) ? sanitize_text_field($_POST['lastname']):'';
@@ -121,7 +124,7 @@ class Signup_Form{
 					update_user_meta($user_id,'phone_num',$phone);
 					update_user_meta($user_id,'first_name',$firstname);
 					update_user_meta($user_id,'last_name',$lastname);
-					wp_new_user_notification($user_id, $password);
+					//wp_new_user_notification($user_id, $password);
 					$this->user_signon($emailaddress, $password);
 				}
 			}
@@ -133,9 +136,10 @@ class Signup_Form{
 			$array_data['email1'] 		= $emailaddress;
 			$array_data['phone_home'] 	= $phone;
 			$array_data['lead_source'] 	= $source;
+			$array_data['source_url'] 	= $source_url;
 
 			if( !isset($array_data['note']) ){
-				$array_data['note'] = $source;
+				$array_data['note'] = $source_note;
 			}
 
 			$save_lead = \CRM_Account::get_instance()->push_crm_data($array_data);
@@ -146,14 +150,13 @@ class Signup_Form{
 				'post' => $_POST,
 			);
 		}
-		echo json_encode(
-			array(
-				'msg'=>$msg,
-				'status'=>$status,
-				'ret_data' => $ret_data,
-				'callback_action'=>$current_action
-			)
+		$json_array = array(
+			'msg'=>$msg,
+			'status'=>$status,
+			'ret_data' => $ret_data,
+			'callback_action'=>$current_action
 		);
+		echo json_encode($json_array);
 		die();
 	}
 
