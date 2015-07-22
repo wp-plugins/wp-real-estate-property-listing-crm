@@ -52,11 +52,11 @@ class CRM_Property{
 	public function get_property_photo($property_id){
 		$cache_keyword 	= 'property-photo-'.$property_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$photos = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$photos = cache_get($cache_keyword);
 		}else{
 			$photos 	= $this->crm->get_photos_by_propertyId($property_id);
-			\DB_Store::get_instance()->put($cache_keyword, $photos);
+			cache_set($cache_keyword, $photos);
 		}
 		return $photos;
 	}
@@ -246,7 +246,7 @@ class CRM_Property{
 		);
 
 		$search_criteria_data = apply_filters( 'search_criteria_data', $search_criteria_data );
-		//var_dump($search_criteria_data);
+
 		$search_md5 	  = md5(json_encode($search_criteria_data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . $search_md5;
@@ -277,11 +277,11 @@ class CRM_Property{
 		);
 
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->crm->get_properties($search_criteria_data);
-			//dump($properties);
+
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;
@@ -303,7 +303,7 @@ class CRM_Property{
 					'source'			=>	'crm'
 				);
 				// save to cache, for later use
-				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
+				cache_set($cache_keyword, $get_properties);
 			}
 		}
 		return $get_properties;
@@ -331,8 +331,8 @@ class CRM_Property{
 		$property_keyword 	= \Property_Cache::get_instance()->getCacheFeaturedKeyword();
 		$cache_keyword 		= $property_keyword->id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$get_properties = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->crm->get_featured_properties($user_id, $array_location_id);
 			if( $properties->result == 'success' && $properties->count > 0 )
@@ -352,7 +352,7 @@ class CRM_Property{
 					'photo'	=>	$photo
 				);
 
-				\DB_Store::get_instance()->put($cache_keyword, $get_properties);
+				cache_set($cache_keyword, $get_properties);
 			}else{
 				$get_properties = (object)array(
 					'total'	=>	0,
@@ -389,8 +389,8 @@ class CRM_Property{
 		$single_cache_keyword 	= \Property_Cache::get_instance()->getCacheSinglePropertyKeyword();
 		$cache_keyword 	  		= $single_cache_keyword->id . $id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$data = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$data = cache_get($cache_keyword);
 			return $data;
 		}else{
 			$property = $this->crm->get_property( $id, $broker_id );
@@ -420,7 +420,7 @@ class CRM_Property{
 					'source'		=>	'crm'
 				);
 
-				\DB_Store::get_instance()->put($cache_keyword,$data);
+				cache_set($cache_keyword,$data);
 				return $data;
 			}else{
 				return false;

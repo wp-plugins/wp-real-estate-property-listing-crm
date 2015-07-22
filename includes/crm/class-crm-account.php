@@ -51,11 +51,11 @@ class CRM_Account{
 		$account_details_keyword 	= \Property_Cache::get_instance()->getCacheAccountDetailsKeyword();
 		$cache_keyword 	  			= $account_details_keyword->id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$account_details = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$account_details = cache_get($cache_keyword);
 		}else{
 			$account_details 	= $this->crm->get_account_details();
-			\DB_Store::get_instance()->put($cache_keyword, $account_details);
+			cache_set($cache_keyword, $account_details);
 		}
 		return $account_details;
 	}
@@ -101,12 +101,12 @@ class CRM_Account{
 		$coverage_lookup_cache_keyword 	= \Property_Cache::get_instance()->getCacheCoverageLookupKeyword();
 		$cache_keyword 	  				= $coverage_lookup_cache_keyword->id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$autocomplete_result = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$autocomplete_result = cache_get($cache_keyword);
 		}else{
 			$location				= $this->get_country_lookup();
 			$autocomplete_result 	= $this->crm->get_coverage_lookup($location);
-			\DB_Store::get_instance()->put($cache_keyword,$autocomplete_result);
+			cache_set($cache_keyword,$autocomplete_result);
 		}
 
 		return $autocomplete_result;
@@ -153,12 +153,11 @@ class CRM_Account{
 		$data 					= array($field);
 		$account_fields_keyword = \Property_Cache::get_instance()->getCacheAccountFieldsKeyword();
 		$cache_keyword 	  		= $account_fields_keyword->id;
-		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$get_fields = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$get_fields = cache_get($cache_keyword);
 		}else{
 			$get_fields = $this->crm->get_fields($data);
-			\DB_Store::get_instance()->put($cache_keyword, $get_fields);
+			cache_set($cache_keyword, $get_fields);
 		}
 		return $get_fields;
 	}
@@ -166,11 +165,11 @@ class CRM_Account{
 	public function get_market_coverage(){
 		$market_coverage = array();
 		$cache_keyword = 'market_coverage';
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$market_coverage 	= \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$market_coverage 	= cache_get($cache_keyword);
 		}else{
 			$market_coverage 	= $this->crm->get_account_coverage();
-			\DB_Store::get_instance()->put($cache_keyword, $market_coverage);
+			cache_set($cache_keyword, $market_coverage);
 		}
 		return $market_coverage;
 	}
@@ -217,11 +216,11 @@ class CRM_Account{
 	public function get_agent_details($agent_id = null){
 		$cache_keyword = 'get_agent_details_'.$agent_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
-		if( \DB_Store::get_instance()->get($cache_keyword) ){
-			$get_agent_details = \DB_Store::get_instance()->get($cache_keyword);
+		if( cache_get($cache_keyword) ){
+			$get_agent_details = cache_get($cache_keyword);
 		}else{
 			$get_agent_details = $this->crm->get_agent_details($agent_id);
-			\DB_Store::get_instance()->put($cache_keyword, $get_agent_details);
+			cache_set($cache_keyword, $get_agent_details);
 		}
 		return $get_agent_details;
 	}

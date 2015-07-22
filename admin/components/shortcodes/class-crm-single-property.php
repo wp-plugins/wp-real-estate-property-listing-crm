@@ -73,7 +73,6 @@ if ( !class_exists( 'md_sc_crm_single_box_properties' ) )
 					}
 				}
 			}
-
 			\MD\Property::get_instance()->set_properties($property_data,'crm');
 
 			$total_properties = count($property_data);

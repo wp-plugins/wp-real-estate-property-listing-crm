@@ -25,8 +25,6 @@ foreach ($tcpdf_include_dirs as $tcpdf_include_path) {
 require_once( plugin_dir_path( __FILE__ ) . 'includes/interface-masterdigm-api.php' );
 //cache
 require_once( plugin_dir_path( __FILE__ ) . 'includes/cache/class-property-cache.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/class-db-store.php' );
-add_action( 'plugins_loaded', array( 'DB_Store', 'get_instance' ) );
 // helpers
 require plugin_dir_path( __FILE__ ) . 'helpers/inc.php';
 // search
