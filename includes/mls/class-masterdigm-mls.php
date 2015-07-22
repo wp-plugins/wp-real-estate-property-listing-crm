@@ -1,5 +1,5 @@
 <?php
-/* to be remove
+/* remove
  * Wrapper for the Masterdigm API - MLS
  *
  * */

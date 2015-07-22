@@ -230,16 +230,15 @@ class Save_Search{
 	public function save_search_action_callback(){
 		$ret = $this->save_search_init();
 
-		$msg = 'logged in users';
+		$msg 	= 'logged in users';
 		$status = true;
-		echo json_encode(
-			array(
-				'msg'=>$msg,
-				'status'=>$status,
-				'is_loggedin'=>1,
-				'ret'=>$ret
-			)
+		$json_array = array(
+			'msg'=>$msg,
+			'status'=>$status,
+			'is_loggedin'=>1,
+			'ret'=>$ret
 		);
+		echo json_encode($json_array);
 		die();
 	}
 

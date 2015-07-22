@@ -103,7 +103,8 @@ class Masterdigm_API_Admin {
 			array(
 				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 				'security' => wp_create_nonce( 'md-ajax-request' ),
-				'ajax_indicator' => PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif'
+				'ajax_indicator' => PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif',
+				'default_feed' => DEFAULT_FEED,
 			)
 		);
 	}

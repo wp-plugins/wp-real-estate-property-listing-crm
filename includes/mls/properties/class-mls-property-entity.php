@@ -239,11 +239,11 @@ class Property_Entity{
 	}
 
 	public function get_floor_area(){
-		return number_format($this->FloorArea);
+		return ($this->FloorArea != '') ? number_format($this->FloorArea):0;
 	}
 
 	public function get_lot_area(){
-		return number_format($this->LotArea);
+		return ($this->LotArea != '') ? number_format($this->LotArea):0;
 	}
 
 	public function get_sqft_heated(){
@@ -263,17 +263,19 @@ class Property_Entity{
 		$measure_area = $this->displaySqFt();
 		$array_measure = array();
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
+		$lot_area = ($this->LotArea != '') ? $this->LotArea:0;
+		$floor_area = ($this->FloorArea != '') ? $this->FloorArea:0;
 		switch($type){
 			case 'floor':
 				$array_measure = array(
 					'area_type'=>$unit_area,
-					'measure'=>number_format($this->FloorArea)
+					'measure'=>number_format($floor_area)
 				);
 			break;
 			case 'lot':
 				$array_measure = array(
 					'area_type'=>$unit_area,
-					'measure'=>number_format($this->LotArea)
+					'measure'=>number_format($lot_area)
 				);
 			break;
 			default:
@@ -475,6 +477,14 @@ class Property_Entity{
 
 	public function display_kitchen_features(){
 		return $this->KitchenFeatures;
+	}
+
+	public function community(){
+		if( isset($this->Community) ){
+			return $this->Community;
+		}else{
+			return $this->Subdivision;
+		}
 	}
 
 	public function display_legal_subdivision_name(){
