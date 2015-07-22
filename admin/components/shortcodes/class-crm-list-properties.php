@@ -115,6 +115,10 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 				$atts['infinite'] = false;
 			}
 
+			if( !isset($atts['pagination']) ){
+				$atts['pagination'] = 'false';
+			}
+
 			if( isset($atts['col']) && is_numeric($atts['col']) ){
 				$col = ceil(12 / $atts['col'] );
 			}else{
