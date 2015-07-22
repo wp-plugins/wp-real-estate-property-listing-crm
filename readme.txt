@@ -178,6 +178,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
+= 3.26.49 =
+* update mls list of communities shortcode by sorting a - z
+
 = 3.26.48 =
 * improve search save after registration
 

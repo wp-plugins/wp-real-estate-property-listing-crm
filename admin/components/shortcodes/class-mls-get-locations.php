@@ -84,6 +84,9 @@ if ( !class_exists( 'md_sc_mls_get_locations' ) )
 				}
 			}
 
+			//sort it
+			array_multisort($data_locations, SORT_ASC);
+
 			$template = GLOBAL_TEMPLATE . '/list/default/mls-get-locations.php';
 
 			$city_id = 0;
