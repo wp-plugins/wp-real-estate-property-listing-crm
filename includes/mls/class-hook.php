@@ -232,7 +232,7 @@ class MLS_Hook{
 
 	private function _wp_create_page($array_val, $parent_id = 0, $post_status = 'publish'){
 		$current_user = wp_get_current_user();
-
+		$post_id			= 0;
 		$content_shortcode 	= '';
 		$location 			= '';
 		$location 	= $array_val['location_type'].'id';

@@ -53,6 +53,7 @@ height: 300px;
 			</p>
 			<p>How many property to display <input name="limit" value="11"></p>
 			<p>Show Infinite Scroll? this will show the scrolling ajax instead of tix "how many display" <input type="checkbox" name="infinite" id="infinite"></p>
+			<p>Show Pagination? <input type="checkbox" name="pagination" id="pagination" checked></p>
 			<p>Choose template to display <select id="template" name="template"></select></p>
 			<p>Set property per columns ( should be divided by 12 ) <input name="col" value="4"></p>
 		</div>
@@ -124,6 +125,12 @@ height: 300px;
 		if( $('#infinite',context).is(":checked") ){
 			infinite_check = 'true';
 		}
+
+		var pagination_check = 'false';
+		if( $('#pagination',context).is(":checked") ){
+			pagination_check = 'true';
+		}
+
 		var bathromms 		= ' bathrooms="' + $('input[name="bath"]',context).val() + '" ';
 		var bedrooms 		= ' bedrooms="' + $('input[name="bed"]',context).val() + '" ';
 		var min_listprice 	= ' min_listprice="' + $('input[name="min_price"]',context).val() + '" ';
@@ -133,6 +140,7 @@ height: 300px;
 		var transaction 	= ' transaction="' + $('#transaction',context).val() + '" ';
 		var limit 			= ' limit="' + $('input[name="limit"]',context).val() + '" ';
 		var infinite 		= ' infinite="' + infinite_check + '" ';
+		var pagination 		= ' pagination="' + pagination_check + '" ';
 		var template_path 	= ' template="' + $('#template',context).val() + '" ';
 		var col_grid 		= ' col="' + $('input[name="col"]',context).val() + '" ';
 
@@ -166,6 +174,7 @@ height: 300px;
 						+ template_path
 						+ col_grid
 						+ infinite
+						+ pagination
 					+ ']';
 		editor.selection.setContent(shortcode);
 		editor.windowManager.close();

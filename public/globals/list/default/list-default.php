@@ -16,7 +16,7 @@ Template Name: List - Box Style
 		}
 	?>
 	<div class="row" id="search-result-container">
-		<div class="search-result item-container">
+		<div class="search-result<?php echo ( isset($atts['infinite']) && $atts['infinite'] != 1 ) ? '-not-infinite':'';?> item-container">
 			<?php foreach(have_properties() as $property ){ //loop start have_properties() ?>
 					<?php set_loop($property); ?>
 					<?php if($single_property_id != md_property_id()) { // do not display same id ?>
@@ -32,7 +32,11 @@ Template Name: List - Box Style
 	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:10));?>
 	<?php if( !is_front_page() && ($max > 1) ){ ?>
 		<div class="md-pagination">
-			<?php md_pagination('',2,get_ret_properties()->total); ?>
+			<?php
+				if( isset($atts['pagination']) && $atts['pagination'] == 'true' ) {
+					md_pagination('',2,get_ret_properties()->total);
+				}
+			?>
 		</div>
 
 		<?php if( have_properties() > 0 && $atts['infinite'] ){ ?>
@@ -43,7 +47,6 @@ Template Name: List - Box Style
 				<input type="hidden" name="nomoredata" id="nomoredata" value="0">
 		<?php } ?>
 		<?php
-
 			$options = array(
 				'selector'=>'#search-result-container',
 				'ajax_display'=>'search-result',

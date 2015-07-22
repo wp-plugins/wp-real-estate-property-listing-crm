@@ -157,6 +157,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 				'orderby'			=> $orderby,
 				'order_direction'	=> $order_direction,
 				'infinite'			=> $atts['infinite'],
+				'pagination'		=> $atts['pagination'],
 				'col'				=> $col,
 				'template'			=> $template
 			), $atts, 'crm_list_property' );

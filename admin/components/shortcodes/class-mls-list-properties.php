@@ -175,6 +175,10 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				$atts['infinite'] = false;
 			}
 
+			if( !isset($atts['pagination']) ){
+				$atts['pagination'] = 'false';
+			}
+
 			if( isset($atts['col']) && is_numeric($atts['col']) ){
 				$col = ceil(12 / $atts['col'] );
 			}else{
@@ -200,6 +204,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'listing_office_id'			=> $listing_office_id,
 				'limit'			=> $limit,
 				'infinite'		=> $atts['infinite'],
+				'pagination'	=> $atts['pagination'],
 				'col'			=> $col,
 				'template'		=> $template
 			), $atts, 'mls_list_property' );

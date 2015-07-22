@@ -66,10 +66,16 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 				$atts['infinite'] = false;
 			}
 
+			$atts['pagination'] = 'true';
+			if( isset($atts['pagination']) && $atts['pagination'] == 'false' ){
+				$atts['pagination'] = 'false';
+			}
+
 			$atts = shortcode_atts(	array(
 				'col' 		=> $col,
 				'template'	=> $template,
-				'infinite'	=> $infinite
+				'infinite'	=> $infinite,
+				'pagination'	=> $atts['pagination'],
 			), $atts, 'search-result' );
 
 			if( trim($atts['template']) != '' ){

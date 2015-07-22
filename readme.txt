@@ -1,10 +1,10 @@
 === WP Real Estate Property Listing CRM ===
 Contributors: masterdigm, allancasilum
 Donate link:
-Tags: agent, broker, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
+Tags: agent, broker, realestate, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.25.47
+Stable tag: 3.26.47
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -177,6 +177,11 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.26.47 =
+* fix pagination issue and infinite scroll
+* added option on the mls and crm list properties to show or not pagination
+* fix create page by location post_id variable null
 
 = 3.25.47 =
 * improve cache by using file handling
