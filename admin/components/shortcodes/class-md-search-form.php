@@ -36,17 +36,15 @@ if ( !class_exists( 'md_sc_search_form' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'searchform', GLOBAL_TEMPLATE, 'Search Form');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'searchform', PLUGIN_VIEW, 'Search Form');
 		}
 
 		private function _get_account_fields(){
-			//$fields = \CRM_Account::get_instance()->get_fields();
 			$property_type = array();
 			return apply_filters('fields_type_' . DEFAULT_FEED, $property_type);
 		}
 
 		public function get_autocomplete_location($output = null){
-			//$location_lookup = \crm\AccountEntity::get_instance()->createCountryLookup();
 			$location = null;
 			$keyword = 'full';
 			$location_lookup = apply_filters('location_lookup_' . DEFAULT_FEED, $location, $keyword);
@@ -170,7 +168,6 @@ if ( !class_exists( 'md_sc_search_form' ) )
 			require $template;
 			$output = ob_get_clean();
 			return $output;
-
 		}
 
 		/**
