@@ -56,7 +56,8 @@ class Property_Alert{
 			$post_data['leadid'] 			= $lead_data->leadid;
 			$post_data['lead_name'] 		= $current_user->user_firstname.' '.$current_user->user_lastname;
 			$post_data['lead_email'] 		= $current_user->user_email;
-			$post_data['source_url'] 		= get_site_url();
+			$post_data['source_website']	= $post_data['source_website'];
+			$post_data['source_url']		= $post_data['source_url'];
 			$post_data['source'] 			= $crm_company;
 
 			strtolower($post_data['transaction']);
@@ -193,10 +194,12 @@ class Property_Alert{
 			get_currentuserinfo();
 
 		};
+
 		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
 		$post_data = array(
 			'mls'			=>	$mls_type,
 			'source'		=>	$crm_company,
+			'source_website'=>	site_url(),
 			'source_url'	=>	site_url(),
 			'city'			=>	$city,
 			'community'		=>	$community,
