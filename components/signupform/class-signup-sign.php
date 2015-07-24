@@ -124,7 +124,7 @@ class Signup_Form{
 					update_user_meta($user_id,'phone_num',$phone);
 					update_user_meta($user_id,'first_name',$firstname);
 					update_user_meta($user_id,'last_name',$lastname);
-					//wp_new_user_notification($user_id, $password);
+					wp_new_user_notification($user_id, $password);
 					$this->user_signon($emailaddress, $password);
 				}
 			}

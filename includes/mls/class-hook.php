@@ -72,7 +72,7 @@ class MLS_Hook{
 	public function breadcrumb_list_property_mls($atts){
 
 		if( !isset($atts['template_by']) ){
-			$template = GLOBAL_TEMPLATE . 'list/default/list-default.php';
+			$template = PLUGIN_VIEW . 'list/default/list-default.php';
 		}
 		// hook filter, incase we want to just use hook
 		if( has_filter('shortcode_list_property_by_mls') ){

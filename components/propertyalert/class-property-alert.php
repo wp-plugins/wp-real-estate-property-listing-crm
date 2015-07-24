@@ -51,11 +51,14 @@ class Property_Alert{
 
 		$user_meta = get_user_meta($current_user->ID);
 		if( $user_meta && isset($user_meta['lead-data']) ){
+			$crm_company 					= \CRM_Account::get_instance()->get_account_data('company');
 			$lead_data 						= unserialize($user_meta['lead-data'][0]);
 			$post_data['leadid'] 			= $lead_data->leadid;
 			$post_data['lead_name'] 		= $current_user->user_firstname.' '.$current_user->user_lastname;
 			$post_data['lead_email'] 		= $current_user->user_email;
-			$post_data['source_website'] 	= get_site_url();
+			$post_data['source_website']	= $post_data['source_website'];
+			$post_data['source_url']		= $post_data['source_url'];
+			$post_data['source'] 			= $crm_company;
 
 			strtolower($post_data['transaction']);
 
@@ -191,21 +194,24 @@ class Property_Alert{
 			get_currentuserinfo();
 
 		};
+
+		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
 		$post_data = array(
-			'mls'=>$mls_type,
-			'source'=>get_option('blogname'),
-			'source_url'=>get_option('siteurl'),
-			'city'=>$city,
-			'community'=>$community,
-			'subdivision'=>$subdivision,
-			'min_listprice'=>$min_listprice,
-			'max_listprice'=>$max_listprice,
-			'min_beds'=>$min_beds,
-			'max_beds'=>$max_beds,
-			'min_baths'=>$min_baths,
-			'max_baths'=>$max_baths,
-			'min_garage'=>$min_garage,
-			'transaction'=>$transaction,
+			'mls'			=>	$mls_type,
+			'source'		=>	$crm_company,
+			'source_website'=>	site_url(),
+			'source_url'	=>	site_url(),
+			'city'			=>	$city,
+			'community'		=>	$community,
+			'subdivision'	=>	$subdivision,
+			'min_listprice'	=>	$min_listprice,
+			'max_listprice'	=>	$max_listprice,
+			'min_beds'		=>	$min_beds,
+			'max_beds'		=>	$max_beds,
+			'min_baths'		=>	$min_baths,
+			'max_baths'		=>	$max_baths,
+			'min_garage'	=>	$min_garage,
+			'transaction'	=>	$transaction,
 		);
 		if( isset($atts['search_keyword']) ){
 			$query_data = http_build_query($post_data);
