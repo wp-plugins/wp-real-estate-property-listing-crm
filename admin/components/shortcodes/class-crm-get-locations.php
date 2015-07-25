@@ -86,7 +86,7 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 				}
 			}
 
-			$template = GLOBAL_TEMPLATE . '/list/default/get-locations.php';
+			$template = PLUGIN_VIEW . '/list/default/get-locations.php';
 
 			// hook filter, incase we want to just use hook
 			if( has_filter('shortcode_list_location_crm') ){
@@ -100,7 +100,7 @@ if ( !class_exists( 'md_sc_crm_get_locations' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'List');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'list', PLUGIN_VIEW, 'List');
 		}
 
 		public function get_autocomplete_location(){
