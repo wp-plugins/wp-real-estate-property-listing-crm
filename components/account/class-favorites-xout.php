@@ -54,6 +54,6 @@ class Favorites_Xout_Property extends Account_Dashboard{
 
 	public function display(){
 		$args = array();
-		require_once GLOBAL_TEMPLATE . 'account/partials/favorite-xout-list.php';
+		require_once PLUGIN_VIEW . 'account/partials/favorite-xout-list.php';
 	}
 }

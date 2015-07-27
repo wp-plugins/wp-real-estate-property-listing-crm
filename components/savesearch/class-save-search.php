@@ -285,10 +285,10 @@ class Save_Search{
 		}
 
 		$location_name = '';
-		if( isset($_GET['location']) && $_GET['location'] != ''){
-			$location_name = $_GET['location'];
-		}elseif(isset($_REQUEST['location']) && $_REQUEST['location'] != ''){
-			$location_name = $_REQUEST['location'];
+		if( isset($_GET['locationname']) && $_GET['locationname'] != ''){
+			$location_name = $_GET['locationname'];
+		}elseif(isset($_REQUEST['locationname']) && $_REQUEST['locationname'] != ''){
+			$location_name = $_REQUEST['locationname'];
 		}
 
 		$property_type = '';
@@ -441,29 +441,31 @@ class Save_Search{
 			get_currentuserinfo();
 			$content = '';
 		};
+		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
 		$post_data = array(
-			'mls'=>$mls_type,
-			'source'=>get_option('blogname'),
-			'source_url'=>get_option('siteurl'),
-			'city'=>$city,
-			'community'=>$community,
-			'subdivision'=>$subdivision,
-			'min_listprice'=>$min_listprice,
-			'max_listprice'=>$max_listprice,
-			'min_beds'=>$min_beds,
-			'max_beds'=>$max_beds,
-			'min_baths'=>$min_baths,
-			'max_baths'=>$max_baths,
-			'min_garage'=>$min_garage,
-			'transaction'=>$transaction,
-			'property_type'=>$property_type,
+			'mls'			=>	$mls_type,
+			'source'		=>	$crm_company,
+			'source_url'	=>	site_url() . '?'. $_SERVER['QUERY_STRING'],
+			'source_website'=>	site_url(),
+			'city'			=>	$city,
+			'community'		=>	$community,
+			'subdivision'	=>	$subdivision,
+			'min_listprice'	=>	$min_listprice,
+			'max_listprice'	=>	$max_listprice,
+			'min_beds'		=>	$min_beds,
+			'max_beds'		=>	$max_beds,
+			'min_baths'		=>	$min_baths,
+			'max_baths'		=>	$max_baths,
+			'min_garage'	=>	$min_garage,
+			'transaction'	=>	$transaction,
+			'property_type'	=>	$property_type,
 		);
-		$save_search_name = '';
-		$location_name = $this->_get_current_location_name($post_data);
-		$price = $this->_get_price($post_data);
-		$property_type = $this->_get_property_type($post_data);
-		$beds = $this->_get_bed($post_data);
-		$baths = $this->_get_bath($post_data);
+		$save_search_name 	= '';
+		$location_name 		= $this->_get_current_location_name($post_data);
+		$price 				= $this->_get_price($post_data);
+		$property_type 		= $this->_get_property_type($post_data);
+		$beds 				= $this->_get_bed($post_data);
+		$baths 				= $this->_get_bath($post_data);
 
 		$save_search_name = $location_name .', '. $post_data['transaction'] . $property_type . $price . $beds . $baths;
 
