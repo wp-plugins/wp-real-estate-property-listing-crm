@@ -87,7 +87,7 @@ if ( !class_exists( 'md_sc_mls_get_locations' ) )
 			//sort it
 			array_multisort($data_locations, SORT_ASC);
 
-			$template = GLOBAL_TEMPLATE . '/list/default/mls-get-locations.php';
+			$template = PLUGIN_VIEW . '/list/default/mls-get-locations.php';
 
 			$city_id = 0;
 			if( isset($atts['cityid']) ){
@@ -105,7 +105,7 @@ if ( !class_exists( 'md_sc_mls_get_locations' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'List');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'list', PLUGIN_VIEW, 'List');
 		}
 
 		public function get_autocomplete_location(){

@@ -244,6 +244,7 @@
 							var location_type = map[datum.value].type;
 							//console.log(location_type);
 
+							jQuery('#locationname').val('');
 							jQuery('#communityid').val('');
 							jQuery('#cityid').val('');
 							jQuery('#subdivisionid').val('');
@@ -257,6 +258,8 @@
 							} else if( location_type == 'subdivision' ){
 								jQuery('#subdivisionid').val(location_id);
 							}
+
+							jQuery('#locationname').val(map[datum.value].short);
 
 							if( address != '' ){
 								get_geo_code(address);

@@ -74,12 +74,14 @@ class AccountEntity{
 				if( $search_type == 'full' ){
 					$json_location[] = array(
 						'keyword'	=>	$items->full,
+						'short'		=>	$items->keyword,
 						'id'		=>	$items->id,
 						'type'		=>	$items->location_type,
 					);
 				}else{
 					$json_location[] = array(
 						'keyword'	=>	$items->keyword,
+						'short'		=>	$items->keyword,
 						'id'		=>	$items->id,
 						'type'		=>	$items->location_type,
 					);
@@ -91,9 +93,11 @@ class AccountEntity{
 	}
 
 	public function get_coverage_lookup_key($string, $array_key = 'keyword'){
-		$result = array();
-		$string = strtolower($string);
-		$location = $this->get_coverage_lookup();
+		$result 	= array();
+		$string 	= strtolower($string);
+		$location 	= $this->get_coverage_lookup();
+		$city_id 	= 0;
+		$city 		= '';
 		if( $location->result == 'success' && isset($location->result) ){
 			foreach($location->lookups as $key => $val){
 				$find = strtolower($val->$array_key);
@@ -103,6 +107,8 @@ class AccountEntity{
 						'full'		=>	$val->full,
 						'id'		=>	$val->id,
 						'type'		=>	$val->location_type,
+						'city'		=>	isset($val->city_id) ? $val->city:'',
+						'city_id'	=>	isset($val->city_id) ? $val->city_id:0,
 					);
 				}
 			}

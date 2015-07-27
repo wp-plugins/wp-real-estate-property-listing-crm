@@ -98,7 +98,7 @@ class Account_Profile extends Account_Dashboard{
 
 	public function template($template = null){
 		if( is_null($template) ){
-			$template = GLOBAL_TEMPLATE . 'account/partials/profileform.php';
+			$template = PLUGIN_VIEW . 'account/partials/profileform.php';
 		}
 		// hook filter, incase we want to just use hook
 		if( has_filter('shortcode_account_profile') ){
@@ -109,7 +109,7 @@ class Account_Profile extends Account_Dashboard{
 
 	public function get_password_form($template = null){
 		if( is_null($template) ){
-			$template = GLOBAL_TEMPLATE . 'account/partials/passwordform.php';
+			$template = PLUGIN_VIEW . 'account/partials/passwordform.php';
 		}
 		// hook filter, incase we want to just use hook
 		if( has_filter('shortcode_account_password') ){
