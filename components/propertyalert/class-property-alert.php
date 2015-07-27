@@ -62,6 +62,21 @@ class Property_Alert{
 
 			strtolower($post_data['transaction']);
 
+			if( $post_data['communityid'] != 0 ){
+				$loc = \mls\AccountEntity::get_instance()->get_coverage_lookup_key($post_data['communityid'],'id');
+				if( $loc['type'] == 'community' ){
+					$post_data['city'] 		= $loc['city'];
+					$post_data['community'] = $loc['keyword'];
+				}
+			}
+
+			if( $post_data['cityid'] != 0 ){
+				$loc = \mls\AccountEntity::get_instance()->get_coverage_lookup_key($post_data['cityid'],'id');
+				if( $loc['type'] == 'city' ){
+					$post_data['city'] 		= $loc['keyword'];
+				}
+			}
+
 			return \Masterdigm_MLS::get_instance()->add_property_alert($post_data);
 		}
 
@@ -170,6 +185,14 @@ class Property_Alert{
 		if( isset($atts['search_keyword']['transaction']) ){
 			$transaction = $atts['search_keyword']['transaction'];
 		}
+		$source_website = site_url();
+		if( isset($atts['search_keyword']['source_website']) ){
+			$source_website = $atts['search_keyword']['source_website'];
+		}
+		$source_url = site_url();
+		if( isset($atts['search_keyword']['source_url']) ){
+			$source_url = $atts['search_keyword']['source_url'];
+		}
 		$ex_string = explode(' ',urldecode($transaction));
 		if( count($ex_string) == 2 && isset($ex_string[1]) ){
 			$transaction = strtolower($ex_string[1]);
@@ -199,8 +222,8 @@ class Property_Alert{
 		$post_data = array(
 			'mls'			=>	$mls_type,
 			'source'		=>	$crm_company,
-			'source_website'=>	site_url(),
-			'source_url'	=>	site_url(),
+			'source_website'=>	$source_website,
+			'source_url'	=>	$site_url,
 			'city'			=>	$city,
 			'community'		=>	$community,
 			'subdivision'	=>	$subdivision,

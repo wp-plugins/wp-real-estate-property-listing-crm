@@ -297,27 +297,29 @@ class Save_Search{
 		}elseif(isset($_REQUEST['property_type']) && $_REQUEST['property_type'] != ''){
 			$property_type = $_REQUEST['property_type'];
 		}
-
-		$is_community = false;
+		$communityid 	= 0;
+		$is_community 	= false;
 		if(
 			(isset($_GET['communityid']) && $_GET['communityid'] != '')
 			||
 			(isset($_REQUEST['communityid']) && $_REQUEST['communityid'] != '')
 		)
 		{
-			$is_community = true;
+			$is_community 	= true;
+			$communityid 	= $_GET['communityid'];
 		}
-
-		$is_city = false;
+		$cityid 	= 0;
+		$is_city 	= false;
 		if(
 			(isset($_GET['cityid']) && $_GET['cityid'] != '')
 			||
 			(isset($_REQUEST['cityid']) && $_REQUEST['cityid'] != '')
 		)
 		{
-			$is_city = true;
+			$cityid 	= $_GET['cityid'];
+			$is_city 	= true;
 		}
-
+		$subdivisionid  = 0;
 		$is_subdivision = false;
 		if(
 			(isset($_GET['subdivisionid']) && $_GET['subdivisionid'] != '')
@@ -325,6 +327,7 @@ class Save_Search{
 			(isset($_REQUEST['subdivisionid']) && $_REQUEST['subdivisionid'] != '')
 		)
 		{
+			$subdivisionid  = $_GET['subdivisionid'];
 			$is_subdivision = true;
 		}
 
@@ -459,6 +462,9 @@ class Save_Search{
 			'min_garage'	=>	$min_garage,
 			'transaction'	=>	$transaction,
 			'property_type'	=>	$property_type,
+			'subdivisionid'	=>	$subdivisionid,
+			'cityid'		=>	$cityid,
+			'communityid'	=>	$communityid,
 		);
 		$save_search_name 	= '';
 		$location_name 		= $this->_get_current_location_name($post_data);
