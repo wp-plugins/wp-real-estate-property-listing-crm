@@ -99,6 +99,10 @@ if ( !class_exists( 'md_sc_search_form' ) )
 			if( isset($_GET['location']) ){
 				$location = sanitize_text_field($_GET['location']);
 			}
+			$locationname = '';
+			if( isset($_GET['locationname']) ){
+				$locationname = sanitize_text_field($_GET['locationname']);
+			}
 			$min_listprice = 0;
 			if( isset($_GET['min_listprice']) ){
 				$min_listprice = sanitize_text_field($_GET['min_listprice']);

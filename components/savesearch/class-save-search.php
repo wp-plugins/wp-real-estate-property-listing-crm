@@ -285,10 +285,10 @@ class Save_Search{
 		}
 
 		$location_name = '';
-		if( isset($_GET['location']) && $_GET['location'] != ''){
-			$location_name = $_GET['location'];
-		}elseif(isset($_REQUEST['location']) && $_REQUEST['location'] != ''){
-			$location_name = $_REQUEST['location'];
+		if( isset($_GET['locationname']) && $_GET['locationname'] != ''){
+			$location_name = $_GET['locationname'];
+		}elseif(isset($_REQUEST['locationname']) && $_REQUEST['locationname'] != ''){
+			$location_name = $_REQUEST['locationname'];
 		}
 
 		$property_type = '';

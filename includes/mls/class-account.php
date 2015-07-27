@@ -74,12 +74,14 @@ class AccountEntity{
 				if( $search_type == 'full' ){
 					$json_location[] = array(
 						'keyword'	=>	$items->full,
+						'short'		=>	$items->keyword,
 						'id'		=>	$items->id,
 						'type'		=>	$items->location_type,
 					);
 				}else{
 					$json_location[] = array(
 						'keyword'	=>	$items->keyword,
+						'short'		=>	$items->keyword,
 						'id'		=>	$items->id,
 						'type'		=>	$items->location_type,
 					);

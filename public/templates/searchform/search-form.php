@@ -100,6 +100,7 @@ Template Name: Search Form - Default UI
 		<input type="hidden" name="cityid" value="<?php echo $cityid ? $cityid:'';?>" id="cityid">
 		<input type="hidden" name="countyid" value="<?php echo $countyid ? $countyid:'';?>" id="countyid">
 		<input type="hidden" name="subdivisionid" value="<?php echo $subdivisionid ? $subdivisionid:'';?>" id="subdivisionid">
+		<input type="hidden" name="locationname" value="" id="locationname">
 		<?php if( $show_button_for_sale ){ ?>
 		<button type="submit" class="search-form-btn btn btn-default wp-site-color-theme" value="For Sale">
 			<?php echo $button_for_sale;?>
