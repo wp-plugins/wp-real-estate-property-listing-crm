@@ -184,6 +184,10 @@ class CRM_Hook{
 		return false;
 	}
 
+	private function _wp_update_post_meta($post_id, $key, $value){
+		update_post_meta($post_id, $key, $value);
+	}
+
 	public function create_location_page_action_crm_callback(){
 		check_ajax_referer( 'md-ajax-request', 'security' );
 		$current_user = wp_get_current_user();
@@ -232,9 +236,9 @@ class CRM_Hook{
 					$content_shortcode .= '['.$shortcode_tag.' '.$location.'="'.$id.'" limit="11" template="list/default/list-default.php" col="4" infinite="true"]';
 
 					$page_location[$val->id]['shortcode'] = $content_shortcode;
-
+					$post_title		= $page_location[$val->id]['full'];
 					$post_insert_arg = array(
-					  'post_title'    => $page_location[$val->id]['full'],
+					  'post_title'    => $post_title,
 					  'post_content'  => $page_location[$val->id]['shortcode'],
 					  'post_status'   => $post_status,
 					  'post_author'   => $current_user->ID,
