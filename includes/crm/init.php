@@ -5,16 +5,8 @@ require_once(plugin_dir_path( __FILE__ ) . 'class-crm-locations.php');
 require_once(plugin_dir_path( __FILE__ ) . 'class-crm-property.php');
 require_once(plugin_dir_path( __FILE__ ) . 'class-hook.php');
 add_action( 'plugins_loaded', array( '\CRM_Hook', 'get_instance' ) );
-//require_once(plugin_dir_path( __FILE__ ) . 'class-masterdigm-crm.php');
-//account
-//require_once( plugin_dir_path( __FILE__ ) . 'class-account.php' );
-//add_action( 'plugins_loaded', array( '\crm\AccountEntity', 'get_instance' ) );
-// class for properties
-//require_once( plugin_dir_path( __FILE__ ) . 'properties/class-properties.php' );
-// class for property entity
 require_once( plugin_dir_path( __FILE__ ) . 'properties/class-property-entity.php' );
 // agent
-require_once( plugin_dir_path( __FILE__ ) . 'agent/class-agent.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'agent/class-agent-entity.php' );
 // view
 require_once( plugin_dir_path( __FILE__ ) . 'class-layout-property.php' );
