@@ -167,11 +167,11 @@ class Account_Dashboard {
 		extract($data);
 		$query = $this->md_get_query_vars();
 		$action = $query->action;
-		require_once PLUGIN_PUBLIC_DIR . 'globals/account/partials/nav.php';
+		require_once PLUGIN_VIEW . 'account/partials/nav.php';
 	}
 
 	public function template(){
-		return PLUGIN_PUBLIC_DIR . 'globals/account/main.php';
+		return PLUGIN_VIEW . 'account/main.php';
 	}
 
 	public function content($ret = false){
