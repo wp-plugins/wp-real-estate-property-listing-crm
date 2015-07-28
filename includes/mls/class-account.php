@@ -73,17 +73,17 @@ class AccountEntity{
 			foreach($location->lookups as $items){
 				if( $search_type == 'full' ){
 					$json_location[] = array(
-						'keyword'	=>	$items->full,
-						'short'		=>	$items->keyword,
-						'id'		=>	$items->id,
-						'type'		=>	$items->location_type,
+						'keyword'		=>	$items->full,
+						'locationname'	=>	$items->keyword,
+						'id'			=>	$items->id,
+						'type'			=>	$items->location_type,
 					);
 				}else{
 					$json_location[] = array(
-						'keyword'	=>	$items->keyword,
-						'short'		=>	$items->keyword,
-						'id'		=>	$items->id,
-						'type'		=>	$items->location_type,
+						'keyword'		=>	$items->keyword,
+						'locationname'	=>	$items->keyword,
+						'id'			=>	$items->id,
+						'type'			=>	$items->location_type,
 					);
 				}
 			}

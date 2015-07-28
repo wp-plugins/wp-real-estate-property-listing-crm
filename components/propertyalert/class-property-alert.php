@@ -42,7 +42,7 @@ class Property_Alert{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-property-alert-actions', plugin_dir_url( __FILE__ ) . 'js/property-alert.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-property-alert-actions', plugin_dir_url( __FILE__ ) . 'js/property-alert-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	public function subscribe_property_alert($post_data = array()){

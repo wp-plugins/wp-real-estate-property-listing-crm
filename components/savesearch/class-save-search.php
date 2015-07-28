@@ -42,7 +42,7 @@ class Save_Search{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-save-search', plugin_dir_url( __FILE__ ) . 'js/save-search.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-save-search', plugin_dir_url( __FILE__ ) . 'js/save-search-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	private function _get_current_location_name($search_data){

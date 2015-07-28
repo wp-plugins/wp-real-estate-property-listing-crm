@@ -88,7 +88,7 @@ class Account_Profile extends Account_Dashboard{
 	public function enqueue_scripts(){
 		$dashboard_page = \Account_Dashboard::get_instance()->get_dashboard_page();
 		if( $dashboard_page && is_page($dashboard_page->ID) ){
-			wp_enqueue_script( $this->plugin_name . '-account-actions', plugin_dir_url( __FILE__ ) . 'js/account.js', array( 'jquery' ), $this->version, true );
+			wp_enqueue_script( $this->plugin_name . '-account-actions', plugin_dir_url( __FILE__ ) . 'js/account-min.js', array( 'jquery' ), $this->version, true );
 		}
 	}
 

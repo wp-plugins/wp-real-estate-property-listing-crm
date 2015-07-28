@@ -105,7 +105,7 @@
 					var transaction = transactionDropDown.val();
 					updateMaxMinPrice(transaction.toLowerCase());
 				});
-			},
+			}
 
 		};
 
@@ -157,7 +157,7 @@
 					//codeAddress(address);
 					return true;
 				});
-			},
+			}
 		};
 
 	}();
@@ -182,7 +182,7 @@
 					//codeAddress(address);
 					return true;
 				});
-			},
+			}
 		};
 	}();
 
@@ -259,7 +259,7 @@
 								jQuery('#subdivisionid').val(location_id);
 							}
 
-							jQuery('#locationname').val(map[datum.value].short);
+							jQuery('#locationname').val(map[datum.value].locationname);
 
 							if( address != '' ){
 								get_geo_code(address);

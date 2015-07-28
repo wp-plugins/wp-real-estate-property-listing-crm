@@ -37,7 +37,7 @@ class Signup_Form{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-signup-actions', plugin_dir_url( __FILE__ ) . 'js/signup.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-signup-actions', plugin_dir_url( __FILE__ ) . 'js/signup-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	public function user_signon($user_login, $password, $remember = true){
