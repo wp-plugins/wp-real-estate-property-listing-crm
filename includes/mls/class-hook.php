@@ -380,7 +380,7 @@ class MLS_Hook{
 	public function fields_type_mls($property_type){
 		$fields =  \mls\AccountEntity::get_instance()->get_property_type();
 		$fields_type = array();
-		if( $fields->result == 'success' ){
+		if( isset($fields->result) && $fields->result == 'success' ){
 			//$fields_type = $fields->types;
 			foreach($fields->types as $key => $val){
 				$fields_type[$val] = $val;

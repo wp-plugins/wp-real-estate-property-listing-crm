@@ -134,6 +134,7 @@ class Masterdigm_API_Public {
 				'ajax_indicator' => PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif',
 				'masonry_container' => 'search-result',
 				'masonry'	=>	$masonry,
+				'fb_key'	=>	\Social_API::get_instance()->getSocialApiByKey('facebook','id'),
 			)
 		);
 	}

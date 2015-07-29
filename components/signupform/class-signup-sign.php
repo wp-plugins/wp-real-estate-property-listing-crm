@@ -58,7 +58,9 @@ class Signup_Form{
 				wp_update_user(
 					array(
 						'ID'          =>    $user_id,
-						'nickname'    =>    $other_data['nickname']
+						'nickname'    =>    $other_data['nickname'],
+						'first_name'  =>    $other_data['first_name'],
+						'last_name'   =>    $other_data['last_name'],
 					)
 				);
 
@@ -69,16 +71,21 @@ class Signup_Form{
 	}
 
 	public function signup_action_callback(){
-		check_ajax_referer( 'md-ajax-request', 'security' );
-		$error = '';
-		$checkuser = '';
-		$array_data = array();
-		$ret_data = array();
-		$save_lead = array();
-		$current_action = 0;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ){
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+
+		$error 				= '';
+		$checkuser 			= '';
+		$array_data 		= array();
+		$ret_data 			= array();
+		$save_lead 			= array();
+		$current_action 	= 0;
+
 		if( isset($_POST['current_action']) ){
 			$current_action = $_POST['current_action'];
 		}
+
 		$user_id 		= false;
 		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
 		$source 		= $crm_company;
@@ -124,10 +131,19 @@ class Signup_Form{
 				if( !$check_user && !$email_exists){
 					// create user
 					$password 	= wp_generate_password(12, false);
-					$user_id 	= $this->register_user($emailaddress, $password, $emailaddress, array('nickname'=>$firstname));
+					/*
+					$user_id 	= $this->register_user($emailaddress, $password, $emailaddress, $user_array);*/
+					$username = $emailaddress;
+					$user_array = array(
+						'email'			=>	$emailaddress,
+						'username'		=>	$username,
+						'password'		=>	$password,
+						'nickname'		=>	$firstname,
+						'first_name'	=>	$firstname,
+						'last_name'		=>	$lastname,
+					);
+					$user_id = md_create_user($user_array);
 					update_user_meta($user_id,'phone_num',$phone);
-					update_user_meta($user_id,'first_name',$firstname);
-					update_user_meta($user_id,'last_name',$lastname);
 					wp_new_user_notification($user_id, $password);
 					$this->user_signon($emailaddress, $password);
 					// create user
@@ -156,13 +172,13 @@ class Signup_Form{
 					update_option('error-signup-'.$email_exists, $error);
 				}
 			}
-
-			$ret_data = array(
-				'save_lead' => $save_lead,
-				'array_data' => $array_data,
-				'post' => $_POST,
-			);
 		}
+
+		$ret_data = array(
+			'save_lead' => $save_lead,
+			'array_data' => $array_data,
+			'post' => $_POST,
+		);
 		$json_array = array(
 			'msg'=>$msg,
 			'status'=>$status,

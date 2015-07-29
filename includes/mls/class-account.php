@@ -68,7 +68,7 @@ class AccountEntity{
 		$json_location 	= array();
 		$location 		= $this->get_coverage_lookup();
 
-		if( $location->result == 'success' ){
+		if( isset($location->result) && $location->result == 'success' ){
 			//create a json
 			foreach($location->lookups as $items){
 				if( $search_type == 'full' ){
