@@ -67,7 +67,7 @@ class CRM_Account{
 	 * */
 	public function get_account_data($key = null){
 		$account_details = $this->get_account_details();
-		if( $account_details->result == 'success' ){
+		if( isset($account_details->result) && $account_details->result == 'success' ){
 			if( !is_null($key) ){
 				if( $account_details->data && isset($account_details->data->$key) ){
 					return $account_details->data->$key;

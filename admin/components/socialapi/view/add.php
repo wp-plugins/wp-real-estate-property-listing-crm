@@ -20,6 +20,7 @@
 		<input type="text" name="socialapi[facebook][id]" value="<?php echo $obj->getSocialApiByKey('facebook','id');?>" style="width:60%;">
 		<p>Facebook APP Secret token</p>
 		<input type="text" name="socialapi[facebook][secret]" value="<?php echo $obj->getSocialApiByKey('facebook','secret');?>" style="width:60%;">
+		<p><a href="https://developers.facebook.com/docs/games/appcenter/tutorial" target="_blank">Link to create facebook app</a></p>
 	</div>
 	<div>
 		<p>Google APP ID</p>

@@ -131,7 +131,7 @@ class Dashboard_Save_Search extends Account_Dashboard{
 			$has_saved_search = true;
 		}
 
-		require_once GLOBAL_TEMPLATE . 'account/partials/save-search-list.php';
+		require_once PLUGIN_VIEW . 'account/partials/save-search-list.php';
 	}
 
 	public function get_db_save_search(){

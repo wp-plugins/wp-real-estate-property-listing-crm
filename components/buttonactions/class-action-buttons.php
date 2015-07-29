@@ -49,7 +49,7 @@ class Action_Buttons {
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-button-actions', plugin_dir_url( __FILE__ ) . 'js/buttonaction.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-button-actions', plugin_dir_url( __FILE__ ) . 'js/buttonaction-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**
