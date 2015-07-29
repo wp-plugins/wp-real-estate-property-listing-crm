@@ -421,8 +421,6 @@ ul.child_list > li {
   vertical-align: top;
 }
 #md-proppage-left ul.left-details li {
-  height: 150px;
-  min-height: 150px;
   width: 100%;
   display: inline-block;
   width: 50%px;
