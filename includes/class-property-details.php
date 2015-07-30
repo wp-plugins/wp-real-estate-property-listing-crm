@@ -50,30 +50,30 @@ class MD_Property_Details{
 	}
 
 	public function single_map($atts){
-		require GLOBAL_TEMPLATE . 'single/partials/map/map.php';
+		require PLUGIN_VIEW . 'single/partials/map/map.php';
 	}
 
 	public function single_walkscore($atts){
-		require GLOBAL_TEMPLATE . 'single/partials/walkscore/walkscore.php';
+		require PLUGIN_VIEW . 'single/partials/walkscore/walkscore.php';
 	}
 
 	public function single_photos($atts){
-		require GLOBAL_TEMPLATE . 'single/partials/photos/photos.php';
+		require PLUGIN_VIEW . 'single/partials/photos/photos.php';
 	}
 
 	public function display_agent_box($property_data, $atts = array()){
-		$template 	= GLOBAL_TEMPLATE . 'agent/html-agent.php';
+		$template 	= PLUGIN_VIEW . 'agent/html-agent.php';
 		$agent 		= new MD_Agent;
 		$agent->set_agent_data($property_data);
 		require $template;
 	}
 
 	public function display_property_details_left_content($atts, $additional_atts = array()){
-		require GLOBAL_TEMPLATE . 'single/partials/property-details/left-content.php';
+		require PLUGIN_VIEW . 'single/partials/property-details/left-content.php';
 	}
 
 	public function display_property_details_right_content($atts, $additional_atts = array()){
-		require GLOBAL_TEMPLATE . 'single/partials/property-details/right-content.php';
+		require PLUGIN_VIEW . 'single/partials/property-details/right-content.php';
 	}
 }
 

@@ -36,6 +36,7 @@ jQuery(document).ready(function($){
 		responsive:true,
 		imageCrop: true,
 		preload:2,
+		thumbnails: 'lazy',
 		dummy: '<?php echo PLUGIN_ASSET_URL . 'house.png';?>',
 	});
 	Galleria.run('#galleria');

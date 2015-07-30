@@ -47,7 +47,7 @@ if ( !class_exists( 'md_sc_crm_list_properties_by' ) )
 
 		public function get_default_property_by_template($atts){
 			if( !isset($atts['template_by']) ){
-				$template = GLOBAL_TEMPLATE . 'list/default/list-default-by-property.php';
+				$template = PLUGIN_VIEW . 'list/default/list-default-by-property.php';
 			}
 			// hook filter, incase we want to just use hook
 			if( has_filter('shortcode_list_property_by_crm') ){

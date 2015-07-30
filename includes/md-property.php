@@ -32,7 +32,7 @@ function md_display_nearby_property($atts){
 
 		\MD\Property::get_instance()->set_properties($properties, get_single_property_source());
 
-		$template = GLOBAL_TEMPLATE . 'list/default/list-similar-homes.php';
+		$template = PLUGIN_VIEW . 'list/default/list-similar-homes.php';
 		// hook filter, incase we want to just use hook
 		if( has_filter('shortcode_list_property_'.get_single_property_source()) ){
 			$template = apply_filters('shortcode_list_property_' . get_single_property_source(), $path);
