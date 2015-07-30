@@ -42,7 +42,7 @@ class Property_Alert{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-property-alert-actions', plugin_dir_url( __FILE__ ) . 'js/property-alert.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-property-alert-actions', plugin_dir_url( __FILE__ ) . 'js/property-alert-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	public function subscribe_property_alert($post_data = array()){
@@ -51,13 +51,31 @@ class Property_Alert{
 
 		$user_meta = get_user_meta($current_user->ID);
 		if( $user_meta && isset($user_meta['lead-data']) ){
+			$crm_company 					= \CRM_Account::get_instance()->get_account_data('company');
 			$lead_data 						= unserialize($user_meta['lead-data'][0]);
 			$post_data['leadid'] 			= $lead_data->leadid;
 			$post_data['lead_name'] 		= $current_user->user_firstname.' '.$current_user->user_lastname;
 			$post_data['lead_email'] 		= $current_user->user_email;
-			$post_data['source_website'] 	= get_site_url();
+			$post_data['source_website']	= $post_data['source_website'];
+			$post_data['source_url']		= $post_data['source_url'];
+			$post_data['source'] 			= $crm_company;
 
 			strtolower($post_data['transaction']);
+
+			if( $post_data['communityid'] != 0 ){
+				$loc = \mls\AccountEntity::get_instance()->get_coverage_lookup_key($post_data['communityid'],'id');
+				if( $loc['type'] == 'community' ){
+					$post_data['city'] 		= $loc['city'];
+					$post_data['community'] = $loc['keyword'];
+				}
+			}
+
+			if( $post_data['cityid'] != 0 ){
+				$loc = \mls\AccountEntity::get_instance()->get_coverage_lookup_key($post_data['cityid'],'id');
+				if( $loc['type'] == 'city' ){
+					$post_data['city'] 		= $loc['keyword'];
+				}
+			}
 
 			return \Masterdigm_MLS::get_instance()->add_property_alert($post_data);
 		}
@@ -167,6 +185,14 @@ class Property_Alert{
 		if( isset($atts['search_keyword']['transaction']) ){
 			$transaction = $atts['search_keyword']['transaction'];
 		}
+		$source_website = site_url();
+		if( isset($atts['search_keyword']['source_website']) ){
+			$source_website = $atts['search_keyword']['source_website'];
+		}
+		$source_url = site_url();
+		if( isset($atts['search_keyword']['source_url']) ){
+			$source_url = $atts['search_keyword']['source_url'];
+		}
 		$ex_string = explode(' ',urldecode($transaction));
 		if( count($ex_string) == 2 && isset($ex_string[1]) ){
 			$transaction = strtolower($ex_string[1]);
@@ -191,21 +217,24 @@ class Property_Alert{
 			get_currentuserinfo();
 
 		};
+
+		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
 		$post_data = array(
-			'mls'=>$mls_type,
-			'source'=>get_option('blogname'),
-			'source_url'=>get_option('siteurl'),
-			'city'=>$city,
-			'community'=>$community,
-			'subdivision'=>$subdivision,
-			'min_listprice'=>$min_listprice,
-			'max_listprice'=>$max_listprice,
-			'min_beds'=>$min_beds,
-			'max_beds'=>$max_beds,
-			'min_baths'=>$min_baths,
-			'max_baths'=>$max_baths,
-			'min_garage'=>$min_garage,
-			'transaction'=>$transaction,
+			'mls'			=>	$mls_type,
+			'source'		=>	$crm_company,
+			'source_website'=>	$source_website,
+			'source_url'	=>	$site_url,
+			'city'			=>	$city,
+			'community'		=>	$community,
+			'subdivision'	=>	$subdivision,
+			'min_listprice'	=>	$min_listprice,
+			'max_listprice'	=>	$max_listprice,
+			'min_beds'		=>	$min_beds,
+			'max_beds'		=>	$max_beds,
+			'min_baths'		=>	$min_baths,
+			'max_baths'		=>	$max_baths,
+			'min_garage'	=>	$min_garage,
+			'transaction'	=>	$transaction,
 		);
 		if( isset($atts['search_keyword']) ){
 			$query_data = http_build_query($post_data);
