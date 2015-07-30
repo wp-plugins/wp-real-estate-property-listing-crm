@@ -169,6 +169,17 @@ class MD_Facebook_App{
 		?>
 		<script>
 			var is_my_account_page = '<?php echo is_page('my-account') ? is_page('my-account'):0; ?>';
+
+			function is_popup_reg_form(){
+				if( is_my_account_page == 1 ){
+					return true;
+				}
+				if( typeof popup_reg_form !== 'undefined' && popup_reg_form == 1 ){
+					return true;
+				}
+				return false;
+			}
+
 			// This is called with the results from from FB.getLoginStatus().
 			function statusChangeCallback(response) {
 				// The response object is returned with a status field that lets the
@@ -176,9 +187,9 @@ class MD_Facebook_App{
 				// Full docs on the response object can be found in the documentation
 				// for FB.getLoginStatus().
 				if (response.status === 'connected') {
-				  // Logged into your app and Facebook.
-				  //console.log('connected');
-				  connected_api(response);
+					// Logged into your app and Facebook.
+					//console.log('connected');
+					connected_api(response);
 				} else if (response.status === 'not_authorized') {
 				  // The person is logged into Facebook, but not your app.
 				  /*document.getElementById('status').innerHTML = 'Please log ' +
@@ -270,7 +281,6 @@ class MD_Facebook_App{
 				  statusChangeCallback(response);
 				});
 			}
-
 			window.fbAsyncInit = function() {
 				FB.init({
 					appId      : '<?php echo \Social_API::get_instance()->getSocialApiByKey('facebook','id');?>',
@@ -295,6 +305,7 @@ class MD_Facebook_App{
 				FB.getLoginStatus(function(response) {
 					statusChangeCallback(response);
 				});
+
 			};
 
 			// Load the SDK asynchronously
@@ -316,7 +327,7 @@ class MD_Facebook_App{
 					if( current_action != '' ){
 						jQuery('#status').html('<p>login to facebook, please wait...</p>');
 						ajax_update_user(response, fb_auth, current_action);
-					}else if( current_action == '' && is_my_account_page == 1 ){
+					}else if( current_action == '' && is_popup_reg_form() ){
 						jQuery('#status').html('<p>login to facebook, please wait...</p>');
 						ajax_update_user(response, fb_auth, current_action);
 					}

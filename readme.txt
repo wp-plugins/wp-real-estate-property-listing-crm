@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, realestate, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.27.59
+Stable tag: 3.27.60
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -177,6 +177,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.27.60 =
+* update: show popup form after certain clicks, added facebook login
 
 = 3.27.59 =
 * tweak: facebook login in the actual page, not popup
