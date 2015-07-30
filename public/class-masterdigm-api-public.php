@@ -115,9 +115,9 @@ class Masterdigm_API_Public {
 		wp_enqueue_script('jquery-masonry',null,array('jquery'));
 		wp_enqueue_script($this->plugin_name . '-localize-script');
 		wp_enqueue_script( $this->plugin_name . '-typeahead', plugin_dir_url( __FILE__ ) . 'js/typeahead.bundle.min.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_name . '-localize-script-public', plugin_dir_url( __FILE__ ) . 'js/masterdigm-public.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_name . '-search', plugin_dir_url( __FILE__ ) . 'js/search-public.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_name . '-single', plugin_dir_url( __FILE__ ) . 'js/masterdigm-single-property-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-localize-script-public', plugin_dir_url( __FILE__ ) . 'js/masterdigm-public-min.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-search', plugin_dir_url( __FILE__ ) . 'js/search-public-min.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-single', plugin_dir_url( __FILE__ ) . 'js/masterdigm-single-property-public-min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-infinite-scroll', plugin_dir_url( __FILE__ ) . 'js/infinite_scroll.js', array( 'jquery' ), $this->version, true );
 		// localize
 		$settings = get_option('plugin-settings');
@@ -134,6 +134,7 @@ class Masterdigm_API_Public {
 				'ajax_indicator' => PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif',
 				'masonry_container' => 'search-result',
 				'masonry'	=>	$masonry,
+				'fb_key'	=>	\Social_API::get_instance()->getSocialApiByKey('facebook','id'),
 			)
 		);
 	}

@@ -37,7 +37,7 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'searchresult', GLOBAL_TEMPLATE, 'Search Result');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'searchresult', PLUGIN_VIEW, 'Search Result');
 		}
 
 		public function init_shortcode($atts){

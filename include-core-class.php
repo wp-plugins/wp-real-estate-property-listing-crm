@@ -39,7 +39,6 @@ require plugin_dir_path( __FILE__ ) . 'admin/class-masterdigm-admin-util.php';
 //require masterdigm api class for CRM
 require_once( plugin_dir_path( __FILE__ ) . 'includes/api/masterdigm/crm/class-crm-client.php' );
 //require masterdigm api class for MLS
-//require_once( plugin_dir_path( __FILE__ ) . 'includes/api/masterdigm/mls/class-mls-client.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/api/masterdigm/mls/MlsConnector.php' );
 //require masterdigm api wrapper
 // crm
@@ -59,3 +58,4 @@ require_once( plugin_dir_path( __FILE__ ) . 'includes/class-template.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/class-next-prev.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/class-agent.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/class-property-details.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/class-user.php' );
