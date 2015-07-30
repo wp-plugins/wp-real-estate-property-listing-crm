@@ -276,7 +276,7 @@ class MD_Facebook_App{
 					cookie     : true,  // enable cookies to allow the server to access
 										// the session
 					xfbml      : true,  // parse social plugins on this page
-					version    : 'v2.2' // use version 2.2
+					version    : '<?php echo \Social_API::get_instance()->getSocialApiByKey('facebook','version');?>'
 				});
 
 				// Now that we've initialized the JavaScript SDK, we call
@@ -311,11 +311,9 @@ class MD_Facebook_App{
 				jQuery('#status').html('');
 				var current_action 	= jQuery('#registerModal .current_action').val();
 				var fb_auth 		= ajax_update_user_meta(response);
-				FB.api('/me', function(response) {
+				FB.api('/me', {fields: 'id,name,first_name,last_name,email'}, function(response) {
 					if( current_action != '' ){
 						jQuery('#status').html('<p>login to facebook, please wait...</p>');
-						//console.log('Successful login for: ' + response.name);
-						//console.log('current_action : ' + current_action);
 						ajax_update_user(response, fb_auth, current_action);
 					}
 				});

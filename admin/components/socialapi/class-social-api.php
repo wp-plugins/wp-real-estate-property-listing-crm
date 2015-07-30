@@ -111,8 +111,8 @@ class Social_API {
 		}else{
 			$social_api = get_option($prefix);
 		}
-		if( $social_api && trim($social_api[$api][$key] != '') ){
-			return $social_api[$api][$key];
+		if( $social_api && isset($social_api[$api][$key]) ){
+			return trim($social_api[$api][$key]);
 		}
 		return false;
 	}
