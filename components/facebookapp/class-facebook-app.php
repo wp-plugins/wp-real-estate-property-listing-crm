@@ -168,6 +168,7 @@ class MD_Facebook_App{
 	public function js_init(){
 		?>
 		<script>
+			var is_my_account_page = '<?php echo is_page('my-account') ? is_page('my-account'):0; ?>';
 			// This is called with the results from from FB.getLoginStatus().
 			function statusChangeCallback(response) {
 				// The response object is returned with a status field that lets the
@@ -313,6 +314,9 @@ class MD_Facebook_App{
 				var fb_auth 		= ajax_update_user_meta(response);
 				FB.api('/me', {fields: 'id,name,first_name,last_name,email'}, function(response) {
 					if( current_action != '' ){
+						jQuery('#status').html('<p>login to facebook, please wait...</p>');
+						ajax_update_user(response, fb_auth, current_action);
+					}else if( current_action == '' && is_my_account_page == 1 ){
 						jQuery('#status').html('<p>login to facebook, please wait...</p>');
 						ajax_update_user(response, fb_auth, current_action);
 					}
