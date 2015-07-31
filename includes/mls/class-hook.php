@@ -193,11 +193,12 @@ class MLS_Hook{
 		if( $array_properties['community'] && isset($array_properties['community']->community_id) ){
 			$communityid = $array_properties['community']->community_id;
 		}else{
-			if( isset($ret['city']) && isset($ret['city']['id']) ){
+			if( isset($ret['city']) && isset($ret['city']['id']) && $ret['city']['id'] != 0 ){
 				$cityid = $ret['city']['id'];
 			}
-			if( isset($ret['community']) && isset($ret['community']['id']) ){
+			if( isset($ret['community']) && isset($ret['community']['id']) && $ret['community']['id'] != 0 ){
 				$communityid = $ret['community']['id'];
+				$cityid = '';
 			}
 		}
 
@@ -211,7 +212,7 @@ class MLS_Hook{
 		$search_data['countyid'] 		= '';
 		$search_data['countryid'] 		= '';
 		$search_data['communityid'] 	= $communityid;
-		$search_data['cityid'] 			= '';
+		$search_data['cityid'] 			= $cityid;
 		$search_data['location'] 		= $location;
 		$search_data['bathrooms'] 		= '';
 		$search_data['bedrooms'] 		= '';
