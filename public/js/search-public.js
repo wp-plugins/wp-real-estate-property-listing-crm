@@ -105,7 +105,7 @@
 					var transaction = transactionDropDown.val();
 					updateMaxMinPrice(transaction.toLowerCase());
 				});
-			},
+			}
 
 		};
 
@@ -157,7 +157,7 @@
 					//codeAddress(address);
 					return true;
 				});
-			},
+			}
 		};
 
 	}();
@@ -182,7 +182,7 @@
 					//codeAddress(address);
 					return true;
 				});
-			},
+			}
 		};
 	}();
 
@@ -244,6 +244,7 @@
 							var location_type = map[datum.value].type;
 							//console.log(location_type);
 
+							jQuery('#locationname').val('');
 							jQuery('#communityid').val('');
 							jQuery('#cityid').val('');
 							jQuery('#subdivisionid').val('');
@@ -257,6 +258,8 @@
 							} else if( location_type == 'subdivision' ){
 								jQuery('#subdivisionid').val(location_id);
 							}
+
+							jQuery('#locationname').val(map[datum.value].locationname);
 
 							if( address != '' ){
 								get_geo_code(address);

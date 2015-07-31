@@ -1,5 +1,15 @@
 (function( $ ) {
 	'use strict';
+	var ReloadThis = function(){
+		return {
+			init:function(){
+				setTimeout(function(){
+					$('.register-modal').modal('hide');
+					location.reload(true);
+				},2000);
+			}
+		};
+	}();
 	var sharePop = function(){
 		return {
 			init:function(){

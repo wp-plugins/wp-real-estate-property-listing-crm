@@ -33,7 +33,7 @@ class Email_To{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-emailto-actions', plugin_dir_url( __FILE__ ) . 'js/emailto.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-emailto-actions', plugin_dir_url( __FILE__ ) . 'js/emailto-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	public function sendtofriend_action_callback(){
