@@ -424,7 +424,7 @@ class MD_Property_Content{
 			}
 		}
 
-		require_once( GLOBAL_TEMPLATE . 'list_content.php' );
+		require_once( PLUGIN_VIEW . 'list_content.php' );
 	}
 
 }
