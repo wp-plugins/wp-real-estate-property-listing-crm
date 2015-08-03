@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, realestate, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.27.61
+Stable tag: 3.28.61
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -177,6 +177,13 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.28.61 =
+* added: accept unsubscribe url from the email alert content (login or not)
+* added: ability also to unsubscribe from the dashboard page (loggedin)
+* added: in the backend, I create a editor for the unsubscribe message, if success or fail there is two editor there to create
+* added: the "un subscribe" page will be auto added for new installed plugin
+* added: shortcode too for "md_sc_unsubscribe_api" just a simple one so the unsubscribe will process
 
 = 3.27.61 =
 * tweak: similar homes to use city if community is not available

@@ -100,3 +100,9 @@ function md_register_user($data = array()){
 		//login
 	}
 }
+/**
+ * un-subscribe user in property alert
+ * */
+function md_unsubscribe_palert($email){
+
+}

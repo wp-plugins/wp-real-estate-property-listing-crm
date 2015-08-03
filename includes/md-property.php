@@ -51,3 +51,6 @@ function md_display_nearby_property($atts){
 function dump($string, $exit = false){
 	return \helpers\Text::print_r_array($string, $exit);
 }
+function init_create_pages(){
+	\Property_Page::get_instance()->create_property_page();
+}

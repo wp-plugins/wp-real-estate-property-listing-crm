@@ -9,7 +9,6 @@
 								<input type="text" name="save_search_name[<?php echo $val['md5_save_search_name'];?>]" value="<?php echo $val['save_search_name'];?>">
 								<a href="trash?id=<?php echo $val['md5_save_search_name'];?>&_nonce=<?php echo wp_create_nonce('trash-saved-search-'. $val['md5_save_search_name'] . $user_account->ID);?>" class="btn btn-default btn-xs" role="button">delete</a>
 								<?php if( isset($val['subscribed_property_alert']) && $val['subscribed_property_alert'] == 1 ){// if subscribed_property_alert ?>
-									- <a href="unsubscribe?id=<?php echo $val['md5_save_search_name'];?>&_nonce=<?php echo wp_create_nonce('unsubscribe-saved-search-'. $val['md5_save_search_name'] . $user_account->ID);?>" class="btn btn-default btn-xs" role="button">Un-Subscribe to property alert</a>
 								<?php }elseif(isset($val['subscribed_property_alert']) && $val['subscribed_property_alert'] == 0){ ?>
 									- <a href="subscribe?id=<?php echo $val['md5_save_search_name'];?>&_nonce=<?php echo wp_create_nonce('subscribe-saved-search-'. $val['md5_save_search_name'] . $user_account->ID);?>" class="btn btn-default btn-xs" role="button">Subscribe to property alert</a>
 								<?php }// if subscribed_property_alert ?>
@@ -26,4 +25,7 @@
 			</p>
 		</form>
 	<?php }//if $search_data ?>
+</div>
+<div id="unsubscribe-button">
+	<?php \Property_Alert::get_instance()->display_unsubscribe_button('');?>
 </div>

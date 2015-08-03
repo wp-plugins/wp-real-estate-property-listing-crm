@@ -1,10 +1,7 @@
 <?php
-class Social_API {
+class Property_Alert_Admin {
 
 	protected static $instance = null;
-
-	public $prefix;
-
 	public $slug;
 	public $array_error = array();
 	/**
@@ -34,8 +31,8 @@ class Social_API {
 	}
 
 	public function __construct(){
-		$this->prefix = 'social-api';
-		$this->slug = 'admin.php?page=md-api-social-api';
+		$this->prefix = 'propertyalert-admin';
+		$this->slug = 'admin.php?page=md-api-property-alert';
 		add_action( 'admin_menu', array( $this, 'add_plugin_admin_menu' ) );
 	}
 
@@ -49,10 +46,10 @@ class Social_API {
 
 		add_submenu_page(
 			$plugin_name,
-			'Social API',
-			'Social API',
+			'Property Alert API',
+			'Property Alert API',
 			'manage_options',
-			'md-api-social-api',
+			'md-api-property-alert',
 			array( $this, 'controller' )
 		);
 	}
@@ -66,7 +63,9 @@ class Social_API {
 	}
 
 	public function controller(){
-		$request = '';
+		$request 	= '';
+		$prefix 	= $this->prefix;
+		$post 		= $_POST;
 		if( isset($_REQUEST['action']) ){
 			$request = sanitize_text_field($_REQUEST['action']);
 		}
@@ -75,9 +74,8 @@ class Social_API {
 			case 'update':
 				$error 		= array();
 				$has_error 	= false;
-				$post 		= $_POST;
-				$prefix 	= $this->prefix;
-				update_option($prefix,$post['socialapi']);
+				update_option('success-unsubscribe',$post['success-unsubscribe']);
+				update_option('fail-unsubscribe',$post['fail-unsubscribe']);
 				\Masterdigm_Admin_Util::get_instance()->redirect_to($this->slug);
 			break;
 			default:
@@ -90,30 +88,40 @@ class Social_API {
 	 * list the data
 	 * */
 	public function displayIndex(){
-		$obj = $this->get_instance();
-		require_once( plugin_dir_path( __FILE__ ) . 'view/add.php' );
+		$obj 				= $this->get_instance();
+		$editor_settings 	= array(
+			'teeny'			=>	true,
+			'textarea_rows' => 	5,
+			'media_buttons' => 	false
+		);
+		$success_editor		= $this->_success_content($editor_settings);
+		$fail_editor		= $this->_fail_content($editor_settings);
+		require_once( plugin_dir_path( __FILE__ ) . 'view/index_page.php' );
 	}
 
-	public function getSocialApi(){
-		$prefix 	= $this->prefix;
-		if( isset($_POST['socialapi']) ){
-			$social_api = get_option($prefix,$_POST['socialapi']);
-		}else{
-			$social_api = get_option($prefix);
-		}
-		return $social_api;
+	private function _success_content($settings = array()){
+		$content = $this->display_success();
+		return array(
+			'content' 	=> $content,
+			'editor_id' => 'success-unsubscribe',
+			'settings' 	=> $settings,
+		);
 	}
 
-	public function getSocialApiByKey($api,$key){
-		$prefix 	= $this->prefix;
-		if( isset($_POST['socialapi']) ){
-			$social_api = get_option($prefix,$_POST['socialapi']);
-		}else{
-			$social_api = get_option($prefix);
-		}
-		if( $social_api && isset($social_api[$api][$key]) ){
-			return trim($social_api[$api][$key]);
-		}
-		return false;
+	private function _fail_content($settings = array()){
+		$content = $this->display_fail();
+		return array(
+			'content' 	=> $content,
+			'editor_id' => 'fail-unsubscribe',
+			'settings' 	=> $settings,
+		);
+	}
+
+	public function display_success(){
+		return get_option('success-unsubscribe');
+	}
+
+	public function display_fail(){
+		return get_option('fail-unsubscribe');
 	}
 }

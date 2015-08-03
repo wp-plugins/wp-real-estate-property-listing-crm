@@ -256,6 +256,12 @@ class Save_Search{
 		die();
 	}
 
+	public function get_all_by_userid($user_id){
+		global $wpdb;
+		$sql = "SELECT * FROM $wpdb->usermeta WHERE meta_key like '%save-search%' and user_id = {$user_id}";
+		return $wpdb->get_results($sql);
+	}
+
 	public function get_save_search( $umeta_key, $single = false, $umeta_user_id = null ){
 		global $current_user;
 		get_currentuserinfo();
@@ -328,7 +334,25 @@ class Save_Search{
 		)
 		{
 			$subdivisionid  = $_GET['subdivisionid'];
-			$is_subdivision = true;
+			$is_county = true;
+		}
+		$countyid  = 0;
+		$is_county = false;
+		if(
+			(isset($_GET['countyid']) && $_GET['countyid'] != '')
+			||
+			(isset($_REQUEST['countyid']) && $_REQUEST['countyid'] != '')
+		)
+		{
+			$countyid  = $_GET['countyid'];
+			$is_county = true;
+		}
+
+		$county = '';
+		if( $location_name != '' && $is_county ){
+			$county = $location_name;
+		}elseif(isset($atts['search_keyword']['countyid'])){
+			$county = $atts['search_keyword']['countyid'];
 		}
 
 		$city = '';

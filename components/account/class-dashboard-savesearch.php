@@ -49,7 +49,9 @@ class Dashboard_Save_Search extends Account_Dashboard{
 		if( isset($arr_action->task) ){
 			$task = $arr_action->task;
 		}
-
+		if( isset($_GET['_nonce']) ){
+			$nonce 		= sanitize_text_field($_GET['_nonce']);
+		}
 		switch($task){
 			case 'update_save_search':
 				if( isset($_POST['save_search_name']) ){
@@ -91,10 +93,14 @@ class Dashboard_Save_Search extends Account_Dashboard{
 					$umeta_key = get_user_meta($user_account->ID, 'save-search-'.$key, 1);
 					if( $umeta_key ){
 						$umeta_key['subscribed_property_alert'] = 0;
-						if( update_user_meta( $user_account->ID, $umeta_key['user_meta_name'], $umeta_key ) ){
-							\Save_Search::get_instance()->decrement_search_counter($key);
-						}
+						update_user_meta( $user_account->ID, $umeta_key['user_meta_name'], $umeta_key );
 					}
+				}
+				\Masterdigm_Admin_Util::get_instance()->redirect_to($redirect);
+			break;
+			case 'unsubscribe-all':
+				if(wp_verify_nonce($nonce, 'un-subscribe-all-' . $user_account->ID) ){
+					$unsubscribe = \Property_Alert::get_instance()->crm_unsubscribe($user_account->user_email);
 				}
 				\Masterdigm_Admin_Util::get_instance()->redirect_to($redirect);
 			break;
