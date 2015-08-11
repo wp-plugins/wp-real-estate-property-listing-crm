@@ -10,3 +10,5 @@ require_once( plugin_dir_path( __FILE__ ) . 'includes/md-template.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/md-query.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/md-location.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/md-user.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/md-search-result.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/md-property-details.php' );

@@ -83,12 +83,12 @@ Template Name: Search Form Minimal - Default UI
 			</div>
 			<div class="col-md-2 col-xs-12 col-nopad-3">
 				<?php if( $show_button_for_sale ){ ?>
-				<button type="submit" class="search-form-btn btn btn-default wp-site-color-theme" value="For Sale">
+				<button type="submit" class="search-form-btn btn btn-primary wp-site-color-theme" value="For Sale">
 					<?php echo $button_for_sale;?>
 				</button>
 				<?php } ?>
 				<?php if( $show_button_for_rent ){ ?>
-				<button type="submit" class="search-form-btn btn btn-default wp-site-color-theme" value="For Rent">
+				<button type="submit" class="search-form-btn btn btn-primary wp-site-color-theme" value="For Rent">
 					<?php echo $button_for_rent;?>
 				</button>
 				<?php } ?>
@@ -103,6 +103,8 @@ Template Name: Search Form Minimal - Default UI
 		<input type="hidden" name="countyid" value="<?php echo $countyid ? $countyid:'';?>" id="countyid">
 		<input type="hidden" name="subdivisionid" value="<?php echo $subdivisionid ? $subdivisionid:'';?>" id="subdivisionid">
 		<input type="hidden" name="locationname" value="<?php echo $locationname ? $locationname:'';?>" id="locationname">
+		<input type="hidden" name="view" value="<?php echo get_current_view_query();?>" id="view">
+		<input type="hidden" name="fullscreen" value="<?php echo is_fullscreen();?>" id="fullscreen">
 	</form>
 </div>
 <script>

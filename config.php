@@ -76,7 +76,7 @@ define('EDUCATION_API','a31664cdc439e290b1c5ce905e75c692');
 // walkscore
 define('WALKSCORE_API','20237ca07492bb7c6a97bdc2677a1540');
 // google api
-define('GOOGLE_PUBLIC_KEY','AIzaSyAohO04YttNQxdAcH5vDk6n9Cgm1FzSgBw');
+define('GOOGLE_PUBLIC_KEY','AIzaSyBy6vTWwrkvvUBVaIYfXtOIQ4LjEg2HDPA');
 //cookie
 //show pop-up in x
 define('SHOW_POPUP',3);

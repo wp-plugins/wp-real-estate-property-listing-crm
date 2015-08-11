@@ -55,7 +55,6 @@ Template Name: List - Box Style
 			if( !isset($search_data) ){
 				$search_data = null;
 			}
-
 			\MD_Search_Utility::get_instance()->js_var_search_data($properties, $atts, $search_data, $options);
 		?>
 	<?php }//end is_front_page() ?>

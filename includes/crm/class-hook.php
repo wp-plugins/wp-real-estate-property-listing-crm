@@ -309,8 +309,12 @@ class CRM_Hook{
 	public function fields_type_crm($property_type){
 		$fields =  \CRM_Account::get_instance()->get_fields();
 		$fields_type = array();
-		if( $fields->result == 'success' ){
-			$fields_type = $fields->fields->types;
+		if( is_array($fields) && $fields['result'] == 'fail' ){
+			$fields_type = array();
+		}else{
+			if( $fields->result == 'success' ){
+				$fields_type = $fields->fields->types;
+			}
 		}
 		return $fields_type;
 	}

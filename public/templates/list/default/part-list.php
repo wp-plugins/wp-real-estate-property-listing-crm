@@ -1,4 +1,14 @@
 <div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
+	<?php
+		if( has_filter("view_before_thumbnail_" . md_get_source()) ){
+			apply_filters("view_before_thumbnail_" . md_get_source(), md_property_id());
+		}
+	?>
+	<?php
+		if( has_filter("view_before_thumbnail") ){
+			apply_filters("view_before_thumbnail", md_property_id());
+		}
+	?>
 	<div class="thumbnail masterdigm-property-box">
 		<a href="<?php echo md_property_url();?>" class="propertyphoto">
 			<img class="img-responsive" src="<?php echo md_property_img(md_property_id()); ?>" style="<?php !md_property_has_img() ? 'width:170px;height:180px;':''; ?>" alt="Property List Image">
