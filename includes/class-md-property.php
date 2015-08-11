@@ -6,6 +6,7 @@ class Property{
 	public $loop;
 	public $source;
 	public $objProperty;
+	public $search_atts;
 
 	/**
 	 * Initialize the plugin by setting localization and loading public scripts
@@ -85,6 +86,13 @@ class Property{
 		if( $source == 'mls' ) {
 			return true;
 		}
+	}
+
+	public function set_search_atts($atts){
+		$this->search_atts = $atts;
+	}
+	public function get_search_atts(){
+		return $this->search_atts;
 	}
 
 	public function have_properties(){

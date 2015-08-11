@@ -55,11 +55,11 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'List');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'list', PLUGIN_VIEW, 'List');
 		}
 
 		public function mls_list_property_view(){
-			require_once( WP_PLUGIN_DIR .'/'. PLUGIN_FOLDER_NAME.'/admin/components/shortcodes/view/mls-list-properties.php' );
+			require_once( PLUGIN_DIR_PATH . '/admin/components/shortcodes/view/mls-list-properties.php' );
 			wp_die();
 		}
 

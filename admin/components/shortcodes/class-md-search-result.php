@@ -37,7 +37,7 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'searchresult', GLOBAL_TEMPLATE, 'Search Result');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'searchresult', PLUGIN_VIEW, 'Search Result');
 		}
 
 		public function init_shortcode($atts){
@@ -47,11 +47,14 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 			$source 	= DEFAULT_FEED;
 
 			\MD\Property::get_instance()->set_properties($properties, $source);
+			\MD\Property::get_instance()->set_search_atts($atts);
 
 			if( isset($atts['col']) && is_numeric($atts['col']) ){
-				$col = ceil(12 / $atts['col'] );
+				$col 			= ceil(12 / $atts['col'] );
+				$atts['col'] 	= ceil(12 / $atts['col'] );
 			}else{
-				$col = MD_DEFAULT_GRID_COL;
+				$atts['col'] 	= MD_DEFAULT_GRID_COL;
+				$col 			= MD_DEFAULT_GRID_COL;
 			}
 
 			if( isset($atts['template']) ){
@@ -86,27 +89,43 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 				}
 			}
 
-			// hook filter, incase we want to just use hook
-			if( has_filter('shortcode_search_result_'.$source) ){
-				$template = apply_filters('shortcode_search_result_'.$source, $path);
-			}
-			$atts['source'] = $source;
-			$atts['server_query_string'] = $_SERVER['QUERY_STRING'];
-			$atts['site_url'] = site_url();
+			$atts['source'] 				= $source;
+			$atts['server_query_string'] 	= $_SERVER['QUERY_STRING'];
+			$atts['site_url'] 				= site_url();
+
 			$mls_type = '';
 			if( isset($properties->mls_type) ){
 				$mls_type = '$properties->mls_type';
 			}
 			$atts['mls_type'] = $mls_type;
+
 			$show_sort = true;
+			$atts['show_sort'] = $show_sort;
+
 			$atts['search_keyword'] = '';
 			if( isset($properties->search_keyword) ){
 				$atts['search_keyword'] = $properties->search_keyword;
 			}
+
 			$atts['mls_type'] = '';
 			if( isset($properties->mls_type) ){
 				$atts['mls_type'] = $properties->mls_type;
 			}
+
+			//added in {version}
+			$view 					= \Search_Result_View::get_instance()->view();
+			$atts['view'] 			= $view;
+			$atts['properties'] 	= $properties;
+
+			// hook filter, incase we want to just use hook
+			if( has_filter('shortcode_search_result') ){
+				$template = apply_filters('shortcode_search_result', $atts);
+			}
+
+			if( has_filter('shortcode_search_result_'.$source) ){
+				$template = apply_filters('shortcode_search_result_'.$source, $atts);
+			}
+
 			ob_start();
 			require $template;
 			$output = ob_get_clean();
