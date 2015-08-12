@@ -56,7 +56,7 @@ Template Name: Search Form Minimal - Default UI
 				</select>
 			</div>
 			<?php if( !has_filter('show_button_property_type_'.DEFAULT_FEED) ){ ?>
-			<div class="col-md-1 col-xs-12 col-nopad-3">
+			<div class="col-md-2 col-xs-12 col-nopad-3">
 				<select name="property_type" id="property_type" class="form-control">
 					<option value="0">Type - All</option>
 					<?php foreach($fields_type as $key=>$val){ ?>
@@ -65,7 +65,7 @@ Template Name: Search Form Minimal - Default UI
 				</select>
 			</div>
 			<?php } ?>
-			<div class="col-md-1 col-xs-12 col-nopad-3">
+			<div class="col-md-2 col-xs-12 col-nopad-3">
 				<select id="bedrooms" name="bedrooms" class="form-control">
 					<option value="0">Bed, Any</option>
 					<?php foreach (range(1, 5) as $number){ ?>
@@ -73,7 +73,7 @@ Template Name: Search Form Minimal - Default UI
 					<?php } ?>
 				</select>
 			</div>
-			<div class="col-md-1 col-xs-12 col-nopad-3">
+			<div class="col-md-2 col-xs-12 col-nopad-3">
 				<select id="bathrooms" name="bathrooms" class="form-control">
 					<option value="0">Bath, Any</option>
 					<?php foreach (range(1, 5) as $number){ ?>
@@ -81,7 +81,7 @@ Template Name: Search Form Minimal - Default UI
 					<?php } ?>
 				</select>
 			</div>
-			<div class="col-md-2 col-xs-12 col-nopad-3">
+			<div class="col-md-1 col-xs-12 col-nopad-3">
 				<?php if( $show_button_for_sale ){ ?>
 				<button type="submit" class="search-form-btn btn btn-primary wp-site-color-theme" value="For Sale">
 					<?php echo $button_for_sale;?>

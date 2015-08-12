@@ -97,4 +97,5 @@ $array_label = array(
 	'garage'					=> 'Garage',
 	'next'						=> 'Next',
 	'prev'						=> 'Previous',
+	'property-code'				=> 'Property Code',
 );
