@@ -332,7 +332,7 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->mlsid ? $this->mlsid:'&nbsp;';
+		return $this->mlsid ? $this->mlsid:$this->getID();
 	}
 
 	public function displayBathrooms(){
