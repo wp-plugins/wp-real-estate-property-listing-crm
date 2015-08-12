@@ -120,7 +120,7 @@ class Search_Result_Map{
 	}
 
 	public function search_limit($search_data){
-		$search_data['limit'] = 20;
+		$search_data['limit'] = 50;
 		return $search_data;
 	}
 
@@ -128,7 +128,7 @@ class Search_Result_Map{
 		add_filter(
 			'search_property_limit',
 			function($limit){
-				$limit = 20;
+				$limit = 50;
 				return $limit;
 			},
 			10,

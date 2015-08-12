@@ -25,7 +25,7 @@ Template Name: Featured - Box Style
 				<?php set_loop($property); ?>
 				<?php if( $single_property_id != md_property_id() ) { // do not display same id ?>
 				  <?php
-						$list_part = \MD_Template::get_instance()->load_template('list/default/part-list.php');
+						$list_part = \MD_Template::get_instance()->load_template('list/default/part-photo-list.php');
 						require $list_part;
 					?>
 			  <?php } // do not display same id ?>

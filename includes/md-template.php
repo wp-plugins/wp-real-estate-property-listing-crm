@@ -46,14 +46,8 @@ function map_fullscreen()
 {
 	if( \Search_Result_View::get_instance()->view() == 'map' ){
 		$map_view = true;
-		$map_fullscreen = false;
-		if( isset($_GET['fullscreen']) ){
-			$fullscreen = sanitize_text_field($_GET['fullscreen']);
-			if( $fullscreen == 'y' ){
-				$map_fullscreen = true;
-			}
-		}
-		if( $map_fullscreen ){
+
+		if( is_fullscreen() == 'y' ){
 			$template_part = \MD_Template::get_instance()->load_template('searchresult/threeviews/map/fullscreen_map.php');
 			if( $template_part ){
 				$plugin_name 	= \Masterdigm_API::get_instance()->get_plugin_name();

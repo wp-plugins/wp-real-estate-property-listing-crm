@@ -3,13 +3,7 @@
 Template Name: Search Result - Default Template
 */
 ?>
-<div id="button-view">
-	<div class="btn-group" role="group" aria-label="...">
-	  <a class="btn btn-default" href="<?php echo md_search_uri_query('view=map');?>" role="button">Map</a>
-	  <a class="btn btn-default" href="<?php echo md_search_uri_query('view=photo');?>" role="button">Photo</a>
-	  <!--<a class="btn btn-default" href="<?php echo md_search_uri_query('view=list');?>" role="button">List</a>-->
-	</div>
-</div>
+<?php show_search_result_tools($atts, $show_sort); ?>
 <div id="view-display">
 	<div class="view-display-before">
 		<?php

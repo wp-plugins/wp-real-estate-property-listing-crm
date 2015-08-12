@@ -17,6 +17,14 @@
 			$('.property-item').css('background','');
 		}
 
+		function _hide_all_sidebar(){
+			$('.property-list').hide();
+		}
+
+		function _show_all_sidebar(){
+			$('.property-list').show();
+		}
+
 		function _scroll_property_to(marker){
 			var sidebar_property_id = marker.property_id;
 			var target = $("." + sidebar_property_id + '-sidebar');
@@ -24,14 +32,16 @@
 			var sidebar_list = $('.sidemap-properties');
 			var check_top = Math.floor((Math.max(0, (container.scrollTop() + target.position().top))));
 
-			_remove_red_bg();
+			/*_remove_red_bg();
 
 			if( check_top == 0 ){
 				container.scrollTop(0);
 			}else{
 				container.scrollTop(container.scrollTop() + (target.position().top + (container.height()/2)) );
 				$('.property-id-'+sidebar_property_id).css('background','red');
-			}
+			}*/
+			_hide_all_sidebar();
+			target.show();
 		}
 
 		function _show_property_box(){
@@ -66,6 +76,17 @@
 		  return markers;
 		}
 
+		function _sidebar_display_current_visible_marker(){
+			for (var i = 0; i < $('.property-list').length; i++ ){
+				$('.property-list').eq(i).hide();
+			}
+			var bounds = map.getBounds();
+			for(var i = 0; i < markers.length; i++){ // looping through Markers Collection
+				if( bounds.contains(markers[i].getPosition()) ){
+					$('.' + markers[i].property_id + '-sidebar').show();
+				}
+			}
+		}
 
 		var msg_sidebar_notification 	= $('.msg');
 		var element_property_list 		= $('.property-list');
@@ -75,23 +96,15 @@
 				$('.container-siderbar-map').scrollTop(0);
 				_remove_red_bg();
 			});
+
 			google.maps.event.addListener(map, 'bounds_changed', function() {
-				for (var i = 0; i < $('.property-list').length; i++ ){
-					$('.property-list').eq(i).hide();
-				}
-				var bounds = map.getBounds();
-				for(var i = 0; i < markers.length; i++){ // looping through Markers Collection
-					if( bounds.contains(markers[i].getPosition()) ){
-						$('.' + markers[i].property_id + '-sidebar').show();
-					}
-				}
+				_sidebar_display_current_visible_marker();
 			});
+
 			google.maps.event.addListener(markerCluster, "clusterclick", function (c) {
 			  for (var i = 0; i < $('.property-list').length; i++ ){
 				$('.property-list').eq(i).hide();
 			  }
-
-			  msg_sidebar_notification.html('<p>Fetching property list...</p>');
 			  var m = c.getMarkers();
 			  var p = [];
 			  for (var i = 0; i < m.length; i++ ){
@@ -166,6 +179,11 @@
 					  content: infowindow_content
 					});
 					infowindow.open(map, marker);
+
+					google.maps.event.addListener(infowindow,'closeclick',function(){
+					   _sidebar_display_current_visible_marker();
+					});
+
 				});
 			}
 		};

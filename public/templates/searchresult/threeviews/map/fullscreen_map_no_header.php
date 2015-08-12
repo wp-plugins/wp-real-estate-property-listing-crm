@@ -79,7 +79,7 @@
 					<div class="<?php echo md_property_id();?>-sidebar property-list" data-property-id="<?php echo md_property_id();?>" id="<?php echo md_property_id();?>">
 						<div class="center" style="display:none;float: none;margin-left:auto;margin-right:auto;text-align:center;"><a href="javascript:void(0)" class="btn btn-default btn-xs trigger" data-property-id="<?php echo md_property_id();?>">Show This on Map</a></div>
 						<?php
-							$list_part = \MD_Template::get_instance()->load_template('list/default/part-list.php');
+							$list_part = \MD_Template::get_instance()->load_template('list/default/part-photo-list.php');
 							require $list_part;
 						?>
 					</div>
@@ -95,7 +95,7 @@
 	<script>
 		jQuery(document).ready(function(){
 			jQuery('.btn-toggle-sidebar').click(function(){
-				jQuery('#tools').toggleClass('show_tools hide_tools');
+				jQuery('#tools').toggleClass('hide_tools');
 			});
 		});
 	</script>

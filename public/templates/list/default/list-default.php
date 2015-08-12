@@ -5,9 +5,6 @@ Template Name: List - Box Style
 ?>
 <?php if( have_properties() ){ //if have_properties() start ?>
 	<?php
-		if( !is_front_page() && $show_sort ){
-			\Action_Buttons::display_sort_button(array('class'=>'list-default'));
-		}
 		$single_property = false;
 		$single_property_id = 0;
 		if( get_single_property_data() ){
@@ -21,7 +18,7 @@ Template Name: List - Box Style
 					<?php set_loop($property); ?>
 					<?php if($single_property_id != md_property_id()) { // do not display same id ?>
 						<?php
-							$list_part = \MD_Template::get_instance()->load_template('list/default/part-list.php');
+							$list_part = \MD_Template::get_instance()->load_template('list/default/part-photo-list.php');
 							require $list_part;
 						?>
 					<?php } // do not display same id ?>

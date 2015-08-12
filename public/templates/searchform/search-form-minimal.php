@@ -7,7 +7,7 @@ Template Name: Search Form Minimal - Default UI
 	<h3 class="search-heading"><i class="fa fa-search"></i><?php echo _label('search-title');?></h3><div class="as-form-wrap">
 	<form class="form-inline search_property" method="GET" id="advanced_search" name="search_property" action="<?php echo \Property_URL::get_instance()->get_search_page_default();?>"  role="form">
 		<div class="row">
-			<div class="col-xs-12 col-md-3 col-nopad-3">
+			<div class="col-xs-12 col-md-2 col-nopad-3">
 				<input type="text" id="location" name="location" placeholder="Enter Location here" class="form-control typeahead" value="<?php echo $location ? $location:'';?>">
 			</div>
 			<div class="col-md-2 col-xs-12 col-nopad-3">
@@ -17,7 +17,7 @@ Template Name: Search Form Minimal - Default UI
 							if( has_action('min_price_val') ){
 								do_action('min_price_val');
 							}else{
-								echo 'Min Price - Any';
+								echo 'Min Price';
 							}
 						?>
 					</option>
@@ -35,7 +35,7 @@ Template Name: Search Form Minimal - Default UI
 							if( has_action('max_price_val') ){
 								do_action('max_price_val');
 							}else{
-								echo 'Max Price - Any';
+								echo 'Max Price';
 							}
 						?>
 					</option>
@@ -81,7 +81,7 @@ Template Name: Search Form Minimal - Default UI
 					<?php } ?>
 				</select>
 			</div>
-			<div class="col-md-1 col-xs-12 col-nopad-3">
+			<div class="col-md-12 col-xs-12 col-nopad-3">
 				<?php if( $show_button_for_sale ){ ?>
 				<button type="submit" class="search-form-btn btn btn-primary wp-site-color-theme" value="For Sale">
 					<?php echo $button_for_sale;?>

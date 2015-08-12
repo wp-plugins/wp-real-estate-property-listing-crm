@@ -7,9 +7,9 @@
 >
 	<span class="glyphicon <?php echo $btn_icon;?>" aria-hidden="true"></span>
 	<span class="btn-text"><?php echo $btn_name;?></span>
-
+	<?php if( !is_user_logged_in() ) { ?>
+		<span class="hidden content-save_search_action" style="display:hidden !important;"><?php echo $content;?></span>
+	<?php } ?>
+	<span class="label label-info label-ajax"></span>
 </button>
-<?php if( !is_user_logged_in() ) { ?>
-	<div class="hidden content-save_search_action" style="display:hidden !important;"><?php echo $content;?></div>
-<?php } ?>
-<span class="label label-info label-ajax"></span>
+
