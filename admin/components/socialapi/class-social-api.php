@@ -72,11 +72,11 @@ class Social_API {
 		}
 		$obj_admin_util = new Masterdigm_Admin_Util;
 		switch($request){
-			case 'update_api':
+			case 'update':
 				$error 		= array();
 				$has_error 	= false;
 				$post 		= $_POST;
-				$prefix = $this->prefix;
+				$prefix 	= $this->prefix;
 				update_option($prefix,$post['socialapi']);
 				\Masterdigm_Admin_Util::get_instance()->redirect_to($this->slug);
 			break;
@@ -98,15 +98,22 @@ class Social_API {
 		$prefix 	= $this->prefix;
 		if( isset($_POST['socialapi']) ){
 			$social_api = get_option($prefix,$_POST['socialapi']);
-			return $social_api;
+		}else{
+			$social_api = get_option($prefix);
 		}
+		return $social_api;
 	}
 
 	public function getSocialApiByKey($api,$key){
 		$prefix 	= $this->prefix;
 		if( isset($_POST['socialapi']) ){
 			$social_api = get_option($prefix,$_POST['socialapi']);
-			return trim($social_api[$api][$key] != '') ? $social_api[$api][$key]:'';
+		}else{
+			$social_api = get_option($prefix);
 		}
+		if( $social_api && isset($social_api[$api][$key]) ){
+			return trim($social_api[$api][$key]);
+		}
+		return false;
 	}
 }

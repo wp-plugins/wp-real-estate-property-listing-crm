@@ -122,8 +122,20 @@ class Property_Page{
 			wp_insert_post( $post );
 		}
 
-		\Account_Dashboard::get_instance()->create_my_account_page();
+		if( !get_page_by_title('Un Subscribe') ){
+			$shortcode = '[md_sc_unsubscribe_api]';
+			$post = array(
+			  'post_title'    => 'Un Subscribe',
+			  'post_name'     => 'unsubscribe',
+			  'post_content'  => $shortcode,
+			  'post_status'   => 'publish',
+			  'post_author'   => $get_user_id,
+			  'post_type'	  => 'page',
+			);
+			wp_insert_post( $post );
+		}
 
+		\Account_Dashboard::get_instance()->create_my_account_page();
 	}
 
 
