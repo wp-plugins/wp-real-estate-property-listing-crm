@@ -243,7 +243,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'list', GLOBAL_TEMPLATE, 'List');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'list', PLUGIN_VIEW, 'List');
 		}
 
 		public function get_autocomplete_location(){

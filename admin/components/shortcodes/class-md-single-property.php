@@ -168,11 +168,11 @@ if ( !class_exists( 'md_sc_single_properties' ) )
 		}
 
 		public function get_template_carousel(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'carousel', GLOBAL_TEMPLATE,  'Carousel');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'carousel', PLUGIN_VIEW,  'Carousel');
 		}
 
 		public function get_template(){
-			return \MD_Template::get_instance()->get_theme_page_template(GLOBAL_TEMPLATE . 'single', GLOBAL_TEMPLATE, 'Single');
+			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'single', PLUGIN_VIEW, 'Single');
 		}
 
 		/**
