@@ -338,7 +338,7 @@ class MD_Facebook_App{
 	}
 
 	public function login_button(){
-		if( \Social_API::get_instance()->getSocialApiByKey('facebook','id') ){
+		if( has_facebook_api() ){
 			$this->js_init();
 			$template = COMPONENT_DIR . 'facebookapp/view/login-button.php';
 			require $template;

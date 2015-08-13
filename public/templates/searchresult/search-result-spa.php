@@ -1,8 +1,3 @@
-<?php
-/*
-Template Name: Search Result - With different views: map / photo and list
-*/
-?>
 <div id="button-view">
 	<div class="btn-group" role="group" aria-label="...">
 	  <a class="btn btn-default" href="<?php echo md_search_uri_query('view=map');?>" role="button">Map</a>

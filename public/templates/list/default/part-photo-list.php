@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
+<div class="col-xs-12 col-sm-6 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
 	<?php
 		if( has_filter("view_before_thumbnail_" . md_get_source()) ){
 			apply_filters("view_before_thumbnail_" . md_get_source(), md_property_id());
@@ -10,13 +10,13 @@
 		}
 	?>
 	<div class="thumbnail masterdigm-property-box">
-		<a href="<?php echo md_property_url();?>" class="propertyphoto">
+		<a href="<?php echo md_property_url();?>" class="propertyphoto" target="<?php echo open_property_in();?>">
 			<img class="img-responsive" src="<?php echo md_property_img(md_property_id()); ?>" style="<?php !md_property_has_img() ? 'width:170px;height:180px;':''; ?>" alt="Property List Image">
 		</a>
 		<span class="label label-primary primary-background wp-site-color-theme label-property"><?php echo md_property_transaction();?></span>
 		<div class="caption">
 			<h3 class="property-name">
-				<a href="<?php echo md_property_url();?>" class="<?php //echo get_model_register_class();?>">
+				<a href="<?php echo md_property_url();?>" class="<?php //echo get_model_register_class();?>" target="<?php echo open_property_in();?>">
 					<?php echo md_property_title();?>
 				</a>
 			</h3>

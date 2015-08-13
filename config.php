@@ -18,12 +18,13 @@ if( isset($settings['mail']['server']) ){
 if(isset($settings['template']['colgrid'])){
 	define('MD_DEFAULT_GRID_COL',$settings['template']['colgrid']);
 }else{
-	define('MD_DEFAULT_GRID_COL',4);
+	define('MD_DEFAULT_GRID_COL',6);
 }
 /*********/
 define('PLUGIN_DIR_PATH',plugin_dir_path( __FILE__ ));
 define('PLUGIN_VIEW', PLUGIN_DIR_PATH . 'public/templates/');
 define('THEME_VIEW', get_stylesheet_directory());
+define('DEFAULT_VIEW_SEARCH_RESULT', 'photo');
 /*********/
 define('MD_PLUGIN_PAGE','http://www.masterdigm.com/realestatewordpressplugin');
 define('MD_SHOW_PROPERTY_IMG',1);

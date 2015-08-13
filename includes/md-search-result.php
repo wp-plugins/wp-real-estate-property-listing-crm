@@ -2,6 +2,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
+/**
+ * get default view via settings
+ * */
+function get_setting_default_view(){
+	return get_settings_by_key('view','type');
+}
 function get_query_view_uri(){
 	$query_string = '';
 	if( isset($_SERVER['QUERY_STRING']) ){
@@ -23,7 +29,30 @@ function md_search_uri_query($view_query_string){
 	return $uri;
 }
 function get_current_view_query(){
-	return \Search_Result_View::get_instance()->view();
+	/**
+	 * get current view via GET query string
+	 * */
+	$current_view = \Search_Result_View::get_instance()->view();
+	/**
+	 * get view in the setting page
+	 * */
+	$setting_view = get_setting_default_view();
+	/**
+	 * get current view first
+	 * */
+	if( $current_view ){
+		return $current_view;
+	}else{
+		/**
+		 * then get view via setting
+		 * */
+		if( $setting_view ){
+			return $setting_view;
+		}else{
+			//view default in config
+			return DEFAULT_VIEW_SEARCH_RESULT;
+		}
+	}
 }
 function is_fullscreen(){
 	$fullscreen = 'n';
@@ -38,13 +67,13 @@ function show_fullscreen_button_map(){
 	if(get_current_view_query() == 'map'){
 		if( is_fullscreen() == 'n' ){
 			?>
-			<a href="<?php echo md_search_uri_query('view=map&fullscreen=y');?>" class="btn btn-primary <?php echo is_fullscreen() ? 'active':'';?>" data-url="<?php echo md_search_uri_query('view=map&fullscreen=y');?>">
+			<a href="<?php echo md_search_uri_query('view=map&fullscreen=y');?>" class="btn btn-primary active" data-url="<?php echo md_search_uri_query('view=map&fullscreen=y');?>">
 				<span class="glyphicon glyphicon-fullscreen" aria-hidden="true" ></span> Show Map Full Screen
 			</a>
 			<?php
 		}else{
 			?>
-			<a href="<?php echo md_search_uri_query('view=map&fullscreen=n');?>" class="btn btn-primary <?php echo is_fullscreen() ? '':'active';?>" data-url="<?php echo md_search_uri_query('view=map&fullscreen=y');?>">
+			<a href="<?php echo md_search_uri_query('view=map&fullscreen=n');?>" class="btn btn-primary active" data-url="<?php echo md_search_uri_query('view=map&fullscreen=y');?>">
 				<span class="glyphicon glyphicon-fullscreen" aria-hidden="true" ></span> Show normal map screen
 			</a>
 			<?php

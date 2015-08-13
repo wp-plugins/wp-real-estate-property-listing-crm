@@ -65,6 +65,10 @@ class Social_API {
 		return $this->array_error;
 	}
 
+	public function get_option_prefix(){
+		return $this->prefix;
+	}
+
 	public function controller(){
 		$request = '';
 		if( isset($_REQUEST['action']) ){

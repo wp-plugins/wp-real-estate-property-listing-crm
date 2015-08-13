@@ -29,7 +29,7 @@ class Search_Result_View{
 	}
 
 	public function view(){
-		$current_view = 'photo';
+		$current_view = '';
 
 		//over-ride current default route / view
 		if( has_filter('view_search_result') ){

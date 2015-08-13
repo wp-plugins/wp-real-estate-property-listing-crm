@@ -29,3 +29,10 @@ function bd_nice_number($n) {
 
 	return number_format($n);
 }
+
+function open_property_in($open = '_self'){
+	if( get_current_view_query() == 'map' ){
+		$open = '_blank';
+	}
+	return $open;
+}

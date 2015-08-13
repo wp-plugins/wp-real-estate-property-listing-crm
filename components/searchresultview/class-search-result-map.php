@@ -107,15 +107,21 @@ class Search_Result_Map{
 		if( have_properties() ){
 			foreach(have_properties() as $p){
 				set_loop($p);
-				$data[] = array(
-					'name' => md_property_title(),
-					'url' => md_property_url(),
-					'lat' => md_get_lat(),
-					'lng' => md_get_lon(),
-					'id' => md_property_id(),
-				);
+				if(
+					(md_get_lat() != 0 && md_get_lon() != 0)
+					|| (md_get_lat() != '' && md_get_lon() != '')
+				){
+					$data[] = array(
+						'name' => md_property_title(),
+						'url' => md_property_url(),
+						'lat' => md_get_lat(),
+						'lng' => md_get_lon(),
+						'id' => md_property_id(),
+					);
+				}
 			}
 		}
+
 		return $data;
 	}
 

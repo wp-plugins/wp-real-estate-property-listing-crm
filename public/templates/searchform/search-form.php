@@ -92,6 +92,7 @@ Template Name: Search Form - Default UI
 				</select>
 			</div>
 		</div>
+
 		<div style="height: 10px;"></div>
 		<input type="hidden" name="transaction" value="" id="transaction">
 		<input type="hidden" name="lat" value="<?php echo $lat ? $lat:'';?>" id="lat_front">

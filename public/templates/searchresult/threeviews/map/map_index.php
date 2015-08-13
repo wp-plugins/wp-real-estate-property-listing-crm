@@ -53,7 +53,10 @@ padding:10px;
 		<div class="" style="margin:0 10px;">
 			<?php if(is_fullscreen() == 'y'){ ?>
 					<?php echo do_shortcode('[md_sc_search_property_form template="searchform/search-form-minimal.php" ]'); ?>
-					<?php show_search_result_tools($atts, $show_sort); ?>
+					<?php
+					$show_sort = true;
+					show_search_result_tools($atts, $show_sort);
+					?>
 			<?php } ?>
 		</div>
 	</div>

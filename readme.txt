@@ -4,7 +4,7 @@ Donate link:
 Tags: agent, broker, realestate, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.29.64
+Stable tag: 3.30.64
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -177,6 +177,11 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.30.64 =
+* Added: option to select default view in Masterdigm -> Settings -> Search result, default is photo
+* Update: search result map view to display properties marker with lat and langitutde only
+* Tweak: Facebook api js, to initialize if facebook api and version is added
 
 = 3.29.64 =
 * Update: search tools, added icons and align view by / sort / save search
