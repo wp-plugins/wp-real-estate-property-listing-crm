@@ -78,9 +78,6 @@ padding:10px;
 						</div>
 					<?php }//loop end have_properties() ?>
 				</div>
-				<div class="pagination-container">
-					<?php md_pagination('',2,get_ret_properties()->total); ?>
-				</div>
 			</div>
 		</div>
 		<div class="col-lg-12 col-md-12 col-xs-12 no-padding">

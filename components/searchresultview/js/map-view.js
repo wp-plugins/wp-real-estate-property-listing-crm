@@ -12,6 +12,7 @@
 		var markerCluster;
 		var content_body;
 		var md_property;
+		var click_marker = false;
 
 		function _remove_red_bg(){
 			$('.property-item').css('background','');
@@ -32,14 +33,6 @@
 			var sidebar_list = $('.sidemap-properties');
 			var check_top = Math.floor((Math.max(0, (container.scrollTop() + target.position().top))));
 
-			/*_remove_red_bg();
-
-			if( check_top == 0 ){
-				container.scrollTop(0);
-			}else{
-				container.scrollTop(container.scrollTop() + (target.position().top + (container.height()/2)) );
-				$('.property-id-'+sidebar_property_id).css('background','red');
-			}*/
 			_hide_all_sidebar();
 			target.show();
 		}
@@ -91,16 +84,29 @@
 		var msg_sidebar_notification 	= $('.msg');
 		var element_property_list 		= $('.property-list');
 
-		function _get_current_visible_markers(){
+		var bound_changed = function(){
+			google.maps.event.addListener(map, 'bounds_changed', function() {
+				if( !click_marker ){
+					_sidebar_display_current_visible_marker();
+				}
+			});
+		};
+
+		var idle = function(){
+			google.maps.event.addListener(map, 'idle', function() {
+				//console.log(map.getBounds());
+				//alert(map.getBounds());
+			});
+		};
+
+		var drag_end = function(){
 			google.maps.event.addListener(map, 'dragend', function() {
 				$('.container-siderbar-map').scrollTop(0);
 				_remove_red_bg();
 			});
+		};
 
-			google.maps.event.addListener(map, 'bounds_changed', function() {
-				_sidebar_display_current_visible_marker();
-			});
-
+		var marker_cluster = function(){
 			google.maps.event.addListener(markerCluster, "clusterclick", function (c) {
 			  for (var i = 0; i < $('.property-list').length; i++ ){
 				$('.property-list').eq(i).hide();
@@ -114,6 +120,13 @@
 			  }
 			  msg_sidebar_notification.html('');
 			});
+		};
+
+		function _get_current_visible_markers(){
+			drag_end();
+			bound_changed();
+			marker_cluster();
+			idle();
 		}
 
 		return{
@@ -163,7 +176,7 @@
 							'<div role="tabpanel" class="tab-pane active" id="details">'+
 								'<div style="margin:20px 0;">'+
 									'<p></p>'+
-									'<a href="'+content_body.url+'">'+content_body.name+'</a>'+
+									'<a href="'+content_body.url+'" target="_blank">'+content_body.name+'</a>'+
 								'</div>'+
 							'</div>'+
 							/*'<div role="tabpanel" class="tab-pane" id="walkscore">'+
@@ -173,17 +186,17 @@
 					'</div>'+
 				'</div>';
 				google.maps.event.addListener(marker, 'click', function() {
+					click_marker = true;
 					_scroll_property_to(marker);
 					if (infowindow) infowindow.close();
 					infowindow = new google.maps.InfoWindow({
 					  content: infowindow_content
 					});
 					infowindow.open(map, marker);
-
 					google.maps.event.addListener(infowindow,'closeclick',function(){
 					   _sidebar_display_current_visible_marker();
+					   click_marker = false;
 					});
-
 				});
 			}
 		};

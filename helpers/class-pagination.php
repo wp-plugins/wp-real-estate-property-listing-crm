@@ -74,9 +74,12 @@ class Pagination {
 			 $pages = 1;
 		 }
 		}
+		$this->_md_pagination_layout($pages, $range, $showitems, $url, $paged);
+	}
 
-		 if(1 != $pages)
-		 {
+	private function _md_pagination_layout($pages, $range, $showitems, $url, $paged){
+		if(1 != $pages)
+		{
 			 echo "<div class='pagination'>";
 			 if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum(1, $url)."'>&laquo;</a>";
 			 if($paged > 1 && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($paged - 1,$url)."'>&lsaquo;</a>";
@@ -92,7 +95,28 @@ class Pagination {
 			 if ($paged < $pages && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($paged + 1,$url)."'>&rsaquo;</a>";
 			 if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='".$this->md_pagination_pagenum($pages,$url)."'>&raquo;</a>";
 			 echo "</div>\n";
-		 }
+		}
+	}
+
+	private function _md_pagination_layout_bootstrap($pages, $range, $showitems, $url, $paged){
+		if(1 != $pages)
+		{
+			echo '<nav>';
+				echo '<ul class="pagination">';
+					if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<li><a href='".$this->md_pagination_pagenum(1, $url)."'>&laquo;</a></li>";
+					if($paged > 1 && $showitems < $pages) echo "<li><a href='".$this->md_pagination_pagenum($paged - 1,$url)."'>&lsaquo;</a></li>";
+
+					for ($i=1; $i <= $pages; $i++){
+						if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems )){
+							echo ($paged == $i)? "<li class='active'><a href='#'>".$i."<span class='sr-only'>(current)</span></a></li>":"<li><a href='".$this->md_pagination_pagenum($i,$url)."' class='inactive' >".$i."</a></li>";
+						}
+					}
+
+					if ($paged < $pages && $showitems < $pages) echo "<li><a href='".$this->md_pagination_pagenum($paged + 1,$url)."'>&rsaquo;</a></li>";
+					if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<li><a href='".$this->md_pagination_pagenum($pages,$url)."'>&raquo;</a></li>";
+				echo '</ul>';
+			echo '</nav>';
+		}
 	}
 
 }
