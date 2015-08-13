@@ -67,7 +67,6 @@ class Property_Entity{
 		switch( $type ){
 			default:
 			case 'long':
-				//$short = ($this->address != '') ? $this->address:$this->tag_line;
 				$name = $this->community.' '.$this->address.', '.$this->city.', '.$this->state.', '.$this->zip;
 			break;
 			case 'short':
@@ -333,7 +332,7 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->mlsid ? $this->mlsid:'&nbsp;';
+		return $this->mlsid ? $this->mlsid:$this->getID();
 	}
 
 	public function displayBathrooms(){
