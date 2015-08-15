@@ -28,6 +28,7 @@
 								md_search_result(editor),
 								md_single_property(editor),
 								md_account(editor),
+								md_sc_unsubscribe_api(editor),
 							]
 						},
 					];

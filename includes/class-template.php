@@ -89,12 +89,12 @@ class MD_Template{
 	}
 
 	public function load_template($template_file){
-		if( file_exists(get_stylesheet_directory() .'/'. $template_file) ){
-			$template = get_stylesheet_directory() .'/'. $template_file;
+		if( file_exists(THEME_VIEW .'/'. $template_file) ){
+			$template = THEME_VIEW .'/'. $template_file;
 			return $template;
-		}elseif( file_exists(GLOBAL_TEMPLATE . $template_file) ){
+		}elseif( file_exists(PLUGIN_VIEW . $template_file) ){
 			//check in plugin
-			$template = GLOBAL_TEMPLATE . $template_file;
+			$template = PLUGIN_VIEW . $template_file;
 			return $template;
 		}
 		return false;
