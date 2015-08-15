@@ -39,6 +39,14 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 			return \MD_Template::get_instance()->get_theme_page_template(PLUGIN_VIEW . 'list', PLUGIN_VIEW, 'Featured');
 		}
 
+		public function get_transaction(){
+			return array(
+				'for sale' 		=> 'For Sale',
+				'for rent' 		=> 'For Rent',
+				'foreclosure' 	=> 'Foreclosure',
+			);
+		}
+
 		public function init_shortcode($atts){
 			if( isset($atts['template']) ){
 				$att_template = $atts['template'];
@@ -52,16 +60,25 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 				$col = MD_DEFAULT_GRID_COL;
 			}
 
+			$transaction = '';
+			if( isset($atts['transaction']) ){
+				$transaction = $atts['transaction'];
+			}
+
 			$atts = shortcode_atts(
 				array(
-					'template' 	=> $att_template,
-					'col' 		=> $col,
-					'items'		=> $items,
-					'infinite'	=> false,
+					'template' 		=> $att_template,
+					'col' 			=> $col,
+					'transaction' 	=> $transaction,
+					'items'			=> $items,
+					'infinite'		=> false,
 				),
 				$atts, 'crm_featured_properties'
 			);
-			$properties = \CRM_Property::get_instance()->get_featured();
+			$user_id = null;
+			$location_id = array();
+			$data = array('transaction'=>$transaction);
+			$properties = \CRM_Property::get_instance()->get_featured($user_id, $location_id, $data);
 
 			\MD\Property::get_instance()->set_properties($properties,'crm');
 
@@ -111,6 +128,13 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 									<?php } ?>
 							<?php } ?>
 						];
+						var transaction = [
+							<?php if( count($this->get_transaction()) > 0 ){ ?>
+									<?php foreach($this->get_transaction() as $key=>$val){ ?>
+											{text: '<?php echo $val; ?>',value: '<?php echo $key;?>'},
+									<?php } ?>
+							<?php } ?>
+						];
 						var submenu_array =
 						{
 							text: 'Featured Properties',
@@ -138,13 +162,20 @@ if ( !class_exists( 'md_sc_crm_featured_properties' ) )
 											label: 'How many to display (zero means all)',
 											value:'0'
 										},
+										{
+											type:'listbox',
+											name:'listboxTransaction',
+											label:'Choose Transaction',
+											'values':transaction
+										},
 									],
 									onsubmit: function( e ) {
 										var template_path = ' template="' + e.data.listboxTemplate + '" ';
 										var col_grid = ' col="' + e.data.textboxGridCol + '" ';
+										var transaction = ' transaction="' + e.data.listboxTransaction + '" ';
 										var display = ' items="' + e.data.textboxDisplay + '" ';
 										editor.insertContent(
-											'[crm_featured_properties ' + template_path + col_grid + display + ']'
+											'[crm_featured_properties ' + template_path + col_grid + display + transaction + ']'
 										);
 									}
 								});
