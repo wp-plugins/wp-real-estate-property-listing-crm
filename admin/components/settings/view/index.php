@@ -65,6 +65,15 @@
 				<?php } ?>
 			</select>
 		</div>
+		<div class="search-result">
+			<h3>Search Result</h3>
+			<p>Display view </p>
+			<select name="setting[view][type]">
+				<?php foreach($view_options as $key => $val){ ?>
+						<option value="<?php echo $key;?>" <?php echo ( \Settings_API::get_instance()->getSettingsGeneralByKey('view','type') == $key ) ? 'selected':'';?>><?php echo $val;?></option>
+				<?php } ?>
+			</select>
+		</div>
 		<p><button type="submit" name="update_api">Update</button></p>
 	</form>
 </div>

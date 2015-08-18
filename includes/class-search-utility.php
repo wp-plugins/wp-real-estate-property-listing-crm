@@ -79,16 +79,18 @@ class MD_Search_Utility {
 			}
 
 			if( isset($_POST['col']) && is_numeric($_POST['col']) ){
-				$col = ceil(12 / $_POST['col'] );
-			}else{
-				$col = MD_DEFAULT_GRID_COL;
+				$col = $_POST['col'];
 			}
+			if( isset($_POST['grid_col']) ){
+				$col = $_POST['grid_col'];
+			}
+
 			$current_paged = ($this->get_paged());
 			if( isset($_POST['current_query_url']) ){
 				$atts['url'] = array(
-					'current_query_url'=>$_POST['current_query_url'],
-					'current_site_url'=>$_POST['current_site_url'],
-					'current_page'=>$_POST['current_page']
+					'current_query_url'	=>	$_POST['current_query_url'],
+					'current_site_url'	=>	$_POST['current_site_url'],
+					'current_page'		=>	$_POST['current_page']
 				);
 			}
 			require $template;
@@ -160,14 +162,14 @@ class MD_Search_Utility {
 				<script>
 					var search_property_result 	= <?php echo $arr_properties_data->total ? $arr_properties_data->total:0;?>;
 					var infinite_scroll 		= <?php echo $infinite;?>;
-					var col 					= <?php echo isset($att_short_code['col']) ? $att_short_code['col']:MD_DEFAULT_GRID_COL;?>;
+					var col 					= <?php echo isset($att_short_code['col']) ? $att_short_code['col']:$other_option['col'];?>;
 					var infinite_selector		= '<?php echo $selector;?>';
 					var wp_var = [
 						{name:'current_query_url', value:'<?php echo isset($att_short_code['server_query_string'])?$att_short_code['server_query_string']:''; ?>'},
 						{name:'current_site_url', value:'<?php echo isset($att_short_code['site_url'])?$att_short_code['site_url']:''; ?>'},
 						{name:'current_page', value:'<?php echo $post->post_name;?>'},
 						{name:'next_url_page', value:'<?php echo $next_pagination;?>'},
-						{name:'grid_col', value:'<?php echo isset($col) ? $col:MD_DEFAULT_GRID_COL;?>'},
+						{name:'grid_col', value:'<?php echo isset($att_short_code['col']) ? $att_short_code['col']:$other_option['col'];?>'},
 						{name:'infinite_result', value:'<?php echo $infinite_result;?>'},
 						<?php if(count($request) > 0 ) { ?>
 							<?php foreach($request as $key=>$val) { ?>
@@ -293,6 +295,7 @@ class MD_Search_Utility {
 	}
 
 	public function search_limit($limit = 10){
+		$limit = apply_filters('search_property_limit', $limit);
 		return $limit;
 	}
 }
