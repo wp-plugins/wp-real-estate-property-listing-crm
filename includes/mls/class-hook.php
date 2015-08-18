@@ -80,7 +80,7 @@ class MLS_Hook{
 		}
 
 		if( isset($atts['col']) && is_numeric($atts['col']) ){
-			$col = ceil(12 / $atts['col'] );
+			$col = $atts['col'];
 		}else{
 			$col = MD_DEFAULT_GRID_COL;
 		}

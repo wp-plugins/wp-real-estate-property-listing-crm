@@ -180,9 +180,7 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			}
 
 			if( isset($atts['col']) && is_numeric($atts['col']) ){
-				$col = ceil(12 / $atts['col'] );
-			}else{
-				$col = MD_DEFAULT_GRID_COL;
+				$col = $atts['col'];
 			}
 
 			$atts = shortcode_atts(	array(

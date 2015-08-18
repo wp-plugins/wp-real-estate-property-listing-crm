@@ -13,7 +13,7 @@ Template Name: List - Box style for CRM
 	<div class="search-result item-container">
 		<?php foreach(have_properties() as $property ){ ?>
 		  <?php set_loop($property); ?>
-			<div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
+			<div class="col-xs-12 col-md-<?php echo set_grid_col($col); ?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
 			<div class="thumbnail masterdigm-property-box">
 				<a href="<?php echo md_property_url();?>" class="propertyphoto">
 					<img class="img-responsive" src="<?php echo md_property_img(); ?>" style="<?php !md_property_has_img() ? 'width:170px;height:180px;':''; ?>" alt="Property List Image">

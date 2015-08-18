@@ -50,11 +50,7 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 			\MD\Property::get_instance()->set_search_atts($atts);
 
 			if( isset($atts['col']) && is_numeric($atts['col']) ){
-				$col 			= ceil(12 / $atts['col'] );
-				$atts['col'] 	= ceil(12 / $atts['col'] );
-			}else{
-				$atts['col'] 	= MD_DEFAULT_GRID_COL;
-				$col 			= MD_DEFAULT_GRID_COL;
+				$col = $atts['col'];
 			}
 
 			if( isset($atts['template']) ){

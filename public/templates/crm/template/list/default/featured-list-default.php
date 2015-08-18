@@ -10,7 +10,7 @@ Template Name: Featured Box style for CRM
 			<?php if(set_page_list($items,$index_items) ){ ?>
 					<?php set_loop($property); ?>
 					<?php if( is_property_viewable(md_get_property_status()) ){  ?>
-							<div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
+							<div class="col-xs-12 col-md-<?php echo set_grid_col($col); ?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
 								<div class="thumbnail masterdigm-property-box">
 									<a href="<?php echo md_property_url();?>" class="propertyphoto">
 										<img class="img-responsive" src="<?php echo crm_md_get_featured_img(md_property_id()); ?>" alt="Property List Image">

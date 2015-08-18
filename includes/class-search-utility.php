@@ -79,9 +79,7 @@ class MD_Search_Utility {
 			}
 
 			if( isset($_POST['col']) && is_numeric($_POST['col']) ){
-				$col = ceil(12 / $_POST['col'] );
-			}else{
-				$col = MD_DEFAULT_GRID_COL;
+				$col = $_POST['col'];
 			}
 			if( isset($_POST['grid_col']) ){
 				$col = $_POST['grid_col'];

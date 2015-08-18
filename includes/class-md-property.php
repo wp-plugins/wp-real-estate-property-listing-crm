@@ -192,6 +192,10 @@ class Property{
 		return $this->loop->displaySqFt();
 	}
 
+	public function area_by($by){
+		return $this->loop->displayAreaMeasurement($by);
+	}
+
 	public function getAreaUnit($default){
 		return $this->loop->displayAreaUnit($default);
 	}

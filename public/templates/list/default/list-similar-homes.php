@@ -21,7 +21,7 @@ Template Name: List - Box Style
 		<?php foreach(have_properties() as $property ){ //loop start have_properties() ?>
 				<?php set_loop($property); ?>
 				<?php if( $single_property_id != md_property_id() ) { // do not display same id ?>
-				  <div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
+				  <div class="col-xs-12 col-md-12 property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
 					<div class="thumbnail masterdigm-property-box">
 						<a href="<?php echo md_property_url();?>" class="propertyphoto">
 							<img class="img-responsive" src="<?php echo md_property_img(md_property_id()); ?>" style="<?php !md_property_has_img() ? 'width:170px;height:180px;':''; ?>" alt="Property List Image">
@@ -35,7 +35,14 @@ Template Name: List - Box Style
 							</h3>
 							<div class="property-amenities">
 								<?php if(!has_filter('list_display_area_'.md_get_source())){ ?>
-									<span><strong><?php echo md_property_area();?>&nbsp;</strong><?php do_action( 'list_before_area' ); ?><?php echo md_property_area_unit();?></span>
+									<span>
+										<strong>
+											<?php echo apply_filters('property_area_'.md_get_source(), get_property_area());?>
+											&nbsp;
+										</strong>
+										<?php do_action( 'list_before_area' ); ?>
+										<?php echo apply_filters('property_area_unit_'.md_get_source(), get_property_area_unit());?>
+									</span>
 								<?php } ?>
 								<?php if(!has_filter('list_display_bed_'.md_get_source())){ ?>
 									<span><strong><?php echo md_property_beds();?>&nbsp;</strong><?php echo _label('beds');?></span>

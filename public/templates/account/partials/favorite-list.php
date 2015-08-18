@@ -18,8 +18,17 @@
 									</a>
 								</h3>
 								<div class="property-amenities">
-									<?php if(!has_filter('list_display_area_'.md_get_source_single($property))){ ?>
-										<span><strong><?php echo md_property_area();?>&nbsp;</strong><?php do_action( 'list_before_area' ); ?><?php echo md_property_area_unit();?></span>
+									<?php if(!has_filter('list_display_area_'.md_get_source())){ ?>
+										<span>
+											<strong>
+												<?php $area = apply_filters('property_area_'.md_get_source(), md_property_area_by());?>
+												<?php echo $area->measure; ?>
+												&nbsp;
+											</strong>
+											<?php do_action( 'list_before_area' ); ?>
+											<?php $area_unit = apply_filters('property_area_unit_'.md_get_source(), md_property_area_unit());?>
+											<?php echo $area_unit;?>
+										</span>
 									<?php } ?>
 									<?php if(!has_filter('list_display_bed_'.md_get_source_single($property))){ ?>
 										<span><strong><?php echo md_property_beds();?>&nbsp;</strong><?php echo _label('beds');?></span>

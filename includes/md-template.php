@@ -65,3 +65,6 @@ function map_fullscreen()
 		}
 	}
 }
+function set_grid_col($col = MD_DEFAULT_GRID_COL){
+	return ceil(12 / $col );
+}

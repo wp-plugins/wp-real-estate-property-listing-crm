@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-md-<?php echo $col;?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
+<div class="col-xs-12 col-md-<?php echo set_grid_col($col); ?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
 	<?php
 		if( has_filter("view_before_thumbnail_" . md_get_source()) ){
 			apply_filters("view_before_thumbnail_" . md_get_source(), md_property_id());
@@ -23,8 +23,14 @@
 			<div class="property-amenities">
 				<?php if(!has_filter('list_display_area_'.md_get_source())){ ?>
 					<span>
-						<strong><?php echo md_property_area();?>&nbsp;</strong>
-						<?php do_action( 'list_before_area' ); ?><?php echo md_property_area_unit();?>
+						<strong>
+							<?php $area = apply_filters('property_area_'.md_get_source(), md_property_area_by());?>
+							<?php echo $area->measure; ?>
+							&nbsp;
+						</strong>
+						<?php do_action( 'list_before_area' ); ?>
+						<?php $area_unit = apply_filters('property_area_unit_'.md_get_source(), md_property_area_unit());?>
+						<?php echo $area_unit;?>
 					</span>
 				<?php } ?>
 				<?php if(!has_filter('list_display_bed_'.md_get_source())){ ?>
