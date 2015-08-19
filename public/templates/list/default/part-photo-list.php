@@ -1,5 +1,4 @@
 <div class="col-xs-12 col-sm-6 col-md-<?php echo set_grid_col($col); ?> property-item property-id-<?php echo md_property_id();?> <?php echo md_get_source();?>">
-	<?php //dump($property); ?>
 	<?php
 		if( has_filter("view_before_thumbnail_" . md_get_source()) ){
 			apply_filters("view_before_thumbnail_" . md_get_source(), md_property_id());

@@ -27,16 +27,16 @@ Template Name: List - Box Style
 	</div>
 
 	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:10));?>
+
 	<?php if( !is_front_page() && ($max > 1) ){ ?>
 		<div class="md-pagination">
 			<?php
 				if( isset($atts['pagination']) && $atts['pagination'] == 'true' ) {
-					md_pagination('',2,get_ret_properties()->total);
+					md_pagination('', 2, get_ret_properties()->total);
 				}
 			?>
 		</div>
-
-		<?php if( have_properties() > 0 && $atts['infinite'] ){ ?>
+		<?php if( count(have_properties()) > 0 && $atts['infinite'] ){ ?>
 			<div class="ajax-indicator text-center">
 			  <img src="<?php echo PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif';?>" class="" id="loading-indicator" style='' />
 			</div>

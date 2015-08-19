@@ -97,3 +97,6 @@ function show_search_result_tools($atts, $show_sort){
 	</div>
 	<?php
 }
+function get_search_limit(){
+	return \MD_Search_Utility::get_instance()->search_limit();
+}

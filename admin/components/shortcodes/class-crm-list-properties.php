@@ -43,6 +43,7 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 		}
 
 		public function init_shortcode($atts){
+
 			$search_data = array();
 			$template = '';
 			if( isset($atts['template']) ){
@@ -183,7 +184,6 @@ if ( !class_exists( 'md_sc_crm_list_properties' ) )
 			$search_data['order_direction'] = $order_direction;
 
 			$properties = \CRM_Property::get_instance()->get_properties($search_data);
-
 			\MD\Property::get_instance()->set_properties($properties,'crm');
 
 			if( trim($atts['template']) != '' ){

@@ -38,7 +38,7 @@
 		}
 
 		function _show_property_box(){
-			$(document).on('click','.trigger',function(){
+			$('#sidebar-properties a.trigger').click(function(e){
 				if (infowindow) infowindow.close();
 				var property_id = $(this).data('property-id');
 				var found_marker;
@@ -52,7 +52,6 @@
 				map.setCenter(markerPosition);
 				map.setZoom(20);
 				google.maps.event.trigger(markers[found_marker], 'click');
-
 			});
 		}
 
@@ -79,6 +78,7 @@
 					$('.' + markers[i].property_id + '-sidebar').show();
 				}
 			}
+			_show_property_box();
 		}
 
 		var msg_sidebar_notification 	= $('.msg');
@@ -96,6 +96,7 @@
 			google.maps.event.addListener(map, 'idle', function() {
 				//console.log(map.getBounds());
 				//alert(map.getBounds());
+				//_show_property_box();
 			});
 		};
 
@@ -134,10 +135,10 @@
 				var map_selector = arr_config.selector;
 				map = new google.maps.Map(document.getElementById('map-canvas'), arr_options);
 				gmap.marker(map);
-				markerCluster = new MarkerClusterer(map, markers);
+				//markerCluster = new MarkerClusterer(map, markers);
 				_auto_center_marker(map);
 				_get_current_visible_markers();
-				_show_property_box();
+				//_show_property_box();
 			},
 			options:function($options){
 				arr_options = $options;
@@ -188,11 +189,13 @@
 				google.maps.event.addListener(marker, 'click', function() {
 					click_marker = true;
 					_scroll_property_to(marker);
+
 					if (infowindow) infowindow.close();
 					infowindow = new google.maps.InfoWindow({
 					  content: infowindow_content
 					});
 					infowindow.open(map, marker);
+
 					google.maps.event.addListener(infowindow,'closeclick',function(){
 					   _sidebar_display_current_visible_marker();
 					   click_marker = false;

@@ -11,6 +11,7 @@ function get_ret_properties(){
 }
 function have_properties(){
 	$properties = get_ret_properties();
+
 	if( isset($properties->data) ){
 		if( isset($properties->total) && $properties->total > 0 || count($properties->data) > 0 ){
 			return $properties->data;

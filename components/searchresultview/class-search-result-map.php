@@ -25,7 +25,7 @@ class Search_Result_Map{
 		$this->js_gmap_config	= array();
 		add_filter('view_display_content_map', array($this,'init'), 10, 1);
 		add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
-		add_filter('before_get_properties_search_query', array($this,'search_limit'), 10, 1);
+		add_filter('search_property_limit', array($this,'search_limit'), 10, 1);
 		add_action('wp_footer', array($this,'js_init_gmap'));
 	}
 
@@ -46,8 +46,12 @@ class Search_Result_Map{
 		return self::$instance;
 	}
 
+	private function _current_view(){
+		return \Search_Result_View::get_instance()->view();
+	}
+
 	public function enqueue_scripts(){
-		$view = \Search_Result_View::get_instance()->view();
+		$view = $this->_current_view();
 		if( is_page('search-properties') && $view == 'map' ){
 			wp_enqueue_script( $this->plugin_name . '-map-view', plugin_dir_url( __FILE__ ) . 'js/map-view.js', array( 'jquery' ), $this->version, false );
 		}
@@ -125,21 +129,12 @@ class Search_Result_Map{
 		return $data;
 	}
 
-	public function search_limit($search_data){
-		$search_data['limit'] = 50;
-		return $search_data;
-	}
-
-	public function hook_overwrite(){
-		add_filter(
-			'search_property_limit',
-			function($limit){
-				$limit = 50;
-				return $limit;
-			},
-			10,
-			1
-		);
+	public function search_limit($limit){
+		$view = $this->_current_view();
+		if( is_page('search-properties') && $view == 'map' ){
+			$limit = 50;
+		}
+		return $limit;
 	}
 
 	public function hook_view_before_thumbnail($property_id){
@@ -168,7 +163,6 @@ class Search_Result_Map{
 	 * */
 	public function init($atts = array()){
 		$this->set_atts($atts);
-		$this->hook_overwrite();
 		//get the template
 		$template_part = \MD_Template::get_instance()->load_template('searchresult/threeviews/map/map_index.php');
 		if( $template_part ){
