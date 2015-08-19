@@ -37,7 +37,6 @@ class MD_Agent{
 
 	public function set_agent_data($data = null){
 		$agent = array();
-
 		if( isset($data['agent']) ){
 			$agent_info = $data['agent'];
 		}elseif( !isset($data->agent) && isset($data['property']->assigned_to) ){

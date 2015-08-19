@@ -277,7 +277,13 @@ class MD_Searchby_Property {
 		$search_data['limit']			= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):\MD_Search_Utility::get_instance()->search_limit();
 		$search_data['page']			= $paged;
 
-		do_action('before_get_properties_crm', $search_data);
+		if( has_filter('before_get_properties_crm') ){
+			$search_data = apply_filters('before_get_properties_crm', $search_data);
+		}
+
+		if( has_filter('before_get_properties_search_query') ){
+			$search_data = apply_filters('before_get_properties_search_query', $search_data);
+		}
 
 		$property_data = \CRM_Property::get_instance()->get_properties($search_data);
 
