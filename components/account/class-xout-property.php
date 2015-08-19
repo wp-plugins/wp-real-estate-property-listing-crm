@@ -87,7 +87,7 @@ class Xout_Property extends Account_Dashboard{
 				}
 			}
 			$col = 4;
-			require_once GLOBAL_TEMPLATE . 'account/partials/xout-list.php';
+			require_once PLUGIN_VIEW . 'account/partials/xout-list.php';
 		}else{
 			return false;
 		}

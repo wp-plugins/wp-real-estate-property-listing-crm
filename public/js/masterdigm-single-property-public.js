@@ -88,7 +88,7 @@
 										}
 									});
 								}
-							},// click
+							}// click
 						}
 					}
 				});
@@ -179,7 +179,7 @@
 										}
 									});
 								}
-							},// click
+							}// click
 						}
 					}
 				});
@@ -195,7 +195,7 @@
 				  marker:{
 					values:[
 						{latLng:[lat,lng]}
-					],
+					]
 				  },
 				  map:{
 					options:{
@@ -230,7 +230,7 @@
 				  marker:{
 					values:[
 						{latLng:[lat,lng]}
-					],
+					]
 				  },
 				  map:{
 					options:{
@@ -317,7 +317,7 @@
 				  },
 				  marker:{
 					values:[
-					  {latLng:[lat,lon], data:str_data, options:{icon: "http://maps.google.com/mapfiles/marker_green.png"}},
+					  {latLng:[lat,lon], data:str_data, options:{icon: "http://maps.google.com/mapfiles/marker_green.png"}}
 					],
 					options:{
 					  draggable: false
@@ -359,7 +359,6 @@
 				var to = origin_place;
 				DirectionsMapView.init('.map_view', mainLat, mainLng, propertyList, from, to);
 				return false; // prevent default click action from happening!
-				e.preventDefault();
 			});
 			QuickMapShow.init(".quick_map_view",mainLat,mainLng,mainAddress);
 		}
