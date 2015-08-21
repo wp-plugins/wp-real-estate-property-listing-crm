@@ -49,7 +49,7 @@ class Action_Buttons {
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-button-actions', plugin_dir_url( __FILE__ ) . 'js/buttonaction.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-button-actions', plugin_dir_url( __FILE__ ) . 'js/buttonaction-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**
@@ -325,6 +325,12 @@ class Action_Buttons {
 			}
 		}elseif(get_single_property_source() == 'mls' ){
 			$photo = $property->PrimaryPhotoUrl;
+		}else{
+			if( is_array($photo) ){
+				if( is_object($photo[0]) ){
+					$photo = $photo[0]->url;
+				}
+			}
 		}
 		$media = $photo;
 

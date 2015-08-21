@@ -72,7 +72,7 @@ class MLS_Hook{
 	public function breadcrumb_list_property_mls($atts){
 
 		if( !isset($atts['template_by']) ){
-			$template = GLOBAL_TEMPLATE . 'list/default/list-default.php';
+			$template = PLUGIN_VIEW . 'list/default/list-default.php';
 		}
 		// hook filter, incase we want to just use hook
 		if( has_filter('shortcode_list_property_by_mls') ){
@@ -80,7 +80,7 @@ class MLS_Hook{
 		}
 
 		if( isset($atts['col']) && is_numeric($atts['col']) ){
-			$col = ceil(12 / $atts['col'] );
+			$col = $atts['col'];
 		}else{
 			$col = MD_DEFAULT_GRID_COL;
 		}
@@ -193,11 +193,12 @@ class MLS_Hook{
 		if( $array_properties['community'] && isset($array_properties['community']->community_id) ){
 			$communityid = $array_properties['community']->community_id;
 		}else{
-			if( isset($ret['city']) && isset($ret['city']['id']) ){
+			if( isset($ret['city']) && isset($ret['city']['id']) && $ret['city']['id'] != 0 ){
 				$cityid = $ret['city']['id'];
 			}
-			if( isset($ret['community']) && isset($ret['community']['id']) ){
+			if( isset($ret['community']) && isset($ret['community']['id']) && $ret['community']['id'] != 0 ){
 				$communityid = $ret['community']['id'];
+				$cityid = '';
 			}
 		}
 
@@ -211,7 +212,7 @@ class MLS_Hook{
 		$search_data['countyid'] 		= '';
 		$search_data['countryid'] 		= '';
 		$search_data['communityid'] 	= $communityid;
-		$search_data['cityid'] 			= '';
+		$search_data['cityid'] 			= $cityid;
 		$search_data['location'] 		= $location;
 		$search_data['bathrooms'] 		= '';
 		$search_data['bedrooms'] 		= '';
@@ -380,7 +381,7 @@ class MLS_Hook{
 	public function fields_type_mls($property_type){
 		$fields =  \mls\AccountEntity::get_instance()->get_property_type();
 		$fields_type = array();
-		if( $fields->result == 'success' ){
+		if( isset($fields->result) && $fields->result == 'success' ){
 			//$fields_type = $fields->types;
 			foreach($fields->types as $key => $val){
 				$fields_type[$val] = $val;

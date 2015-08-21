@@ -42,7 +42,7 @@ class Property_Alert{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-property-alert-actions', plugin_dir_url( __FILE__ ) . 'js/property-alert.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-property-alert-actions', plugin_dir_url( __FILE__ ) . 'js/property-alert-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	public function subscribe_property_alert($post_data = array()){
@@ -51,13 +51,31 @@ class Property_Alert{
 
 		$user_meta = get_user_meta($current_user->ID);
 		if( $user_meta && isset($user_meta['lead-data']) ){
+			$crm_company 					= \CRM_Account::get_instance()->get_account_data('company');
 			$lead_data 						= unserialize($user_meta['lead-data'][0]);
 			$post_data['leadid'] 			= $lead_data->leadid;
 			$post_data['lead_name'] 		= $current_user->user_firstname.' '.$current_user->user_lastname;
 			$post_data['lead_email'] 		= $current_user->user_email;
-			$post_data['source_website'] 	= get_site_url();
+			$post_data['source_website']	= $post_data['source_website'];
+			$post_data['source_url']		= $post_data['source_url'];
+			$post_data['source'] 			= $crm_company;
 
 			strtolower($post_data['transaction']);
+
+			if( $post_data['communityid'] != 0 ){
+				$loc = \mls\AccountEntity::get_instance()->get_coverage_lookup_key($post_data['communityid'],'id');
+				if( $loc['type'] == 'community' ){
+					$post_data['city'] 		= $loc['city'];
+					$post_data['community'] = $loc['keyword'];
+				}
+			}
+
+			if( $post_data['cityid'] != 0 ){
+				$loc = \mls\AccountEntity::get_instance()->get_coverage_lookup_key($post_data['cityid'],'id');
+				if( $loc['type'] == 'city' ){
+					$post_data['city'] 		= $loc['keyword'];
+				}
+			}
 
 			return \Masterdigm_MLS::get_instance()->add_property_alert($post_data);
 		}
@@ -107,112 +125,68 @@ class Property_Alert{
 		die();
 	}
 
-	public function display_button($atts){
-		global $current_user, $user_ID;
-		get_currentuserinfo();
-
-		$search_keyword = '';
-		$is_logged_in = 0;
-		$class = 'register-open';
-		//$class = 'save-search';
-		if( $user_ID != '' ){
-			$class = 'save-search';
-			$is_logged_in = 1;
-		}
-		$mls_type = '';
-		if( isset($atts['mls_type']) ){
-			$mls_type = $atts['mls_type'];
-		}
-		$city = '';
-		if( isset($atts['search_keyword']['cityid']) ){
-			$city = $atts['search_keyword']['cityid'];
-		}
-		$community = '';
-		if( isset($atts['search_keyword']['communityid']) ){
-			$community = $atts['search_keyword']['communityid'];
-		}
-		$subdivision = '';
-		if( isset($atts['search_keyword']['subdivisionid']) ){
-			$subdivision = $atts['search_keyword']['subdivisionid'];
-		}
-		$min_listprice = 0;
-		if( isset($atts['search_keyword']['min_listprice']) ){
-			$min_listprice = $atts['search_keyword']['min_listprice'];
-		}
-		$max_listprice = 0;
-		if( isset($atts['search_keyword']['max_listprice']) ){
-			$max_listprice = $atts['search_keyword']['max_listprice'];
-		}
-		$min_beds = 0;
-		if( isset($atts['search_keyword']['min_beds']) ){
-			$min_beds = $atts['search_keyword']['min_beds'];
-		}
-		$max_beds = 0;
-		if( isset($atts['search_keyword']['bedrooms']) ){
-			$max_beds = $atts['search_keyword']['bedrooms'];
-		}
-		$min_baths = 0;
-		if( isset($atts['search_keyword']['min_baths']) ){
-			$min_baths = $atts['search_keyword']['min_baths'];
-		}
-		$max_baths = 0;
-		if( isset($atts['search_keyword']['bathrooms']) ){
-			$max_baths = $atts['search_keyword']['bathrooms'];
-		}
-		$min_garage = 0;
-		if( isset($atts['search_keyword']['min_garage']) ){
-			$min_garage = $atts['search_keyword']['min_garage'];
-		}
-		$transaction = 'for sale';
-		if( isset($atts['search_keyword']['transaction']) ){
-			$transaction = $atts['search_keyword']['transaction'];
-		}
-		$ex_string = explode(' ',urldecode($transaction));
-		if( count($ex_string) == 2 && isset($ex_string[1]) ){
-			$transaction = strtolower($ex_string[1]);
-		}else{
-			if(
-				sanitize_text_field(isset($_REQUEST['transaction'])) &&
-				sanitize_text_field($_REQUEST['transaction']) != '' &&
-				sanitize_text_field($_REQUEST['transaction']) != 'all'
-			){
-				$ex_string = explode(' ',$_REQUEST['transaction']);
-				if( count($ex_string) == 2 && isset($ex_string[1]) ){
-					$transaction = $ex_string[1];
-				}else{
-					$transaction = sanitize_text_field($_REQUEST['transaction']);
+	public function display_unsubscribe_button($atts){
+		$count_subscribe_property_alert = 0;
+		$user_account 					= wp_get_current_user();
+		$get_savesearch_by_userid 		= \Save_Search::get_instance()->get_all_by_userid($user_account->ID);
+		if( $get_savesearch_by_userid && count($get_savesearch_by_userid) > 0 ){
+			foreach($get_savesearch_by_userid as $key => $val){
+				$meta_value = unserialize($val->meta_value);
+				if( $meta_value['subscribed_property_alert'] == 1 ){
+					$count_subscribe_property_alert++;
 				}
-			}else{
-				$transaction = 'For Sale';
 			}
 		}
-		if(is_user_logged_in()) {
-			global $current_user;
-			get_currentuserinfo();
-
-		};
-		$post_data = array(
-			'mls'=>$mls_type,
-			'source'=>get_option('blogname'),
-			'source_url'=>get_option('siteurl'),
-			'city'=>$city,
-			'community'=>$community,
-			'subdivision'=>$subdivision,
-			'min_listprice'=>$min_listprice,
-			'max_listprice'=>$max_listprice,
-			'min_beds'=>$min_beds,
-			'max_beds'=>$max_beds,
-			'min_baths'=>$min_baths,
-			'max_baths'=>$max_baths,
-			'min_garage'=>$min_garage,
-			'transaction'=>$transaction,
-		);
-		if( isset($atts['search_keyword']) ){
-			$query_data = http_build_query($post_data);
-		}
+		$atts['class'] 		= '';
+		$atts['count'] 		= $count_subscribe_property_alert;
+		$atts['user_id'] 	= $user_account->ID;
+		extract($atts);
 		if( DEFAULT_FEED == 'mls' ){
-			require 'view/save-search-button.php';
+			require 'view/un-subscribe.php';
 		}
+	}
+
+
+
+	public function crm_unsubscribe($email = null){
+		$user_account 				= wp_get_current_user();
+
+		if( is_null($email) ){
+			if( isset($_GET['email']) && sanitize_text_field($_GET['email']) ){
+				$email = sanitize_email($_GET['email']);
+			}
+			if( isset($_POST['email']) && sanitize_text_field($_POST['email']) ){
+				$email = sanitize_email($_POST['email']);
+			}
+		}
+
+		if(
+			trim($email) !=''
+			&& is_email($email)
+			&& email_exists( $email )
+		){
+			$api_http = "http://masterdigmserver1.com/alert/unsubscribe?email={$email}";
+			$response = wp_remote_get( $api_http );
+			if( $response['response']['code'] == 200 ){
+				$crm_response = $response['body'];
+				$crm_response = json_decode($crm_response);
+				if( $crm_response->result == 'success' ){
+					if( !is_user_logged_in() ){
+						$user_account = get_user_by( 'email', $email );
+					}
+					$get_savesearch_by_userid 	= \Save_Search::get_instance()->get_all_by_userid($user_account->ID);
+					if( $get_savesearch_by_userid && count($get_savesearch_by_userid) > 0 ){
+						foreach($get_savesearch_by_userid as $key => $val){
+							$meta_value = unserialize($val->meta_value);
+							$meta_value['subscribed_property_alert'] = 0;
+							update_user_meta( $user_account->ID, $meta_value['user_meta_name'], $meta_value );
+						}
+					}
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
