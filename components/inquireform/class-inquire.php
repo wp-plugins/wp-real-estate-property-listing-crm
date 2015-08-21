@@ -46,7 +46,7 @@ class Inquire {
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-inquire-actions', plugin_dir_url( __FILE__ ) . 'js/inquire.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-inquire-actions', plugin_dir_url( __FILE__ ) . 'js/inquire-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**
