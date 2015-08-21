@@ -325,6 +325,12 @@ class Action_Buttons {
 			}
 		}elseif(get_single_property_source() == 'mls' ){
 			$photo = $property->PrimaryPhotoUrl;
+		}else{
+			if( is_array($photo) ){
+				if( is_object($photo[0]) ){
+					$photo = $photo[0]->url;
+				}
+			}
 		}
 		$media = $photo;
 

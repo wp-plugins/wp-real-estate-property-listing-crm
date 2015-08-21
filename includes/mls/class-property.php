@@ -178,7 +178,7 @@ class MLS_Property{
 		}
 
 		if( $orderby == 'posted_at' ){
-			$orderby = 'latest';
+			$orderby = 'TimeStampModified';
 		}
 
 		$order_direction = '';
@@ -247,7 +247,7 @@ class MLS_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-
+		//dump($data);
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;

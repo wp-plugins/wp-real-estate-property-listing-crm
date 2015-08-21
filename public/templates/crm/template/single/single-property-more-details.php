@@ -4,7 +4,7 @@
 			<li class="tab-light">Status : <?php echo get_single_property_data()->displayPropertyStatus();?></li>
 			<li class="tab-dark">Transaction Type : <?php echo get_single_property_data()->displayTransaction();?></li>
 			<li class="tab-light">Type : <?php echo get_single_property_data()->displayPropertyType();?></li>
-			<li class="tab-dark">Location : <?php echo get_single_property_data()->address;?></li>
+			<li class="tab-dark">Location : <?php echo get_single_property_data()->city;?></li>
 			<li class="tab-light">Community : <?php echo get_single_property_data()->community;?></li>
 			<li class="tab-dark"><?php do_action( 'single_before_lot_area' ); ?>Lot Area: <?php echo get_single_property_data()->displayAreaMeasurement('lot')->measure . ' ' . get_single_property_data()->displayAreaMeasurement('lot')->area_type;?></li>
 		</ul>

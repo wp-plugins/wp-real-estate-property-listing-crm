@@ -77,7 +77,10 @@ function md_property_html_price(){
 		$price .= '<span>'.$account->work_phone.'</span>';
 	}else{
 		$price = $get_currency.number_format( md_property_raw_price() );
-		$price .= '<span>&nbsp;</span>';
+		$price .= '<span>';
+		$price .= apply_filters('single_price_label','Price');
+		$price .= '</span>';
+
 	}
 	return $price;
 }

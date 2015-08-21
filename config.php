@@ -99,4 +99,5 @@ $array_label = array(
 	'next'						=> 'Next',
 	'prev'						=> 'Previous',
 	'property-code'				=> 'Property Code',
+	'price'						=> 'Price'
 );
