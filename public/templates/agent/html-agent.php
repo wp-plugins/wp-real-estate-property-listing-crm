@@ -11,13 +11,10 @@
 						<?php echo $agent->get_name();?>
 					</h5>
 					<a href="mailto:<?php echo $agent->get_email();?>" target="_blank" title="Click to Email">
-						<?php echo $agent->get_email();?>
+						Click to Email
 					</a>
 					<abbr title="Work Phone">Work:</abbr> <?php echo $agent->get_phone();?><br />
 					<abbr title="Mobile Phone">Mobile:</abbr> <?php echo $agent->get_mobile_num();?><br />
-					<?php if($agent->get_website() != '' ){ ?>
-						<abbr title="Website">Website:</abbr> <a href="http://<?php echo $agent->get_website();?>" target="_blank"><?php echo $agent->get_website();?></a><br />
-					<?php } ?>
 			  </strong>
 			</address>
 			<br>
