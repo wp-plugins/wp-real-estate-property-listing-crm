@@ -79,7 +79,7 @@ class PDF_MD{
 		$details .= '<tr><td colspan="2">'.md_get_description().'</td></tr>';
 		$details .= '</table>';
 		if( has_filter('print_pdf_body_details') ){
-			$details = apply_filters('print_pdf_body_details', $details_string);
+			$details = apply_filters('print_pdf_body_details', $details);
 		}
 		return $details;
 	}
@@ -169,8 +169,10 @@ class PDF_MD{
 			$pdf->writeHTML($html, true, false, true, false, '');
 
 			//Close and output PDF document
-			$filename = strtolower(str_replace(' ','_',\helpers\Text::remove_non_alphanumeric(md_property_address())));
+			//$filename = strtolower(str_replace(' ','_',\helpers\Text::remove_non_alphanumeric(md_property_address())));
+			$filename = $property_id;
 			$pdf->Output($filename.'.pdf', 'I');
+			exit();
 		}
 	}
 	public function get_print_pdf_property_id(){

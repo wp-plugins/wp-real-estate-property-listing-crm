@@ -178,7 +178,7 @@ class MLS_Property{
 		}
 
 		if( $orderby == 'posted_at' ){
-			$orderby = 'latest';
+			$orderby = 'TimeStampModified';
 		}
 
 		$order_direction = '';
@@ -247,11 +247,12 @@ class MLS_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-
+		//dump($data);
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{
@@ -321,12 +322,11 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
-		//\DB_Store::get_instance()->del($cache_keyword);
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$data = cache_get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -338,16 +338,17 @@ class MLS_Property{
 				}
 
 				$community 	= '';
-				$mls_type 	= '';
-				if( isset($property->community) ){
-					$community 	= $property->community;
-					if( isset($property->community->mls) ){
-						$mls_type	= $property->community->mls;
-					}
+				$mls_type	= '';
+				if( isset($property->mls) ){
+					$mls_type	= $property->mls;
 				}
 				$last_mls_update = '';
 				if( isset($property->last_mls_update) ){
 					$last_mls_update = $property->last_mls_update;
+				}
+				$listing_id = 0;
+				if( isset($property->listing_id) ){
+					$listing_id = $property->listing_id;
 				}
 				$data = array(
 					'properties'=> $propertyEntity,
@@ -355,8 +356,9 @@ class MLS_Property{
 					'result'	=> 'success',
 					'community'	=> $community,
 					'mls_type'	=> $mls_type,
-					'last_mls_update'	=> $last_mls_update,
-					'source'	=>'mls'
+					'last_mls_update'	=> 	$last_mls_update,
+					'source'			=>	'mls',
+					'listing_id'		=>	$listing_id
 				);
 				cache_set($cache_keyword, $data);
 			}else{

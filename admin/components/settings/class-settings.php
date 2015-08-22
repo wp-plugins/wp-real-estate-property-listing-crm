@@ -94,8 +94,9 @@ class Settings_API {
 		$show_popup_close_button 	= $this->_show_popup_close_button();
 		$show_popup_after 			= $this->_show_popup_after();
 		$search_status 				= $this->_show_fields_status();
-
+		$view_options				= $this->_view_options();
 		$show_default_property_name	= $this->_show_default_property_name();
+
 		if( $this->showpopup_settings('clicks') ){
 			$default_click 	= $this->showpopup_settings('clicks');
 		}else{
@@ -145,6 +146,13 @@ class Settings_API {
 			'3' => '3',
 			'4' => '4',
 			'5' => '5',
+		);
+	}
+
+	private function _view_options(){
+		return array(
+			'photo'=>'Photo',
+			'map'=>'Map',
 		);
 	}
 
