@@ -101,23 +101,46 @@ class Masterdigm_API_Public {
 		wp_enqueue_style('thickbox.css', '/'.WPINC.'/js/thickbox/thickbox.css', null, '1.0');
 	}
 
+	public function load_async_js(){
+		?>
+		<script>
+		(function(w, d, s) {
+		  function go(){
+			var js, fjs = d.getElementsByTagName(s)[0], load = function(url, id) {
+			  if (d.getElementById(id)) {return;}
+			  js = d.createElement(s); js.src = url; js.id = id;
+			  fjs.parentNode.insertBefore(js, fjs);
+			};
+			load('https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', 'googlemapjs');
+		  }
+		  if (w.addEventListener) { w.addEventListener("load", go, false); }
+		  else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+		</script>
+		<?php
+	}
+
 	/**
 	 * Register the stylesheets for the public-facing side of the site.
 	 *
 	 * @since    1.0.0
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array(), $this->version, true );
+		wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?v=3.20&sensor=false', array(), $this->version, true );
+		//wp_enqueue_script( 'google-map', 'https://maps.googleapis.com/maps/api/js?v=3.20&key='.GOOGLE_PUBLIC_KEY.'', array(), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-gmap-marker-cluster', plugin_dir_url( __FILE__ ) . 'js/markerclusterer.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-plugin-gmap3', plugin_dir_url( __FILE__ ) . 'js/gmap3.min_v6.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-bootstrap-js', plugin_dir_url( __FILE__ ) . 'plugin/bootstrap/js/bootstrap.min.js', array(), '3.0.0', true );
 		wp_enqueue_script( $this->plugin_name . '-galleria', plugin_dir_url( __FILE__ ) . 'plugin/galleria/galleria-1.4.2.min.js' , array( 'jquery' ), true );
 		wp_enqueue_script('thickbox',null,array('jquery'));
+		wp_enqueue_script('jquery-ui-core');
+		wp_enqueue_script('jquery-ui-tabs');
 		wp_enqueue_script('jquery-masonry',null,array('jquery'));
 		wp_enqueue_script($this->plugin_name . '-localize-script');
 		wp_enqueue_script( $this->plugin_name . '-typeahead', plugin_dir_url( __FILE__ ) . 'js/typeahead.bundle.min.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_name . '-localize-script-public', plugin_dir_url( __FILE__ ) . 'js/masterdigm-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-localize-script-public', plugin_dir_url( __FILE__ ) . 'js/masterdigm-public-min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-search', plugin_dir_url( __FILE__ ) . 'js/search-public.js', array( 'jquery' ), $this->version, true );
-		wp_enqueue_script( $this->plugin_name . '-single', plugin_dir_url( __FILE__ ) . 'js/masterdigm-single-property-public.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-single', plugin_dir_url( __FILE__ ) . 'js/masterdigm-single-property-public-min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-infinite-scroll', plugin_dir_url( __FILE__ ) . 'js/infinite_scroll.js', array( 'jquery' ), $this->version, true );
 		// localize
 		$settings = get_option('plugin-settings');
@@ -134,6 +157,7 @@ class Masterdigm_API_Public {
 				'ajax_indicator' => PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif',
 				'masonry_container' => 'search-result',
 				'masonry'	=>	$masonry,
+				'fb_key'	=>	\Social_API::get_instance()->getSocialApiByKey('facebook','id'),
 			)
 		);
 	}
