@@ -170,25 +170,28 @@ class MLS_Property{
 			$property_type = sanitize_text_field($_REQUEST['property_type']);
 		}
 
-		$orderby = '';
-		if( sanitize_text_field(isset($search_data['orderby'])) ){
+		$orderby = 'posted_at';
+		if( sanitize_text_field(isset($search_data['orderby'])) && sanitize_text_field($search_data['orderby']) != '' ){
 			$orderby = sanitize_text_field($search_data['orderby']);
-		}elseif( sanitize_text_field(isset($_REQUEST['orderby'])) ){
+		}elseif( sanitize_text_field(isset($_REQUEST['orderby'])) && sanitize_text_field($_REQUEST['orderby']) != '' ){
 			$orderby = sanitize_text_field($_REQUEST['orderby']);
 		}
-
 		if( $orderby == 'posted_at' ){
 			$orderby = 'TimeStampModified';
 		}
 
-		$order_direction = '';
-		if( sanitize_text_field(isset($search_data['order_direction'])) ){
+		if( $orderby == 'price' ){
+			$orderby = 'ListPrice';
+		}
+
+		$order_direction = 'ASC';
+		if( sanitize_text_field(isset($search_data['order_direction'])) && sanitize_text_field($search_data['order_direction']) != '' ){
 			$order_direction = sanitize_text_field($search_data['order_direction']);
-		}elseif( sanitize_text_field(isset($_REQUEST['order_direction'])) ){
+		}elseif( sanitize_text_field(isset($_REQUEST['order_direction'])) && sanitize_text_field($_REQUEST['order_direction']) != '' ){
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = '10';
+		$limit = get_search_limit();
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){
@@ -242,7 +245,7 @@ class MLS_Property{
 			'status'			=> $property_status,
 			'property_type'		=> urldecode($property_type),
 			'transaction'		=> $transaction,
-			'order_by'			=> $orderby,
+			'orderby'			=> $orderby,
 			'order_direction'	=> $order_direction,
 			'limit'				=> $limit,
 			'page'				=> $paged

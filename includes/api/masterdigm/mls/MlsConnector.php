@@ -233,7 +233,7 @@ class MlsConnector {
         $etoken =   hash_hmac( 'sha256' , $data , $this->token ) ;
 
         $uri_with_data = $uri.'/?'.$data;
-		//echo $uri_with_data;
+		//echo 'mls'.$uri_with_data;
         $ch     =   curl_init( $uri );
 
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );

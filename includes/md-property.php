@@ -21,6 +21,7 @@ function md_display_nearby_property($atts){
 		}
 
 		$properties = apply_filters('property_nearby_property_' . get_single_property_source(), get_single_data(), array('limit'=>6));
+
 		$properties->search_keyword['limit'] = 11;
 		$more_similar_homes_link = \Property_URL::get_instance()->get_search_page_default() .'?' . http_build_query($properties->search_keyword) . "\n";
 		$total_properties = $properties->total;
@@ -31,7 +32,6 @@ function md_display_nearby_property($atts){
 		}*/
 
 		\MD\Property::get_instance()->set_properties($properties, get_single_property_source());
-
 		$template = PLUGIN_VIEW . 'list/default/list-similar-homes.php';
 		// hook filter, incase we want to just use hook
 		if( has_filter('shortcode_list_property_'.get_single_property_source()) ){

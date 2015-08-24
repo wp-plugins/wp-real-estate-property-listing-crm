@@ -134,6 +134,7 @@ class CRM_Hook{
 	public function property_nearby_property_crm($array_properties, $array_option_search){
 		$communityid = '';
 		$cityid = '';
+
 		if( $array_properties['property'] && isset($array_properties['property']->communityid) == 0 ){
 			$communityid = $array_properties['property']->communityid;
 			$city = '';

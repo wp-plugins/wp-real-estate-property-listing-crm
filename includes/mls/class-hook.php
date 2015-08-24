@@ -186,9 +186,10 @@ class MLS_Hook{
 		$communityid 	= '';
 		$cityid 		= '';
 		$location 		= '';
+		$property = $array_properties['property'];
 
 		$loc = get_coverage_lookup();
-		$ret = get_mls_hierarchy_location($array_properties['property'], $loc);
+		$ret = get_mls_hierarchy_location($property, $loc);
 
 		if( $array_properties['community'] && isset($array_properties['community']->community_id) ){
 			$communityid = $array_properties['community']->community_id;
@@ -207,6 +208,20 @@ class MLS_Hook{
 			$limit = $array_option_search['limit'];
 		}
 
+		$type = '';
+		if(
+			isset($property->Type)
+			&& $property->Type != ''
+			&& strlen($type) >= 5
+		){
+			$type = $property->Type;
+		}
+
+		$max_price = 0;
+		if( isset($property->ListPrice) && $property->ListPrice != 0 ){
+			$max_price = $property->ListPrice;
+		}
+
 		$search_data['countyid'] 		= '';
 		$search_data['stateid'] 		= '';
 		$search_data['countyid'] 		= '';
@@ -217,10 +232,10 @@ class MLS_Hook{
 		$search_data['bathrooms'] 		= '';
 		$search_data['bedrooms'] 		= '';
 		$search_data['transaction'] 	= '';
-		$search_data['property_type'] 	= '';
+		$search_data['property_type'] 	= $type;
 		$search_data['property_status'] = '';
-		$search_data['min_listprice'] 	= '';
-		$search_data['max_listprice'] 	= '';
+		$search_data['min_listprice'] 	= 0;
+		$search_data['max_listprice'] 	= $max_price;
 		$search_data['limit']			= $limit;
 
 		$properties = \MLS_Property::get_instance()->get_properties($search_data);

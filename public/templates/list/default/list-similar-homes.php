@@ -11,6 +11,7 @@ Template Name: List - Box Style
 
 	$single_property = false;
 	$single_property_id = 0;
+	$count_properties = 0;
 	if( get_single_property_data() ){
 		$single_property = true;
 		$single_property_id = get_single_property_data()->getID();
@@ -91,31 +92,14 @@ Template Name: List - Box Style
 						</div>
 					</div>
 				  </div>
+				  <?php $count_properties++;?>
 			  <?php } // do not display same id ?>
 		<?php }//loop end have_properties() ?>
 	</div>
 </div>
-<?php if( have_properties() > 0 && $atts['infinite'] ){ ?>
-	<div class="ajax-indicator text-center">
-	  <img src="<?php echo PLUGIN_ASSET_URL . 'ajax-loader-big-circle.gif';?>" class="" id="loading-indicator" style='' />
-	</div>
-<?php }else{ ?>
-		<input type="hidden" name="nomoredata" id="nomoredata" value="0">
-<?php } ?>
-<?php
-	$options = array(
-		'selector'=>'#search-result-container',
-		'ajax_display'=>'search-result',
-		'col'=>$atts['col'],
-	);
-
-	if( !isset($search_data) ){
-		$search_data = null;
-	}
-
-	\MD_Search_Utility::get_instance()->js_var_search_data($properties, $atts, $search_data, $options);
-?>
+<?php if($count_properties >0){ ?>
 <a href="<?php echo $more_similar_homes_link; ?>">More Similar Homes</a>
+<?php } ?>
 <?php }else{ ?>
 	<?php
 		if(has_action('list_no_property_found')){
