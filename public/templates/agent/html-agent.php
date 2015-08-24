@@ -4,7 +4,7 @@
 			<img src="<?php echo $agent->get_photo();?>" class="img-responsive" />
 		</div>
 		<div class="col-md-6 col-xs-12">
-			<h5><span>Agent</span></h5>
+			<h6><span>Agent</span></h6>
 			<address>
 			  <strong>
 					<h5>
@@ -12,7 +12,7 @@
 					</h5>
 					<a href="mailto:<?php echo $agent->get_email();?>" target="_blank" title="Click to Email">
 						Click to Email
-					</a>
+					</a><br>
 					<abbr title="Work Phone">Work:</abbr> <?php echo $agent->get_phone();?><br />
 					<abbr title="Mobile Phone">Mobile:</abbr> <?php echo $agent->get_mobile_num();?><br />
 			  </strong>
