@@ -37,4 +37,6 @@ if( has_crm_key() == 1){
 	add_action( 'plugins_loaded', array( 'md_sc_single_properties', 'get_instance' ) );
 	require_once plugin_dir_path( __FILE__ ) . '/class-subscriber-shortcode.php';
 	add_action( 'plugins_loaded', array( 'Subscriber_Shortcode', 'get_instance' ) );
+	require_once plugin_dir_path( __FILE__ ) . '/class-crm-unsubscribe.php';
+	add_action( 'plugins_loaded', array( 'Unsubscribe_Shortcode', 'get_instance' ) );
 }

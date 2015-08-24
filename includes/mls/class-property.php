@@ -170,25 +170,28 @@ class MLS_Property{
 			$property_type = sanitize_text_field($_REQUEST['property_type']);
 		}
 
-		$orderby = '';
-		if( sanitize_text_field(isset($search_data['orderby'])) ){
+		$orderby = 'posted_at';
+		if( sanitize_text_field(isset($search_data['orderby'])) && sanitize_text_field($search_data['orderby']) != '' ){
 			$orderby = sanitize_text_field($search_data['orderby']);
-		}elseif( sanitize_text_field(isset($_REQUEST['orderby'])) ){
+		}elseif( sanitize_text_field(isset($_REQUEST['orderby'])) && sanitize_text_field($_REQUEST['orderby']) != '' ){
 			$orderby = sanitize_text_field($_REQUEST['orderby']);
 		}
-
 		if( $orderby == 'posted_at' ){
-			$orderby = 'latest';
+			$orderby = 'TimeStampModified';
 		}
 
-		$order_direction = '';
-		if( sanitize_text_field(isset($search_data['order_direction'])) ){
+		if( $orderby == 'price' ){
+			$orderby = 'ListPrice';
+		}
+
+		$order_direction = 'ASC';
+		if( sanitize_text_field(isset($search_data['order_direction'])) && sanitize_text_field($search_data['order_direction']) != '' ){
 			$order_direction = sanitize_text_field($search_data['order_direction']);
-		}elseif( sanitize_text_field(isset($_REQUEST['order_direction'])) ){
+		}elseif( sanitize_text_field(isset($_REQUEST['order_direction'])) && sanitize_text_field($_REQUEST['order_direction']) != '' ){
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = '10';
+		$limit = get_search_limit();
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){
@@ -242,16 +245,17 @@ class MLS_Property{
 			'status'			=> $property_status,
 			'property_type'		=> urldecode($property_type),
 			'transaction'		=> $transaction,
-			'order_by'			=> $orderby,
+			'orderby'			=> $orderby,
 			'order_direction'	=> $order_direction,
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-
+		//dump($data);
 		$search_md5 	  = md5(json_encode($data));
 		$property_keyword = \Property_Cache::get_instance()->getCacheSearchKeyword();
 		$cache_keyword 	  = $property_keyword->id . '-mls-' . $search_md5;
 		// save the cache keyword as it is md5
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{
@@ -321,12 +325,11 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
-		//\DB_Store::get_instance()->del($cache_keyword);
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$data = cache_get($cache_keyword);
 		}else{
 			$property 		= $this->mls->get_property( $matrix_unique_id );
-
 			if( $property ){
 				$photos = array();
 				$propertyEntity = new \mls\Property_Entity;
@@ -338,16 +341,17 @@ class MLS_Property{
 				}
 
 				$community 	= '';
-				$mls_type 	= '';
-				if( isset($property->community) ){
-					$community 	= $property->community;
-					if( isset($property->community->mls) ){
-						$mls_type	= $property->community->mls;
-					}
+				$mls_type	= '';
+				if( isset($property->mls) ){
+					$mls_type	= $property->mls;
 				}
 				$last_mls_update = '';
 				if( isset($property->last_mls_update) ){
 					$last_mls_update = $property->last_mls_update;
+				}
+				$listing_id = 0;
+				if( isset($property->listing_id) ){
+					$listing_id = $property->listing_id;
 				}
 				$data = array(
 					'properties'=> $propertyEntity,
@@ -355,8 +359,9 @@ class MLS_Property{
 					'result'	=> 'success',
 					'community'	=> $community,
 					'mls_type'	=> $mls_type,
-					'last_mls_update'	=> $last_mls_update,
-					'source'	=>'mls'
+					'last_mls_update'	=> 	$last_mls_update,
+					'source'			=>	'mls',
+					'listing_id'		=>	$listing_id
 				);
 				cache_set($cache_keyword, $data);
 			}else{

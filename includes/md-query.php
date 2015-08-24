@@ -11,6 +11,7 @@ function get_ret_properties(){
 }
 function have_properties(){
 	$properties = get_ret_properties();
+
 	if( isset($properties->data) ){
 		if( isset($properties->total) && $properties->total > 0 || count($properties->data) > 0 ){
 			return $properties->data;
@@ -61,8 +62,11 @@ function md_property_raw_price(){
 }
 function md_property_format_price(){
 	$account  = \CRM_Account::get_instance()->get_account_data();
-	$get_currency = ($account->currency) ? $account->currency:'$';
-	return $get_currency.number_format( md_property_raw_price() );
+	if( $account && isset($account->currency) ){
+		$get_currency = ($account->currency) ? $account->currency:'$';
+		return $get_currency.number_format( md_property_raw_price() );
+	}
+	return false;
 }
 function md_property_html_price(){
 	$price = '';
@@ -73,7 +77,10 @@ function md_property_html_price(){
 		$price .= '<span>'.$account->work_phone.'</span>';
 	}else{
 		$price = $get_currency.number_format( md_property_raw_price() );
-		$price .= '<span>&nbsp;</span>';
+		$price .= '<span>';
+		$price .= apply_filters('single_price_label','Price');
+		$price .= '</span>';
+
 	}
 	return $price;
 }
@@ -158,4 +165,26 @@ function crm_md_get_featured_img($property_id){
 }
 function md_time_stamp_modified(){
 	return \MD\Property::get_instance()->time_stamp_modified();
+}
+function md_property_area_by($by = '', $source = null){
+	if( is_null($source)){
+		$source = md_get_source();
+	}
+	$md_area = \MD\Property::get_instance()->area_by($by);
+
+	$data = array(
+		'measurement'	=> $md_area->measure,
+		'unit'		 	=> $md_area->area_type,
+		'by'		 	=> $md_area->by,
+		'unit_str'   	=> $md_area->by . ' area '.$md_area->area_type,
+	);
+	return apply_filters('property_area_'.md_get_source(), $data);
+}
+function get_property_area(){
+	$area = md_property_area_by();
+	return $area['measurement'];
+}
+function get_property_area_unit(){
+	$unit = md_property_area_by();
+	return $unit['unit_str'];
 }
