@@ -183,6 +183,23 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				$col = $atts['col'];
 			}
 
+			$orderby = '';
+			if( isset($atts['orderby']) ){
+				$orderby = $atts['orderby'];
+			}else{
+				if( isset($_REQUEST['orderby']) ){
+					$orderby = sanitize_text_field($_REQUEST['orderby']);
+				}
+			}
+			$order_direction = '';
+			if( isset($atts['order_direction']) ){
+				$order_direction = $atts['order_direction'];
+			}else{
+				if( isset($_REQUEST['order_direction']) ){
+					$order_direction = sanitize_text_field($_REQUEST['order_direction']);
+				}
+			}
+
 			$atts = shortcode_atts(	array(
 				'template' 		=> $att_template,
 				'listing_office_id'	=> $listing_office_id,
@@ -201,6 +218,8 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 				'transaction'	=> $transaction,
 				'listing_office_id'			=> $listing_office_id,
 				'limit'			=> $limit,
+				'orderby'			=> $orderby,
+				'order_direction'	=> $order_direction,
 				'infinite'		=> $atts['infinite'],
 				'pagination'	=> $atts['pagination'],
 				'col'			=> $col,
@@ -220,6 +239,8 @@ if ( !class_exists( 'md_sc_mls_list_properties' ) )
 			$search_data['property_type'] 	= $type;
 			$search_data['transaction'] 	= $transaction;
 			$search_data['limit'] 			= $limit;
+			$search_data['orderby'] 		= $orderby;
+			$search_data['order_direction'] = $order_direction;
 
 			$properties = \MLS_Property::get_instance()->get_properties($search_data);
 

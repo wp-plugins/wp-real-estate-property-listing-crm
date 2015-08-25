@@ -12,8 +12,15 @@ Template Name: List - Box Style
 			$single_property_id = get_single_property_data()->id;
 		}
 	?>
+	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:10));?>
+	<?php show_search_result_tools($atts, $show_sort); ?>
 	<div class="row" id="search-result-container">
 		<div class="search-result<?php echo ( isset($atts['infinite']) && $atts['infinite'] != 1 ) ? '-not-infinite':'';?> item-container">
+			<?php if( !is_front_page() && ($max > 1) ){ ?>
+				<div class="md-pagination">
+					<?php md_pagination('', 2, get_ret_properties()->total); ?>
+				</div>
+			<?php } ?>
 			<?php foreach(have_properties() as $property ){ //loop start have_properties() ?>
 					<?php set_loop($property); ?>
 					<?php if($single_property_id != md_property_id()) { // do not display same id ?>
@@ -25,16 +32,9 @@ Template Name: List - Box Style
 			<?php }//loop end have_properties() ?>
 		</div>
 	</div>
-
-	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:10));?>
-
 	<?php if( !is_front_page() && ($max > 1) ){ ?>
 		<div class="md-pagination">
-			<?php
-				if( isset($atts['pagination']) && $atts['pagination'] == 'true' ) {
-					md_pagination('', 2, get_ret_properties()->total);
-				}
-			?>
+			<?php md_pagination('', 2, get_ret_properties()->total); ?>
 		</div>
 		<?php if( count(have_properties()) > 0 && $atts['infinite'] ){ ?>
 			<div class="ajax-indicator text-center">

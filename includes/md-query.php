@@ -170,6 +170,7 @@ function md_property_area_by($by = '', $source = null){
 	if( is_null($source)){
 		$source = md_get_source();
 	}
+	$by = apply_filters('property_area_by_'.md_get_source(), $by);
 	$md_area = \MD\Property::get_instance()->area_by($by);
 
 	$data = array(

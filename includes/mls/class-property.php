@@ -171,9 +171,15 @@ class MLS_Property{
 		}
 
 		$orderby = 'posted_at';
-		if( sanitize_text_field(isset($search_data['orderby'])) && sanitize_text_field($search_data['orderby']) != '' ){
+		if(
+			sanitize_text_field(isset($search_data['orderby']))
+			&& sanitize_text_field($search_data['orderby']) != ''
+		){
 			$orderby = sanitize_text_field($search_data['orderby']);
-		}elseif( sanitize_text_field(isset($_REQUEST['orderby'])) && sanitize_text_field($_REQUEST['orderby']) != '' ){
+		}elseif(
+			sanitize_text_field(isset($_REQUEST['orderby']))
+			&& sanitize_text_field($_REQUEST['orderby']) != ''
+		){
 			$orderby = sanitize_text_field($_REQUEST['orderby']);
 		}
 		if( $orderby == 'posted_at' ){

@@ -84,14 +84,17 @@ function show_search_result_tools($atts, $show_sort){
 	?>
 	<div id="button-view" style="margin-bottom:10px;">
 		<div class="btn-group" role="group" aria-label="...">
-			<a class="btn btn-default <?php echo (get_current_view_query() == 'map') ? 'active':'';?>" href="<?php echo md_search_uri_query('view=map');?>" role="button"><span class="glyphicon glyphicon-map-marker" aria-hidden="true" ></span> Map View</a>
-			<a class="btn btn-default <?php echo (get_current_view_query() == 'photo') ? 'active':'';?>" href="<?php echo md_search_uri_query('view=photo');?>" role="button"><span class="glyphicon glyphicon-th-large" aria-hidden="true" ></span> Photo View</a>
+			<?php if( is_page('search-properties') ){ ?>
+				<a class="btn btn-default <?php echo (get_current_view_query() == 'map') ? 'active':'';?>" href="<?php echo md_search_uri_query('view=map');?>" role="button"><span class="glyphicon glyphicon-map-marker" aria-hidden="true" ></span> Map View</a>
+				<a class="btn btn-default <?php echo (get_current_view_query() == 'photo') ? 'active':'';?>" href="<?php echo md_search_uri_query('view=photo');?>" role="button"><span class="glyphicon glyphicon-th-large" aria-hidden="true" ></span> Photo View</a>
+				<?php show_fullscreen_button_map(); ?>
+			<?php } ?>
 			<?php
 				if( !is_front_page() && $show_sort ){
 					\Action_Buttons::display_sort_button(array('class'=>'list-default'));
 				}
 				\Save_Search::get_instance()->display_button($atts);
-				show_fullscreen_button_map()
+
 			?>
 		</div>
 	</div>

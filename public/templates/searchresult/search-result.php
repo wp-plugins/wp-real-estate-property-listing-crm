@@ -3,7 +3,6 @@
 Template Name: Search Result - Default Template
 */
 ?>
-<?php show_search_result_tools($atts, $show_sort); ?>
 <div id="view-display">
 	<div class="view-display-before">
 		<?php

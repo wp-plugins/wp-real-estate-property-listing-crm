@@ -156,7 +156,7 @@ class MD_Search_Utility {
 		}
 		$selector 			= $other_option['selector'];
 		$infinite_result 	= $other_option['ajax_display'];
-
+		dump($request);
 		if( count($arr_properties_data) > 0 || $arr_properties_data->total > 0 ){
 			?>
 				<script>
