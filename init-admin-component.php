@@ -11,4 +11,5 @@ if( \Masterdigm_API::get_instance()->has_crm_api_key() ){
 	require_once plugin_dir_path( __FILE__ ) . 'admin/components/shortcodes/init.php';
 	require_once plugin_dir_path( __FILE__ ) . 'admin/components/dashboard/init.php';
 	require_once plugin_dir_path( __FILE__ ) . 'admin/components/createlocationpage/init.php';
+	require_once plugin_dir_path( __FILE__ ) . 'admin/components/propertyalert/init.php';
 }
