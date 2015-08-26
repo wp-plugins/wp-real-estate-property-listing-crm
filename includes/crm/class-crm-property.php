@@ -275,13 +275,11 @@ class CRM_Property{
 			'search_keyword'	=>	array(),
 			'source'			=>	'crm'
 		);
-
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->crm->get_properties($search_criteria_data);
-
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;
@@ -321,20 +319,20 @@ class CRM_Property{
 	 *								)
 	 * @return	array object
 	 * */
-	public function get_featured($user_id = null, $array_location_id = array()){
+	public function get_featured($user_id = null, $array_location_id = array(), $other_data = array()){
 
 		if( is_null($user_id) ){
-			$user_id = \CRM_Account::get_instance()->get_account_data('userid');
-			$user = \CRM_Account::get_instance()->get_account_details();
+			$user_id 	= \CRM_Account::get_instance()->get_account_data('userid');
+			$user 		= \CRM_Account::get_instance()->get_account_details();
 		}
-
+		$search_md5 	  = md5(json_encode($array_location_id + $other_data));
 		$property_keyword 	= \Property_Cache::get_instance()->getCacheFeaturedKeyword();
-		$cache_keyword 		= $property_keyword->id;
+		$cache_keyword 		= $property_keyword->id . $search_md5;
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{
-			$properties = $this->crm->get_featured_properties($user_id, $array_location_id);
+			$properties = $this->crm->get_featured_properties($user_id, $array_location_id, $other_data);
 			if( $properties->result == 'success' && $properties->count > 0 )
 			{
 				foreach( $properties->properties as $property ){

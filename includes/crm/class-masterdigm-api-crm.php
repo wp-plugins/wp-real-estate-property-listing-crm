@@ -138,8 +138,8 @@ class Masterdigm_CRM implements iMasterdigm_API{
 	 *								)
 	 * @return	array object
 	 * */
-	public function get_featured_properties($user_id = null, $array_location_id = array()){
-		return $this->get_client()->getFeaturedProperties($user_id, $array_location_id);
+	public function get_featured_properties($user_id = null, $array_location_id = array(), $other_data = array()){
+		return $this->get_client()->getFeaturedProperties($user_id, $array_location_id, $other_data);
 	}
 
 	/**

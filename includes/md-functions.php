@@ -190,3 +190,38 @@ function is_404_function(){
 }
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
+function array_to_js_obj($array, $depth=0, $script="", $siblings = null){
+	$relIdx = 0;
+	foreach($array as $optionObjName => $val){
+		if(is_array($val)){
+			$arraysOnLevel[$optionObjName] = $val;
+		}else{
+			$script .= $optionObjName.": ";
+			if(!is_numeric($val) && $val!='true' && $val!='false')
+				$script .= "'".$val."'";
+			else
+				$script .= $val;
+			if(++$relIdx<count($array))
+				$script .=",";
+		}
+	}
+	if(isset($arraysOnLevel)){
+		$array = reset($arraysOnLevel);
+		$optionObjName = key($arraysOnLevel);
+
+		if(count($arraysOnLevel>1))
+			$siblings[$depth] = array_slice($arraysOnLevel, 1);
+
+		$script .= $optionObjName.": {";
+		return array_to_js_obj($array, ++$depth, $script, $siblings);
+	}else{
+		while(--$depth >=0){
+			$script.="}";
+			if(is_array($siblings[$depth])&& $siblings[$depth]!=null){
+				$script .= ",";
+				return array_to_js_obj($siblings[$depth], $depth, $script, $siblings);
+			}
+		}
+	}
+	return $script;
+}

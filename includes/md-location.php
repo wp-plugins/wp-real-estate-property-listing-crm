@@ -21,7 +21,8 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 	if( $location->result == 'success' ){
 		$array_location = json_decode(json_encode($location->lookups), true);
 		if( isset($obj_property_data->Community) && trim($obj_property_data->Community) != '' ){
-			$community 	= trim(strtolower($obj_property_data->Community));
+			$obj_community = remove_nonaplha($obj_property_data->Community);
+			$community 	= trim(strtolower($obj_community));
 			$community  = explode(' ',$community );
 			if( count($community ) >= 3 ){
 				$community  = strtolower($community[0].' '.$community[1]);
@@ -30,10 +31,10 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 			}else{
 				$community  = trim(strtolower($community [0]));
 			}
-
 		}
 		if(isset($obj_property_data->City) && $obj_property_data->City != ''){
-			$city = trim(strtolower($obj_property_data->City));
+			$obj_city = remove_nonaplha($obj_property_data->City);
+			$city = trim(strtolower($obj_city));
 		}
 		$matches['country'] = array(
 			'id' => 0,
@@ -89,7 +90,6 @@ function get_mls_hierarchy_location($obj_property_data, $get_coverage_lookup, $g
 			'full' => '-1',
 			'keyword' => '-1',
 		);
-
 		foreach($array_location as $key => $val){
 			$keyword = strtolower(trim($val[$gc_array_key]));
 
