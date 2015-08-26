@@ -72,16 +72,35 @@ class PDF_MD{
 
 	public function build_property_details(){
 		$details = '<table>';
-		$details .= '<tr><td>Price : '.md_property_price().'</td><td>Bath : '.md_property_bathrooms().'</td></tr>';
-		$details .= '<tr><td>Bed : '.md_property_beds().'</td><td>'.apply_filters('before_pdf_area','~').md_property_area_unit().' : '.md_property_area().'</td></tr>';
-		$details .= '<tr><td>Yr Built : '.md_property_yr_built().'</td><td>'._label('mls').' : '.md_get_mls().'</td></tr>';
-		$details .= '<tr><td colspan="2"></td></tr>';
-		$details .= '<tr><td colspan="2">'.md_get_description().'</td></tr>';
+			$details .= '<tr><td>Price : '.md_property_price().'</td><td>Bath : '.md_property_bathrooms().'</td></tr>';
+			$details .= '<tr><td>Bed : '.md_property_beds().'</td><td>'.apply_filters('before_pdf_area','~').md_property_area_unit().' : '.md_property_area().'</td></tr>';
+			$details .= '<tr><td>Yr Built : '.md_property_yr_built().'</td><td>'._label('mls').' : '.md_get_mls().'</td></tr>';
+			$details .= '<tr><td colspan="2"></td></tr>';
+			$details .= '<tr><td colspan="2">'.md_get_description().'</td></tr>';
 		$details .= '</table>';
 		if( has_filter('print_pdf_body_details') ){
 			$details = apply_filters('print_pdf_body_details', $details);
 		}
 		return $details;
+	}
+
+	public function agent_info(){
+		$agent 	 = '<p>Agent'."</p>";
+		$agent 	.= '<table width="340" cellspacing="0" cellpadding="0">';
+			$agent 	.=	'<tbody>';
+				$agent 	.=	'<tr>';
+					$agent 	.=	'<td align="left">';
+						$agent	.= get_agent_name()."<br>";
+						$agent 	.= 'Phone: '.get_agent_phone()."<br>";
+						$agent	.= 'Mobile : '.get_agent_mobile()."<br>";
+						$agent 	.= 'Email : '.get_agent_email()."<br>";
+					$agent	.=	'</td>';
+					$agent 	.=	'<td align="center"><img src="'.get_agent_photo().'" width="85px"></td>';
+				$agent 	.=	'</tr>';
+			$agent 	.=	'</tbody>';
+		$agent 	.= '</table>';
+
+		return $agent;
 	}
 
 	public function http_request_print(){
@@ -96,12 +115,12 @@ class PDF_MD{
 		}
 
 		if( $property_id && have_properties() ){
+			$agent 		= set_agent_details($property);
 			$name 		= get_account_data('company');
 			$address 	= "Address: ".get_account_data('street_address').', '.get_account_data('state').', '.get_account_data('country')."\n";
-			$contact 	= "Phone: ".get_account_data('work_phone')."\n"."Email : ".get_account_data('manager_email')."\n";
 			$website 	= get_account_data('website')."\n\n";
 
-			$header_details = $address . $contact . $website;
+			$header_details = $address . $website;
 			// hook filter
 			if( has_filter('print_pdf_header') ){
 				$header_details = apply_filters('print_pdf_header', $header_details_string);
@@ -160,11 +179,13 @@ class PDF_MD{
 
 			// create some HTML content
 			$html = '<p></p><img src="'.get_account_data('company_logo').'" width="130px">
+			'.$this->agent_info().'
 			<h2>'.md_property_address().'</h2>
 			'.$body_details.'
 			<p></p>
 			'.$body_photos.'
 			';
+
 			// output the HTML content
 			$pdf->writeHTML($html, true, false, true, false, '');
 

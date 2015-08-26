@@ -45,7 +45,6 @@ if ( !class_exists( 'md_sc_search_result_properties' ) )
 
 			$properties = apply_filters('search_property_result_' . DEFAULT_FEED, $atts);
 			$source 	= DEFAULT_FEED;
-
 			\MD\Property::get_instance()->set_properties($properties, $source);
 			\MD\Property::get_instance()->set_search_atts($atts);
 

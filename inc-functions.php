@@ -14,3 +14,4 @@ require_once( plugin_dir_path( __FILE__ ) . 'includes/md-search-result.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/md-property-details.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/md-settings.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/md-social-api.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/md-agent.php' );

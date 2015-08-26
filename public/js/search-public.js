@@ -186,6 +186,28 @@
 		};
 	}();
 
+	var jquery_ui_autocomplete = function(){
+		return {
+			init:function(source){
+				$( "#location", context ).autocomplete({
+					minLength: 3,
+					source: function( request, response ) {
+						var matches = $.map( autocomplete_location, function(value, label) {
+							if ( value.value.toUpperCase().indexOf(request.term.toUpperCase()) === 0 ) {
+								return value;
+							}
+						});
+						response(matches);
+					},
+					select:function(event, ui){
+						//log_location(ui);
+						//$('#location',context).val('');
+					}
+				});
+			},
+		};
+	}();
+
 	var LocationTypeAhead = function () {
 
 		return {
@@ -201,31 +223,22 @@
 						});
 
 						//strs = objects;
-
 						return function findMatches(q, cb) {
-							var matches, substrRegex;
-
+							var matches, substrRegex, other_matches;
+							console.log(q);
 							// an array that will be populated with substring matches
 							matches = [];
-
-							// regex used to determine if a string contains the substring `q`
-							substrRegex = new RegExp(q, 'i');
-
-							// iterate through the pool of strings and for any string that
-							// contains the substring `q`, add it to the `matches` array
+							other_matches = [];
 							jQuery.each(objects, function(i, str) {
-								if (substrRegex.test(str)) {
-									// the typeahead jQuery plugin expects suggestions to a
-									// JavaScript object, refer to typeahead docs for more info
+								if ( str.toUpperCase().indexOf(q.toUpperCase()) === 0 ) {
 									matches.push({ value: str });
 								}
 							});
-
 							cb(matches);
 						};
 					};
 
-					var states = $source;
+					var data_source = $source;
 
 					jQuery('.typeahead').typeahead(
 						{
@@ -235,7 +248,7 @@
 							minLength: 3
 						},
 						{
-							source: substringMatcher(states)
+							source: substringMatcher(data_source)
 						}
 					);
 					jQuery('.typeahead').bind('typeahead:selected', function(obj, datum, name) {

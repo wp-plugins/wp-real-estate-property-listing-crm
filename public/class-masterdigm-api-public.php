@@ -135,6 +135,7 @@ class Masterdigm_API_Public {
 		wp_enqueue_script('thickbox',null,array('jquery'));
 		wp_enqueue_script('jquery-ui-core');
 		wp_enqueue_script('jquery-ui-tabs');
+		wp_enqueue_script('jquery-ui-autocomplete');
 		wp_enqueue_script('jquery-masonry',null,array('jquery'));
 		wp_enqueue_script($this->plugin_name . '-localize-script');
 		wp_enqueue_script( $this->plugin_name . '-typeahead', plugin_dir_url( __FILE__ ) . 'js/typeahead.bundle.min.js', array( 'jquery' ), $this->version, true );

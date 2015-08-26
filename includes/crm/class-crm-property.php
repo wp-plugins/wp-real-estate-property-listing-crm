@@ -275,13 +275,11 @@ class CRM_Property{
 			'search_keyword'	=>	array(),
 			'source'			=>	'crm'
 		);
-
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->crm->get_properties($search_criteria_data);
-
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;

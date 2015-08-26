@@ -243,6 +243,14 @@ class MLS_Hook{
 	}
 
 	public function is_property_viewable_hook_mls($status){
+		//status not to show
+		$arr_status = array(
+			'sold'
+		);
+		$status = trim(strtolower($status));
+		if( in_array($status,$arr_status) ){
+			return false;
+		}
 		return true;
 	}
 

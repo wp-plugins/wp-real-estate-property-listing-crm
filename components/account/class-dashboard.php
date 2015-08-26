@@ -265,10 +265,11 @@ class Account_Dashboard {
 		global $wp_admin_bar;
 
 		$my_account = $wp_admin_bar->get_node('my-account');
-
+		$newtitle = str_replace( 'Howdy,', 'Hello,', $my_account->title );
 		$wp_admin_bar->add_node( array(
 			'id' => 'my-account',
 			'href'=>\Account_Profile::get_instance()->url(),
+			'title'=>$newtitle,
 		));
 
         $wp_admin_bar->add_menu( array(

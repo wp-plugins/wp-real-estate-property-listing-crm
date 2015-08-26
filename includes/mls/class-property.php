@@ -266,6 +266,7 @@ class MLS_Property{
 			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
+			//dump($properties);
 			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -331,7 +332,6 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
-		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$data = cache_get($cache_keyword);
 		}else{
