@@ -99,14 +99,34 @@ height: 300px;
 		});
 		$('.loc-item-' + id, context).remove();
 	}
-
+	function source_3(source, request, response){
+		var filtered = [];
+		var match = [];
+		var other_match = [];
+		var filtered = $.ui.autocomplete.filter(
+			source,
+			request.term
+		);
+		for (var j = 0; j < filtered.length; j++){
+			if ( filtered[j].value.toUpperCase().indexOf(request.term.toUpperCase()) === 0 ) {
+				match.push(filtered[j]);
+			}else{
+				other_match.push(filtered[j]);
+			}
+		}
+		var merge_array = $.merge(match, other_match);
+		response(merge_array);
+	}
 	$( "#location", context ).autocomplete({
-	   minLength: 3,
-	   source: autocomplete_location,
-	   select:function(event, ui){
-		   log_location(ui);
-		   $('#location',context).val('');
-	   }
+		minLength: 3,
+		//source: autocomplete_location,
+		source: function( request, response ) {
+			source_3(autocomplete_location, request, response);
+		},
+		select:function(event, ui){
+			log_location(ui);
+			$('#location',context).val('');
+		}
 	});
 
 	$('#insert-shortcode', context).on('click',function(e){

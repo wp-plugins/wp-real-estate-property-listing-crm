@@ -36,23 +36,22 @@ class MD_Agent{
 	}
 
 	public function set_agent_data($data = null){
-		$agent = array();
-
+		$agent 		= array();
+		$agent_id 	= 0;
 		if( isset($data['agent']) ){
 			$agent_info = $data['agent'];
-		}elseif( !isset($data->agent) && isset($data['property']->assigned_to) ){
-			$assign_to = $data['property']->assigned_to;
-			$get_agent_info = \CRM_Account::get_instance()->get_agent_details($assign_to);
+		}else{
+			if( !isset($data->agent) && isset($data['property']->assigned_to) ){
+				$agent_id = $data['property']->assigned_to;
+			}else{
+				$agent_info = \CRM_Account::get_instance()->get_account_data();
+				$agent_id 	= $agent_info->userid;
+			}
+			$get_agent_info = \CRM_Account::get_instance()->get_agent_details($agent_id);
 
 			if( $get_agent_info->result == 'success' ){
 				$agent_info 	= \crm\Agent_Entity::get_instance()->bind( $get_agent_info->data );
 			}
-		}else{
-			$agent_info = \CRM_Account::get_instance()->get_account_data();
-			if( $agent_info ){
-				$agentEntity 	= \crm\Agent_Entity::get_instance()->bind( $agent_info );
-			}
-			$agent_info = $agentEntity;
 		}
 
 		$this->set_agent_data = $agent_info;

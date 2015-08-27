@@ -167,11 +167,11 @@ class Account_Dashboard {
 		extract($data);
 		$query = $this->md_get_query_vars();
 		$action = $query->action;
-		require_once PLUGIN_PUBLIC_DIR . 'globals/account/partials/nav.php';
+		require_once PLUGIN_VIEW . 'account/partials/nav.php';
 	}
 
 	public function template(){
-		return PLUGIN_PUBLIC_DIR . 'globals/account/main.php';
+		return PLUGIN_VIEW . 'account/main.php';
 	}
 
 	public function content($ret = false){
@@ -265,10 +265,11 @@ class Account_Dashboard {
 		global $wp_admin_bar;
 
 		$my_account = $wp_admin_bar->get_node('my-account');
-
+		$newtitle = str_replace( 'Howdy,', 'Hello,', $my_account->title );
 		$wp_admin_bar->add_node( array(
 			'id' => 'my-account',
 			'href'=>\Account_Profile::get_instance()->url(),
+			'title'=>$newtitle,
 		));
 
         $wp_admin_bar->add_menu( array(

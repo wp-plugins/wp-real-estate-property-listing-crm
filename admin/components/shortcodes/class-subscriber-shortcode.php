@@ -42,6 +42,7 @@ class Subscriber_Shortcode{
 
 	public function init_shortcode($atts){
 		$user = wp_get_current_user();
+		$is_my_account_page = 0;
 		if( is_user_logged_in() ){
 			$content = 'default';
 			$action_args = array();
@@ -60,6 +61,7 @@ class Subscriber_Shortcode{
 			}
 			$template = \Account_Dashboard::get_instance()->content(true);
 		}else{
+			$is_my_account_page = is_page('my-account');
 			$template = $this->signup_template();
 		}
 
