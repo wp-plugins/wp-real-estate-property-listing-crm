@@ -67,7 +67,6 @@ class Property_Entity{
 		switch( $type ){
 			default:
 			case 'long':
-				//$short = ($this->address != '') ? $this->address:$this->tag_line;
 				$name = $this->community.' '.$this->address.', '.$this->city.', '.$this->state.', '.$this->zip;
 			break;
 			case 'short':
@@ -225,31 +224,37 @@ class Property_Entity{
 		$measure_area = 0;
 		$array_measure = array();
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
+		$by = ($this->floor_area == 0) ? 'lot':'floor';
 		switch($type){
 			case 'floor':
 				$array_measure = array(
-					'area_type'=>$unit_area,
-					'measure'=>number_format($this->floor_area)
+					'area_type'		=>	$unit_area,
+					'by'			=>	$type,
+					'raw_measure'	=>	$this->floor_area,
+					'measure'		=>	number_format($this->floor_area)
 				);
 			break;
 			case 'lot':
 				$array_measure = array(
-					'area_type'=>$unit_area,
-					'measure'=>number_format($this->lot_area)
+					'area_type'		=>	$unit_area,
+					'by'			=>	$type,
+					'raw_measure'	=>	$this->lot_area,
+					'measure'		=>	number_format($this->lot_area)
 				);
 			break;
 			default:
 				if( $this->floor_area == 0 ){
-					$array_measure = array(
-						'area_type'=>$unit_area,
-						'measure'=>number_format($this->lot_area)
-					);
+					$area = $this->lot_area;
 				}else{
-					$array_measure = array(
-						'area_type'=>$unit_area,
-						'measure'=>number_format($this->floor_area)
-					);
+					$area = $this->floor_area;
 				}
+				$array_measure = array(
+					'area_type'		=>	$unit_area,
+					'by'			=>	$by,
+					'raw_measure'	=>	$area,
+					'measure'		=>	number_format($area)
+				);
+
 			break;
 		}
 		return (object)$array_measure;
@@ -313,10 +318,12 @@ class Property_Entity{
 	}
 
 	public function displayParams($val = null){
-		/*$param = unserialize($this->params);
-		if( isset($param[$val]) ) {
+		$param = unserialize($this->params);
+		if( !is_null($val) && isset($param[$val]) ) {
 			return $param[$val];
-		}*/
+		}elseif($val == 'all'){
+			return $param;
+		}
 		return false;
 	}
 
@@ -333,7 +340,7 @@ class Property_Entity{
 	}
 
 	public function displayMLS(){
-		return $this->mlsid ? $this->mlsid:'&nbsp;';
+		return $this->mlsid ? $this->mlsid:$this->getID();
 	}
 
 	public function displayBathrooms(){

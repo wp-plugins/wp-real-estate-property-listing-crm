@@ -49,7 +49,7 @@ class Action_Buttons {
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-button-actions', plugin_dir_url( __FILE__ ) . 'js/buttonaction.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-button-actions', plugin_dir_url( __FILE__ ) . 'js/buttonaction-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**
@@ -75,6 +75,9 @@ class Action_Buttons {
 		$buttons = '';
 
 		foreach($array_buttons as $key => $val ){
+			if( $key == 'share' ){
+				$buttons .= $this->share_button($array_buttons['share']);
+			}
 			if( $key == 'favorite' ){
 				$buttons .= $this->favorite_button($array_buttons['favorite']);
 			}
@@ -83,9 +86,6 @@ class Action_Buttons {
 			}
 			if( $key == 'print' ){
 				$buttons .= $this->print_button($array_buttons['print']);
-			}
-			if( $key == 'share' ){
-				$buttons .= $this->share_button($array_buttons['share']);
 			}
 		}
 
@@ -325,6 +325,12 @@ class Action_Buttons {
 			}
 		}elseif(get_single_property_source() == 'mls' ){
 			$photo = $property->PrimaryPhotoUrl;
+		}else{
+			if( is_array($photo) ){
+				if( is_object($photo[0]) ){
+					$photo = $photo[0]->url;
+				}
+			}
 		}
 		$media = $photo;
 

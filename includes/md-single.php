@@ -289,3 +289,19 @@ function wp_md_canonical($url) {
 	}
 }
 add_action('wp_head', 'wp_md_canonical',3,1);
+function md_get_video(){
+	$videos = get_single_property_data()->displayParams('videos');
+	return $videos;
+}
+function md_display_video(){
+	$videos = md_get_video();
+	if( $videos && is_array($videos) ){
+		foreach($videos as $v){
+			?>
+				<iframe class="youtube-video" width="853" height="480" src="https://www.youtube.com/embed/<?php echo $v;?>" frameborder="0" allowfullscreen></iframe>
+				<p></p>
+			<?php
+		}
+	}
+	return false;
+}
