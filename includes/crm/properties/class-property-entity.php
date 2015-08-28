@@ -318,10 +318,12 @@ class Property_Entity{
 	}
 
 	public function displayParams($val = null){
-		/*$param = unserialize($this->params);
-		if( isset($param[$val]) ) {
+		$param = unserialize($this->params);
+		if( !is_null($val) && isset($param[$val]) ) {
 			return $param[$val];
-		}*/
+		}elseif($val == 'all'){
+			return $param;
+		}
 		return false;
 	}
 

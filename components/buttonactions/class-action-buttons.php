@@ -75,6 +75,9 @@ class Action_Buttons {
 		$buttons = '';
 
 		foreach($array_buttons as $key => $val ){
+			if( $key == 'share' ){
+				$buttons .= $this->share_button($array_buttons['share']);
+			}
 			if( $key == 'favorite' ){
 				$buttons .= $this->favorite_button($array_buttons['favorite']);
 			}
@@ -83,9 +86,6 @@ class Action_Buttons {
 			}
 			if( $key == 'print' ){
 				$buttons .= $this->print_button($array_buttons['print']);
-			}
-			if( $key == 'share' ){
-				$buttons .= $this->share_button($array_buttons['share']);
 			}
 		}
 

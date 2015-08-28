@@ -117,6 +117,8 @@ class Agent_Entity{
 	public function get_photo(){
 		if( isset($this->photo_url) ){
 			return $this->photo_url;
+		}elseif( isset($this->personal_photo) ){
+			return $this->personal_photo;
 		}elseif( isset($this->company_logo) ){
 			return $this->company_logo;
 		}

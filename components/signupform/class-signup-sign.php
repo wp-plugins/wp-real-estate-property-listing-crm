@@ -168,7 +168,7 @@ class Signup_Form{
 				}else{
 					$status = false;
 					$error = 'User already exists : wp user id: '.$email_exists.' or '.$checkuser;
-					$msg = "<p class='text-danger'>There was an error pls contact Masterdigm Support. <a href='mailto:support@masterdigm.com'>support@masterdigm.com</a></p>";
+					$msg = "<p class='text-danger'>There was an error please contact Masterdigm Support. <a href='mailto:support@masterdigm.com'>support@masterdigm.com</a></p>";
 					update_option('error-signup-'.$email_exists, $error);
 				}
 			}

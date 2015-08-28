@@ -1,20 +1,20 @@
 <div class="agent">
 	<div class="row">
 		<div class="col-md-6 col-xs-12">
-			<img src="<?php echo $agent->get_photo();?>" class="img-responsive" />
+			<img src="<?php echo $agent->get_photo();?>" class="img-responsive" style="" />
 		</div>
 		<div class="col-md-6 col-xs-12">
-			<h6><span>Agent</span></h6>
 			<address>
 			  <strong>
+					<span>Real Estate Agent</span>
 					<h5>
 						<?php echo $agent->get_name();?>
 					</h5>
 					<a href="mailto:<?php echo $agent->get_email();?>" target="_blank" title="Click to Email">
 						Click to Email
 					</a><br>
-					<abbr title="Work Phone">Work:</abbr> <?php echo $agent->get_phone();?><br />
-					<abbr title="Mobile Phone">Mobile:</abbr> <?php echo $agent->get_mobile_num();?><br />
+					<abbr title="Work Phone"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span><?php echo $agent->get_phone();?></abbr><br />
+					<abbr title="Mobile Phone"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span><?php echo $agent->get_mobile_num();?></abbr> <br />
 			  </strong>
 			</address>
 			<br>

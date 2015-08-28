@@ -18,9 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<li role="presentation"><a href="#map-directions" aria-controls="map-directions" role="tab" data-toggle="tab"><?php echo _label('map-and-directions');?></a></li>
 				<li role="presentation"><a href="#walkscore" aria-controls="walkscore" role="tab" data-toggle="tab"><?php echo _label('walk-score');?></a></li>
 				<li role="presentation"><a href="#photos" aria-controls="photos" role="tab" data-toggle="tab"><?php echo _label('single-photos');?></a></li>
-				<?php //if( get_single_property_data()->displayParams('videos') ){ ?>
-					<!--<li role="presentation"><a href="#video" role="tab" data-toggle="tab"><?php //echo _label('video');?></a></li>-->
-				<?php //} ?>
+				<?php if( md_get_video() ){ ?>
+					<li role="presentation"><a href="#video" role="tab" data-toggle="tab"><?php echo _label('video');?></a></li>
+				<?php } ?>
 			  </ul>
 		  </div>
 		  <div id="md-proppage-pagi" class="col-md-4">
@@ -164,19 +164,35 @@ if ( ! defined( 'ABSPATH' ) ) {
 				?>
 			</div>
 		</div>
-		<?php //if( get_single_property_data()->displayParams('videos') ){ ?>
-		  <!--<div role="tabpanel" class="tab-pane" id="video">-->
-				<!--<div class="single-property-videos md-container">-->
-					<?php
-					/*if( has_filter('template_videos_'.get_single_property_source()) ){
-						apply_filters('template_videos_'.get_single_property_source(), $atts);
-					}else{
-						require GLOBAL_TEMPLATE . 'partials/single-property-video.php';
-					}*/
-					?>
-				<!--</div>-->
-		  <!--</div>-->
-		<?php //} ?>
+		<?php if( md_get_video() ){ ?>
+		  <div role="tabpanel" class="tab-pane" id="video">
+				<div class="col-md-9 col-sm-12">
+					<div class="single-property-videos md-container">
+						<?php
+						if( has_filter('template_videos_'.get_single_property_source()) ){
+							apply_filters('template_videos_'.get_single_property_source(), $atts);
+						}else{
+							md_display_video();
+						}
+						?>
+					</div>
+					<div class="left-content">
+						<?php  display_property_details_left_content($atts); ?>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-12">
+					<div class="right-sidebar" id="md-proppage-right">
+						<?php
+							$additional_atts = array(
+								'args_button_action' => $args_button_action,
+								'att_inquire_msg' => $att_inquire_msg
+							);
+							display_property_details_right_content($atts, $additional_atts);
+						?>
+					</div>
+				</div>
+		  </div>
+		<?php } ?>
 	  </div>
 
 	</div>

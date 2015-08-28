@@ -387,11 +387,13 @@ class CRM_Property{
 		$single_cache_keyword 	= \Property_Cache::get_instance()->getCacheSinglePropertyKeyword();
 		$cache_keyword 	  		= $single_cache_keyword->id . $id;
 		//\DB_Store::get_instance()->del($cache_keyword);
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$data = cache_get($cache_keyword);
 			return $data;
 		}else{
 			$property = $this->crm->get_property( $id, $broker_id );
+			//dump($property);
 			if( isset($property) && is_array($property) && $property['result'] == 'fail' ){
 				$result = false;
 			}elseif( isset($property) && ($property->result == 'success') ){

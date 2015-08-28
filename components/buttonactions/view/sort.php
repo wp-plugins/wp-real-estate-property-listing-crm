@@ -1,5 +1,5 @@
 <!-- Sort -->
-<div class="btn-group" role="group">
+<div class="btn-group butonactions " role="group">
   <button type="button" class="btn btn-default dropdown-toggle <?php echo $class_button;?>" data-toggle="dropdown" aria-expanded="false">
 	Sort <span class="caret"></span>
   </button>

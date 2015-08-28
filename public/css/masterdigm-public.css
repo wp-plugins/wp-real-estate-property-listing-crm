@@ -438,6 +438,7 @@ ul.agent-box > li {
   /*padding-left: 5px;
   padding-right: 5px;*/
 }
+.butonactions{width:30%;margin:0 auto;}
 @media (min-width: 766px) {
   .property-amenities > span{
 	width:50%;
@@ -461,6 +462,7 @@ ul.agent-box > li {
   .property-amenities > span{
 	width:25%;
   }
+  .butonactions{width:50%;}
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   #property-details li span.cont {
@@ -469,6 +471,7 @@ ul.agent-box > li {
   .property-amenities > span{
 	width:25%;
   }
+  .butonactions{width:50%;}
 }
 .masterdigm-property-box .caption h3.property-name {
   padding: 10px;
