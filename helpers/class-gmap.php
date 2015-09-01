@@ -1,7 +1,18 @@
 <?php
 namespace helpers;
-
 class GMap {
+
+	public static function geocode($address, $output = 'json'){
+		$url = 'https://maps.googleapis.com/maps/api/geocode/'.$output.'?address='.urlencode($address);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$response = json_decode(curl_exec($ch), true);
+		if ($response['status'] != 'OK') {
+			return false;
+		}
+		return $response;
+	}
 
 	public static function get_latlng($address) {
 

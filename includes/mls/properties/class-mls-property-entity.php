@@ -74,6 +74,9 @@ class Property_Entity{
 			case 'short':
 				$address = $this->StreetNumber.' '.$street_name.' '.$this->City;
 			break;
+			case 'tiny':
+				$address = $this->StreetNumber.' '.$street_name;
+			break;
 		}
 
 		return \helpers\Text::remove_non_alphanumeric($address);
@@ -263,25 +266,30 @@ class Property_Entity{
 		$measure_area = $this->displaySqFt();
 		$array_measure = array();
 		$unit_area = \CRM_Account::get_instance()->get_account_data('unit_area');
-		$lot_area = ($this->LotArea != '') ? $this->LotArea:0;
-		$floor_area = ($this->FloorArea != '') ? $this->FloorArea:0;
+		$by = ($this->FloorArea == 0) ? 'lot':'floor';
 		switch($type){
 			case 'floor':
 				$array_measure = array(
-					'area_type'=>$unit_area,
-					'measure'=>number_format($floor_area)
+					'area_type'		=>	$unit_area,
+					'by'			=>	$type,
+					'raw_measure'	=>	$this->FloorArea,
+					'measure'		=>	is_numeric($this->FloorArea) ? number_format($this->FloorArea):0,
 				);
 			break;
 			case 'lot':
 				$array_measure = array(
-					'area_type'=>$unit_area,
-					'measure'=>number_format($lot_area)
+					'area_type'		=>	$unit_area,
+					'by'			=>	$type,
+					'raw_measure'	=>	$this->LotArea,
+					'measure'		=>	is_numeric($this->LotArea) ? number_format($this->LotArea):0,
 				);
 			break;
 			default:
 				$array_measure = array(
-					'area_type'=>$unit_area,
-					'measure'=>number_format($measure_area)
+					'area_type'		=>	$unit_area,
+					'by'			=>	$by,
+					'raw_measure'	=>	$measure_area,
+					'measure'		=>	is_numeric($measure_area) ? number_format($measure_area):0,
 				);
 			break;
 		}
