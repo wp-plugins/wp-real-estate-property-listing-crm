@@ -186,7 +186,7 @@ class MLS_Hook{
 		$communityid 	= '';
 		$cityid 		= '';
 		$location 		= '';
-		$property = $array_properties['property'];
+		$property 		= $array_properties['property'];
 
 		$loc = get_coverage_lookup();
 		$ret = get_mls_hierarchy_location($property, $loc);
@@ -238,6 +238,8 @@ class MLS_Hook{
 		$search_data['max_listprice'] 	= $max_price;
 		$search_data['limit']			= $limit;
 
+		//$map_boundaries = md_geocode_viewport($property->displayAddress());
+		//$search_data = ($search_data + $map_boundaries);
 		$properties = \MLS_Property::get_instance()->get_properties($search_data);
 		return $properties;
 	}
@@ -402,15 +404,12 @@ class MLS_Hook{
 	}
 
 	public function fields_type_mls($property_type){
-		$fields =  \mls\AccountEntity::get_instance()->get_property_type();
 		$fields_type = array();
-		if( isset($fields->result) && $fields->result == 'success' ){
-			//$fields_type = $fields->types;
-			foreach($fields->types as $key => $val){
-				$fields_type[$val] = $val;
-			}
+		$fields_type =  \mls\AccountEntity::get_instance()->get_property_type();
+		if( $fields_type ){
+			return $fields_type;
 		}
-		return $fields_type;
+		return false;
 	}
 
 	public function pdf_photos_mls($photos){

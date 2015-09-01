@@ -9,6 +9,7 @@ Template Name: Search Form - Default UI
 		<div class="row">
 			<div class="col-xs-12 col-md-12">
 				<input type="text" id="location" name="location" placeholder="Enter Location here" class="form-control typeahead" value="<?php echo $location ? $location:'';?>">
+				<span id="msg" class="label label-info"></span>
 			</div>
 		</div>
 		<div class="row md-container">
@@ -94,6 +95,7 @@ Template Name: Search Form - Default UI
 		</div>
 
 		<div style="height: 10px;"></div>
+
 		<input type="hidden" name="transaction" value="" id="transaction">
 		<input type="hidden" name="lat" value="<?php echo $lat ? $lat:'';?>" id="lat_front">
 		<input type="hidden" name="lon" value="<?php echo $lon ? $lon:'';?>" id="lon_front">
@@ -114,8 +116,11 @@ Template Name: Search Form - Default UI
 			<?php echo $button_for_rent;?>
 		</button>
 		<?php } ?>
+
 	</form>
 </div>
 <script>
 	var location_autocomplete = <?php echo \md_sc_search_form::get_instance()->get_autocomplete_location('json'); ?>;
+	jQuery(document).ready(function(){
+	});
 </script>

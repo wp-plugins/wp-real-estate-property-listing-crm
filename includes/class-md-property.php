@@ -36,10 +36,9 @@ class Property{
 	}
 
 	public function reset_propertydata(){
-		if( $this->have_properties() ){
-			$this->objProperty = null;
-			$this->source = '';
-		}
+		$this->loop = null;
+		$this->source = null;
+		$this->objProperty = null;
 	}
 
 	public function set_properties($data, $source = null){
@@ -97,7 +96,11 @@ class Property{
 
 	public function have_properties(){
 		$properties = $this->getObject();
-		if( isset($properties->total) && $properties->total > 0 || count($properties->data) > 0 ){
+		if(
+			isset($properties)
+			&& isset($properties->total)
+			&& ($properties->total > 0 || count($properties->data) > 0)
+		){
 			return $properties->data;
 		}elseif( !isset($properties->total) && count($properties) > 0 ){
 			return $properties;

@@ -1,41 +1,13 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note that this assume you're going to use jQuery, so it prepares
-	 * the $ function reference to be used within the scope of this
-	 * function.
-	 *
-	 * From here, you're able to define handlers for when the DOM is
-	 * ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * Or when the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and so on.
-	 *
-	 * Remember that ideally, we should not attach any more than a single DOM-ready or window-load handler
-	 * for any particular page. Though other scripts in WordPress core, other plugins, and other themes may
-	 * be doing this, we should try to minimize doing that in our own work.
-	 */
-
 	function get_geo_code(address){
 		var searchAddress = address;
 		var geocoder = new google.maps.Geocoder();
-
 		geocoder.geocode(
 			{address: searchAddress},
 			function(result,status) {
+				console.log(status);
 				if (status == google.maps.GeocoderStatus.OK ){
 					var lat = result[0].geometry.location.lat();
 					var lng = result[0].geometry.location.lng();
@@ -117,46 +89,23 @@
 	 * Get the lat and long of the location before submitting
 	 * */
 	var geocodeServiceSearch = function () {
-
-		var getGeoCode = function(address, form){
-			var searchAddress = address;
-			var geocoder = new google.maps.Geocoder();
-
-			geocoder.geocode(
-				{address: searchAddress},
-				function(result,status) {
-
-					if (status == google.maps.GeocoderStatus.OK ){
-						var lat = result[0].geometry.location.lat();
-						var lng = result[0].geometry.location.lng();
-
-						jQuery('#lat_front').val(lat);
-						jQuery('#lon_front').val(lng);
-					}
-					form[0].submit(); //submit the form here
-				}
-			);
-		}
-
 		return {
-			init: function(){
-				var buttonpressed;
-				jQuery('.search-form-btn').click(function() {
-					  buttonpressed = jQuery(this).attr('value');
-				})
-				jQuery("#advanced_search").submit(function(e){
-					var address = jQuery("#location").val();
-					jQuery('#transaction').val('For Sale');
-					if( typeof buttonpressed !== 'undefined' ){
-						if( buttonpressed == 'For Sale' ){
-							jQuery('#transaction').val('For Sale');
-						}else if( buttonpressed == 'For Rent' ){
-							jQuery('#transaction').val('For Rent');
+			init: function(address){
+				var searchAddress = address;
+				var geocoder = new google.maps.Geocoder();
+
+				geocoder.geocode(
+					{address: searchAddress},
+					function(result,status) {
+						if (status == google.maps.GeocoderStatus.OK ){
+							var lat = result[0].geometry.location.lat();
+							var lng = result[0].geometry.location.lng();
+
+							jQuery('#lat_front').val(lat);
+							jQuery('#lon_front').val(lng);
 						}
 					}
-					//codeAddress(address);
-					return true;
-				});
+				);
 			}
 		};
 
@@ -166,10 +115,13 @@
 		return {
 			init:function(){
 				var buttonpressed;
-				jQuery('.search-form-btn').click(function() {
+				jQuery('.search-form-btn').click(function(e) {
 					  buttonpressed = jQuery(this).attr('value');
 				})
-				jQuery("#advanced_search").submit(function(e){
+				jQuery("#advanced_search").on('submit',function(e){
+					$('#msg').html('');
+					e.preventDefault();
+					var form = this;
 					var address = jQuery("#location").val();
 					jQuery('#transaction').val('For Sale');
 					if( typeof buttonpressed !== 'undefined' ){
@@ -179,8 +131,21 @@
 							jQuery('#transaction').val('For Rent');
 						}
 					}
-					//codeAddress(address);
-					return true;
+					var lat = jQuery('#lat_front');
+					var lng = jQuery('#lon_front');
+					var coordinates;
+					if(
+						lat.val() == ''
+						&& lat.val().length == 0
+						&& lng.val() == ''
+						&& lng.val().length == 0
+					){
+						get_geo_code(address);
+					}
+					$('#msg').html('Please wait while we get current location coordinates..');
+					setTimeout(function(){
+						form.submit();
+					}, 2000);
 				});
 			}
 		};
@@ -274,9 +239,11 @@
 
 							jQuery('#locationname').val(map[datum.value].locationname);
 
+							$('.search-form-btn').prop('disabled',true);
 							if( address != '' ){
 								get_geo_code(address);
 							}
+							$('.search-form-btn').prop('disabled',false);
 							return false;
 					});
 			}

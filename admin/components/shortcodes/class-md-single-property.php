@@ -75,7 +75,7 @@ if ( !class_exists( 'md_sc_single_properties' ) )
 				$atts, 'md_singleproperty'
 			);
 
-			$data 			= \MD_Single_Property::get_instance()->getPropertyData();
+			$data = \MD_Single_Property::get_instance()->getPropertyData();
 
 			$have_property 	= false;
 
@@ -103,7 +103,7 @@ if ( !class_exists( 'md_sc_single_properties' ) )
 					$photo = '';
 					$photo_url = $data['property']->getPhotoUrl($data['photos']);
 					if( isset($photo_url[0]) ){
-						$photo 			= $photo_url[0];
+						$photo 	= $photo_url[0];
 					}
 				}elseif( $data['source'] == 'mls' ){
 					$template 		= MLS_DEFAULT_SINGLE;

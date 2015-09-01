@@ -75,17 +75,17 @@ class Action_Buttons {
 		$buttons = '';
 
 		foreach($array_buttons as $key => $val ){
-			if( $key == 'share' ){
-				$buttons .= $this->share_button($array_buttons['share']);
-			}
 			if( $key == 'favorite' ){
-				$buttons .= $this->favorite_button($array_buttons['favorite']);
+				$buttons = $this->favorite_button($array_buttons['favorite']);
 			}
 			if( $key == 'xout' ){
 				$buttons .= $this->xout_button($array_buttons['xout']);
 			}
 			if( $key == 'print' ){
 				$buttons .= $this->print_button($array_buttons['print']);
+			}
+			if( $key == 'share' ){
+				$buttons .= $this->share_button($array_buttons['share']);
 			}
 		}
 
@@ -116,10 +116,10 @@ class Action_Buttons {
 		}else{
 			$label = 'Favorite';
 		}
-		if( isset($args['show']) ){
-			$show = $args['show'];
-		}else{
+		if( isset($args['show']) && $args['show'] == 1 ){
 			$show = 1;
+		}else{
+			$show = 0;
 		}
 		if( isset($args['other']) ){
 			$other = $args['other'];
@@ -147,6 +147,11 @@ class Action_Buttons {
 			$is_save = true;
 		}
 
+		$bootstrap_btn_class = 'default';
+		if( isset($args['bootstrap_btn_class']) ){
+			$bootstrap_btn_class = $args['bootstrap_btn_class'];
+		}
+
 		if( $show == 1 ){
 			$action = 'saveproperty_action';
 			$content = '<p>Must register or login to mark as favorite</p>';
@@ -171,10 +176,10 @@ class Action_Buttons {
 		}else{
 			$label = 'X-Out';
 		}
-		if( isset($args['show']) ){
-			$show = $args['show'];
-		}else{
+		if( isset($args['show']) && $args['show'] == 1 ){
 			$show = 1;
+		}else{
+			$show = 0;
 		}
 		if( isset($args['other']) ){
 			$other = $args['other'];
@@ -202,6 +207,11 @@ class Action_Buttons {
 			$is_save = true;
 		}
 
+		$bootstrap_btn_class = 'default';
+		if( isset($args['bootstrap_btn_class']) ){
+			$bootstrap_btn_class = $args['bootstrap_btn_class'];
+		}
+
 		if( $show == 1 ){
 			$action = 'xoutproperty_action';
 			$content = '<p>Must register or login to mark as x-out</p>';
@@ -226,10 +236,10 @@ class Action_Buttons {
 		}else{
 			$label = 'Print PDF';
 		}
-		if( isset($args['show']) ){
-			$show = $args['show'];
-		}else{
+		if( isset($args['show']) && $args['show'] == 1 ){
 			$show = 1;
+		}else{
+			$show = 0;
 		}
 		if( isset($args['other']) ){
 			$other = $args['other'];
@@ -254,6 +264,11 @@ class Action_Buttons {
 			$property_id = $args['property_id'];
 		}
 
+		$bootstrap_btn_class = 'default';
+		if( isset($args['bootstrap_btn_class']) ){
+			$bootstrap_btn_class = $args['bootstrap_btn_class'];
+		}
+
 		if( $show == 1 ){
 			require 'view/print-button.php';
 		}
@@ -276,10 +291,10 @@ class Action_Buttons {
 		}else{
 			$label = 'Share';
 		}
-		if( isset($args['show']) ){
-			$show = $args['show'];
-		}else{
+		if( isset($args['show']) && $args['show'] == 1 ){
 			$show = 1;
+		}else{
+			$show = 0;
 		}
 		if( isset($args['other']) ){
 			$other = $args['other'];
@@ -316,6 +331,7 @@ class Action_Buttons {
 		}
 
 		$photo = '';
+		//this should be run as hook
 		$photo = get_single_property_photos();
 		$property = get_single_property_data();
 		if( get_single_property_source() == 'crm' ){
@@ -327,12 +343,17 @@ class Action_Buttons {
 			$photo = $property->PrimaryPhotoUrl;
 		}else{
 			if( is_array($photo) ){
-				if( is_object($photo[0]) ){
+				if( isset($photo[0]) && is_object($photo[0]) ){
 					$photo = $photo[0]->url;
 				}
 			}
 		}
 		$media = $photo;
+
+		$bootstrap_btn_class = 'default';
+		if( isset($args['bootstrap_btn_class']) ){
+			$bootstrap_btn_class = $args['bootstrap_btn_class'];
+		}
 
 		if( $show == 1 ){
 			require 'view/share-button.php';
@@ -355,6 +376,12 @@ class Action_Buttons {
 			$class_dropdown_ul = $args['class_dropdown_ul'];
 		}
 
-		require 'view/sort.php';
+		$bootstrap_btn_class = 'default';
+		if( isset($args['bootstrap_btn_class']) ){
+			$bootstrap_btn_class = $args['bootstrap_btn_class'];
+		}
+		if( !is_map_view() ){
+			require 'view/sort.php';
+		}
 	}
 }

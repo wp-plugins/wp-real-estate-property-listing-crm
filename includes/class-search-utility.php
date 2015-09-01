@@ -61,7 +61,7 @@ class MD_Search_Utility {
 			$request = $_POST;
 
 			$api_result = apply_filters('search_utility_by_' . $source, $request);
-
+			//dump($api_result);
 			\MD\Property::get_instance()->set_properties($api_result['properties'], $api_result['source']);
 
 			$att_template = CRM_DEFAULT_SEARCH_RESULT_SCROLL;

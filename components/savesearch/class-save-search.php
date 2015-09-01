@@ -250,7 +250,8 @@ class Save_Search{
 			array(
 				'msg'=>$msg,
 				'status'=>$status,
-				'is_loggedin'=>0
+				'is_loggedin'=>0,
+				'post'=>$_POST
 			)
 		);
 		die();

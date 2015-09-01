@@ -46,7 +46,6 @@ function map_fullscreen()
 {
 	if( \Search_Result_View::get_instance()->view() == 'map' ){
 		$map_view = true;
-
 		if( is_fullscreen() == 'y' ){
 			$template_part = \MD_Template::get_instance()->load_template('searchresult/threeviews/map/fullscreen_map.php');
 			if( $template_part ){

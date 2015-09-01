@@ -9,7 +9,9 @@ class Search_Result_View{
 	 */
 	protected static $instance = null;
 
-	public function __construct(){}
+	public function __construct(){
+
+	}
 
 	/**
 	 * Return an instance of this class.
@@ -43,6 +45,7 @@ class Search_Result_View{
 		}elseif( isset($_POST['view']) ){
 			$current_view = sanitize_text_field($_POST['view']);
 		}
+
 		if( $current_view == '' ){
 			return false;
 		}else{

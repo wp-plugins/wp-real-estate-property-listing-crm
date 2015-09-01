@@ -50,6 +50,10 @@ class MLS_Property{
 	 * */
 	public function get_properties($search_data = null){
 
+		if( is_null($search_data) ){
+			$search_data = array();
+		}
+
 		$listing_office_id = '';
 		if( sanitize_text_field(isset($search_data['listing_office_id'])) ){
 			$listing_office_id = sanitize_text_field($search_data['listing_office_id']);
@@ -93,16 +97,16 @@ class MLS_Property{
 		}
 
 		$lat = '';
-		if( sanitize_text_field(isset($search_data['lat'])) ){
+		if( isset($search_data['lat']) ){
 			$lat = sanitize_text_field($search_data['lat']);
-		}elseif( sanitize_text_field(isset($_REQUEST['lat'])) ){
+		}elseif( isset($_REQUEST['lat']) ){
 			$lat = sanitize_text_field($_REQUEST['lat']);
 		}
 
 		$lon = '';
-		if( sanitize_text_field(isset($search_data['lon'])) ){
+		if( isset($search_data['lon']) ){
 			$lon = sanitize_text_field($search_data['lon']);
-		}elseif( sanitize_text_field(isset($_REQUEST['lon'])) ){
+		}elseif( isset($_REQUEST['lon']) ){
 			$lon = sanitize_text_field($_REQUEST['lon']);
 		}
 
@@ -166,8 +170,15 @@ class MLS_Property{
 		$property_type = '';
 		if( sanitize_text_field(isset($search_data['property_type'])) ){
 			$property_type = sanitize_text_field($search_data['property_type']);
+			$property_type = md_trim_tolower($property_type);
 		}elseif( sanitize_text_field(isset($_REQUEST['property_type'])) ){
 			$property_type = sanitize_text_field($_REQUEST['property_type']);
+			$property_type = md_trim_tolower($property_type);
+		}
+
+		$property_type_account = \mls\AccountEntity::get_instance()->get_property_type();
+		if( array_key_exists($property_type, $property_type_account) ){
+			$property_type = $property_type_account[$property_type];
 		}
 
 		$orderby = 'posted_at';
@@ -234,8 +245,55 @@ class MLS_Property{
 				$transaction = 'sale';
 			}
 		}
+		$map_boundaries = array();
+		if(
+			isset($_REQUEST['map_boundaries'])
+			&& is_array($_REQUEST['map_boundaries'])
+			&& count($_REQUEST['map_boundaries']) >= 4
+		){
+			$map_boundaries = sanitize_text_field($_REQUEST['map_boundaries']);
+		}
+		if(
+			isset($search_data['map_boundaries'])
+			&& is_array($search_data['map_boundaries'])
+			&& count($search_data['map_boundaries']) >= 4
+		){
+			$map_boundaries = array_map( 'sanitize_text_field', $search_data['map_boundaries'] );
+		}
+
+		$use_location_search = 0;
+		if(
+			isset($_REQUEST['use_location_search'])
+			&& trim($_REQUEST['use_location_search']) != ''
+		){
+			$use_location_search = sanitize_text_field($_REQUEST['use_location_search']);
+		}
+
+		if(
+			isset($search_data['use_location_search'])
+			&& trim($search_data['use_location_search']) != ''
+		){
+			$use_location_search = sanitize_text_field($search_data['use_location_search']);
+		}
+
+		$return_query = 0;
+		if(
+			isset($_REQUEST['return_query'])
+			&& trim($_REQUEST['return_query']) != ''
+		){
+			$return_query = sanitize_text_field($_REQUEST['return_query']);
+		}
+		if(
+			isset($search_data['return_query'])
+			&& trim($search_data['return_query']) != ''
+		){
+			$return_query = sanitize_text_field($search_data['return_query']);
+		}
 
 		$data = array(
+			'map_boundaries'		=> $map_boundaries,
+			'use_location_search'	=> $use_location_search,
+			'return_query'			=> $return_query,
 			'listing_office_id'	=> $listing_office_id,
 			'communityid'		=> $communityid,
 			'countyid'			=> $countyid,
@@ -249,7 +307,7 @@ class MLS_Property{
 			'min_listprice' 	=> $min_listprice,
 			'max_listprice' 	=> $max_listprice,
 			'status'			=> $property_status,
-			'property_type'		=> urldecode($property_type),
+			'property_type'		=> $property_type,
 			'transaction'		=> $transaction,
 			'orderby'			=> $orderby,
 			'order_direction'	=> $order_direction,
@@ -266,7 +324,6 @@ class MLS_Property{
 			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->mls->get_properties( $data );
-			//dump($properties);
 			if( isset($properties->result) && $properties->result == 'success' )
 			{
 				foreach( $properties->properties as $property ){
@@ -332,6 +389,7 @@ class MLS_Property{
 		);
 
 		$cache_keyword = 'mls_single_'.$matrix_unique_id;
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$data = cache_get($cache_keyword);
 		}else{

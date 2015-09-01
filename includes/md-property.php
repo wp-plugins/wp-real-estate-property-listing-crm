@@ -19,7 +19,6 @@ function md_display_nearby_property($atts){
 		if( has_filter('nearby_search_data') ){
 			$search_data = apply_filters('nearby_search_data',$search_data);
 		}
-
 		$properties = apply_filters('property_nearby_property_' . get_single_property_source(), get_single_data(), array('limit'=>6));
 
 		$properties->search_keyword['limit'] = 11;
@@ -27,9 +26,6 @@ function md_display_nearby_property($atts){
 		$total_properties = $properties->total;
 
 		$atts['infinite'] = false;
-		/*if( $total_properties >= 10  ){
-			$atts['infinite'] = true;
-		}*/
 
 		\MD\Property::get_instance()->set_properties($properties, get_single_property_source());
 		$template = PLUGIN_VIEW . 'list/default/list-similar-homes.php';

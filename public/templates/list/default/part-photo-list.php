@@ -54,23 +54,26 @@
 		<div class="panel-footer">
 			<?php
 				$args_button_action = array(
+					'share'	=> array(
+						'show' => 1,
+						'property_id' => md_property_id(),
+						'feed' => md_get_source(),
+						'url' => md_property_url(),
+						'address' => md_property_title()
+					),
 					'favorite'	=> array(
+						'show' => 1,
 						'feed' => md_get_source(),
 						'property_id' => md_property_id(),
 					),
 					'xout'	=> array(
+						'show' => 1,
 						'feed' => md_get_source(),
 						'property_id' => md_property_id(),
 					),
 					'print' => array(
 						'show' => 1,
 						'url' => get_option('siteurl') . '/printpdf/'.md_property_id(),
-					),
-					'share'	=> array(
-						'property_id' => md_property_id(),
-						'feed' => md_get_source(),
-						'url' => md_property_url(),
-						'address' => md_property_title()
 					),
 				);
 				\Action_Buttons::get_instance()->display($args_button_action);

@@ -117,12 +117,23 @@ class AccountEntity{
 	}
 
 	public function get_property_type(){
+		$type = array();
 		$cache_keyword 	= 'mls_property_type';
 		$property_type 	= array();
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$property_type = cache_get($cache_keyword);
 		}else{
 			$property_type 	= $this->mls->get_property_types();
+			if( $property_type && isset($property_type->result) == 'success'){
+				foreach($property_type->types as $k => $v){
+					$key = md_trim_tolower($v);
+					$type[$key] = $v;
+				}
+			}else{
+				return false;
+			}
+			$property_type = $type;
 			cache_set($cache_keyword, $property_type);
 		}
 		return $property_type;

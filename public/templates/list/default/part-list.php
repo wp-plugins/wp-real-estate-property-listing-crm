@@ -57,10 +57,12 @@
 			<?php
 				$args_button_action = array(
 					'favorite'	=> array(
+						'show' => 1,
 						'feed' => md_get_source(),
 						'property_id' => md_property_id(),
 					),
 					'xout'	=> array(
+						'show' => 1,
 						'feed' => md_get_source(),
 						'property_id' => md_property_id(),
 					),
@@ -69,6 +71,7 @@
 						'url' => get_option('siteurl') . '/printpdf/'.md_property_id(),
 					),
 					'share'	=> array(
+						'show' => 1,
 						'property_id' => md_property_id(),
 						'feed' => md_get_source(),
 						'url' => md_property_url(),

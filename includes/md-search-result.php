@@ -29,6 +29,7 @@ function md_search_uri_query($view_query_string){
 	return $uri;
 }
 function get_current_view_query(){
+	global $get_setting_default_view;
 	/**
 	 * get current view via GET query string
 	 * */
@@ -53,6 +54,10 @@ function get_current_view_query(){
 			return DEFAULT_VIEW_SEARCH_RESULT;
 		}
 	}
+}
+function is_map_view(){
+	global $get_current_view_query;
+	return (get_current_view_query() == 'map') ? true:false;
 }
 function is_fullscreen(){
 	$fullscreen = 'n';
@@ -90,11 +95,15 @@ function show_search_result_tools($atts, $show_sort){
 				<?php show_fullscreen_button_map(); ?>
 			<?php } ?>
 			<?php
+				\Save_Search::get_instance()->display_button($atts);
+			?>
+			<?php if( is_map_view() ){ ?>
+				<a href="#" class="btn btn-info total_property active" role="button">&nbsp;</a>
+			<?php } ?>
+			<?php
 				if( !is_front_page() && $show_sort ){
 					\Action_Buttons::display_sort_button(array('class'=>'list-default'));
 				}
-				\Save_Search::get_instance()->display_button($atts);
-
 			?>
 		</div>
 	</div>
@@ -102,4 +111,23 @@ function show_search_result_tools($atts, $show_sort){
 }
 function get_search_limit(){
 	return \MD_Search_Utility::get_instance()->search_limit();
+}
+function get_query_lat(){
+	$lat = 0;
+	if( isset($_GET['lat']) && trim($_GET['lat']) != '' ){
+		$lat = sanitize_text_field($_GET['lat']);
+	}
+	return $lat;
+}
+
+function get_query_lng(){
+	$lng = 0;
+	$lon = 0;
+	if( isset($_GET['lon']) && trim($_GET['lon']) != '' ){
+		$lon = sanitize_text_field($_GET['lon']);
+	}
+	return $lon;
+}
+function show_map_property_details(){
+	\Search_Result_Map::get_instance()->get_single_property_click();
 }

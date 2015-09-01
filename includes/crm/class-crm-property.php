@@ -207,7 +207,7 @@ class CRM_Property{
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = \MD_Search_Utility::get_instance()->search_limit();
+		$limit = get_search_limit();
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){
@@ -221,7 +221,55 @@ class CRM_Property{
 			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
 		}
 
+		$map_boundaries = array();
+		if(
+			isset($_REQUEST['map_boundaries'])
+			&& is_array($_REQUEST['map_boundaries'])
+			&& count($_REQUEST['map_boundaries']) >= 4
+		){
+			$map_boundaries = sanitize_text_field($_REQUEST['map_boundaries']);
+		}
+		if(
+			isset($search_data['map_boundaries'])
+			&& is_array($search_data['map_boundaries'])
+			&& count($search_data['map_boundaries']) >= 4
+		){
+			$map_boundaries = array_map( 'sanitize_text_field', $search_data['map_boundaries'] );
+		}
+
+		$use_location_search = 0;
+		if(
+			isset($_REQUEST['use_location_search'])
+			&& trim($_REQUEST['use_location_search']) != ''
+		){
+			$use_location_search = sanitize_text_field($_REQUEST['use_location_search']);
+		}
+
+		if(
+			isset($search_data['use_location_search'])
+			&& trim($search_data['use_location_search']) != ''
+		){
+			$use_location_search = sanitize_text_field($search_data['use_location_search']);
+		}
+
+		$return_query = 0;
+		if(
+			isset($_REQUEST['return_query'])
+			&& trim($_REQUEST['return_query']) != ''
+		){
+			$return_query = sanitize_text_field($_REQUEST['return_query']);
+		}
+		if(
+			isset($search_data['return_query'])
+			&& trim($search_data['return_query']) != ''
+		){
+			$return_query = sanitize_text_field($search_data['return_query']);
+		}
+
 		$search_criteria_data = array(
+			'map_boundaries'		=> $map_boundaries,
+			'use_location_search'	=> $use_location_search,
+			'return_query'			=> $return_query,
 			'subdivisionid'		=> $subdivisionid,
 			'communityid'		=> $communityid,
 			'countryid'			=> $countryid,
@@ -244,7 +292,7 @@ class CRM_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-
+		//dump($search_criteria_data);
 		$search_criteria_data = apply_filters( 'search_criteria_data', $search_criteria_data );
 
 		$search_md5 	  = md5(json_encode($search_criteria_data));
@@ -275,7 +323,7 @@ class CRM_Property{
 			'search_keyword'	=>	array(),
 			'source'			=>	'crm'
 		);
-		//\DB_Store::get_instance()->del($cache_keyword);
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{

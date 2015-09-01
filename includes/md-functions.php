@@ -12,6 +12,9 @@ function isCRM(){
 function remove_nonaplha($string){
 	return \helpers\Text::remove_non_alphanumeric($string);
 }
+function remove_whitespace($string){
+	return preg_replace('/\s+/', '', $string);
+}
 function _label($str_label){
 	$arr_label = \MD_Template::get_instance()->label();
 	if( has_filter('change_key_label') ){
@@ -224,4 +227,7 @@ function array_to_js_obj($array, $depth=0, $script="", $siblings = null){
 		}
 	}
 	return $script;
+}
+function md_trim_tolower($str){
+	return strtolower(remove_whitespace(remove_nonaplha($str)));
 }

@@ -72,6 +72,9 @@ class Property_Entity{
 			case 'short':
 				$name = ($this->address != '') ? $this->address:$this->tag_line;
 			break;
+			case 'tiny':
+				$name = $this->address;
+			break;
 		}
 		if( get_default_property_name() == 'tagline' ){
 			$name = $this->tag_line;

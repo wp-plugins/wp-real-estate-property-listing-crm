@@ -232,3 +232,30 @@ function get_mls_breadcrumb($obj_property_data, $get_coverage_lookup){
 function get_coverage_lookup(){
 	return  \mls\AccountEntity::get_instance()->get_coverage_lookup();
 }
+function md_geocode($address){
+	$geocode = \helpers\GMap::geocode($address);
+	return $geocode;
+}
+function md_geocode_viewport($address){
+	$geocode = \helpers\GMap::geocode($address);
+	$boundaries = array(
+		'ne_lat' => 0,
+		'ne_lng' => 0,
+		'sw_lat' => 0,
+		'sw_lng' => 0
+	);
+	$geocode_array = $geocode['results'][0]['geometry']['viewport'];
+	$boundaries = array(
+		'ne_lat' => $geocode_array['northeast']['lat'],
+		'ne_lng' => $geocode_array['northeast']['lng'],
+		'sw_lat' => $geocode_array['southwest']['lat'],
+		'sw_lng' => $geocode_array['southwest']['lng']
+	);
+	$search_arr =  array(
+		'map_boundaries'=>$boundaries,
+		'use_location_search'=>'1',
+		'limit'=> get_search_limit(),
+		'return_query' => 1
+	);
+	return $search_arr;
+}

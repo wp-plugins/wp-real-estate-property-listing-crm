@@ -27,10 +27,12 @@
 								<?php
 									$args_button_action = array(
 										'favorite'	=> array(
+											'show' => 1,
 											'feed' => 'crm',
 											'property->properties_id' => $property->properties->getID(),
 										),
 										'xout'	=> array(
+											'show' => 1,
 											'feed' => 'crm',
 											'property->properties_id' => $property->properties->getID(),
 										),
@@ -39,6 +41,7 @@
 											'url' => get_option('siteurl') . '/printpdf/'.$property->properties->getID(),
 										),
 										'share'	=> array(
+											'show' => 1,
 											'property->properties_id' => $property->properties->getID(),
 											'feed' => 'crm',
 											'url' => $property->properties->displayUrl(),

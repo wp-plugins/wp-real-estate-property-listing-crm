@@ -1,104 +1,56 @@
-<style>
-#masterdigm-map-container{
-width:98%;
-margin:5px;
-padding:5px;
-}
-.col-height{
-height:700px;
-}
-.container-fluid {
-position:relative;
-padding:0px !important;
-top:0  !important;
-}
-#map-canvas {
-width:100%;
-height:100%;
-position:absolute;
-}
-.container-siderbar-map{
-width:100%;
-overflow-y:auto;
-overflow-x:hidden;
-}
-.no-padding{
-padding:0px !important;
-}
-.sidemap-properties{
-padding:10px;
-}
-.container-siderbar-map{
-	position:absolute;
-	z-index:1;
-	background:#777;
-}
-.btn-toggle-sidebar{
-	padding: 10px;
-	z-index: 1;
-	position: absolute;
-	top: 0;
-	right:100%;
-}
-.show_tools{
-	width: 25%;
-}
-.hide_tools{
-	width: 0px;
-	padding:0;
-}
-</style>
 <div id="masterdigm-map-container">
 	<div class="container-fluid">
 		<div class="" style="margin:0 10px;">
 			<?php if(is_fullscreen() == 'y'){ ?>
 					<?php echo do_shortcode('[md_sc_search_property_form template="searchform/search-form-minimal.php" ]'); ?>
-					<?php
-					$show_sort = true;
-					show_search_result_tools($atts, $show_sort);
-					?>
 			<?php } ?>
+			<?php
+				$show_sort = true;
+				show_search_result_tools($atts, $show_sort);
+			?>
 		</div>
 	</div>
 	<div id="map-container" class="row">
-		<div class="col-md-4 col-xs-4 no-padding col-sidebar pull-right">
+		<div class="col-xs-9 col-md-6  no-padding col-sidebar">
+			<div class="container-fluid col-height">
+				<div id="map-canvas" class="map-canvas"></div>
+			</div>
+		</div>
+		<div class="col-xs-3 col-md-6 no-padding col-map">
 			<button class="btn btn-primary btn-toggle-sidebar pull-right hidden">Toggle Sidebar</button>
 			<div class="container-siderbar-map col-height">
 				<div class="sidemap-properties" id="sidebar-properties">
-					<div class="msg"></div>
-					<?php $col = 1; ?>
-					<?php foreach(have_properties() as $property ){ //loop start have_properties() ?>
-						<?php set_loop($property); ?>
-						<div class="<?php echo md_property_id();?>-sidebar property-list" data-property-id="<?php echo md_property_id();?>" id="<?php echo md_property_id();?>">
-							<div class="center" style="float: none;margin-left:auto;margin-right:auto;text-align:center;">
-								<a href="javascript::void(0)" class="btn btn-default btn-xs trigger" data-property-id="<?php echo md_property_id();?>">Show This on Map</a>
-							</div>
-							<?php
-								$list_part = \MD_Template::get_instance()->load_template('list/default/part-photo-list.php');
-								require $list_part;
-							?>
-						</div>
-					<?php }//loop end have_properties() ?>
-					<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:get_search_limit()));?>
-					<?php if( $max > 1 ){ ?>
-						<div class="md-pagination">
-							<?php md_pagination('', 2, get_ret_properties()->total); ?>
-						</div>
-					<?php }//loop end have_properties() ?>
+					<div class="msg alert alert-info" role="alert"></div>
+					<div class="ajax-load-properties"></div>
 				</div>
-			</div>
-		</div>
-		<div class="col-lg-8 col-md-8 col-xs-8 no-padding">
-			<div class="container-fluid col-height">
-				<div id="map-canvas" class="map-canvas"></div>
 			</div>
 		</div>
 	</div>
 </div>
 <script>
 	jQuery(document).ready(function(){
-		jQuery('.btn-toggle-sidebar').click(function(){
-			jQuery('.col-sidebar').toggleClass('hide_tools');
+		var col_map 	= jQuery('.col-map');
+		var col_sidebar = jQuery('.col-sidebar');
+		var toggle_btn 	= jQuery('.btn-toggle-sidebar');
+		function toggle_col_map(col_map, col_sidebar){
+			alert(col_sidebar.hasClass('hide_tools'));
+			if( col_sidebar.hasClass('hide_tools') ){
+				col_map.toggleClass('col-lg-12 col-md-12', 'col-lg-8 col-md-8');
+			}else{
+				col_map.toggleClass('col-lg-8 col-md-8', 'col-lg-12 col-md-12');
+			}
+		}
+		//toggle_col_map(col_map, col_sidebar);
+		toggle_btn.click(function(){
+			col_sidebar.toggleClass('hide_tools').promise().done(function(){
+				if( col_sidebar.hasClass('hide_tools') ){
+					col_map.addClass('col-lg-12 col-md-12');
+					col_map.removeClass('col-lg-8 col-md-8');
+				}else{
+					col_map.addClass('col-lg-8 col-md-8');
+					col_map.removeClass('col-lg-12 col-md-12');
+				}
+			});
 		});
 
 	});

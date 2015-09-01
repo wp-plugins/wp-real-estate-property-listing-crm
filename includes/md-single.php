@@ -305,3 +305,18 @@ function md_display_video(){
 	}
 	return false;
 }
+
+function get_md_property_img(){
+	$array_img = array();
+	$img = get_single_property_photos();
+	$single_data = get_single_property_data();
+	if( is_a($single_data,'mls\Property_Entity') ){
+		foreach($img as $k=>$v){
+			$array_img[] = $v->url;
+		}
+	}
+	if( is_a($single_data,'crm\Property_Entity') ){
+		$array_img = $img;
+	}
+	return $array_img;
+}

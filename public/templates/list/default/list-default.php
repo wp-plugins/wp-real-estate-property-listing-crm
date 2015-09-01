@@ -12,7 +12,7 @@ Template Name: List - Box Style
 			$single_property_id = get_single_property_data()->id;
 		}
 	?>
-	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:10));?>
+	<?php $max = ceil( intval( get_ret_properties()->total ) / (isset($atts['limit']) ? $atts['limit']:get_search_limit()));?>
 	<?php show_search_result_tools($atts, $show_sort); ?>
 	<div class="row" id="search-result-container">
 		<div class="search-result<?php echo ( isset($atts['infinite']) && $atts['infinite'] != 1 ) ? '-not-infinite':'';?> item-container">

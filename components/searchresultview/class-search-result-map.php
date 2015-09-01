@@ -17,8 +17,15 @@ class Search_Result_Map{
 	public $plugin_name;
 	public $version;
 	public $atts;
+	public $property_data;
 
 	public function __construct(){
+		add_action('wp_ajax_get_properties_data_action', array($this,'get_properties_data_action_callback') );
+		add_action('wp_ajax_nopriv_get_properties_data_action',array($this,'get_properties_data_action_callback') );
+		add_action('wp_ajax_properties_data_action', array($this,'properties_data_action_callback') );
+		add_action('wp_ajax_nopriv_properties_data_action',array($this,'properties_data_action_callback') );
+		add_action('wp_ajax_get_single_property_action', array($this,'get_single_property_action_callback') );
+		add_action('wp_ajax_nopriv_get_single_property_action',array($this,'get_single_property_action_callback') );
 		$this->plugin_name 	= \Masterdigm_API::get_instance()->get_plugin_name();
 		$this->version 	 	= \Masterdigm_API::get_instance()->get_version();
 		$this->js_gmap_option	= array();
@@ -67,7 +74,6 @@ class Search_Result_Map{
 					var is_search 		= 1;
 					var gmap_option 	= {<?php echo array_to_js_obj($this->get_js_gmap_option());?>};
 					var gmap_config 	= {<?php echo array_to_js_obj($this->get_js_gmap_config());?>};
-					var property_data 	= <?php echo json_encode($this->properties_data());?>;
 				</script>
 			<?php
 		}
@@ -125,14 +131,94 @@ class Search_Result_Map{
 				}
 			}
 		}
-
 		return $data;
+	}
+
+	public function mls_search_data($search_data, $arr_search){
+		$search_data['map_boundaries'] = $arr_search['map_boundaries'];
+		return $search_data;
+	}
+
+	public function get_by_boudaries(){
+		$boundaries = array(
+			'ne_lat' => isset($_POST['ne_lat']) ? $_POST['ne_lat']:0,
+			'ne_lng' => isset($_POST['ne_lng']) ? $_POST['ne_lng']:0,
+			'sw_lat' => isset($_POST['sw_lat']) ? $_POST['sw_lat']:0,
+			'sw_lng' => isset($_POST['sw_lng']) ? $_POST['sw_lng']:0
+		);
+		$arr =  array(
+			'map_boundaries'=>$boundaries,
+			'use_location_search'=>'1',
+			'return_query' => 1
+		);
+		return $arr;
+	}
+
+	public function get_properties_data(){
+		return $this->property_data;
+	}
+
+	public function set_properties_data($property_data){
+		$this->property_data = $property_data;
+	}
+
+	public function get_properties_data_action_callback(){
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ){
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+		$status 	= true;
+		$properties = $this->properties_data();
+		$json_array = array(
+			'status' 		=> $status,
+			'properties' 	=> $this->get_properties_data()
+		);
+		echo json_encode($json_array);
+		wp_die();
+	}
+
+	public function properties_data_action_callback(){
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ){
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+
+		if(!defined('MAP_BOUNDARY')){
+			$_REQUEST['limit'] = 1000;
+		}
+		add_filter('before_get_properties_search_query', array($this, 'get_by_boudaries') );
+		$prop = apply_filters('search_property_result_' . DEFAULT_FEED, array());
+		//dump($prop);
+		\MD\Property::get_instance()->set_properties($prop, DEFAULT_FEED);
+		$json_array = array(
+			'post' => $_POST,
+			'prop' => $prop
+		);
+
+		$this->set_properties_data($prop);
+
+		$list_part = \MD_Template::get_instance()->load_template('searchresult/threeviews/map/ajax_properties_html.php');
+		require $list_part;
+		wp_die();
+	}
+
+	public function properties_data_action_nopriv_callback(){
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ){
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+
+		$json_array = array(
+			'post' => 'no priv test'
+		);
+		echo json_encode($json_array);
 	}
 
 	public function search_limit($limit){
 		$view = $this->_current_view();
 		if( is_page('search-properties') && $view == 'map' ){
-			$limit = 50;
+			if(!defined('MAP_BOUNDARY')){
+				$limit = 1000;
+			}else{
+				$limit = 100;
+			}
 		}
 		return $limit;
 	}
@@ -141,13 +227,6 @@ class Search_Result_Map{
 		?>
 			<a href="javascript:void(0)" class="btn btn-default trigger" data-property-id="<?php echo $property_id;?>">Show This on Map</a>
 		<?php
-	}
-
-	public function modal_fullscreen(){
-		$template_part = \MD_Template::get_instance()->load_template('searchresult/threeviews/map/fullscreen_modal.php');
-		if( $template_part ){
-			require $template_part;
-		}
 	}
 
 	public function set_atts($atts = array()){
@@ -171,6 +250,38 @@ class Search_Result_Map{
 		}
 		//create the js variables for gmap
 		//$this->js_init_gmap();
+	}
+
+	public function get_single_property_click(){
+		$property_id = 0;
+		if( isset($_POST['marker']) && $_POST['marker'] != 0 ){
+			$property_id = $_POST['marker'];
+		}
+		$clicked_marker = false;
+		if( isset($_POST['click_marker']) && $_POST['click_marker'] == true ){
+			$clicked_marker = true;
+		}
+		if(
+			$property_id != 0
+			&& $clicked_marker
+		){
+			$preview = get_property_details($property_id);
+			\MD_Single_Property::get_instance()->setPropertyData($preview);
+			$p = \MD_Single_Property::get_instance()->getPropertyData();
+			\MD\Property::get_instance()->set_properties($p['property'],$p['source']);
+			\MD\Property::get_instance()->set_loop($p['property']);
+			//set_loop($data['property']);
+			$list_part = \MD_Template::get_instance()->load_template('searchresult/threeviews/map/ajax_properties_overview.php');
+			require $list_part;
+		}//if isset post
+	}
+
+	public function get_single_property_action_callback(){
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ){
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+		$this->get_single_property_click();
+		wp_die();
 	}
 
 }

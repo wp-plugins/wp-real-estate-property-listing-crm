@@ -36,3 +36,6 @@ function open_property_in($open = '_self'){
 	}
 	return $open;
 }
+function get_property_details($property_id){
+	return \MD_Single_Property::get_instance()->getSinglePropertyData($property_id);
+}

@@ -150,6 +150,10 @@ class Masterdigm_API_Public {
 		if( ( isset($settings['js']) && isset($settings['js']['masonry']) ) ){
 			$masonry = 1;
 		}
+		$map_bound_support = 0;
+		if( defined('MAP_BOUNDARY') ){
+			$map_bound_support = 1;
+		}
 		wp_localize_script( $this->plugin_name . '-localize-script-public',
 			'MDAjax',
 			array(
@@ -159,6 +163,7 @@ class Masterdigm_API_Public {
 				'masonry_container' => 'search-result',
 				'masonry'	=>	$masonry,
 				'fb_key'	=>	\Social_API::get_instance()->getSocialApiByKey('facebook','id'),
+				'has_map_boundaries_support'	=>	$map_bound_support,
 			)
 		);
 	}

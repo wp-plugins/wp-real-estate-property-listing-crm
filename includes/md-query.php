@@ -9,6 +9,18 @@ function gmap_geocode($address){
 function get_ret_properties(){
 	return \MD\Property::get_instance()->getObject();
 }
+function get_total_properties(){
+	$total = 0;
+	$properties = get_ret_properties();
+	if( isset($properties->data) ){
+		if( isset($properties->total) && $properties->total > 0 || count($properties->data) > 0 ){
+			$total = $properties->total;
+		}
+	}elseif( !isset($properties->total) && count($properties) > 1  ){
+		$total = $properties->total;
+	}
+	return $total;
+}
 function have_properties(){
 	$properties = get_ret_properties();
 
@@ -166,6 +178,16 @@ function crm_md_get_featured_img($property_id){
 function md_time_stamp_modified(){
 	return \MD\Property::get_instance()->time_stamp_modified();
 }
+function get_mls_type(){
+	$mls_type = '';
+	if( have_properties() ){
+		$get_return_properties = get_ret_properties();
+		if( $get_return_properties->mls_type && isset($get_return_properties->mls_type) ){
+			$mls_type = $get_return_properties->mls_type;
+		}
+	}
+	return $mls_type;
+}
 function md_property_area_by($by = '', $source = null){
 	if( is_null($source)){
 		$source = md_get_source();
@@ -188,4 +210,10 @@ function get_property_area(){
 function get_property_area_unit(){
 	$unit = md_property_area_by();
 	return $unit['unit_str'];
+}
+function get_crm_unit_type(){
+	return \CRM_Account::get_instance()->get_account_data('unit_area');
+}
+function reset_query(){
+	\MD\Property::get_instance()->reset_propertydata();
 }

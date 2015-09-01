@@ -49,6 +49,7 @@
 									'url' => get_option('siteurl') . '/printpdf/'.md_property_id(),
 								),
 								'share'	=> array(
+									'show' => 1,
 									'property_id' => md_property_id(),
 									'feed' => md_get_source(),
 									'url' => md_property_url(),
