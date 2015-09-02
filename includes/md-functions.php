@@ -231,3 +231,6 @@ function array_to_js_obj($array, $depth=0, $script="", $siblings = null){
 function md_trim_tolower($str){
 	return strtolower(remove_whitespace(remove_nonaplha($str)));
 }
+function md_limit_text($str, $limit = 10){
+	return \helpers\Text::limit_words($str, $limit);
+}

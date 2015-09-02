@@ -67,7 +67,7 @@
 	};
 
 	function has_no_map_boundary_support(){
-		if( MDAjax.has_map_boundaries_support == 1){
+		if( MDAjax.has_map_boundaries_support == 0){
 			return false;
 		}
 		return true;

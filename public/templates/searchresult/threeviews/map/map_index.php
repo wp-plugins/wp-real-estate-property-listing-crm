@@ -11,12 +11,12 @@
 		</div>
 	</div>
 	<div id="map-container" class="row">
-		<div class="col-xs-9 col-md-6  no-padding col-sidebar">
+		<div class="col-md-6 no-padding col-sidebar">
 			<div class="container-fluid col-height">
 				<div id="map-canvas" class="map-canvas"></div>
 			</div>
 		</div>
-		<div class="col-xs-3 col-md-6 no-padding col-map">
+		<div class="col-md-6 no-padding col-map">
 			<button class="btn btn-primary btn-toggle-sidebar pull-right hidden">Toggle Sidebar</button>
 			<div class="container-siderbar-map col-height">
 				<div class="sidemap-properties" id="sidebar-properties">

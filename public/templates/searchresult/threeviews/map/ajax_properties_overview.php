@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-6">
+	<div class="col-xs-12 col-md-6 col-lg-6">
 		<div id="carousel-property-details" class="carousel slide">
 		  <!-- Wrapper for slides -->
 		  <div class="carousel-inner" role="listbox">
@@ -35,7 +35,7 @@
 				</span><br>
 				<span class="url-title">
 					<a href="<?php echo md_property_url();?>" class="<?php //echo get_model_register_class();?>" target="<?php echo open_property_in();?>">
-						<?php echo md_property_address('tiny');?>
+						<?php echo md_limit_text(md_property_address('tiny'),8);?>
 					</a>
 				</span><br>
 				<span class="basic-info">
@@ -60,9 +60,9 @@
 		  </div>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-6">
+	<div class="col-xs-12 col-sm-8 col-md-6">
 		<div class="property-details-desc">
-			<?php echo trim(strtolower(strip_tags( \helpers\Text::limit_words(md_get_description(),20) )));  ?>
+			<?php echo trim(strtolower(strip_tags(md_limit_text(md_get_description(),50))));  ?>
 			<a class="more-info" href="<?php echo md_property_url();?>">More</a>
 			<div class="property-details-action-buttons">
 				<?php

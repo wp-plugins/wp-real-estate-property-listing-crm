@@ -147,9 +147,9 @@ class Search_Result_Map{
 			'sw_lng' => isset($_POST['sw_lng']) ? $_POST['sw_lng']:0
 		);
 		$arr =  array(
-			'map_boundaries'=>$boundaries,
-			'use_location_search'=>'1',
-			'return_query' => 1
+			'map_boundaries'		=>	$boundaries,
+			'use_location_search'	=>	1,
+			'return_query' 			=> 	1
 		);
 		return $arr;
 	}
@@ -184,10 +184,12 @@ class Search_Result_Map{
 		if(!defined('MAP_BOUNDARY')){
 			$_REQUEST['limit'] = 1000;
 		}
+
 		add_filter('before_get_properties_search_query', array($this, 'get_by_boudaries') );
+
 		$prop = apply_filters('search_property_result_' . DEFAULT_FEED, array());
-		//dump($prop);
 		\MD\Property::get_instance()->set_properties($prop, DEFAULT_FEED);
+
 		$json_array = array(
 			'post' => $_POST,
 			'prop' => $prop

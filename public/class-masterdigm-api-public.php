@@ -138,11 +138,12 @@ class Masterdigm_API_Public {
 		wp_enqueue_script('jquery-ui-autocomplete');
 		wp_enqueue_script('jquery-masonry',null,array('jquery'));
 		wp_enqueue_script($this->plugin_name . '-localize-script');
-		wp_enqueue_script( $this->plugin_name . '-typeahead', plugin_dir_url( __FILE__ ) . 'js/typeahead.bundle.min.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-typeahead', plugin_dir_url( __FILE__ ) . 'js/typeahead.bundle.min.js', array( 'jquery' ), '0.10.5', true );
 		wp_enqueue_script( $this->plugin_name . '-localize-script-public', plugin_dir_url( __FILE__ ) . 'js/masterdigm-public-min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-search', plugin_dir_url( __FILE__ ) . 'js/search-public.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-single', plugin_dir_url( __FILE__ ) . 'js/masterdigm-single-property-public-min.js', array( 'jquery' ), $this->version, true );
 		wp_enqueue_script( $this->plugin_name . '-infinite-scroll', plugin_dir_url( __FILE__ ) . 'js/infinite_scroll.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-lazyload', plugin_dir_url( __FILE__ ) . 'js/jquery.lazyload.min.js', array( 'jquery' ), '1.9.7', true );
 		// localize
 		$settings = get_option('plugin-settings');
 
