@@ -17,7 +17,7 @@
 					data.push({name: 'security', value: MDAjax.security});
 
 					form_btn.attr("disabled", true);
-					html_msg.html('<p>Pls wait, updating profile</p>');
+					html_msg.html('<p>Please wait, updating profile</p>');
 
 					$.ajax({
 						type: "POST",
@@ -55,7 +55,7 @@
 
 					form_btn.attr("disabled", true);
 					html_alert.attr('style','');
-					html_msg.html('<p>Pls wait, updating password</p>');
+					html_msg.html('<p>Please wait, updating password</p>');
 
 					$.ajax({
 						type: "POST",

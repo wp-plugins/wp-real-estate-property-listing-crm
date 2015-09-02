@@ -6,6 +6,7 @@ class Property{
 	public $loop;
 	public $source;
 	public $objProperty;
+	public $search_atts;
 
 	/**
 	 * Initialize the plugin by setting localization and loading public scripts
@@ -35,10 +36,9 @@ class Property{
 	}
 
 	public function reset_propertydata(){
-		if( $this->have_properties() ){
-			$this->objProperty = null;
-			$this->source = '';
-		}
+		$this->loop = null;
+		$this->source = null;
+		$this->objProperty = null;
 	}
 
 	public function set_properties($data, $source = null){
@@ -87,9 +87,20 @@ class Property{
 		}
 	}
 
+	public function set_search_atts($atts){
+		$this->search_atts = $atts;
+	}
+	public function get_search_atts(){
+		return $this->search_atts;
+	}
+
 	public function have_properties(){
 		$properties = $this->getObject();
-		if( isset($properties->total) && $properties->total > 0 || count($properties->data) > 0 ){
+		if(
+			isset($properties)
+			&& isset($properties->total)
+			&& ($properties->total > 0 || count($properties->data) > 0)
+		){
 			return $properties->data;
 		}elseif( !isset($properties->total) && count($properties) > 0 ){
 			return $properties;
@@ -182,6 +193,10 @@ class Property{
 
 	public function getArea(){
 		return $this->loop->displaySqFt();
+	}
+
+	public function area_by($by){
+		return $this->loop->displayAreaMeasurement($by);
 	}
 
 	public function getAreaUnit($default){
