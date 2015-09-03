@@ -37,7 +37,7 @@ class Signup_Form{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-signup-actions', plugin_dir_url( __FILE__ ) . 'js/signup.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-signup-actions', plugin_dir_url( __FILE__ ) . 'js/signup-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	public function user_signon($user_login, $password, $remember = true){
@@ -58,23 +58,34 @@ class Signup_Form{
 				wp_update_user(
 					array(
 						'ID'          =>    $user_id,
-						'nickname'    =>    $other_data['nickname']
+						'nickname'    =>    $other_data['nickname'],
+						'first_name'  =>    $other_data['first_name'],
+						'last_name'   =>    $other_data['last_name'],
 					)
 				);
 
 				return $user_id;
 			}//username_exists
 		}//is_user_logged_in
+		return false;
 	}
 
 	public function signup_action_callback(){
-		check_ajax_referer( 'md-ajax-request', 'security' );
-		$ret_data = array();
-		$save_lead = array();
-		$current_action = 0;
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ){
+			check_ajax_referer( 'md-ajax-request', 'security' );
+		}
+
+		$error 				= '';
+		$checkuser 			= '';
+		$array_data 		= array();
+		$ret_data 			= array();
+		$save_lead 			= array();
+		$current_action 	= 0;
+
 		if( isset($_POST['current_action']) ){
 			$current_action = $_POST['current_action'];
 		}
+
 		$user_id 		= false;
 		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
 		$source 		= $crm_company;
@@ -120,36 +131,54 @@ class Signup_Form{
 				if( !$check_user && !$email_exists){
 					// create user
 					$password 	= wp_generate_password(12, false);
-					$user_id 	= $this->register_user($emailaddress, $password, $emailaddress, array('nickname'=>$firstname));
+					/*
+					$user_id 	= $this->register_user($emailaddress, $password, $emailaddress, $user_array);*/
+					$username = $emailaddress;
+					$user_array = array(
+						'email'			=>	$emailaddress,
+						'username'		=>	$username,
+						'password'		=>	$password,
+						'nickname'		=>	$firstname,
+						'first_name'	=>	$firstname,
+						'last_name'		=>	$lastname,
+					);
+					$user_id = md_create_user($user_array);
 					update_user_meta($user_id,'phone_num',$phone);
-					update_user_meta($user_id,'first_name',$firstname);
-					update_user_meta($user_id,'last_name',$lastname);
-					//wp_new_user_notification($user_id, $password);
+					wp_new_user_notification($user_id, $password);
 					$this->user_signon($emailaddress, $password);
+					// create user
+
+					//push to crm
+					$array_data['yourname'] 	= $firstname;
+					$array_data['yourlastname'] = $lastname;
+					$array_data['email1'] 		= $emailaddress;
+					$array_data['phone_home'] 	= $phone;
+					$array_data['lead_source'] 	= $source;
+					$array_data['source_url'] 	= $source_url;
+
+					if( !isset($array_data['note']) ){
+						$array_data['note'] = $source_note;
+					}
+
+					$save_lead = \CRM_Account::get_instance()->push_crm_data($array_data);
+					//push to crm
+
+					update_user_meta($user_id, 'lead-data', $save_lead);
+					$msg = "<p class='text-success'>Successfully Registered. Thank You.</p>";
+				}else{
+					$status = false;
+					$error = 'User already exists : wp user id: '.$email_exists.' or '.$checkuser;
+					$msg = "<p class='text-danger'>There was an error please contact Masterdigm Support. <a href='mailto:support@masterdigm.com'>support@masterdigm.com</a></p>";
+					update_option('error-signup-'.$email_exists, $error);
 				}
 			}
-
-			$msg = "<p class='text-success'>Successfully Registered. Thank You.</p>";
-
-			$array_data['yourname'] 	= $firstname;
-			$array_data['yourlastname'] = $lastname;
-			$array_data['email1'] 		= $emailaddress;
-			$array_data['phone_home'] 	= $phone;
-			$array_data['lead_source'] 	= $source;
-			$array_data['source_url'] 	= $source_url;
-
-			if( !isset($array_data['note']) ){
-				$array_data['note'] = $source_note;
-			}
-
-			$save_lead = \CRM_Account::get_instance()->push_crm_data($array_data);
-			update_user_meta($user_id, 'lead-data', $save_lead);
-			$ret_data = array(
-				'save_lead' => $save_lead,
-				'array_data' => $array_data,
-				'post' => $_POST,
-			);
 		}
+
+		$ret_data = array(
+			'save_lead' => $save_lead,
+			'array_data' => $array_data,
+			'post' => $_POST,
+		);
 		$json_array = array(
 			'msg'=>$msg,
 			'status'=>$status,
@@ -168,17 +197,25 @@ class Signup_Form{
 		if( isset($_POST['current_action']) ){
 			$current_action = $_POST['current_action'];
 		}
-		$msg 	= '';
-		$status = false;
+		$msg 		= '';
+		$status 	= false;
 		$propertyid = 0;
 
 		$user_login = sanitize_text_field($_POST['emailaddress']);
 		$password 	= sanitize_text_field($_POST['password']);
-		$user = $this->user_signon($user_login, $password);
+		$user 		= $this->user_signon($user_login, $password);
 
 		if ( is_wp_error($user) ){
 			$msg = $user->get_error_message().' Error in login';
 		}else{
+			$lead_data = get_user_meta($user->ID,'lead-data',true);
+			if( !$lead_data || $lead_data && (!is_numeric($lead_data->leadid)) ){
+				//push to crm
+				$array_data['email1'] 		= $user->user_email;
+				$save_lead = \CRM_Account::get_instance()->push_crm_data($array_data);
+				update_user_meta($user->ID, 'lead-data', $save_lead);
+				//push to crm
+			}
 			$msg = "<p class='text-success'>Successfully Loged In. Wait while we redirect you. </p>";
 			$status = true;
 		}

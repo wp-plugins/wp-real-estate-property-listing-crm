@@ -68,20 +68,22 @@ class AccountEntity{
 		$json_location 	= array();
 		$location 		= $this->get_coverage_lookup();
 
-		if( $location->result == 'success' ){
+		if( isset($location->result) && $location->result == 'success' ){
 			//create a json
 			foreach($location->lookups as $items){
 				if( $search_type == 'full' ){
 					$json_location[] = array(
-						'keyword'	=>	$items->full,
-						'id'		=>	$items->id,
-						'type'		=>	$items->location_type,
+						'keyword'		=>	$items->full,
+						'locationname'	=>	$items->keyword,
+						'id'			=>	$items->id,
+						'type'			=>	$items->location_type,
 					);
 				}else{
 					$json_location[] = array(
-						'keyword'	=>	$items->keyword,
-						'id'		=>	$items->id,
-						'type'		=>	$items->location_type,
+						'keyword'		=>	$items->keyword,
+						'locationname'	=>	$items->keyword,
+						'id'			=>	$items->id,
+						'type'			=>	$items->location_type,
 					);
 				}
 			}
@@ -91,9 +93,11 @@ class AccountEntity{
 	}
 
 	public function get_coverage_lookup_key($string, $array_key = 'keyword'){
-		$result = array();
-		$string = strtolower($string);
-		$location = $this->get_coverage_lookup();
+		$result 	= array();
+		$string 	= strtolower($string);
+		$location 	= $this->get_coverage_lookup();
+		$city_id 	= 0;
+		$city 		= '';
 		if( $location->result == 'success' && isset($location->result) ){
 			foreach($location->lookups as $key => $val){
 				$find = strtolower($val->$array_key);
@@ -103,6 +107,8 @@ class AccountEntity{
 						'full'		=>	$val->full,
 						'id'		=>	$val->id,
 						'type'		=>	$val->location_type,
+						'city'		=>	isset($val->city_id) ? $val->city:'',
+						'city_id'	=>	isset($val->city_id) ? $val->city_id:0,
 					);
 				}
 			}
@@ -111,12 +117,23 @@ class AccountEntity{
 	}
 
 	public function get_property_type(){
+		$type = array();
 		$cache_keyword 	= 'mls_property_type';
 		$property_type 	= array();
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$property_type = cache_get($cache_keyword);
 		}else{
 			$property_type 	= $this->mls->get_property_types();
+			if( $property_type && isset($property_type->result) == 'success'){
+				foreach($property_type->types as $k => $v){
+					$key = md_trim_tolower($v);
+					$type[$key] = $v;
+				}
+			}else{
+				return false;
+			}
+			$property_type = $type;
 			cache_set($cache_keyword, $property_type);
 		}
 		return $property_type;

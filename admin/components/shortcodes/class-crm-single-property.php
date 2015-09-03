@@ -38,7 +38,7 @@ if ( !class_exists( 'md_sc_crm_single_box_properties' ) )
 
 		public function get_default_template($template = null){
 			if( is_null($template) ){
-				$template = GLOBAL_TEMPLATE . 'single/single-box.php';
+				$template = PLUGIN_VIEW . 'single/single-box.php';
 			}
 			// hook filter, incase we want to just use hook
 			if( has_filter('shortcode_single_box_property_crm') ){
