@@ -149,11 +149,10 @@ class MD_Client{
         return $this->sendRequest( 'properties/getComparable/', $data );
     }
 
-    public function getFeaturedProperties( $user_id , $zips = array() )
+    public function getFeaturedProperties( $user_id , $zips = array(), $data = array() )
     {
         $data['user_id'] = $user_id;
         $data['zips']    = $zips;
-
         return $this->sendRequest( 'properties/getFeatured/'  , $data );
     }
 

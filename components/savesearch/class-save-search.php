@@ -42,7 +42,7 @@ class Save_Search{
 	}
 
 	public function enqueue_scripts(){
-		wp_enqueue_script( $this->plugin_name . '-save-search', plugin_dir_url( __FILE__ ) . 'js/save-search.js', array( 'jquery' ), $this->version, true );
+		wp_enqueue_script( $this->plugin_name . '-save-search', plugin_dir_url( __FILE__ ) . 'js/save-search-min.js', array( 'jquery' ), $this->version, true );
 	}
 
 	private function _get_current_location_name($search_data){
@@ -250,10 +250,17 @@ class Save_Search{
 			array(
 				'msg'=>$msg,
 				'status'=>$status,
-				'is_loggedin'=>0
+				'is_loggedin'=>0,
+				'post'=>$_POST
 			)
 		);
 		die();
+	}
+
+	public function get_all_by_userid($user_id){
+		global $wpdb;
+		$sql = "SELECT * FROM $wpdb->usermeta WHERE meta_key like '%save-search%' and user_id = {$user_id}";
+		return $wpdb->get_results($sql);
 	}
 
 	public function get_save_search( $umeta_key, $single = false, $umeta_user_id = null ){
@@ -285,10 +292,10 @@ class Save_Search{
 		}
 
 		$location_name = '';
-		if( isset($_GET['location']) && $_GET['location'] != ''){
-			$location_name = $_GET['location'];
-		}elseif(isset($_REQUEST['location']) && $_REQUEST['location'] != ''){
-			$location_name = $_REQUEST['location'];
+		if( isset($_GET['locationname']) && $_GET['locationname'] != ''){
+			$location_name = $_GET['locationname'];
+		}elseif(isset($_REQUEST['locationname']) && $_REQUEST['locationname'] != ''){
+			$location_name = $_REQUEST['locationname'];
 		}
 
 		$property_type = '';
@@ -297,27 +304,29 @@ class Save_Search{
 		}elseif(isset($_REQUEST['property_type']) && $_REQUEST['property_type'] != ''){
 			$property_type = $_REQUEST['property_type'];
 		}
-
-		$is_community = false;
+		$communityid 	= 0;
+		$is_community 	= false;
 		if(
 			(isset($_GET['communityid']) && $_GET['communityid'] != '')
 			||
 			(isset($_REQUEST['communityid']) && $_REQUEST['communityid'] != '')
 		)
 		{
-			$is_community = true;
+			$is_community 	= true;
+			$communityid 	= $_GET['communityid'];
 		}
-
-		$is_city = false;
+		$cityid 	= 0;
+		$is_city 	= false;
 		if(
 			(isset($_GET['cityid']) && $_GET['cityid'] != '')
 			||
 			(isset($_REQUEST['cityid']) && $_REQUEST['cityid'] != '')
 		)
 		{
-			$is_city = true;
+			$cityid 	= $_GET['cityid'];
+			$is_city 	= true;
 		}
-
+		$subdivisionid  = 0;
 		$is_subdivision = false;
 		if(
 			(isset($_GET['subdivisionid']) && $_GET['subdivisionid'] != '')
@@ -325,7 +334,26 @@ class Save_Search{
 			(isset($_REQUEST['subdivisionid']) && $_REQUEST['subdivisionid'] != '')
 		)
 		{
-			$is_subdivision = true;
+			$subdivisionid  = $_GET['subdivisionid'];
+			$is_county = true;
+		}
+		$countyid  = 0;
+		$is_county = false;
+		if(
+			(isset($_GET['countyid']) && $_GET['countyid'] != '')
+			||
+			(isset($_REQUEST['countyid']) && $_REQUEST['countyid'] != '')
+		)
+		{
+			$countyid  = $_GET['countyid'];
+			$is_county = true;
+		}
+
+		$county = '';
+		if( $location_name != '' && $is_county ){
+			$county = $location_name;
+		}elseif(isset($atts['search_keyword']['countyid'])){
+			$county = $atts['search_keyword']['countyid'];
 		}
 
 		$city = '';
@@ -441,29 +469,34 @@ class Save_Search{
 			get_currentuserinfo();
 			$content = '';
 		};
+		$crm_company 	= \CRM_Account::get_instance()->get_account_data('company');
 		$post_data = array(
-			'mls'=>$mls_type,
-			'source'=>get_option('blogname'),
-			'source_url'=>get_option('siteurl'),
-			'city'=>$city,
-			'community'=>$community,
-			'subdivision'=>$subdivision,
-			'min_listprice'=>$min_listprice,
-			'max_listprice'=>$max_listprice,
-			'min_beds'=>$min_beds,
-			'max_beds'=>$max_beds,
-			'min_baths'=>$min_baths,
-			'max_baths'=>$max_baths,
-			'min_garage'=>$min_garage,
-			'transaction'=>$transaction,
-			'property_type'=>$property_type,
+			'mls'			=>	$mls_type,
+			'source'		=>	$crm_company,
+			'source_url'	=>	site_url() . '?'. $_SERVER['QUERY_STRING'],
+			'source_website'=>	site_url(),
+			'city'			=>	$city,
+			'community'		=>	$community,
+			'subdivision'	=>	$subdivision,
+			'min_listprice'	=>	$min_listprice,
+			'max_listprice'	=>	$max_listprice,
+			'min_beds'		=>	$min_beds,
+			'max_beds'		=>	$max_beds,
+			'min_baths'		=>	$min_baths,
+			'max_baths'		=>	$max_baths,
+			'min_garage'	=>	$min_garage,
+			'transaction'	=>	$transaction,
+			'property_type'	=>	$property_type,
+			'subdivisionid'	=>	$subdivisionid,
+			'cityid'		=>	$cityid,
+			'communityid'	=>	$communityid,
 		);
-		$save_search_name = '';
-		$location_name = $this->_get_current_location_name($post_data);
-		$price = $this->_get_price($post_data);
-		$property_type = $this->_get_property_type($post_data);
-		$beds = $this->_get_bed($post_data);
-		$baths = $this->_get_bath($post_data);
+		$save_search_name 	= '';
+		$location_name 		= $this->_get_current_location_name($post_data);
+		$price 				= $this->_get_price($post_data);
+		$property_type 		= $this->_get_property_type($post_data);
+		$beds 				= $this->_get_bed($post_data);
+		$baths 				= $this->_get_bath($post_data);
 
 		$save_search_name = $location_name .', '. $post_data['transaction'] . $property_type . $price . $beds . $baths;
 

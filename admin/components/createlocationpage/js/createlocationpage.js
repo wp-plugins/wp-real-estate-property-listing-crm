@@ -37,9 +37,8 @@
 						}
 					});
 					return false;
-					e.preventDefault();
 				});
-			},
+			}//init
 		};
 	}();
 

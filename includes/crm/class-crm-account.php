@@ -67,7 +67,7 @@ class CRM_Account{
 	 * */
 	public function get_account_data($key = null){
 		$account_details = $this->get_account_details();
-		if( $account_details->result == 'success' ){
+		if( isset($account_details->result) && $account_details->result == 'success' ){
 			if( !is_null($key) ){
 				if( $account_details->data && isset($account_details->data->$key) ){
 					return $account_details->data->$key;
@@ -132,13 +132,15 @@ class CRM_Account{
 			foreach($location->lookups as $items){
 				if( $search_type == 'full' ){
 					$json_location[] = array(
-						'keyword'=>preg_replace('/(\s)+/', ' ', $items->full) . ' [ ' . $items->location_type . ' ]',
+						//'keyword'=>preg_replace('/(\s)+/', ' ', $items->full) . ' [ ' . $items->location_type . ' ]',
+						'keyword'=>preg_replace('/(\s)+/', ' ', $items->full),
 						'id'=>$items->id,
 						'type'=>$items->location_type,
 					);
 				}else{
 					$json_location[] = array(
-						'keyword'=>preg_replace('/(\s)+/', ' ', $items->keyword) . ' [ ' . $items->location_type . ' ]',
+						//'keyword'=>preg_replace('/(\s)+/', ' ', $items->keyword) . ' [ ' . $items->location_type . ' ]',
+						'keyword'=>preg_replace('/(\s)+/', ' ', $items->keyword),
 						'id'=>$items->id,
 						'type'=>$items->location_type,
 					);
@@ -206,7 +208,9 @@ class CRM_Account{
 				'company'            => sanitize_text_field(isset($company)) ? sanitize_text_field($company):'',
 				'assigned_to'		 => sanitize_text_field(isset($userid)) ? sanitize_text_field($userid):'',
 				'note'				 => sanitize_text_field(isset($note)) ? sanitize_text_field($note):'',
-				'source_url'		 => sanitize_text_field(isset($source_url)) ? sanitize_text_field($source_url):''
+				'source_url'		 => sanitize_text_field(isset($source_url)) ? sanitize_text_field($source_url):'',
+				'lead_status'		 => sanitize_text_field(isset($lead_status)) ? sanitize_text_field($lead_status):29,
+				'lead_type'			 => sanitize_text_field(isset($lead_type)) ? sanitize_text_field($lead_type):9,
 			)
 		);
 
