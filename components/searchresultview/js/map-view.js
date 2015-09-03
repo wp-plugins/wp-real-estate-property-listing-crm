@@ -274,16 +274,17 @@
 					map_sidebar.show_property_overview(marker.property_id);
 					google.maps.event.addListener(infowindow,'closeclick',function(){
 						click_marker = false;
-						if( is_moved ){
-							map_sidebar.load_markers();
-						}
 					});
 				});
 			},
 			max_zoom_out:function(map, zoom){
 				// Limit the zoom level
-				//if (map.getZoom() < (zoom - 1)) map.setZoom(zoom);
+				if (map.getZoom() < (zoom - 1)) map.setZoom(zoom);
 			},
+			drag:function(){
+				google.maps.event.addListener(map,'drag',function(){
+				});
+			}
 		};
 	}();
 

@@ -34,14 +34,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<li class="price">
 					<?php echo md_property_html_price();?>
 				</li>
-				<?php if(!has_filter('list_display_baths')){ ?>
-					<?php if( md_property_bathrooms() > 0 || md_property_bathrooms() != '' ){ ?>
-						<li class="baths">
-							<?php echo md_property_bathrooms();?>
-							<span><?php echo _label('baths');?></span>
-						</li>
-					<?php } ?>
-				<?php } ?>
 				<?php if(!has_filter('list_display_bed')){ ?>
 					<?php if( md_property_beds() > 0 || md_property_beds() != '' ){ ?>
 					<li class="beds">
@@ -50,6 +42,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</li>
 					<?php } ?>
 				<?php } ?>
+				<?php if(!has_filter('list_display_baths')){ ?>
+					<?php if( md_property_bathrooms() > 0 || md_property_bathrooms() != '' ){ ?>
+						<li class="baths">
+							<?php echo md_property_bathrooms();?>
+							<span><?php echo _label('baths');?></span>
+						</li>
+					<?php } ?>
+				<?php } ?>
+
 				<?php if(!has_filter('list_display_area')){ ?>
 					<li class="area-measurement">
 						<?php
@@ -73,8 +74,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</li>
 				<?php } ?>
 				<li class="yr-built">
-					<?php echo md_property_yr_built();?>
-					<span><?php echo _label('year-built');?></span>
+					<?php
+						if( has_filter('year_built_'.md_get_source()) ){
+							apply_filters('year_built_'.md_get_source(), md_property_yr_built());
+						}else{
+							echo md_property_yr_built();
+							?><span><?php echo _label('year-built');?></span><?php
+						}
+					?>
 				</li>
 				<?php if(!has_filter('list_display_mls')){ ?>
 				<li class="mls">

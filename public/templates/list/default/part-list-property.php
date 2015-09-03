@@ -1,8 +1,8 @@
 <div class="property-list-body bg-primary">
 	<div class="media">
-	  <div class="media-left">
+	  <div class="media-left" style="width:20%;">
 		<a href="<?php echo md_property_url();?>" class="propertyphoto" target="<?php echo open_property_in();?>">
-			<img class="img-responsive lazy" data-original="<?php echo md_property_img(md_property_id()); ?>" style="width:85px;height:85px;" alt="Property List Image">
+			<img class="lazy" data-original="<?php echo md_property_img(md_property_id()); ?>" style="width:85px;height:85px;" alt="Property List Image">
 		</a>
 	  </div>
 	  <div class="media-body">

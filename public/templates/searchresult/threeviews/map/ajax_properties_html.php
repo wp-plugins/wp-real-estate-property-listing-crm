@@ -19,10 +19,13 @@
 		<script>
 			var property_data 		= <?php echo json_encode($this->properties_data());?>;
 			var total_properties 	= <?php echo get_total_properties();?>;
+		</script>
+		<script>
 			jQuery(document).ready(function(){
 				jQuery(".property-list-body img.lazy").lazyload({
 					effect : "fadeIn",
-					container: jQuery(".list-properties-container")
+					container: jQuery(".list-properties-container"),
+					skip_invisible : true
 				});
 			});
 		</script>
