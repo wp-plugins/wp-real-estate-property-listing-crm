@@ -24,3 +24,4 @@ Template Name: Search Result - Default Template
 		?>
 	</div>
 </div>
+

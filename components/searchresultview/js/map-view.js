@@ -211,6 +211,8 @@
 				var sidebar_properties = $('#sidebar-properties');
 				var data = {
 					'action': 'properties_data_action',
+					'cityid': urlParams.cityid,
+					'communityid': urlParams.communityid,
 					'ne_lat': gmap_bounds_ne.lat(),
 					'ne_lng': gmap_bounds_ne.lng(),
 					'sw_lat': gmap_bounds_sw.lat(),

@@ -28,6 +28,7 @@
 	</div>
 </div>
 <script>
+	var urlParams = <?php echo json_encode($_REQUEST, JSON_HEX_TAG);?>;
 	jQuery(document).ready(function(){
 		var col_map 	= jQuery('.col-map');
 		var col_sidebar = jQuery('.col-sidebar');
