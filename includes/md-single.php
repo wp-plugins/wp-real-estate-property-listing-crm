@@ -297,15 +297,19 @@ function md_display_video(){
 	$videos = md_get_video();
 	if( $videos && is_array($videos) ){
 		foreach($videos as $v){
+			parse_str( parse_url( $v, PHP_URL_QUERY ), $youtube_array_vars );
+			$youtube_id = $v;
+			if( isset($youtube_array_vars['v']) && $youtube_array_vars['v'] != '' ){
+				$youtube_id = $youtube_array_vars['v'];
+			}
 			?>
-				<iframe class="youtube-video" width="853" height="480" src="https://www.youtube.com/embed/<?php echo $v;?>" frameborder="0" allowfullscreen></iframe>
+				<iframe class="youtube-video" width="853" height="480" src="https://www.youtube.com/embed/<?php echo $youtube_id;?>" frameborder="0" allowfullscreen></iframe>
 				<p></p>
 			<?php
 		}
 	}
 	return false;
 }
-
 function get_md_property_img(){
 	$array_img = array();
 	$img = get_single_property_photos();
