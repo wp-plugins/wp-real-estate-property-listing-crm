@@ -36,7 +36,7 @@ class CRM_Locations{
 
 	public function get_cities_by_stateId($state_id){
 		$cities = array();
-		$cache_keyword = 'property-city-by-state-' . $state_id;
+		$cache_keyword = 'property_city_by_state-' . $state_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$cities = cache_get($cache_keyword);
@@ -58,7 +58,7 @@ class CRM_Locations{
 			$data_city_id = $city_id['city_id'];
 		}
 		$keyword_city_id 	= implode('_', $data_city_id);
-		$cache_keyword 		= 'property-communities-by-city-' . $keyword_city_id;
+		$cache_keyword 		= 'property_communities_by_city_' . $keyword_city_id;
 
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( cache_get($cache_keyword) ){
@@ -73,7 +73,7 @@ class CRM_Locations{
 
 	public function get_states_by_countryId($country_id){
 		$state = array();
-		$cache_keyword = 'property-state-by-country-'. $country_id;
+		$cache_keyword = 'property_state_by_country_'. $country_id;
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$state = cache_get($cache_keyword);
