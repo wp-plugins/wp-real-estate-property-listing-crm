@@ -1,0 +1,400 @@
+(function( $ ) {
+	'use strict';
+	var properties_data;
+	var ajax_properties_html;
+	var markers = new Array();
+	var markerCluster;
+	var infowindow;
+	var md_info_windows = new Array();
+	var map;
+	var marker;
+	var click_marker = false;
+	var clicked_marker_data;
+	var panel_side_bar_data;
+
+	function get_clicked_marker_data(){
+		return clicked_marker_data;
+	};
+
+	function set_marker_data_globally(global_marker){
+		clicked_marker_data = global_marker;
+	}
+
+	function push_markers(_markers){
+		markers.push(_markers);
+	}
+
+	var panel_side_html = $('.panel-single-property');
+
+	function ajax_msg(action, html_text){
+		html_text = html_text || "";
+		var msg = $('#sidebar-properties .msg');
+		switch(action){
+			case 'show':
+				msg.show();
+			break;
+			case 'hide':
+				msg.hide();
+			break;
+			default:
+				msg.hide();
+			break;
+		}
+		msg.html(html_text);
+	};
+
+
+	function close_all_infowindows() {
+	  for (var i=0;i<md_info_windows.length;i++) {
+		 md_info_windows[i].close();
+	  }
+	}
+
+	var map_sidebar = function(){
+		function _hide_all_sidebar(){
+			$('.property-list').hide();
+		}
+
+		function _show_all_sidebar(){
+			$('.property-list').show();
+		}
+
+		function _scroll_property_to(marker){
+
+		}
+		function sidebar_properties(action, html_data){
+			html_data = html_data || "";
+			var properties_html = $('#sidebar-properties .ajax-load-properties');
+			properties_html.html('<p>Loading..</p>');
+			switch(action){
+				case 'show':
+					properties_html.show();
+				break;
+				case 'hide':
+					properties_html.hide();
+				break;
+				default:
+					properties_html.show();
+				break;
+			}
+			properties_html.html(html_data);
+		}
+
+		return{
+			populate:function(action, data){
+				sidebar_properties(action, data);
+			},
+			click:function(infowindow, markers){
+				$(document).on('click','.property-list',function(e){
+					var property_id = $(this).data('property-id');
+					var found_marker;
+
+					if (infowindow) close_all_infowindows();
+					for(var i = 0; i < markers.length; i++){ // looping through Markers Collection
+						if( markers[i].property_id == property_id ){
+							found_marker = markers[i].getZIndex();
+						}
+					}
+					//var markerPosition = markers[1].getPosition();
+					//map.setCenter(markerPosition);
+					//map.setZoom(15);
+					set_marker_data_globally(markers[found_marker]);
+					//console.log(markers[found_marker]);
+					//map_sidebar.show_property('show');
+					google.maps.event.trigger(markers[found_marker], 'click');
+				});
+			},
+			show_property:function(action){
+				//panel_single_property(action);
+				//var sidebar_property_id = marker.property_id;
+				//var target = $("." + sidebar_property_id + '-sidebar');
+				//var container = $('.container-siderbar-map');
+				//var sidebar_list = $('.sidemap-properties');
+
+				//console.log(sidebar_property_id);
+				/*_hide_all_sidebar();
+				target.show();*/
+
+			},
+		};
+	}();
+
+	var gmap_events = function(){
+
+		function get_property_datas(data){
+			return data;
+		}
+
+		function _auto_center_marker(map){
+			var latlngbounds = new google.maps.LatLngBounds();
+			$.each(markers, function (index, marker) {
+				latlngbounds.extend(marker.position);
+			});
+			//  Fit these bounds to the map
+			map.fitBounds(latlngbounds);
+		}
+
+		function get_current_bounds(map, markers){
+			click_marker = false;
+			var bounds = map.getBounds();
+			var ne = bounds.getNorthEast(); // LatLng of the north-east corner
+			var sw = bounds.getSouthWest(); // LatLng of the south-west corder
+			/*console.log('NE ' + ne.toString());
+			console.log('SW ' + sw.toString());*/
+			var property_id = 0;
+			//var clicked_marker_data = 1;
+			if( typeof clicked_marker_data !== undefined && clicked_marker_data ){
+				property_id = clicked_marker_data.property_id;
+			}
+			var sidebar_properties = $('#sidebar-properties');
+			var data = {
+				'action': 'properties_data_action',
+				'ne_lat': ne.lat(),
+				'ne_lng': ne.lng(),
+				'sw_lat': sw.lat(),
+				'sw_lng': sw.lng(),
+				'click_marker': click_marker,
+				'marker': property_id,
+				'security': MDAjax.security
+			};
+			ajax_msg('show', 'Please wait while getting data..');
+			ajax_properties_html = jQuery.post(MDAjax.ajaxurl, data,'html');
+			map_sidebar.populate('hide','');
+			ajax_properties_html.success(function(response){
+				map_sidebar.populate('show',response);
+				gmap.marker(map, property_data);
+				ajax_msg('hide','');
+				$('.total_property').html('Total Properties : ' + total_properties);
+				//$('#panel-single-property .panel-body').html(response);
+			});
+		}
+
+		return {
+			idle:function(map){
+				google.maps.event.addListener(map, 'idle', function() {
+					//if( !click_marker ){
+						get_current_bounds(map);
+					//}
+				});
+			},
+			marker_click:function(infowindow, marker, infowindow_content){
+				google.maps.event.addListener(marker, 'click', function(event) {
+					click_marker = true;
+					if (infowindow) {
+						close_all_infowindows();
+					}
+					infowindow.open(map, marker);
+					set_marker_data_globally(marker);
+					google.maps.event.addListener(infowindow,'closeclick',function(){
+					   click_marker = false;
+					});
+				});
+			},
+		}
+	}();
+
+	var gmap = function(){
+		var arr_options = {};
+		var arr_config = {};
+		var myLatLng 	= new Array();
+		var content_body;
+		var md_property;
+
+		var _md_ajax;
+
+		function _show_property_box(){
+			$(document).on('click','.trigger',function(){
+				if (infowindow) infowindow.close();
+				var property_id = $(this).data('property-id');
+				var found_marker;
+				for(var i = 0; i < markers.length; i++){ // looping through Markers Collection
+					$('.property-id-'+markers[i].property_id).css('background','');
+					if( markers[i].property_id == property_id ){
+						found_marker = markers[i].getZIndex();
+					}
+				}
+				var markerPosition = markers[found_marker].getPosition();
+				map.setCenter(markerPosition);
+				map.setZoom(20);
+				google.maps.event.trigger(markers[found_marker], 'click');
+			});
+		}
+
+		function _auto_center_marker(map){
+			var latlngbounds = new google.maps.LatLngBounds();
+			$.each(markers, function (index, marker) {
+				latlngbounds.extend(marker.position);
+			});
+			//  Fit these bounds to the map
+			map.fitBounds(latlngbounds);
+		}
+
+		function _get_markers() {
+		  return markers;
+		}
+
+		function _sidebar_display_current_visible_marker(){
+			for (var i = 0; i < $('.property-list').length; i++ ){
+				$('.property-list').eq(i).hide();
+			}
+			var bounds = map.getBounds();
+			for(var i = 0; i < markers.length; i++){ // looping through Markers Collection
+				if( bounds.contains(markers[i].getPosition()) ){
+					$('.' + markers[i].property_id + '-sidebar').show();
+				}
+			}
+		}
+
+		var msg_sidebar_notification 	= $('.msg');
+		var element_property_list 		= $('.property-list');
+
+		var bound_changed = function(){
+			google.maps.event.addListener(map, 'bounds_changed', function() {
+				//if( !click_marker ){
+					_sidebar_display_current_visible_marker();
+				//}
+			});
+		};
+
+		var drag_end = function(){
+			google.maps.event.addListener(map, 'dragend', function() {
+				$('.container-siderbar-map').scrollTop(0);
+			});
+		};
+
+		var marker_cluster = function(){
+			google.maps.event.addListener(markerCluster, "clusterclick", function (c) {
+			  for (var i = 0; i < $('.property-list').length; i++ ){
+				$('.property-list').eq(i).hide();
+			  }
+			  var m = c.getMarkers();
+			  var p = [];
+			  for (var i = 0; i < m.length; i++ ){
+				p.push(m[i].getPosition());
+				$('.' + m[i].property_id + '-sidebar').show();
+				$('.property-id-'+m[i].property_id).css('background','');
+			  }
+			  msg_sidebar_notification.html('');
+			});
+		};
+
+		return{
+			init:function(){
+				var map_selector = arr_config.selector;
+				var myLatLng = {lat: arr_options.center.lat, lng: arr_options.center.lng};
+				map = new google.maps.Map(document.getElementById('map-canvas'), {
+					zoom:arr_options.zoom,
+					center:myLatLng
+				});
+				//markerCluster = new MarkerClusterer(map, markers);
+				//_auto_center_marker(map);
+				gmap_events.idle(map);
+				$(document).on('click','.property-list',function(e){
+					var property_id = $(this).data('property-id');
+					//alert(property_id);
+					var found_marker;
+					console.log(markers.length);
+					/*for(var i = 0; i < markers.length; i++){ // looping through Markers Collection
+						if( markers[i].property_id == property_id ){
+							found_marker = markers[i].getZIndex();
+						}
+					}*/
+					//var markerPosition = markers[found_marker].getPosition();
+					//map.setCenter(markerPosition);
+					//map.setZoom(20);
+				});
+			},
+			options:function($options){
+				arr_options = $options;
+			},
+			config:function($config){
+				arr_config = $config;
+			},
+			marker:function(map, property_data){
+				var markers = new Array();
+				for (var i = 0; i < property_data.length; i++) {
+					md_property = property_data[i];
+					content_body = {name:md_property.name, url:md_property.url};
+					myLatLng = new google.maps.LatLng(md_property.lat, md_property.lng);
+					marker = new google.maps.Marker({
+						position: myLatLng,
+						map: map,
+						title: md_property.name,
+						zIndex: i,
+						id: i,
+						property_id:md_property.id,
+						lat:md_property.lat,
+						lng:md_property.lng,
+						//price:md_property.price,
+					});
+					//markers.push(marker);
+					push_markers(marker);
+					gmap.infowindow(map, marker, content_body);
+				}
+				//map_sidebar.click(infowindow, markers);
+			},
+			infowindow:function(map, marker, content_body){
+				var infowindow_content = '<div>'+
+					'<div class="tab-infowindow">'+
+						'<ul class="nav nav-tabs" role="tablist">'+
+							'<li role="presentation" class="active"><a href="#details" aria-controls="details" role="tab" data-toggle="tab">Details</a></li>'+
+							//'<li role="presentation"><a href="#walkscore" aria-controls="walkscore" role="tab" data-toggle="tab">Walkscore</a></li>'+
+						'</ul>'+
+						'<div class="tab-content">'+
+							'<div role="tabpanel" class="tab-pane active" id="detailstestdaw">'+
+								'<div style="margin:20px 0;">'+
+									'<p></p>'+
+									'<a href="'+content_body.url+'" target="_blank">'+content_body.name+'</a>'+
+								'</div>'+
+							'</div>'+
+							/*'<div role="tabpanel" class="tab-pane" id="walkscore">'+
+								'<p>Walkscore</p>'+
+							'</div>'+*/
+						'</div>'+
+					'</div>'+
+				'</div>';
+				infowindow = new google.maps.InfoWindow({
+				  content: infowindow_content
+				});
+				md_info_windows.push(infowindow);
+				gmap_events.marker_click(infowindow, marker, infowindow_content);
+			}
+		};
+	}();
+
+	$(window).load(function(){
+		if( typeof is_search !== 'undefined' ){
+			ajax_msg('hide','');
+			gmap.options(gmap_option);
+			gmap.config(gmap_config);
+			google.maps.event.addDomListener(window, 'loadajax_msg', gmap.init());
+
+			var panel =  $('#panel-single-property');
+
+			$(document).on('click','.xproperty-list',function(e){
+				var property_id =  $(this).data('property-id');
+				var sidebar_panel =  $('#panel-single-property .panel-body');
+				sidebar_panel.html('<p>Fetching property details, pls wait...</p>');
+				var data = {
+					'action': 'get_single_property_action',
+					'click_marker': click_marker,
+					'marker': property_id,
+					'security': MDAjax.security
+				};
+				console.log(data);
+
+				jQuery.ajax({
+				  url: MDAjax.ajaxurl,
+				  method: "POST",
+				  data: data,
+				  dataType: "html",
+				  success:function(msg){
+					  sidebar_panel.html(msg);
+				  }
+				});
+			});
+		}
+	});
+
+})( jQuery );
+
