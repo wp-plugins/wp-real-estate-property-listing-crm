@@ -289,3 +289,38 @@ function wp_md_canonical($url) {
 	}
 }
 add_action('wp_head', 'wp_md_canonical',3,1);
+function md_get_video(){
+	$videos = get_single_property_data()->displayParams('videos');
+	return $videos;
+}
+function md_display_video(){
+	$videos = md_get_video();
+	if( $videos && is_array($videos) ){
+		foreach($videos as $v){
+			parse_str( parse_url( $v, PHP_URL_QUERY ), $youtube_array_vars );
+			$youtube_id = $v;
+			if( isset($youtube_array_vars['v']) && $youtube_array_vars['v'] != '' ){
+				$youtube_id = $youtube_array_vars['v'];
+			}
+			?>
+				<iframe class="youtube-video" width="853" height="480" src="https://www.youtube.com/embed/<?php echo $youtube_id;?>" frameborder="0" allowfullscreen></iframe>
+				<p></p>
+			<?php
+		}
+	}
+	return false;
+}
+function get_md_property_img(){
+	$array_img = array();
+	$img = get_single_property_photos();
+	$single_data = get_single_property_data();
+	if( is_a($single_data,'mls\Property_Entity') ){
+		foreach($img as $k=>$v){
+			$array_img[] = $v->url;
+		}
+	}
+	if( is_a($single_data,'crm\Property_Entity') ){
+		$array_img = $img;
+	}
+	return $array_img;
+}

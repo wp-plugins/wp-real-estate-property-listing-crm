@@ -237,8 +237,22 @@ class MD_Searchby_Property {
 		$search_data['max_listprice'] 		= isset($_REQUEST['max_listprice']) ? sanitize_text_field($_REQUEST['max_listprice']):'';
 		$search_data['orderby'] 			= isset($_REQUEST['orderby']) ? sanitize_text_field($_REQUEST['orderby']):'';
 		$search_data['order_direction']		= isset($_REQUEST['order_direction']) ? sanitize_text_field($_REQUEST['order_direction']):'';
-		$search_data['limit']				= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):'11';
+		$search_data['limit']				= isset($_REQUEST['limit']) ? sanitize_text_field($_REQUEST['limit']):\MD_Search_Utility::get_instance()->search_limit();
 
+		if( has_filter('before_get_properties_mls') ){
+			$before_get_properties_mls = apply_filters('before_get_properties_mls', $search_data);
+			if( count($before_get_properties_mls) > 0 ){
+				$search_data = ($search_data + $before_get_properties_mls);
+			}
+		}
+
+		if( has_filter('before_get_properties_search_query') ){
+			$before_search_data = apply_filters('before_get_properties_search_query', $search_data);
+			if( count($before_search_data) > 0 ){
+				$search_data = ($search_data + $before_search_data);
+			}
+		}
+		//dump($search_data);
 		$property_data = \MLS_Property::get_instance()->get_properties($search_data);
 
 		if( $property_data->total > 0 ){

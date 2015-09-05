@@ -104,6 +104,7 @@
 					function(data) {
 						// If there is no data returned, there are no more posts to be shown. Show error
 						nomoredata = jQuery(data).find('#nomoredata').val();
+
 						if(data == "" || nomoredata == 0) {
 							loader_html.hide();
 						}

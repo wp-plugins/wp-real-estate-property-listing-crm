@@ -1,19 +1,13 @@
 <div class="register-login-alert alert hide">Error</div>
 <div class="row">
 	<div class="col-md-12">
-		<?php if( !is_user_logged_in() ){ ?>
-			<!--<h3>Sign in with...</h3>-->
-			<div class="social-signin">
-				<span class="facebook-login"><?php //\Facebook_APP::get_instance()->js_init(); ?></span>
-			</div>
-		<?php } ?>
-		<div class="login-indicator"></div>
+		<div class="content-text"></div>
 	</div>
 </div>
 <div class="row">
 	<div class="col-md-6">
 		<form role="form" class="register-form" method="POST">
-			<h2>Register</h2>
+			<h3>Register</h3>
 			<div class="form-group">
 				<input type="text" class="form-control" id="firstname" name="firstname" placeholder="First Name">
 			</div>
@@ -33,7 +27,7 @@
 	</div>
 	<div class="col-md-6">
 		<form role="form" class="login-form">
-			<h2>Login</h2>
+			<h3>Login</h3>
 			<div class="form-group">
 				<input type="text" class="form-control" name="emailaddress" id="emailaddress" placeholder="Email Address">
 			</div>
@@ -47,5 +41,16 @@
 			<input type="hidden" name="data_post" class="data_post">
 			<button type="submit" class="btn btn-primary modal-login">Login</button>
 		</form>
+		<h3>Or</h3>
+		<div class="social-login">
+			<?php if( !is_user_logged_in() ){ ?>
+				<div class="social-signin">
+					<div id="status"></div>
+					<?php \MD_Facebook_App::get_instance()->login_button(); ?>
+				</div>
+			<?php } ?>
+			<div class="login-indicator"></div>
+		</div>
+		<p></p>
 	</div>
 </div>
