@@ -2,7 +2,7 @@
 	<div class="media">
 	  <div class="media-left" style="width:20%;">
 		<a href="<?php echo md_property_url();?>" class="propertyphoto" target="<?php echo open_property_in();?>">
-			<img class="lazy" data-original="<?php echo md_property_img(md_property_id()); ?>" style="width:85px;height:85px;" alt="Property List Image">
+			<img class="lazy" data-original="<?php echo md_property_img(md_property_id()); ?>" style="max-width:115px;height:115px;" alt="Property List Image">
 		</a>
 	  </div>
 	  <div class="media-body">

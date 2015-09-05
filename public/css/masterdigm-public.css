@@ -443,7 +443,7 @@ ul.agent-box > li {
  * Map View
  * */
 #masterdigm-map-container{
-width:98%;
+width:100%;
 margin:5px;
 padding:5px;
 }
@@ -467,7 +467,7 @@ position:absolute;
 	bottom: 15px;
 }
 .container-siderbar-map{
-	width:100%;
+	width:97%;
 	overflow:hidden;
 	position:absolute;
 	z-index:1;
@@ -593,6 +593,9 @@ li.property-list a:visited
 	width:25%;
   }
   .butonactions{width:50%;}
+}
+@media (min-width: 990px) and (max-width: 1200px) {
+
 }
 .masterdigm-property-box .caption h3.property-name {
   padding: 10px;

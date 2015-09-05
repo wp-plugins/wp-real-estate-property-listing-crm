@@ -62,7 +62,7 @@
 	</div>
 	<div class="col-xs-12 col-sm-8 col-md-6">
 		<div class="property-details-desc">
-			<?php echo trim(strtolower(strip_tags(md_limit_text(md_get_description(),50))));  ?>
+			<?php echo ucfirst(trim(strtolower(strip_tags(md_limit_text(md_get_description(),50)))));  ?>
 			<a class="more-info" href="<?php echo md_property_url();?>">More</a>
 			<div class="property-details-action-buttons">
 				<?php

@@ -13,7 +13,7 @@ $config = array(
 );
 \Search_Result_Map::get_instance()->set_js_gmap_config($config);
 $option_array = array(
-	'zoom'		=>	10,
+	'zoom'		=>	15,
 	'center'	=> array(
 		'lat' => get_query_lat(),
 		'lng' => get_query_lng()
