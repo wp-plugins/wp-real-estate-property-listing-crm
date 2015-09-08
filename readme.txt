@@ -1,10 +1,10 @@
 === WP Real Estate Property Listing CRM ===
 Contributors: masterdigm, allancasilum
 Donate link:
-Tags: agent, broker, realestate, real estate, home, homes, housing, IDX, leasing, listing, listings, IDX plugin, properties, property, property management, Real Estate CRM, realtor, realty, Rental, rentals, RETS, IDX wordpress
+Tags: agent, broker, home, homes, housing, IDX, IDX plugin, IDX wordpress, leasing, listing,listings, properties, property, property management, real estate, Real Estate CRM, realestate,realtor, realty, Rental, rentals, RETS, estate, IDX listings, neighborhood, real estate maps, property rentals,  MLS, integrated idx, Multiple listing service, real estate wordpress, wordpress idx, wordpress mls, property import, real estate website, wordpress real estate plugin
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.26.49
+Stable tag: 3.32.85
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -178,6 +178,167 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 
 == Changelog ==
 
+= 3.32.85 =
+* Update: video tab to add hook for any type of feed
+
+= 3.32.84 =
+* Update: masterdigm signup plugin page, to signup api key inside the plugin
+* Update: video tab, and added hook before or after the video content
+* Tweak: cache, set time expire in 7 days
+
+= 3.32.83 =
+* Tweak: map view, make image in sidebar littler bigger.
+* Tweak: map view property overview, make first letter uppercase
+
+= 3.32.82 =
+* Fix: search result map view, search query
+
+= 3.32.81 =
+* Fix: video tab with youtube url
+* Added: hook on year built, property details
+
+= 3.32.80 =
+* Fix: bug in map view, included cityid
+
+= 3.32.79 =
+* Tweak: map view, disable loading property when infowindow is close
+* Fix: image in map sidebar, added width for image container in google chrome
+* Update: property list button actions
+
+= 3.32.78 =
+* Added: map view, image in sidebar
+
+= 3.32.77 =
+* Added: feature on map view, display properties by map boundaries, property markers are displayed when map is moved,
+display two column grid, left on map and right the properties list
+* Added: hook on property area metric type
+* Update: lead crm api, add default value on lead_status and lead_type
+* Fix: issue on search property type in mls
+
+= 3.31.77 =
+* Fix: agent photo
+* Tweak: mls and crm shortcode list properties to search exact keyword
+* Added: video tab for crm account
+
+= 3.31.76 =
+* Tweak: agent box, to grab personal photo and change contact text in one line
+
+= 3.31.75 =
+* Fix: search autocomplete location, to display exact matches only
+* Fix: mls property details, to show notice if property is sold
+* Tweak: change Howdy to Hello
+* Added: agent info in print pdf
+
+= 3.31.74 =
+* Fix: sort button to shortcode using mls list properties
+* Tweak: settings page UI, add tab
+* Add: hook in property details mls area by floor or lot
+
+= 3.31.73 =
+* Fix: bug in mls breadcrumb
+
+= 3.31.72 =
+* Tweak: sorting feature in mls
+* Tweak: similar homes in mls
+
+= 3.31.71 =
+* Update: Agent box, make email clickable
+
+= 3.31.70 =
+* Update: crm property details bold field type
+
+= 3.31.69 =
+* Fix: share button media
+* Tweak: agent box two column grid
+* Tweak: price column in property details page
+* Add: hook on the price for property details
+
+= 3.31.68 =
+* Update: agent box in property details, add mobile phone
+
+= 3.31.67 =
+* Fix Bug: in the search pagination limit, that is affecting other shortcode uses search function
+* Update: map, added "show this map" on the sidebar
+* Update: sidebar map column grid
+
+= 3.31.66 =
+* Update: property area for crm and mls
+
+= 3.31.65 =
+* Added: transaction type (for sale / for rent / foreclosure) in the featured properties, this can be set in the shortcode
+
+= 3.30.65 =
+* Tweak: right sidebar properties, when marker is click, it wont re-populate
+* Tweak: remove pagination in the sidebar right properties
+* Tweak: show new tab property url when click in marker
+
+= 3.30.64 =
+* Added: option to select default view in Masterdigm -> Settings -> Search result, default is photo
+* Update: search result map view to display properties marker with lat and langitutde only
+* Tweak: Facebook api js, to initialize if facebook api and version is added
+
+= 3.29.64 =
+* Update: search tools, added icons and align view by / sort / save search
+
+= 3.29.63 =
+* Update: print pdf
+* Update: Search form minimal
+* Added: label property id / mls to be changed via hook
+
+= 3.29.62 =
+* Update: MLS# to show property id of mls# is not present
+
+= 3.29.61 =
+* Added: Search result view options: 1) Map 2) Photo (default)
+* Added: fullscreen option for map view
+
+= 3.28.61 =
+* Added:  Ability to see an unsubscribe url from the property alert e-mail
+* Added:  Unsubscribe from users dashboard page
+* Added:  Option to be able to add additional information for when a user subscribes and unsubscribes.  This is located under the Masterdigm —> Property Alert API
+* New shortcode: “md_sc_unsubscribe_api” this code will give users the ability to unsubscribe from any page
+
+= 3.27.61 =
+* Tweak: similar homes to use city if community is not available
+
+= 3.27.60 =
+* update: show popup form after certain clicks, added facebook login
+
+= 3.27.59 =
+* Tweak: facebook login in the actual page, not popup
+
+= 3.27.58 =
+* Tweak: facebook login, add version in the backend as facebook app varies in different version upon creating
+
+= 3.27.57 =
+* Tweak: cache to extend 24hrs to expire
+* Tweak: public css
+
+= 3.27.56 =
+* added facebook login, facebook api key should be added in the masterdigm plugin backend
+
+= 3.26.56 =
+* Fix: bug on crm hook on create page by location
+
+= 3.26.55 =
+* optimize js reduce size and compile / minify
+
+= 3.26.54 =
+* Tweak: property alert add city in the community save
+
+= 3.26.53 =
+* Tweak: property alert, use the correct / exact location name
+
+= 3.26.52 =
+* Tweak: signup process between crm and wp
+
+= 3.26.51 =
+* Fix source_url and add source_website in property alert
+
+= 3.26.50 =
+* clean up public template in plugin
+* update mls property alert add source to be name of company
+
 = 3.26.49 =
 * update mls list of communities shortcode by sorting a - z
 
@@ -185,22 +346,22 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 * improve search save after registration
 
 = 3.26.47 =
-* fix pagination issue and infinite scroll
+* Fix pagination issue and infinite scroll
 * added option on the mls and crm list properties to show or not pagination
-* fix create page by location post_id variable null
+* Fix create page by location post_id variable null
 
 = 3.25.47 =
 * improve cache by using file handling
 
 = 3.25.46 =
-* fix mls list property shortcode, remove auto adding list office id
+* Fix mls list property shortcode, remove auto adding list office id
 * added feature in create page by locations by parent as city and child as communities
 
 = 3.24.46 =
-* fix breadcrumb community check where it city it belongs
+* Fix breadcrumb community check where it city it belongs
 
 = 3.24.45 =
-* fix breadcrumb state and county error, added mls get_photos_by_matrixID method
+* Fix breadcrumb state and county error, added mls get_photos_by_matrixID method
 
 = 3.24.44 =
 * add 'source_website' in property alert
@@ -223,7 +384,7 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 * added shortcode for mls to retrieve community by city id
 
 = 3.23.39 =
-* fix crm shortcode for single property box
+* Fix crm shortcode for single property box
 * update shortcode popup title
 
 = 3.23.38 =
@@ -246,14 +407,14 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 * add agent details or info for the assigned property when viewing property details for CRM api
 
 = 3.19.36 =
-* fix api source in the action buttons for favorite / xout / and share
+* Fix api source in the action buttons for favorite / xout / and share
 
 = 3.19.35 =
-* fix MLS transaction to sale instead of For Sale
+* Fix MLS transaction to sale instead of For Sale
 
 = 3.19.34 =
 * update MLS standard Fields
-* fix infinite scroll, remove masonry for property list
+* Fix infinite scroll, remove masonry for property list
 
 = 3.18.34 =
 * auto add page if my-account doesn't exists
@@ -264,20 +425,20 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 * registered user dashboard to show favorites and xout properties
 
 = 3.17.33 =
-* fix crm and mls template photos tab for masonry
+* Fix crm and mls template photos tab for masonry
 
 = 3.17.32 =
 * added website_id in crm getProperties
 * update enfold dependencies
 
 = 3.17.31 =
-* fix mls api
+* Fix mls api
 
 = 3.17.30 =
-* fix code for php 5.3 compatible
+* Fix code for php 5.3 compatible
 
 = 3.17.29 =
-* fix error in crm display single properties shortcode
+* Fix error in crm display single properties shortcode
 
 = 3.17.28 =
 * added save search button and data will pass into CRM as a property alert
@@ -286,13 +447,13 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 * improve search pagination on individual page and in ajax
 
 = 3.16.27 =
-* fix search pagination on individual page
+* Fix search pagination on individual page
 
 = 3.16.26 =
 * update pagination, infinite scroll plus add classic pagination for fallback purposes
 incase browser has no JS support then the pagination will work
 * update auto search location show location type
-* fix safari issue in search
+* Fix safari issue in search
 
 = 3.15.26 =
 * update crm get locations shortcode
@@ -307,16 +468,16 @@ incase browser has no JS support then the pagination will work
 * update mls hcar/mfr fields
 
 = 3.15.22 =
-* fix redirect using global server
+* Fix redirect using global server
 
 = 3.15.21 =
 * add source_url in the push crm lead method
-* fix breadcrumn url on location pages, added trim to strip off white spaces
-* fix bug in dependent function, md_canonical
+* Fix breadcrumn url on location pages, added trim to strip off white spaces
+* Fix bug in dependent function, md_canonical
 
 = 3.14.21 =
 * add shortcode last_updated_property for mls
-* fix bug crm_list_property shortcode, that returns zero when inserting the shortcode
+* Fix bug crm_list_property shortcode, that returns zero when inserting the shortcode
 * updated SqFt field in the list property using getProperties method
 * update quick map img set to max-width:none
 
@@ -332,7 +493,7 @@ incase browser has no JS support then the pagination will work
 
 = 3.12.19 =
 * update property list template
-* fix css span cont
+* Fix css span cont
 * update print pdf
 
 = 3.12.18 =
@@ -340,16 +501,16 @@ incase browser has no JS support then the pagination will work
 
 = 3.12.17 =
 * update inquiry form, phone field description
-* fix css in mobile version on the property details, running off
-* fix print pdf in MLS
+* Fix css in mobile version on the property details, running off
+* Fix print pdf in MLS
 * update the reset cache using http api
 
 = 3.11.17 =
-* fix css issue in property details - MLS
+* Fix css issue in property details - MLS
 
 = 3.11.16 =
 * update css in property list box
-* fix blank space in the property box
+* Fix blank space in the property box
 * add property type support in MLS search form
 
 = 3.10.16 =
@@ -360,7 +521,7 @@ incase browser has no JS support then the pagination will work
 * update property details in MLS
 
 = 3.10.13 =
-* fix breadcrumb url page
+* Fix breadcrumb url page
 * update enfold support css theme
 
 = 3.9.13 =
@@ -374,20 +535,20 @@ incase browser has no JS support then the pagination will work
 * add in shortcode for MLS list property
 
 = 3.8.11 =
-* fix notice error in enfold theme config
+* Fix notice error in enfold theme config
 
 = 3.8.10 =
 * update MLS ( mfar and hcar ) fields name
 
 = 3.8.9 =
-* fix map geolocation
+* Fix map geolocation
 * updated the height of the gallery in property details
 
 = 3.8.8 =
 * update send to a friend, use display_name in the mail as sender
 
 = 3.8.7 =
-* fix next and previous link on both crm and mls feed
+* Fix next and previous link on both crm and mls feed
 * add breadcrumb on the page created by locations
 * update similar homes layout, remove span line
 
@@ -398,13 +559,13 @@ incase browser has no JS support then the pagination will work
 * update new property details page
 
 = 3.5.7 =
-* fix and update property page in MLS
+* Fix and update property page in MLS
 
 = 3.5.6 =
 * update MLS API result message
 
 = 3.5.5 =
-* fix infinite scroller bug, not getting correct api source
+* Fix infinite scroller bug, not getting correct api source
 
 = 3.5.4 =
 * improved breadcrumb
@@ -425,16 +586,16 @@ incase browser has no JS support then the pagination will work
 * update title added mls# for mls data
 
 = 3.3.1 =
-* fix search result infinite scroll
+* Fix search result infinite scroll
 
 = 3.3.0 =
-* fix single breadcrumb
+* Fix single breadcrumb
 
 = 3.2.9 =
-* fix shortcode search form minimal
+* Fix shortcode search form minimal
 
 = 3.2.8 =
-* fix featured properties shortcode, choose how many items to display
+* Fix featured properties shortcode, choose how many items to display
 * added hooks on the "Homes for sale and rent in .. " title
 * added hooks on the search form, buttons label and show or not
 
@@ -443,13 +604,13 @@ incase browser has no JS support then the pagination will work
 * change url structure of default location page
 
 = 3.0.7 =
-* fix bug in search transaction
+* Fix bug in search transaction
 
 = 3.0.6 =
-* fix bug in search form, location id's
+* Fix bug in search form, location id's
 
 = 3.0.5 =
-* fix search form and added subdivision support
+* Fix search form and added subdivision support
 
 = 3.0.4 =
 * added subdivision support in api and in plugin, in search result and in shortcode
@@ -472,7 +633,7 @@ incase browser has no JS support then the pagination will work
 * update mls property details in list and in single
 
 = 2.5.2 =
-* fix bug in get list locations shortcode
+* Fix bug in get list locations shortcode
 
 = 2.5.1 =
 * update mls single property details
@@ -494,7 +655,7 @@ incase browser has no JS support then the pagination will work
 * added support mls in the crm
 
 = 2.0.7 =
-* fix jquery ui path
+* Fix jquery ui path
 
 = 2.0.6 =
 * update jquery ui css in shortcode external html
@@ -506,7 +667,7 @@ incase browser has no JS support then the pagination will work
 * Associate the shortcode list communities by city when creating location by page filter by cities
 
 = 1.5.5 =
-* fix masonry overlap
+* Fix masonry overlap
 * update api credentials page
 
 = 1.5.4 =
@@ -531,7 +692,7 @@ revert to default url structure which is 'location-type/{id}-location-name'
 * Fix location by pages, to by pass existing location page name
 
 = 1.1.2 =
-* fix mls transaction type
+* Fix mls transaction type
 
 = 1.1.1 =
 * Fix search form, when press enter after searching location 'For Sale  / Sale' should be the default

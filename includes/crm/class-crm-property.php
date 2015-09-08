@@ -207,7 +207,7 @@ class CRM_Property{
 			$order_direction = sanitize_text_field($_REQUEST['order_direction']);
 		}
 
-		$limit = \MD_Search_Utility::get_instance()->search_limit();
+		$limit = get_search_limit();
 		if( sanitize_text_field(isset($search_data['limit'])) ){
 			$limit = sanitize_text_field($search_data['limit']);
 		}elseif( sanitize_text_field(isset($_REQUEST['limit'])) ){
@@ -221,7 +221,55 @@ class CRM_Property{
 			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ):$paged;
 		}
 
+		$map_boundaries = array();
+		if(
+			isset($_REQUEST['map_boundaries'])
+			&& is_array($_REQUEST['map_boundaries'])
+			&& count($_REQUEST['map_boundaries']) >= 4
+		){
+			$map_boundaries = sanitize_text_field($_REQUEST['map_boundaries']);
+		}
+		if(
+			isset($search_data['map_boundaries'])
+			&& is_array($search_data['map_boundaries'])
+			&& count($search_data['map_boundaries']) >= 4
+		){
+			$map_boundaries = array_map( 'sanitize_text_field', $search_data['map_boundaries'] );
+		}
+
+		$use_location_search = 0;
+		if(
+			isset($_REQUEST['use_location_search'])
+			&& trim($_REQUEST['use_location_search']) != ''
+		){
+			$use_location_search = sanitize_text_field($_REQUEST['use_location_search']);
+		}
+
+		if(
+			isset($search_data['use_location_search'])
+			&& trim($search_data['use_location_search']) != ''
+		){
+			$use_location_search = sanitize_text_field($search_data['use_location_search']);
+		}
+
+		$return_query = 0;
+		if(
+			isset($_REQUEST['return_query'])
+			&& trim($_REQUEST['return_query']) != ''
+		){
+			$return_query = sanitize_text_field($_REQUEST['return_query']);
+		}
+		if(
+			isset($search_data['return_query'])
+			&& trim($search_data['return_query']) != ''
+		){
+			$return_query = sanitize_text_field($search_data['return_query']);
+		}
+
 		$search_criteria_data = array(
+			'map_boundaries'		=> $map_boundaries,
+			'use_location_search'	=> $use_location_search,
+			'return_query'			=> $return_query,
 			'subdivisionid'		=> $subdivisionid,
 			'communityid'		=> $communityid,
 			'countryid'			=> $countryid,
@@ -244,7 +292,7 @@ class CRM_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-
+		//dump($search_criteria_data);
 		$search_criteria_data = apply_filters( 'search_criteria_data', $search_criteria_data );
 
 		$search_md5 	  = md5(json_encode($search_criteria_data));
@@ -275,13 +323,11 @@ class CRM_Property{
 			'search_keyword'	=>	array(),
 			'source'			=>	'crm'
 		);
-
-		//\DB_Store::get_instance()->del($cache_keyword);
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{
 			$properties = $this->crm->get_properties($search_criteria_data);
-
 			$result = false;
 			if( isset($properties->total) && count($properties->total) > 0 ){
 				$result = true;
@@ -321,20 +367,20 @@ class CRM_Property{
 	 *								)
 	 * @return	array object
 	 * */
-	public function get_featured($user_id = null, $array_location_id = array()){
+	public function get_featured($user_id = null, $array_location_id = array(), $other_data = array()){
 
 		if( is_null($user_id) ){
-			$user_id = \CRM_Account::get_instance()->get_account_data('userid');
-			$user = \CRM_Account::get_instance()->get_account_details();
+			$user_id 	= \CRM_Account::get_instance()->get_account_data('userid');
+			$user 		= \CRM_Account::get_instance()->get_account_details();
 		}
-
+		$search_md5 	  = md5(json_encode($array_location_id + $other_data));
 		$property_keyword 	= \Property_Cache::get_instance()->getCacheFeaturedKeyword();
-		$cache_keyword 		= $property_keyword->id;
+		$cache_keyword 		= $property_keyword->id . $search_md5;
 		//\DB_Store::get_instance()->del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$get_properties = cache_get($cache_keyword);
 		}else{
-			$properties = $this->crm->get_featured_properties($user_id, $array_location_id);
+			$properties = $this->crm->get_featured_properties($user_id, $array_location_id, $other_data);
 			if( $properties->result == 'success' && $properties->count > 0 )
 			{
 				foreach( $properties->properties as $property ){
@@ -389,11 +435,13 @@ class CRM_Property{
 		$single_cache_keyword 	= \Property_Cache::get_instance()->getCacheSinglePropertyKeyword();
 		$cache_keyword 	  		= $single_cache_keyword->id . $id;
 		//\DB_Store::get_instance()->del($cache_keyword);
+		//cache_del($cache_keyword);
 		if( cache_get($cache_keyword) ){
 			$data = cache_get($cache_keyword);
 			return $data;
 		}else{
 			$property = $this->crm->get_property( $id, $broker_id );
+			//dump($property);
 			if( isset($property) && is_array($property) && $property['result'] == 'fail' ){
 				$result = false;
 			}elseif( isset($property) && ($property->result == 'success') ){
