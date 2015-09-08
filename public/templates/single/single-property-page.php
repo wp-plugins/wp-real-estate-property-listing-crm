@@ -174,8 +174,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<div class="col-md-9 col-sm-12">
 				<div class="single-property-videos md-container">
 					<?php apply_filters('template_videos_before_'.get_single_property_source(), get_single_data(), $atts); ?>
+					<?php apply_filters('template_videos_before', get_single_data(), $atts); ?>
 					<?php md_display_video(); ?>
 					<?php apply_filters('template_videos_after_'.get_single_property_source(), get_single_data(), $atts); ?>
+					<?php apply_filters('template_videos_after', get_single_data(), $atts); ?>
 				</div>
 				<div class="left-content">
 					<?php  display_property_details_left_content($atts); ?>
