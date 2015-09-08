@@ -1,41 +1,13 @@
 (function( $ ) {
 	'use strict';
 
-	/**
-	 * All of the code for your public-facing JavaScript source
-	 * should reside in this file.
-	 *
-	 * Note that this assume you're going to use jQuery, so it prepares
-	 * the $ function reference to be used within the scope of this
-	 * function.
-	 *
-	 * From here, you're able to define handlers for when the DOM is
-	 * ready:
-	 *
-	 * $(function() {
-	 *
-	 * });
-	 *
-	 * Or when the window is loaded:
-	 *
-	 * $( window ).load(function() {
-	 *
-	 * });
-	 *
-	 * ...and so on.
-	 *
-	 * Remember that ideally, we should not attach any more than a single DOM-ready or window-load handler
-	 * for any particular page. Though other scripts in WordPress core, other plugins, and other themes may
-	 * be doing this, we should try to minimize doing that in our own work.
-	 */
-
 	function get_geo_code(address){
 		var searchAddress = address;
 		var geocoder = new google.maps.Geocoder();
-
 		geocoder.geocode(
 			{address: searchAddress},
 			function(result,status) {
+				console.log(status);
 				if (status == google.maps.GeocoderStatus.OK ){
 					var lat = result[0].geometry.location.lat();
 					var lng = result[0].geometry.location.lng();
@@ -105,7 +77,7 @@
 					var transaction = transactionDropDown.val();
 					updateMaxMinPrice(transaction.toLowerCase());
 				});
-			},
+			}
 
 		};
 
@@ -117,47 +89,24 @@
 	 * Get the lat and long of the location before submitting
 	 * */
 	var geocodeServiceSearch = function () {
-
-		var getGeoCode = function(address, form){
-			var searchAddress = address;
-			var geocoder = new google.maps.Geocoder();
-
-			geocoder.geocode(
-				{address: searchAddress},
-				function(result,status) {
-
-					if (status == google.maps.GeocoderStatus.OK ){
-						var lat = result[0].geometry.location.lat();
-						var lng = result[0].geometry.location.lng();
-
-						jQuery('#lat_front').val(lat);
-						jQuery('#lon_front').val(lng);
-					}
-					form[0].submit(); //submit the form here
-				}
-			);
-		}
-
 		return {
-			init: function(){
-				var buttonpressed;
-				jQuery('.search-form-btn').click(function() {
-					  buttonpressed = jQuery(this).attr('value');
-				})
-				jQuery("#advanced_search").submit(function(e){
-					var address = jQuery("#location").val();
-					jQuery('#transaction').val('For Sale');
-					if( typeof buttonpressed !== 'undefined' ){
-						if( buttonpressed == 'For Sale' ){
-							jQuery('#transaction').val('For Sale');
-						}else if( buttonpressed == 'For Rent' ){
-							jQuery('#transaction').val('For Rent');
+			init: function(address){
+				var searchAddress = address;
+				var geocoder = new google.maps.Geocoder();
+
+				geocoder.geocode(
+					{address: searchAddress},
+					function(result,status) {
+						if (status == google.maps.GeocoderStatus.OK ){
+							var lat = result[0].geometry.location.lat();
+							var lng = result[0].geometry.location.lng();
+
+							jQuery('#lat_front').val(lat);
+							jQuery('#lon_front').val(lng);
 						}
 					}
-					//codeAddress(address);
-					return true;
-				});
-			},
+				);
+			}
 		};
 
 	}();
@@ -166,10 +115,13 @@
 		return {
 			init:function(){
 				var buttonpressed;
-				jQuery('.search-form-btn').click(function() {
+				jQuery('.search-form-btn').click(function(e) {
 					  buttonpressed = jQuery(this).attr('value');
 				})
-				jQuery("#advanced_search").submit(function(e){
+				jQuery("#advanced_search").on('submit',function(e){
+					$('#msg').html('');
+					e.preventDefault();
+					var form = this;
 					var address = jQuery("#location").val();
 					jQuery('#transaction').val('For Sale');
 					if( typeof buttonpressed !== 'undefined' ){
@@ -179,8 +131,43 @@
 							jQuery('#transaction').val('For Rent');
 						}
 					}
-					//codeAddress(address);
-					return true;
+					var lat = jQuery('#lat_front');
+					var lng = jQuery('#lon_front');
+					var coordinates;
+					if(
+						lat.val() == ''
+						&& lat.val().length == 0
+						&& lng.val() == ''
+						&& lng.val().length == 0
+					){
+						get_geo_code(address);
+					}
+					$('#msg').html('Please wait while we get current location coordinates..');
+					setTimeout(function(){
+						form.submit();
+					}, 2000);
+				});
+			}
+		};
+	}();
+
+	var jquery_ui_autocomplete = function(){
+		return {
+			init:function(source){
+				$( "#location", context ).autocomplete({
+					minLength: 3,
+					source: function( request, response ) {
+						var matches = $.map( autocomplete_location, function(value, label) {
+							if ( value.value.toUpperCase().indexOf(request.term.toUpperCase()) === 0 ) {
+								return value;
+							}
+						});
+						response(matches);
+					},
+					select:function(event, ui){
+						//log_location(ui);
+						//$('#location',context).val('');
+					}
 				});
 			},
 		};
@@ -201,31 +188,22 @@
 						});
 
 						//strs = objects;
-
 						return function findMatches(q, cb) {
-							var matches, substrRegex;
-
+							var matches, substrRegex, other_matches;
+							console.log(q);
 							// an array that will be populated with substring matches
 							matches = [];
-
-							// regex used to determine if a string contains the substring `q`
-							substrRegex = new RegExp(q, 'i');
-
-							// iterate through the pool of strings and for any string that
-							// contains the substring `q`, add it to the `matches` array
+							other_matches = [];
 							jQuery.each(objects, function(i, str) {
-								if (substrRegex.test(str)) {
-									// the typeahead jQuery plugin expects suggestions to a
-									// JavaScript object, refer to typeahead docs for more info
+								if ( str.toUpperCase().indexOf(q.toUpperCase()) === 0 ) {
 									matches.push({ value: str });
 								}
 							});
-
 							cb(matches);
 						};
 					};
 
-					var states = $source;
+					var data_source = $source;
 
 					jQuery('.typeahead').typeahead(
 						{
@@ -235,7 +213,7 @@
 							minLength: 3
 						},
 						{
-							source: substringMatcher(states)
+							source: substringMatcher(data_source)
 						}
 					);
 					jQuery('.typeahead').bind('typeahead:selected', function(obj, datum, name) {
@@ -244,6 +222,7 @@
 							var location_type = map[datum.value].type;
 							//console.log(location_type);
 
+							jQuery('#locationname').val('');
 							jQuery('#communityid').val('');
 							jQuery('#cityid').val('');
 							jQuery('#subdivisionid').val('');
@@ -258,9 +237,13 @@
 								jQuery('#subdivisionid').val(location_id);
 							}
 
+							jQuery('#locationname').val(map[datum.value].locationname);
+
+							$('.search-form-btn').prop('disabled',true);
 							if( address != '' ){
 								get_geo_code(address);
 							}
+							$('.search-form-btn').prop('disabled',false);
 							return false;
 					});
 			}

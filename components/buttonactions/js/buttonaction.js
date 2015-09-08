@@ -201,7 +201,7 @@
 	}();
 
 	$(window).load(function(){
-		$('.register-open').on('click',function(e){
+		$(document).on('click','.register-open',function(e){
 			var id_register_modal = $('#registerModal');
 			id_register_modal.modal('show');
 
