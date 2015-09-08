@@ -307,6 +307,8 @@ function md_display_video(){
 				<p></p>
 			<?php
 		}
+	}else{
+		?><h2>No video found</h2><?php
 	}
 	return false;
 }

@@ -136,12 +136,13 @@ class Account_Dashboard {
 
 	public function create_my_account_page(){
 		if( !get_page_by_title('My Account') ){
+			$user_account = wp_get_current_user();
 			$shortcode = \Subscriber_Shortcode::get_instance()->get_shortcode();
 			$post = array(
 			  'post_title'    => 'My Account',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => $get_user_id,
+			  'post_author'   => $user_account->ID,
 			  'post_type'	  => 'page',
 			);
 			$wp_insert_post = wp_insert_post( $post );

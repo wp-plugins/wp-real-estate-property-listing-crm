@@ -73,7 +73,7 @@ class Masterdigm_Cache {
 		return $this->obj_phpfastcache->stats();
 	}
 
-	public function set($name, $value, $time = 86400){
+	public function set($name, $value, $time = 604800){
 		$this->obj_phpfastcache->set($name, $value, $time);
 	}
 

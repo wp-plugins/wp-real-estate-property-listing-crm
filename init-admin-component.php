@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 require_once plugin_dir_path( __FILE__ ) . 'admin/components/credentials/init.php';
 require_once plugin_dir_path( __FILE__ ) . 'admin/components/settings/init.php';
+require_once plugin_dir_path( __FILE__ ) . 'admin/components/subscribeapi/init.php';
 if( \Masterdigm_API::get_instance()->has_crm_api_key() ){
 	require_once plugin_dir_path( __FILE__ ) . 'admin/components/breadcrumburl/init.php';
 	require_once plugin_dir_path( __FILE__ ) . 'admin/components/tagcontent/init.php';
