@@ -1,5 +1,5 @@
-<div class="wrap">
-	<h2>Welcome to <?php echo esc_html( get_admin_page_title() ); ?> <?php echo \Masterdigm_API::get_instance()->get_version();?></h2>
+<div class="wrap about-wrap">
+	<h1>Welcome to <?php echo esc_html( get_admin_page_title() ); ?> <?php echo \Masterdigm_API::get_instance()->get_version();?></h1>
 	<?php if(\API_Credentials::get_instance()->getError()){ ?>
 		<div class="error">
 			<ul>
@@ -53,9 +53,8 @@
         <p><?php _e("Broker ID: " ); ?><input type="text" name="broker_id" value="<?php echo get_option( 'broker_id' );?>" style="width:50%;"></p>
 
         <p class="submit">
-        <input type="submit" name="Submit" class="button-primary" value="<?php _e('Update', 'update_api' ) ?>" />
+			<input type="submit" name="Submit" class="button-primary" value="<?php _e('Update', 'update_api' ) ?>" />
         </p>
     </form>
-
 </div>
 

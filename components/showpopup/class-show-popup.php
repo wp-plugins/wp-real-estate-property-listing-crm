@@ -5,6 +5,7 @@ class Show_Popup{
 	public function __construct(){
 		add_action('wp_footer', array($this, 'display'));
 		add_action('wp_footer', array($this, 'showPopup'));
+		add_action('wp_head', array($this, 'is_popup_reg_form'));
 		$this->showPopup();
 	}
 
@@ -54,7 +55,7 @@ class Show_Popup{
 
 	public function display(){
 		if( $this->display_popup() ){
-			require 'view/signup.php';
+			//\Signup_Form::get_instance()->display();
 		}
 	}
 	public function deleteShowPopup(){
@@ -62,15 +63,25 @@ class Show_Popup{
 		$cookie->delete('guest_page_view');
 	}
 
+	public function is_popup_reg_form(){
+		if($this->display_popup()){
+			?>
+			<script>
+				var popup_reg_form = 1;
+			</script>
+			<?php
+		}
+	}
+
 	public function showPopup(){
 		if($this->display_popup()){
 			?>
 			<script>
 				jQuery(document).ready(function(){
-					jQuery('.register-only-modal').on('shown.bs.modal', function () {
+					jQuery('.register-modal').on('shown.bs.modal', function () {
 					   jQuery('.modal-backdrop').addClass('blur');
 					});
-					jQuery('.register-only-modal').modal({
+					jQuery('.register-modal').modal({
 						backdrop: 'static',
 						keyboard: false
 					});

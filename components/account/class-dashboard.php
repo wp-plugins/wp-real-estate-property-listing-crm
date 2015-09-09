@@ -136,12 +136,13 @@ class Account_Dashboard {
 
 	public function create_my_account_page(){
 		if( !get_page_by_title('My Account') ){
+			$user_account = wp_get_current_user();
 			$shortcode = \Subscriber_Shortcode::get_instance()->get_shortcode();
 			$post = array(
 			  'post_title'    => 'My Account',
 			  'post_content'  => $shortcode,
 			  'post_status'   => 'publish',
-			  'post_author'   => $get_user_id,
+			  'post_author'   => $user_account->ID,
 			  'post_type'	  => 'page',
 			);
 			$wp_insert_post = wp_insert_post( $post );
@@ -167,11 +168,11 @@ class Account_Dashboard {
 		extract($data);
 		$query = $this->md_get_query_vars();
 		$action = $query->action;
-		require_once PLUGIN_PUBLIC_DIR . 'globals/account/partials/nav.php';
+		require_once PLUGIN_VIEW . 'account/partials/nav.php';
 	}
 
 	public function template(){
-		return PLUGIN_PUBLIC_DIR . 'globals/account/main.php';
+		return PLUGIN_VIEW . 'account/main.php';
 	}
 
 	public function content($ret = false){
@@ -265,10 +266,11 @@ class Account_Dashboard {
 		global $wp_admin_bar;
 
 		$my_account = $wp_admin_bar->get_node('my-account');
-
+		$newtitle = str_replace( 'Howdy,', 'Hello,', $my_account->title );
 		$wp_admin_bar->add_node( array(
 			'id' => 'my-account',
 			'href'=>\Account_Profile::get_instance()->url(),
+			'title'=>$newtitle,
 		));
 
         $wp_admin_bar->add_menu( array(

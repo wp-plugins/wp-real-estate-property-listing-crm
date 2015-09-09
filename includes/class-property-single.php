@@ -184,7 +184,11 @@ class MD_Single_Property {
 		$data 			= array();
 		$property_url 	= strtolower($property_url);
 		if( isset($wp_query->queried_object) ){
-			if( $wp_query->queried_object->post_name == $property_url && is_page($property_url) ){
+			if(
+				isset($wp_query->queried_object->post_name)
+				&& $wp_query->queried_object->post_name == $property_url
+				&& is_page($property_url)
+			){
 				$url 					= get_query_var('url');
 				$check_property_by_url 	= $this->getSinglePropertyDataURL($url);
 				if( $check_property_by_url['source'] == 'crm' ){

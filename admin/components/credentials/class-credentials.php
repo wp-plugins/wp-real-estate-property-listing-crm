@@ -82,13 +82,11 @@ class API_Credentials{
 		if( isset($_REQUEST['action']) ){
 			$request = sanitize_text_field($_REQUEST['action']);
 		}
-
 		switch($request){
 			case 'update_api':
 				$error 		= array();
 				$has_error 	= false;
 				$post 		= $_REQUEST;
-
 				if(
 					$post['property_data_feed'] == 'crm'
 					&& ( trim($post['api_key']) == '' || trim($post['api_token']) == '')
@@ -157,11 +155,9 @@ class API_Credentials{
 		}
 	}
 
-	/**
-	 * display the main index view
-	 * */
-	public function display_index() {
+	public function credential_display_form(){
 		$setting 			= \Settings_API::get_instance()->getSettingsGeneralByKey('search_criteria','status');
+		$subscribed_api		= \MD_Subscribe_API::get_instance()->has_subsribed_api();
 		$has_api 			= \Masterdigm_API::get_instance()->has_crm_api_key();
 		$notice 			= plugin_dir_path( __FILE__ ) . 'view/notice-welcome.php';
 
@@ -172,7 +168,22 @@ class API_Credentials{
 		if( get_option('md_not_finish_install') ){
 			$property_status = \Settings_API::get_instance()->_show_fields_status();
 		}
+
 		require_once( plugin_dir_path( __FILE__ ) . 'view/index.php' );
+	}
+
+	/**
+	 * display the main index view
+	 * */
+	public function display_index() {
+		$has_api 			= \Masterdigm_API::get_instance()->has_crm_api_key();
+		$key 	= get_option('api_key');
+		$token 	= get_option('api_token');
+		if( !$has_api ){
+			\MD_Subscribe_API::get_instance()->controller();
+		}else{
+			$this->credential_display_form();
+		}
 	}
 
 	public function post_update_api($post){
