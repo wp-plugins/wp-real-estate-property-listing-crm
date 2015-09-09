@@ -498,7 +498,12 @@ class Save_Search{
 		$beds 				= $this->_get_bed($post_data);
 		$baths 				= $this->_get_bath($post_data);
 
-		$save_search_name = $location_name .', '. $post_data['transaction'] . $property_type . $price . $beds . $baths;
+		$transaction = 	$post_data['transaction'];
+		if( is_array($transaction) ){
+			$transaction = implode('-',$transaction);
+		}
+
+		$save_search_name = $location_name .', '. $transaction . $property_type . $price . $beds . $baths;
 
 		$save_search =  $this->get_save_search(md5($save_search_name),true);
 

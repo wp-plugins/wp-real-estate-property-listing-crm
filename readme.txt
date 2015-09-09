@@ -1,10 +1,10 @@
 === WP Real Estate Property Listing CRM ===
 Contributors: masterdigm, allancasilum
-Donate link:
+Donate link: http://masterdigm.com
 Tags: agent, broker, home, homes, housing, IDX, IDX plugin, IDX wordpress, leasing, listing,listings, properties, property, property management, real estate, Real Estate CRM, realestate,realtor, realty, Rental, rentals, RETS, estate, IDX listings, neighborhood, real estate maps, property rentals,  MLS, integrated idx, Multiple listing service, real estate wordpress, wordpress idx, wordpress mls, property import, real estate website, wordpress real estate plugin
 Requires at least: 3.0.1
 Tested up to: 4.2
-Stable tag: 3.32.85
+Stable tag: 3.32.86
 PHP Version: 5.4+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -177,6 +177,9 @@ check this link http://www.masterdigm.com/realestatewordpressplugin
 4. Search location with autocomplete dropdown
 
 == Changelog ==
+
+= 3.32.86 =
+* Update: property transaction type add Foreclosure for CRM
 
 = 3.32.85 =
 * Update: video tab to add hook for any type of feed

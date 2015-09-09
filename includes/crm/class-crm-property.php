@@ -186,11 +186,18 @@ class CRM_Property{
 			$property_type = sanitize_text_field($_REQUEST['property_type']);
 		}
 
-		$transaction = '';
+		$transaction = array('For Sale','Foreclosure');
 		if(sanitize_text_field(isset($search_data['transaction']))){
-			$transaction = sanitize_text_field($search_data['transaction']);
+			$transaction = array(
+				sanitize_text_field($search_data['transaction'])
+			);
 		}elseif(sanitize_text_field(isset($_REQUEST['transaction']))){
-			$transaction = sanitize_text_field(urldecode($_REQUEST['transaction']));
+			$transaction = array(
+				sanitize_text_field(urldecode($_REQUEST['transaction']))
+			);
+		}
+		if( $search_data['transaction'] == 'For Sale' ){
+			$transaction = array('For Sale','Foreclosure');
 		}
 
 		$orderby = '';
@@ -292,7 +299,7 @@ class CRM_Property{
 			'limit'				=> $limit,
 			'page'				=> $paged
 		);
-		//dump($search_criteria_data);
+		dump($search_criteria_data);
 		$search_criteria_data = apply_filters( 'search_criteria_data', $search_criteria_data );
 
 		$search_md5 	  = md5(json_encode($search_criteria_data));
